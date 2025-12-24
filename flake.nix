@@ -2,7 +2,7 @@
   description = "laptop config";
 
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-stable";  
+    nixpkgs.url = "github:NixOS/nixpkgs?ref=nixos-unstable";  
   };
 
   outputs = { nixpkgs, ... }: {

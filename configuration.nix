@@ -2,7 +2,7 @@
 {
   imports = [ 
     ./hardware-configuration.nix
-    ./modules/application.nix
+    ./modules/applications.nix
     ./modules/desktop.nix
     ./modules/graphics.nix
     ./modules/misc.nix
