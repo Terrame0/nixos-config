@@ -6,6 +6,7 @@
     ./modules/graphics.nix
     ./modules/patches.nix
     ./modules/nix-ld.nix
+    ./modules/update-script.nix
   ];
   nix.settings.experimental-features = ["nix-command" "flakes"];
 

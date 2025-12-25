@@ -26,6 +26,8 @@
         "--dpi-desync-fake-tls=0x00000000"
       ];
       whitelist = [
+        "discord.com"
+        "app.discord.com"
         "googleusercontent.com"
         "accounts.google.com"
         "googleadservices.com"
