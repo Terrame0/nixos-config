@@ -63,6 +63,7 @@
       xorg.libXi
       xorg.libSM
       xorg.libICE
+      xorg.libxcb
       gnome2.GConf
       nspr
       nss
@@ -125,6 +126,7 @@
       librsvg
       xorg.libXft
       libvdpau
+
       # ...
       # Some more libraries that I needed to run programs
       pango
