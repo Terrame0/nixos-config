@@ -1,30 +1,25 @@
 {pkgs,...}:
 {  
-  # -- steam
-  programs.steam = {
+  # -- x11 and desktop environment
+  services.xserver = {
     enable = true;
-    remotePlay.openFirewall = true;
-    dedicatedServer.openFirewall = true;
+    desktopManager.gnome.enable = true;
+    displayManager.gdm.enable = true;
+    xkb = {
+      layout = "us,ru";
+      options = "grp:alt_shift_toggle";
+    };
   };
 
-  # -- services
-  services.v2raya.enable = true;
-
-  # -- system packages
-  environment.systemPackages = with pkgs; [
-    # -- cli tools
-    alejandra
-    nixd
-    git
-    clang
-    clang-tools
-    nix-ld
-    python3
-
-    # -- desktop apps
-    kdePackages.kdenlive
-    vscode-fhs
-    telegram-desktop
-    firefox
-  ];
+  users.defaultUserShell = pkgs.zsh;
+  
+  # -- remove clutter
+  environment.gnome.excludePackages = (with pkgs; [
+    atomix # puzzle game
+    cheese # webcam tool
+    epiphany # web browser
+    hitori # sudoku game
+    iagno # go game
+    tali # poker game
+  ]);
 }

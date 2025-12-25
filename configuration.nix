@@ -1,12 +1,11 @@
-{pkgs, ... }:
+{...}:
 {
-  imports = [ 
-    ./hardware-configuration.nix
+  imports = [
     ./modules/applications.nix
     ./modules/desktop.nix
     ./modules/graphics.nix
-    ./modules/misc.nix
     ./modules/patches.nix
+    ./modules/nix-ld.nix
   ];
   nix.settings.experimental-features = ["nix-command" "flakes"];
 
@@ -15,6 +14,13 @@
     systemd-boot.enable = true;
     efi.canTouchEfiVariables = true;
   }; 
+
+  # -- autoremove old generations
+  nix.gc = {
+    automatic = true;
+    dates = "weekly";
+    options = "--delete-older-than 7d";
+  };
   
   # -- networking
   networking.hostName = "laptop";
@@ -35,16 +41,7 @@
     LC_TIME = "ru_RU.UTF-8";
   };
 
-  # -- x11 and desktop environment
-  services.xserver = {
-    enable = true;
-    desktopManager.gnome.enable = true;
-    displayManager.gdm.enable = true;
-    xkb = {
-      layout = "us,ru";
-      options = "grp:alt_shift_toggle";
-    };
-  };
+
 
   # -- sound
   services.pulseaudio.enable = false;

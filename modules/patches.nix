@@ -1,4 +1,4 @@
-{}:
+{...}:
 {  
   # -- totem fix (to use OpenGL ES)
   environment.variables = {

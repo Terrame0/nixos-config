@@ -2,14 +2,15 @@
   description = "laptop config";
 
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs?ref=nixos-unstable";  
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.05";  
   };
 
   outputs = { nixpkgs, ... }: {
     nixosConfigurations.laptop = nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
       modules = [
-        ./configuration.nix          
+        ./configuration.nix
+        ./hardware-configuration.nix
       ];
     };
   };
