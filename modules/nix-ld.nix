@@ -1,4 +1,4 @@
-{ config, pkgs, lib, ... }:
+{ pkgs, ... }:
 {
   # Allow unfree packages
   # Automatically creates a loader in /lib/* to avoid patching stuff

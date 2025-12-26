@@ -15,14 +15,20 @@
   services.libinput.enable = true;
 
   # -- remove clutter
-  environment.gnome.excludePackages = (with pkgs; [
-    atomix # puzzle game
-    cheese # webcam tool
-    epiphany # web browser
-    hitori # sudoku game
-    iagno # go game
-    tali # poker game
-  ]);
+  environment.gnome.excludePackages = with pkgs; [
+    cheese      # -- photo booth
+    epiphany    # -- web browser
+    simple-scan # -- document scanner
+    yelp        # -- help viewer
+    file-roller # -- archive manager
+    geary       # -- email client
+    seahorse    # -- password manager
+
+    # -- these should be self explanatory
+    gnome-contacts
+    gnome-font-viewer gnome-logs gnome-maps gnome-music gnome-photos
+    gnome-weather gnome-disk-utility gnome-connections
+  ];
 
   # -- totem fix (to use OpenGL ES)
   environment.variables = {
