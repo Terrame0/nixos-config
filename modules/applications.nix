@@ -53,12 +53,6 @@
   # -- system packages
   environment.systemPackages = with pkgs; [
 
-    # -- gnome whatevers
-    gnome-tweaks
-    gnome-extension-manager
-    gnomeExtensions.clipboard-history
-    gnomeExtensions.battery-time
-
     # -- cli tools
     alejandra
     nixd

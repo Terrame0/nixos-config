@@ -48,4 +48,7 @@
     extraGroups = [ "networkmanager" "wheel" ];
     packages = [];
   };
+
+  # -- touchpad support
+  services.libinput.enable = true;
 }

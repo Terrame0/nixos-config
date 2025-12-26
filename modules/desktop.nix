@@ -11,8 +11,14 @@
     };
   };
 
-  # -- touchpad support
-  services.libinput.enable = true;
+  environment.systemPackages = with pkgs; [
+
+    # -- gnome extensions
+    gnome-tweaks
+    gnomeExtensions.clipboard-history
+    gnomeExtensions.battery-time
+
+  ];
 
   # -- remove clutter
   documentation.nixos.enable = false;
@@ -25,7 +31,7 @@
     file-roller # -- archive manager
     geary       # -- email client
     seahorse    # -- password manager
-    xterm
+    gnome-photos
     gnome-tour gnome-contacts 
     gnome-font-viewer gnome-logs gnome-maps gnome-music gnome-photos
     gnome-weather gnome-disk-utility gnome-connections
