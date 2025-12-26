@@ -15,6 +15,8 @@
   services.libinput.enable = true;
 
   # -- remove clutter
+  documentation.nixos.enable = false;
+  services.xserver.excludePackages = [ pkgs.xterm ];
   environment.gnome.excludePackages = with pkgs; [
     cheese      # -- photo booth
     epiphany    # -- web browser
@@ -23,9 +25,8 @@
     file-roller # -- archive manager
     geary       # -- email client
     seahorse    # -- password manager
-
-    # -- these should be self explanatory
-    gnome-contacts
+    xterm
+    gnome-tour gnome-contacts 
     gnome-font-viewer gnome-logs gnome-maps gnome-music gnome-photos
     gnome-weather gnome-disk-utility gnome-connections
   ];
