@@ -29,6 +29,9 @@ spinner() { # -- cool wait animation :)
 
 # == actual code ==
 
+SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)" # -- path where the script itself resides
+CONFIG_DIR="$(cd "$SCRIPT_DIR/../.." && pwd)" # -- path where the nixos config resides (relative to the script location)
+
 set -o pipefail # -- fail if any part of a pipeline fails
 set -o nounset # -- disallow uninitialised variables
 
@@ -44,13 +47,15 @@ fi
 ( while true; do sudo -v; sleep 60; done ) &
 SUDO_KEEPALIVE_PID=$!
 
-# -- move to the nixos config folder
-cd /etc/nixos || exit 1
+# -- move to the config folder (relative to script location)
+
+
+cd "$CONFIG_DIR" || exit 1
 git add . # -- stage everything so the commit matches the build
 LOG=$(mktemp /tmp/nixos-build.XXXXXX.log) # -- log file for build log
 
 # -- rebuild the system in the background, writing to a log file and redirecting stderr to stdout
-sudo nixos-rebuild switch --flake . >"$LOG" 2>&1 &
+sudo nixos-rebuild switch --flake "$CONFIG_DIR" >"$LOG" 2>&1 &
 PID=$! # -- get the pid of the rebuild process
 
 
@@ -88,4 +93,3 @@ else # -- if the rebuild failed
     sed -n '/^error:/,$p' "$LOG" >&2 # -- print errors from the log to stderr
     exit 1
 fi
-или можно "${VAR:i:1}"

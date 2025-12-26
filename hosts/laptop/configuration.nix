@@ -1,14 +1,20 @@
 {...}:
 {
   imports = [
-    ./modules/applications.nix
-    ./modules/desktop.nix
-    ./modules/graphics.nix
-    ./modules/patches.nix
-    ./modules/nix-ld.nix
-    ./modules/update-script.nix
+    ../../modules/applications.nix
+    ../../modules/desktop.nix
+    ../../modules/gc.nix
+    ../../modules/graphics.nix
+    ../../modules/nix-ld.nix
+    ../../modules/sound.nix
+    ../../scripts/nixos-update/wrapper.nix
   ];
+
+  # -- enable flakes
   nix.settings.experimental-features = ["nix-command" "flakes"];
+
+  # -- system state version
+  system.stateVersion = "25.05";
 
   # -- boot configuration
   boot.loader = {
@@ -16,13 +22,6 @@
     efi.canTouchEfiVariables = true;
   }; 
 
-  # -- autoremove old generations
-  nix.gc = {
-    automatic = true;
-    dates = "weekly";
-    options = "--delete-older-than 7d";
-  };
-  
   # -- networking
   networking.hostName = "laptop";
   networking.networkmanager.enable = true;
@@ -42,21 +41,6 @@
     LC_TIME = "ru_RU.UTF-8";
   };
 
-
-
-  # -- sound
-  services.pulseaudio.enable = false;
-  security.rtkit.enable = true;
-  services.pipewire = {
-    enable = true;
-    alsa.enable = true;
-    alsa.support32Bit = true;
-    pulse.enable = true;
-  };
-
-  # -- touchpad support
-  services.libinput.enable = true;
-
   # -- user configuration
   users.users.terrame = {
     isNormalUser = true;
@@ -64,10 +48,4 @@
     extraGroups = [ "networkmanager" "wheel" ];
     packages = [];
   };
-
-  # -- allow unfree packages
-  nixpkgs.config.allowUnfree = true;
-
-  # -- system state version
-  system.stateVersion = "25.05";
 }

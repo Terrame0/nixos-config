@@ -1,5 +1,4 @@
 {...}:
-
 {  
   # -- opengl configuration
   hardware.graphics = {

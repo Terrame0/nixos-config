@@ -11,8 +11,9 @@
     };
   };
 
-  users.defaultUserShell = pkgs.zsh;
-  
+  # -- touchpad support
+  services.libinput.enable = true;
+
   # -- remove clutter
   environment.gnome.excludePackages = (with pkgs; [
     atomix # puzzle game
@@ -22,4 +23,17 @@
     iagno # go game
     tali # poker game
   ]);
+
+  # -- totem fix (to use OpenGL ES)
+  environment.variables = {
+    GDK_GL = "gles";
+  };
+
+  # -- auto-login
+  services.displayManager = {
+    autoLogin.enable = true;
+    autoLogin.user = "terrame";
+  };
+  systemd.services."getty@tty1".enable = false;
+  systemd.services."autovt@tty1".enable = false;
 }

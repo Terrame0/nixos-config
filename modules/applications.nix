@@ -1,14 +1,14 @@
 {pkgs,...}:
 {  
+  # -- allow unfree packages
+  nixpkgs.config.allowUnfree = true;
+
   # -- steam
   programs.steam = {
     enable = true;
     remotePlay.openFirewall = true;
     dedicatedServer.openFirewall = true;
   };
-
-  # -- zsh
-  programs.zsh.enable = true;
 
   # -- anti-dpi measures
   services.zapret = {

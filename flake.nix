@@ -1,5 +1,5 @@
 {
-  description = "laptop config";
+  description = "nixos config flake";
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.05";  
@@ -9,8 +9,8 @@
     nixosConfigurations.laptop = nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
       modules = [
-        ./configuration.nix
-        ./hardware-configuration.nix
+        ./hosts/laptop/configuration.nix
+        ./hosts/laptop/hardware-configuration.nix
       ];
     };
   };
