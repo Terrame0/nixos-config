@@ -1,5 +1,4 @@
-{pkgs,...}:
-{  
+{pkgs, ...}: {
   # -- x11 and desktop environment
   services.xserver = {
     enable = true;
@@ -11,30 +10,35 @@
     };
   };
 
+  # -- gnome extensions
   environment.systemPackages = with pkgs; [
-
-    # -- gnome extensions
     gnome-tweaks
     gnomeExtensions.clipboard-history
     gnomeExtensions.battery-time
-
   ];
 
   # -- remove clutter
   documentation.nixos.enable = false;
-  services.xserver.excludePackages = [ pkgs.xterm ];
+  services.xserver.excludePackages = [pkgs.xterm];
   environment.gnome.excludePackages = with pkgs; [
-    cheese      # -- photo booth
-    epiphany    # -- web browser
+    cheese # -- photo booth
+    epiphany # -- web browser
     simple-scan # -- document scanner
-    yelp        # -- help viewer
+    yelp # -- help viewer
     file-roller # -- archive manager
-    geary       # -- email client
-    seahorse    # -- password manager
+    geary # -- email client
+    seahorse # -- password manager
     gnome-photos
-    gnome-tour gnome-contacts 
-    gnome-font-viewer gnome-logs gnome-maps gnome-music gnome-photos
-    gnome-weather gnome-disk-utility gnome-connections
+    gnome-tour
+    gnome-contacts
+    gnome-font-viewer
+    gnome-logs
+    gnome-maps
+    gnome-music
+    gnome-photos
+    gnome-weather
+    gnome-disk-utility
+    gnome-connections
   ];
 
   # -- totem fix (to use OpenGL ES)

@@ -1,14 +1,16 @@
-{...}:
-{
+{...}: {
   imports = [
-    ../../modules/applications.nix
-    ../../modules/desktop.nix
-    ../../modules/gc.nix
-    ../../modules/graphics.nix
-    ../../modules/nix-ld.nix
-    ../../modules/sound.nix
+    ../../modules/system/applications.nix
+    ../../modules/system/desktop.nix
+    ../../modules/system/gc.nix
+    ../../modules/system/graphics.nix
+    ../../modules/system/nix-ld.nix
+    ../../modules/system/sound.nix
     ../../scripts/nixos-update/wrapper.nix
   ];
+
+  # -- allow unfree packages
+  nixpkgs.config.allowUnfree = true;
 
   # -- enable flakes
   nix.settings.experimental-features = ["nix-command" "flakes"];
@@ -20,7 +22,7 @@
   boot.loader = {
     systemd-boot.enable = true;
     efi.canTouchEfiVariables = true;
-  }; 
+  };
 
   # -- networking
   networking.hostName = "laptop";
@@ -45,7 +47,7 @@
   users.users.terrame = {
     isNormalUser = true;
     description = "Terrame";
-    extraGroups = [ "networkmanager" "wheel" ];
+    extraGroups = ["networkmanager" "wheel"];
     packages = [];
   };
 

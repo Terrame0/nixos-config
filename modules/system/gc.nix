@@ -1,13 +1,11 @@
-{...}:
-{  
-
+{...}: {
   # -- autoremove old generations
   nix.gc = {
     automatic = true;
     dates = "weekly";
     options = "--delete-older-than 7d";
   };
-  
+
   # -- networking
   networking.hostName = "laptop";
   networking.networkmanager.enable = true;
@@ -31,7 +29,7 @@
   users.users.terrame = {
     isNormalUser = true;
     description = "Terrame";
-    extraGroups = [ "networkmanager" "wheel" ];
+    extraGroups = ["networkmanager" "wheel"];
     packages = [];
   };
 }
