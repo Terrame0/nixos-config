@@ -6,6 +6,6 @@
   xdg.enable = true;
 
   imports = [
-    ./packages.nix
+    ../../modules/home/packages.nix
   ];
 }

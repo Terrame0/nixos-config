@@ -20,6 +20,22 @@
         "type": "github"
       }
     },
+    "nixos-update": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "path": "./utils/nixos-update",
+        "type": "path"
+      },
+      "original": {
+        "path": "./utils/nixos-update",
+        "type": "path"
+      },
+      "parent": []
+    },
     "nixpkgs": {
       "locked": {
         "lastModified": 1766399428,
@@ -39,6 +55,7 @@
     "root": {
       "inputs": {
         "home-manager": "home-manager",
+        "nixos-update": "nixos-update",
         "nixpkgs": "nixpkgs"
       }
     }

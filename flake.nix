@@ -7,11 +7,16 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs"; # -- make home manager use the above nixpkgs url
     };
+    nixos-update = {
+      url = "path:./utils/nixos-update";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = {
     nixpkgs,
     home-manager,
+    nixos-update,
     ...
   }: {
     nixosConfigurations.laptop = nixpkgs.lib.nixosSystem {
@@ -25,6 +30,7 @@
           home-manager.useUserPackages = true;
           home-manager.users.terrame = import ./home/terrame/home.nix;
         }
+        nixos-update.nixosModules.nixos-update
       ];
     };
   };
