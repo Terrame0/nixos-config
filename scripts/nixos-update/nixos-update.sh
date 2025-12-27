@@ -51,7 +51,7 @@ SUDO_KEEPALIVE_PID=$!
 
 
 cd "$CONFIG_DIR" || exit 1
-alejandra . # -- run the formatter
+alejandra . 2>/dev/null # -- run the formatter
 git add . # -- stage everything so the commit matches the build
 LOG=$(mktemp /tmp/nixos-build.XXXXXX.log) # -- log file for build log
 

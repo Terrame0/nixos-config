@@ -1,11 +1,4 @@
-{pkgs, ...}: {
-  # -- steam
-  programs.steam = {
-    enable = true;
-    remotePlay.openFirewall = true;
-    dedicatedServer.openFirewall = true;
-  };
-
+{...}: {
   # -- anti-dpi measures
   services.zapret = {
     enable = true;
@@ -45,26 +38,4 @@
       "ggpht.com"
     ];
   };
-
-  # -- system packages
-  environment.systemPackages = with pkgs; [
-    # -- cli tools
-    alejandra
-    nixd
-    git
-    clang
-    clang-tools
-    nix-ld
-    python3
-    uv
-    neofetch
-    v2rayn
-    xray
-
-    # -- desktop apps
-    kdePackages.kdenlive
-    telegram-desktop
-    firefox
-    vscode-fhs
-  ];
 }

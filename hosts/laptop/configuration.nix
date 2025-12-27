@@ -1,10 +1,11 @@
 {...}: {
   imports = [
-    ../../modules/system/applications.nix
+    ../../modules/system/system-packages.nix
     ../../modules/system/desktop.nix
     ../../modules/system/gc.nix
     ../../modules/system/graphics.nix
     ../../modules/system/nix-ld.nix
+    ../../modules/system/services.nix
     ../../modules/system/sound.nix
     ../../scripts/nixos-update/wrapper.nix
   ];
