@@ -7,6 +7,7 @@
     ../../modules/system/nix-ld.nix
     ../../modules/system/services.nix
     ../../modules/system/sound.nix
+    ../../modules/utils/nixos-update.nix
   ];
 
   # -- allow unfree packages
