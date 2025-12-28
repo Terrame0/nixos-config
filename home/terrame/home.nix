@@ -6,6 +6,7 @@
   xdg.enable = true;
 
   imports = [
-    ../../modules/home/packages.nix
+    ../../modules/home/user-packages.nix
+    ../../modules/home/user-programs.nix
   ];
 }
