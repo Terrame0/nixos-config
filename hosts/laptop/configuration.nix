@@ -1,6 +1,7 @@
 {...}: {
   imports = [
     ../../modules/system/desktop.nix
+    ../../modules/system/filesystems.nix
     ../../modules/system/gc.nix
     ../../modules/system/graphics.nix
     ../../modules/system/nix-ld.nix
