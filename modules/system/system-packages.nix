@@ -6,5 +6,6 @@
     python3
     v2rayn
     xray
+    modrinth-app
   ];
 }
