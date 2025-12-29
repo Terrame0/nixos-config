@@ -1,0 +1,16 @@
+{
+    "chat.disableAIFeatures": true,
+    
+    "nix.enableLanguageServer": true,
+    "nix.formatterPath": "alejandra",
+    "nix.serverPath": "nixd",
+
+    "C_Cpp.default.compilerPath": "clang",
+    "C_Cpp.intelliSenseEngine": "disabled",
+    "C_Cpp.default.cppStandard": "c++23",
+    "C_Cpp.default.cStandard": "c23",
+
+    "security.workspace.trust.untrustedFiles": "open",
+    "explorer.confirmDelete": false,
+    "explorer.confirmDragAndDrop": false
+}

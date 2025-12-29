@@ -4,7 +4,7 @@
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.05";
     home-manager = {
-      url = "github:nix-community/home-manager";
+      url = "github:nix-community/home-manager/release-25.05";
       inputs.nixpkgs.follows = "nixpkgs"; # -- make home manager use the above nixpkgs url
     };
   };
@@ -23,7 +23,8 @@
         {
           home-manager.useGlobalPkgs = true;
           home-manager.useUserPackages = true;
-          home-manager.users.terrame = import ./home/terrame/home.nix;
+          home-manager.backupFileExtension = "hm-backup";
+          home-manager.users.terrame = import ./home/terrame/home-configuration.nix;
         }
       ];
     };

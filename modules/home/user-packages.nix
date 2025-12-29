@@ -7,11 +7,11 @@
     clang-tools
     uv
     neofetch
+    prismlauncher
 
     # -- desktop apps
     kdePackages.kdenlive
     telegram-desktop
     firefox
-    vscode-fhs
   ];
 }

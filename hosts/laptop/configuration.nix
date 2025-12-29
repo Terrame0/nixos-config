@@ -1,16 +1,9 @@
-{...}: {
-  imports = [
-    ../../modules/system/desktop.nix
-    ../../modules/system/filesystems.nix
-    ../../modules/system/gc.nix
-    ../../modules/system/graphics.nix
-    ../../modules/system/nix-ld.nix
-    ../../modules/system/services.nix
-    ../../modules/system/sound.nix
-    ../../modules/system/system-packages.nix
-    ../../modules/system/system-programs.nix
-    ../../modules/utils/nixos-update.nix
-  ];
+{lib, ...}: {
+  imports =
+    [../../modules/utils/nixos-update.nix]
+    ++ lib.filter
+    (path: lib.hasSuffix ".nix" (toString path))
+    (lib.filesystem.listFilesRecursive ../../modules/system);
 
   # -- allow unfree packages
   nixpkgs.config.allowUnfree = true;
