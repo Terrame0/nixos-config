@@ -66,8 +66,8 @@ STATUS=$? # -- the actual exit code
 
 if (( STATUS == 0 )); then # -- if the rebuild is successful
     # -- if the pipe succeeded, set the generation info variables
-    if GEN_INFO=$(sudo nixos-rebuild list-generations | grep -m1 current); then
-        read -r GEN_NUMBER _ GEN_DATE GEN_TIME GEN_VERSION _ <<< "$GEN_INFO"
+    if GEN_INFO=$(sudo nixos-rebuild list-generations | grep -m9 "True"); then
+        read -r GEN_NUMBER GEN_DATE GEN_TIME GEN_VERSION _ _ _ _ _<<< "$GEN_INFO"
     else
         printf "\033[33m⚠ could not determine current generation\033[0m\n" >&2
         GEN_NUMBER="?"
