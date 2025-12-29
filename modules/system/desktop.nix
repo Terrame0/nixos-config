@@ -1,20 +1,23 @@
 {pkgs, ...}: {
-  # -- x11 and desktop environment
+  # -- x11
   services.xserver = {
     enable = true;
-    desktopManager.gnome.enable = true;
-    displayManager.gdm.enable = true;
     xkb = {
       layout = "us,ru";
       options = "grp:alt_shift_toggle";
     };
   };
 
+  # -- desktop environments
+  services.desktopManager.gnome.enable = true;
+  services.displayManager.gdm.enable = true;
+
   # -- gnome extensions
   environment.systemPackages = with pkgs; [
     gnome-tweaks
     gnomeExtensions.clipboard-history
     gnomeExtensions.battery-time
+    gnomeExtensions.blur-my-shell
   ];
 
   # -- remove clutter
@@ -40,11 +43,6 @@
     gnome-disk-utility
     gnome-connections
   ];
-
-  # -- totem fix (to use OpenGL ES)
-  environment.variables = {
-    GDK_GL = "gles";
-  };
 
   # -- auto-login
   # services.displayManager = {
