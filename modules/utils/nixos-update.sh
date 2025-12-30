@@ -54,7 +54,7 @@ git add . # -- stage everything so the commit matches the build
 LOG=$(mktemp /tmp/nixos-build.XXXXXX.log) # -- log file for build log
 
 # -- rebuild the system in the background, writing to a log file and redirecting stderr to stdout
-sudo nixos-rebuild test --flake "$CONFIG_DIR" --print-build-logs --verbose --log-format internal-json >"$LOG" |& nom --json &
+sudo nixos-rebuild test --flake "$CONFIG_DIR" --print-build-logs --verbose --log-format internal-json |& nom --json >"$LOG" &
 PID=$! # -- get the pid of the rebuild process
 
 
