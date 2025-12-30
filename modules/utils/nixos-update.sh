@@ -48,15 +48,13 @@ fi
 SUDO_KEEPALIVE_PID=$!
 
 # -- move to the config folder (relative to script location)
-
-
 cd "$CONFIG_DIR" || exit 1
 alejandra . 2>/dev/null # -- run the formatter
 git add . # -- stage everything so the commit matches the build
 LOG=$(mktemp /tmp/nixos-build.XXXXXX.log) # -- log file for build log
 
 # -- rebuild the system in the background, writing to a log file and redirecting stderr to stdout
-sudo nixos-rebuild switch --flake "$CONFIG_DIR" >"$LOG" 2>&1 &
+sudo nixos-rebuild test --flake "$CONFIG_DIR" --print-build-logs --verbose --log-format internal-json >"$LOG" |& nom --json &
 PID=$! # -- get the pid of the rebuild process
 
 
