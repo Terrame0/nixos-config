@@ -9,24 +9,6 @@ cleanup() { # -- clean up state on manual termination
     [[ -n "${LOG:-}" ]] && rm -f "$LOG" # -- delete the log file
 }
 
-spinner() { # -- cool wait animation :)
-    [[ -t 1 ]] || return 0 # -- if stdout is not a terminal, exit right away
-
-    local pid=$1 # -- pid of the process to watch
-    local delay=0.2
-    local spin='|\-/'
-
-    tput civis 2>/dev/null || true # -- make the cursor invisible
-    while kill -0 "$pid" 2>/dev/null; do # -- while the process is running
-        for ((i=0; i<${#spin}; i++)); do
-            printf "\r%s building nixos…" "${spin:i:1}" # -- print the spinner on the same line with the use of \r
-            sleep "$delay" 
-        done
-    done
-    printf "\r\033[K" # -- erase the current line
-    tput cnorm 2>/dev/null || true # -- restore cursor visibility
-}
-
 # == actual code ==
 
 SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)" # -- path where the script itself resides
@@ -54,11 +36,9 @@ git add . # -- stage everything so the commit matches the build
 LOG=$(mktemp /tmp/nixos-build.XXXXXX.log) # -- log file for build log
 
 # -- rebuild the system in the background, writing to a log file and redirecting stderr to stdout
-sudo nixos-rebuild test --flake "$CONFIG_DIR" --print-build-logs --verbose --log-format internal-json |& nom --json >"$LOG" &
+sudo nixos-rebuild switch --flake "$CONFIG_DIR" --print-build-logs --verbose --log-format internal-json |& nom --json >"$LOG" &
 PID=$! # -- get the pid of the rebuild process
 
-
-spinner "$PID" # -- run the spinner while the rebuild process exists
 wait "$PID" # -- get the exit code from the rebuild process and ensure the process finished
 STATUS=$? # -- the actual exit code
 
