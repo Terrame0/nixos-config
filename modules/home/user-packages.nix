@@ -13,5 +13,6 @@
     kdePackages.kdenlive
     telegram-desktop
     firefox
+    libreoffice
   ];
 }

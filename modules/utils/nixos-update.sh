@@ -56,7 +56,6 @@ if (( STATUS == 0 )); then # -- if the rebuild is successful
 
     printf "\033[32m✔ build successful\033[0m\n"
     COMMIT_MSG="[gen ${GEN_NUMBER} | ver ${GEN_VERSION} | ${GEN_DATE} ${GEN_TIME}]" # -- form the commit message
-    printf "built system %s\n" "$COMMIT_MSG"
 
     # -- check if git has any changes to commit
     if ! git diff --cached --quiet; then
