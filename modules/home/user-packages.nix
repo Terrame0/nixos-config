@@ -13,6 +13,7 @@
     kdePackages.kdenlive
     telegram-desktop
     firefox
-    libreoffice
+    libreoffice-fresh
+    transmission_4
   ];
 }

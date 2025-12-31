@@ -19,6 +19,7 @@
     gnomeExtensions.clipboard-history
     gnomeExtensions.battery-time
     gnomeExtensions.blur-my-shell
+    gnomeExtensions.alttab-mod
   ];
 
   # -- remove clutter
