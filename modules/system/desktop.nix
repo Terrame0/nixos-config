@@ -15,6 +15,7 @@
   # -- gnome extensions
   environment.systemPackages = with pkgs; [
     gnome-tweaks
+    gnomeExtensions.vitals
     gnomeExtensions.clipboard-history
     gnomeExtensions.battery-time
     gnomeExtensions.blur-my-shell
