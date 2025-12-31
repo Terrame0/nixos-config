@@ -1,6 +1,9 @@
 {lib, ...}: {
+  # -- importing modules and other stuff
   imports =
-    [../../modules/utils/nixos-update.nix]
+    [
+      ../../modules/utils/nixos-update.nix
+    ]
     ++ lib.filter
     (path: lib.hasSuffix ".nix" (toString path))
     (lib.filesystem.listFilesRecursive ../../modules/system);
@@ -49,6 +52,4 @@
 
   # -- touchpad support
   services.libinput.enable = true;
-  # -- force adwaita apps to use dark theme
-  environment.variables.GTK_THEME = "Adwaita:dark";
 }
