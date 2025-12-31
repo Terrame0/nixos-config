@@ -49,4 +49,6 @@
 
   # -- touchpad support
   services.libinput.enable = true;
+  # -- force adwaita apps to use dark theme
+  environment.variables.GTK_THEME = "Adwaita:dark";
 }
