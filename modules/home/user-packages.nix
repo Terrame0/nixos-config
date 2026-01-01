@@ -15,5 +15,7 @@
     firefox
     libreoffice-fresh
     transmission_4-gtk
+    blender
+    gimp
   ];
 }

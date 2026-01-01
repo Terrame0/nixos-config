@@ -1,4 +1,5 @@
 {...}: {
+  # -- this overlay adds an environment variable specifically for transmission
   nixpkgs.overlays = [
     (self: super: {
       transmission_4-gtk = super.transmission_4-gtk.overrideAttrs (oldAttrs: {
