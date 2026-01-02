@@ -9,8 +9,10 @@
     "C_Cpp.intelliSenseEngine": "disabled",
     "C_Cpp.default.cppStandard": "c++23",
     "C_Cpp.default.cStandard": "c23",
-
+    
     "security.workspace.trust.untrustedFiles": "open",
     "explorer.confirmDelete": false,
-    "explorer.confirmDragAndDrop": false
+    "explorer.confirmDragAndDrop": false,
+
+    "workbench.tree.indent": 25
 }
