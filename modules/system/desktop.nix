@@ -17,12 +17,12 @@
     gnome-tweaks
     gnomeExtensions.vitals
     gnomeExtensions.clipboard-history
-    gnomeExtensions.battery-time
     gnomeExtensions.blur-my-shell
     gnomeExtensions.alttab-mod
+    gnomeExtensions.fuzzy-app-search
   ];
 
-  # -- remove clutter
+  # -- remove gnome preinstalled apps
   documentation.nixos.enable = false;
   services.xserver.excludePackages = [pkgs.xterm];
   environment.gnome.excludePackages = with pkgs; [

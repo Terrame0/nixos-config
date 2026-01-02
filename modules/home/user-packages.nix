@@ -5,16 +5,16 @@
     clang
     nixd
     clang-tools
-    uv
     neofetch
-    prismlauncher
 
     # -- desktop apps
+    prismlauncher
     kdePackages.kdenlive
     telegram-desktop
     firefox
+    vivaldi
     libreoffice-fresh
-    transmission_4-gtk
+    qbittorrent
     blender
     gimp
   ];

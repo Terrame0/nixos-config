@@ -1,5 +1,4 @@
 {...}: {
-  # -- anti-dpi measures
   services.zapret = {
     enable = true;
     params = [
