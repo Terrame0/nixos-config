@@ -8,7 +8,6 @@
           y = 8;
         };
         dynamic_padding = true;
-        decorations = "None";
       };
 
       font = {

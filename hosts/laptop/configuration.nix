@@ -1,4 +1,8 @@
-{lib, ...}: {
+{
+  lib,
+  pkgs,
+  ...
+}: {
   # -- importing modules and other stuff
   imports =
     [
@@ -43,10 +47,12 @@
   };
 
   # -- user configuration
+  programs.zsh.enable = true;
   users.users.terrame = {
     isNormalUser = true;
     description = "Terrame";
     extraGroups = ["networkmanager" "wheel"];
+    shell = pkgs.zsh;
     packages = [];
   };
 

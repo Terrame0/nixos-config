@@ -2,6 +2,7 @@
   # -- user packages
   home.packages = with pkgs; [
     # -- dev/cli tools
+    python3
     clang
     nixd
     clang-tools
@@ -11,7 +12,6 @@
     prismlauncher
     kdePackages.kdenlive
     telegram-desktop
-    firefox
     vivaldi
     libreoffice-fresh
     qbittorrent
