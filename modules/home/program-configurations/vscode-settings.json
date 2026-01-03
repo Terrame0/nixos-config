@@ -14,5 +14,7 @@
     "explorer.confirmDelete": false,
     "explorer.confirmDragAndDrop": false,
 
-    "workbench.tree.indent": 25
+    "workbench.tree.indent": 16,
+    "editor.fontFamily": "JetBrainsMono Nerd Font",
+    "editor.fontLigatures": true
 }
