@@ -2,9 +2,18 @@
   programs.zsh = {
     enable = true;
 
+    # -- autosuggestions
     enableCompletion = true;
     autosuggestion.enable = true;
     syntaxHighlighting.enable = true;
+
+    # -- plugin manager
+    antidote = {
+      enable = true;
+      plugins = [
+        "romkatv/powerlevel10k"
+      ];
+    };
 
     history = {
       size = 10000;
@@ -22,10 +31,10 @@
     };
 
     # -- environment
-    initExtra = ''
-      # better key bindings
+    initContent = ''
+      # -- better key bindings
       bindkey -e
-      # history search with arrows
+      # -- history search with arrows
       autoload -Uz up-line-or-beginning-search
       autoload -Uz down-line-or-beginning-search
       zle -N up-line-or-beginning-search
