@@ -1,15 +1,8 @@
 {pkgs, ...}: {
-  # -- x11
-  services.xserver = {
-    enable = true;
-    xkb = {
-      layout = "us,ru";
-      options = "grp:alt_shift_toggle";
-    };
-  };
-
-  # -- desktop environments
+  # -- desktop environment
   services.desktopManager.gnome.enable = true;
+
+  # -- login screen
   services.displayManager.gdm.enable = true;
 
   # -- gnome extensions
@@ -26,13 +19,14 @@
   documentation.nixos.enable = false;
   services.xserver.excludePackages = [pkgs.xterm];
   environment.gnome.excludePackages = with pkgs; [
-    cheese # -- photo booth
-    epiphany # -- web browser
-    simple-scan # -- document scanner
-    yelp # -- help viewer
-    file-roller # -- archive manager
-    geary # -- email client
-    seahorse # -- password manager
+    cheese
+    epiphany
+    simple-scan
+    yelp
+    file-roller
+    geary
+    seahorse
+    gnome-console
     gnome-photos
     gnome-tour
     gnome-contacts
@@ -45,12 +39,4 @@
     gnome-disk-utility
     gnome-connections
   ];
-
-  # -- auto-login
-  # services.displayManager = {
-  #   autoLogin.enable = true;
-  #   autoLogin.user = "terrame";
-  # };
-  # systemd.services."getty@tty1".enable = false;
-  # systemd.services."autovt@tty1".enable = false;
 }
