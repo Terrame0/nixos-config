@@ -7,6 +7,7 @@
     nixd
     clang-tools
     neofetch
+    zsh-powerlevel10k
 
     # -- desktop apps
     prismlauncher

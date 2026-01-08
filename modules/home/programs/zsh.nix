@@ -10,9 +10,7 @@
     # -- plugin manager
     antidote = {
       enable = true;
-      plugins = [
-        "romkatv/powerlevel10k"
-      ];
+      plugins = [];
     };
 
     history = {
