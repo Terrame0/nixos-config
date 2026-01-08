@@ -1,4 +1,4 @@
-{lib, ...}: {
+{...}: {
   dconf.settings = {
     # -- keybind loading
     "org/gnome/settings-daemon/plugins/media-keys" = {
