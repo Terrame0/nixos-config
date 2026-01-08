@@ -1,4 +1,4 @@
-{...}: {
+{pkgs, ...}: {
   programs.zsh = {
     enable = true;
 
@@ -7,11 +7,13 @@
     autosuggestion.enable = true;
     syntaxHighlighting.enable = true;
 
-    # -- plugin manager
-    antidote = {
-      enable = true;
-      plugins = [];
-    };
+    plugins = [
+      {
+        name = "powerlevel10k";
+        src = pkgs.zsh-powerlevel10k;
+        file = "share/zsh-powerlevel10k/powerlevel10k.zsh-theme";
+      }
+    ];
 
     history = {
       size = 10000;
@@ -30,6 +32,8 @@
 
     # -- environment
     initContent = ''
+      # -- powerlevel10k prompt theme configuration
+      source ${../program-configurations/p10k.zsh}
       # -- better key bindings
       bindkey -e
       # -- history search with arrows
