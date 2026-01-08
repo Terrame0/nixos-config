@@ -1,7 +1,7 @@
 {pkgs, ...}: {
   fonts.fontconfig.enable = true;
   fonts.packages = with pkgs; [
-    times-newer-roman
+    corefonts
     nerd-fonts.jetbrains-mono
     noto-fonts
     noto-fonts-cjk-sans
