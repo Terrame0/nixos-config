@@ -14,6 +14,8 @@
       "--dpi-desync-fake-tls=0x00000000"
     ];
     whitelist = [
+      "maven.minecraftforge.net"
+      "minecraftforge.net"
       "discord.com"
       "app.discord.com"
       "googleusercontent.com"
