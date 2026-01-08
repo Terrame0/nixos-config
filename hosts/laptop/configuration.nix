@@ -28,9 +28,13 @@
   };
 
   # -- networking
-  networking.hostName = "laptop";
   networking.networkmanager.enable = true;
-  networking.enableIPv6 = false;
+  networking.hostName = "laptop";
+  boot.kernel.sysctl = {
+    "net.ipv6.conf.all.disable_ipv6" = 1;
+    "net.ipv6.conf.default.disable_ipv6" = 1;
+    "net.ipv6.conf.lo.disable_ipv6" = 1;
+  };
 
   # -- time and locale
   time.timeZone = "Asia/Vladivostok";
