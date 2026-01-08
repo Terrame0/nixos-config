@@ -1,9 +1,11 @@
-{...}: {
+{lib, ...}: {
   dconf.settings = {
     "org/gnome/desktop/input-sources" = {
       sources = [
-        ["xkb" "us"]
-        ["xkb" "ru"]
+        # -- we have to wrap this because home-manager can't
+        # convert the naive implementation to a(ss) (bruh)
+        (lib.hm.gvariant.mkTuple ["xkb" "us"])
+        (lib.hm.gvariant.mkTuple ["xkb" "ru"])
       ];
     };
 
