@@ -5,8 +5,12 @@
         ["xkb" "us"]
         ["xkb" "ru"]
       ];
-      xkb-options = ["grp:shift_space_toggle"];
-      show-all-sources = true;
+    };
+
+    # -- input layer switch keybind
+    "org/gnome/desktop/wm/keybindings" = {
+      switch-input-source = ["<Shift>Alt_L"];
+      switch-input-source-backward = ["<Shift><Ctrl>Alt_L"];
     };
 
     # -- appearance
@@ -34,6 +38,7 @@
     };
 
     "org/gnome/desktop/wm/preferences" = {
+      audible-bell = false;
       focus-mode = "mouse";
       button-layout = "appmenu:minimize,maximize,close";
     };
