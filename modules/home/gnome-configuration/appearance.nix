@@ -1,7 +1,6 @@
 {...}: {
   dconf.settings = {
     "org/gnome/desktop/interface" = {
-      show-input-source-switcher = false;
       color-scheme = "prefer-dark";
       gtk-theme = "Adwaita";
       icon-theme = "Adwaita";

@@ -16,5 +16,9 @@
 
     "workbench.tree.indent": 20,
     "editor.fontFamily": "JetBrainsMono Nerd Font",
-    "editor.fontLigatures": true
+    "editor.fontLigatures": true,
+    
+    "update.mode": "none",
+    "extensions.autoUpdate": false,
+    "extensions.autoCheckUpdates": false
 }

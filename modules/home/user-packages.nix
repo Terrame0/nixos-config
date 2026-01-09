@@ -8,7 +8,11 @@
     clang-tools
     neofetch
 
+    # -- misc
+    graphite-gtk-theme
+
     # -- desktop apps
+    dconf-editor
     prismlauncher
     kdePackages.kdenlive
     telegram-desktop
