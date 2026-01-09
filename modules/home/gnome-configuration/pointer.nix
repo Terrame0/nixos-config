@@ -11,7 +11,7 @@
       accel-profile = "default"; # -- acceleration enabled
       tap-to-click = true;
       two-finger-scrolling-enabled = true;
-      natural-scroll = false;
+      natural-scroll = true;
       edge-scrolling-enabled = true;
     };
   };

@@ -14,6 +14,7 @@
       "--dpi-desync-fake-tls=0x00000000"
     ];
     whitelist = [
+      "build.lwjgl.org"
       "login.live.com"
       "minecraft.com"
       "microsoft.com"
