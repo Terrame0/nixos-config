@@ -4,10 +4,9 @@
       color-scheme = "prefer-dark";
       gtk-theme = "Adwaita";
       icon-theme = "Adwaita";
-      font-name = "Adwaita Sans 11";
+      font-name = "JetBrainsMono Nerd Font 12";
       document-font-name = "Adwaita Sans 11";
-      monospace-font-name = "Adwaita Mono 11";
-      accent-color = "blue";
+      monospace-font-name = "JetBrainsMono Nerd Font 12";
       show-battery-percentage = true;
       enable-hot-corners = false;
       locate-pointer = false;

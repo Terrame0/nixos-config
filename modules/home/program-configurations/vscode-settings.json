@@ -20,5 +20,16 @@
     
     "update.mode": "none",
     "extensions.autoUpdate": false,
-    "extensions.autoCheckUpdates": false
+    "extensions.autoCheckUpdates": false,
+
+    "editor.cursorSmoothCaretAnimation": "true",
+    "editor.cursorBlinking": "solid",
+    "editor.cursorStyle": "line",
+
+    "editor.minimap.enabled": false,
+
+    "terminal.external.linuxExec": "alacritty",
+
+
+    "telemetry.telemetryLevel": "off"
 }

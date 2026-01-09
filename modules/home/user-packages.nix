@@ -9,7 +9,6 @@
     neofetch
 
     # -- misc
-    graphite-gtk-theme
 
     # -- desktop apps
     dconf-editor

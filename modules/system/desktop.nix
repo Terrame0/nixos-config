@@ -5,16 +5,6 @@
   # -- login screen
   services.displayManager.gdm.enable = true;
 
-  # -- gnome extensions
-  environment.systemPackages = with pkgs; [
-    gnome-tweaks
-    gnomeExtensions.vitals
-    gnomeExtensions.clipboard-history
-    gnomeExtensions.blur-my-shell
-    gnomeExtensions.alttab-mod
-    gnomeExtensions.fuzzy-app-search
-  ];
-
   # -- remove gnome preinstalled apps
   documentation.nixos.enable = false;
   services.xserver.excludePackages = [pkgs.xterm];
