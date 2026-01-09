@@ -1,7 +1,7 @@
 {...}: {
   programs.alacritty = {
     enable = true;
-    theme = "gruvbox_dark";
+    theme = "github_dark";
     settings = {
       window = {
         padding = {

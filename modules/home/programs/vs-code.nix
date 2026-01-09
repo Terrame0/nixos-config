@@ -9,7 +9,7 @@
     package = pkgs.vscode-fhs;
     mutableExtensionsDir = false;
     profiles.default.extensions = with pkgs.vscode-extensions; [
-      jdinhlife.gruvbox
+      github.github-vscode-theme
       jnoortheen.nix-ide
       charliermarsh.ruff
       mads-hartmann.bash-ide-vscode
