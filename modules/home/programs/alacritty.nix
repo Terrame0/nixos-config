@@ -1,7 +1,7 @@
 {...}: {
   programs.alacritty = {
     enable = true;
-    theme = "carbonfox";
+    theme = "catppuccin_mocha";
     settings = {
       window = {
         padding = {

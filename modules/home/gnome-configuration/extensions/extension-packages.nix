@@ -1,7 +1,6 @@
 {pkgs, ...}: let
   # -- gnome extension list
   extension-list = with pkgs.gnomeExtensions; [
-    open-bar
     vitals
     clipboard-indicator
   ];
@@ -20,5 +19,6 @@ in {
   # -- enables them in dconf
   dconf.settings."org/gnome/shell" = {
     enabled-extensions = uuids;
+    disabled-extensions = [];
   };
 }

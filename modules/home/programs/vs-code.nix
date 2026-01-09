@@ -9,6 +9,8 @@
     package = pkgs.vscode-fhs;
     mutableExtensionsDir = false;
     profiles.default.extensions = with pkgs.vscode-extensions; [
+      catppuccin.catppuccin-vsc
+      catppuccin.catppuccin-vsc-icons
       jnoortheen.nix-ide
       charliermarsh.ruff
       mads-hartmann.bash-ide-vscode
