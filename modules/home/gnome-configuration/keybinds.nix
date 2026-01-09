@@ -8,6 +8,11 @@
       ];
     };
 
+    # -- disable the <Super>v keybind to use for clipboard indicator
+    "org/gnome/shell/keybindings" = {
+      toggle-message-tray = ["<Super>m"];
+    };
+
     # -- alacritty on Super+T
     "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/terminal" = {
       name = "Terminal";

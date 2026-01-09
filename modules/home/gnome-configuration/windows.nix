@@ -10,7 +10,7 @@
     # -- misc
     "org/gnome/desktop/wm/preferences" = {
       audible-bell = false;
-      focus-mode = "mouse";
+      focus-mode = "click";
       button-layout = "appmenu:minimize,maximize,close";
     };
 

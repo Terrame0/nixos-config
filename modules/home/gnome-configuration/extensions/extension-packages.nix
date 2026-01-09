@@ -1,8 +1,9 @@
 {pkgs, ...}: let
   # -- gnome extension list
   extension-list = with pkgs.gnomeExtensions; [
+    open-bar
     vitals
-    clipboard-history
+    clipboard-indicator
   ];
 
   # -- lambda expression that gets the uuid of a derivation
