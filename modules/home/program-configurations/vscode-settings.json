@@ -25,7 +25,7 @@
     "extensions.autoUpdate": false,
     "extensions.autoCheckUpdates": false,
 
-    "editor.cursorSmoothCaretAnimation": "true",
+    "editor.cursorSmoothCaretAnimation": "on",
     "editor.cursorBlinking": "solid",
     "editor.cursorStyle": "line",
 
