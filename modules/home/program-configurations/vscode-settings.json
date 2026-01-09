@@ -1,9 +1,12 @@
 {
     "chat.disableAIFeatures": true,
+
+    "keyboard.dispatch": "keyCode",
     
     "nix.enableLanguageServer": true,
     "nix.formatterPath": "alejandra",
     "nix.serverPath": "nixd",
+    "nix.hiddenLanguageServerErrors": ["textDocument/definition"],
 
     "C_Cpp.default.compilerPath": "clang",
     "C_Cpp.intelliSenseEngine": "disabled",
@@ -32,4 +35,6 @@
 
 
     "telemetry.telemetryLevel": "off"
+
+    
 }

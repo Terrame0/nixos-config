@@ -8,8 +8,6 @@
     clang-tools
     neofetch
 
-    # -- misc
-
     # -- desktop apps
     dconf-editor
     prismlauncher
