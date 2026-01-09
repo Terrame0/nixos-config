@@ -33,7 +33,8 @@
 
     "terminal.external.linuxExec": "alacritty",
 
-
+    "workbench.colorTheme": "Gruvbox Dark Medium",
+    
     "telemetry.telemetryLevel": "off"
 
     
