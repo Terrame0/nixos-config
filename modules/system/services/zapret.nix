@@ -174,6 +174,19 @@
       "yt.be"
       "ytimg.com"
       "ggpht.com"
+      "steampowered.com"
+      "store.steampowered.com"
+      "steamcommunity.com"
+      "api.steampowered.com"
+      "steamcontent.com"
+      "steamusercontent.com"
+      "steamstatic.com"
+      "steamserver.net"
+      "steam-chat.com"
+      "steamgames.com"
+      "akamaihd.net"
+      "*.storage.googleapis.com"
+      "*.cloudflare.steamstatic.com"
     ];
   };
 }
