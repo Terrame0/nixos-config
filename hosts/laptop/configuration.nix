@@ -30,7 +30,6 @@
   # -- networking
   networking.networkmanager.enable = true;
   networking.hostName = "laptop";
-  networking.enableIPv6 = false;
 
   # -- time and locale
   time.timeZone = "Asia/Vladivostok";
