@@ -9,8 +9,9 @@
     neofetch
 
     # -- desktop apps
+    wireshark
     dconf-editor
-    prismlauncher
+    prismlauncher-unwrapped
     kdePackages.kdenlive
     telegram-desktop
     vivaldi
