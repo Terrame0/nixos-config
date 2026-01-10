@@ -52,12 +52,8 @@
         "editor.minimap.enabled" = false;
         "editor.fontLigatures" = true;
         "editor.fontFamily" = "JetBrainsMono Nerd Font";
-        "workbench.iconTheme" = "material-icon-theme";
         "workbench.colorTheme" = "Default Dark Modern";
-
-        "material-icon-theme.saturation" = 0;
-        "material-icon-theme.hidesExplorerArrows" = false;
-        "material-icon-theme.folders.theme" = "classic";
+        "workbench.iconTheme" = "vs-minimal";
       };
     };
   };
