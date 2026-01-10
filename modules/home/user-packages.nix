@@ -11,7 +11,7 @@
     # -- desktop apps
     wireshark
     dconf-editor
-    prismlauncher-unwrapped
+    prismlauncher
     kdePackages.kdenlive
     telegram-desktop
     vivaldi
