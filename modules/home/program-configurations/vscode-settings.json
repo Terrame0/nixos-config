@@ -32,10 +32,12 @@
     "editor.minimap.enabled": false,
 
     "terminal.external.linuxExec": "alacritty",
-    "workbench.iconTheme": "vs-seti",
+    "workbench.iconTheme": "catppuccin-macchiato",
     "workbench.colorTheme": "Dark Modern",
     
-    "telemetry.telemetryLevel": "off"
+    "telemetry.telemetryLevel": "off",
 
-    
+    "catppuccin-icons.hidesExplorerArrows": false,
+    "catppuccin-icons.specificFolders": true,
+    "catppuccin-icons.monochrome": true
 }
