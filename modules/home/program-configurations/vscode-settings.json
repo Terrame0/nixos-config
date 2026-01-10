@@ -32,7 +32,7 @@
     "editor.minimap.enabled": false,
 
     "terminal.external.linuxExec": "alacritty",
-
+    "workbench.iconTheme": "vs-seti",
     "workbench.colorTheme": "Dark Modern",
     
     "telemetry.telemetryLevel": "off"
