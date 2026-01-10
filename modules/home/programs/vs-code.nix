@@ -6,7 +6,6 @@
     profiles.default = {
       # -- vscode extensions
       extensions = with pkgs.vscode-extensions; [
-        pkief.material-icon-theme
         jnoortheen.nix-ide
         charliermarsh.ruff
         mads-hartmann.bash-ide-vscode
@@ -28,12 +27,6 @@
         "nix.serverPath" = "nixd";
         "nix.hiddenLanguageServerErrors" = ["textDocument/definition"];
 
-        # -- cpp extension config
-        "C_Cpp.default.compilerPath" = "clang";
-        "C_Cpp.intelliSenseEngine" = "disabled";
-        "C_Cpp.default.cppStandard" = "c++23";
-        "C_Cpp.default.cStandard" = "c23";
-
         # -- default terminal emulator
         "terminal.external.linuxExec" = "alacritty";
 
@@ -53,7 +46,7 @@
         "editor.fontLigatures" = true;
         "editor.fontFamily" = "JetBrainsMono Nerd Font";
         "workbench.colorTheme" = "Default Dark Modern";
-        "workbench.iconTheme" = "vs-minimal";
+        "workbench.iconTheme" = "vs-seti";
       };
     };
   };
