@@ -1,7 +1,7 @@
 {...}: {
   programs.alacritty = {
     enable = true;
-    theme = "github_dark";
+    theme = "vscode";
     settings = {
       window = {
         padding = {

@@ -9,6 +9,7 @@
     package = pkgs.vscode-fhs;
     mutableExtensionsDir = false;
     profiles.default.extensions = with pkgs.vscode-extensions; [
+      pkief.material-icon-theme
       github.github-vscode-theme
       jnoortheen.nix-ide
       charliermarsh.ruff

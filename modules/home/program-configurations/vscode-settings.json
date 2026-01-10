@@ -33,7 +33,7 @@
 
     "terminal.external.linuxExec": "alacritty",
 
-    "workbench.colorTheme": "GitHub Dark",
+    "workbench.colorTheme": "Dark Modern",
     
     "telemetry.telemetryLevel": "off"
 

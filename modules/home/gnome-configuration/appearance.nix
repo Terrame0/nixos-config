@@ -2,6 +2,7 @@
   dconf.settings = {
     "org/gnome/desktop/interface" = {
       color-scheme = "prefer-dark";
+      accent-color = "blue";
       gtk-theme = "Adwaita";
       icon-theme = "Adwaita";
       font-name = "JetBrainsMono Nerd Font 12";
