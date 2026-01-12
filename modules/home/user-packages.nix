@@ -7,6 +7,7 @@
     nixd
     clang-tools
     neofetch
+    libinput
 
     # -- desktop apps
     wireshark

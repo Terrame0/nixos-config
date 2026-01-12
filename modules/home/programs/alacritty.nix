@@ -13,8 +13,8 @@
         startup_mode = "Maximized";
         title = "Terminal";
       };
-
       keyboard.bindings = [
+        # -- latin keybinds
         {
           key = "C";
           mods = "Control|Shift";
@@ -22,6 +22,17 @@
         }
         {
           key = "V";
+          mods = "Control|Shift";
+          action = "Paste";
+        }
+        # -- cyrillic keybinds
+        {
+          key = "С";
+          mods = "Control|Shift";
+          action = "Copy";
+        }
+        {
+          key = "М";
           mods = "Control|Shift";
           action = "Paste";
         }
