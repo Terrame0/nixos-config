@@ -7,6 +7,8 @@
     nixd
     clang-tools
     neofetch
+
+    # -- misc
     libinput
 
     # -- desktop apps
