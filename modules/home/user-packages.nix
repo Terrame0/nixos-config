@@ -12,6 +12,7 @@
     libinput
 
     # -- desktop apps
+    gparted
     wireshark
     dconf-editor
     prismlauncher
