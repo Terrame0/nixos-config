@@ -6,6 +6,7 @@
     profiles.default = {
       # -- vscode extensions
       extensions = with pkgs.vscode-extensions; [
+        ms-python.python
         jnoortheen.nix-ide
         charliermarsh.ruff
         mads-hartmann.bash-ide-vscode
