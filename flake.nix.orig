@@ -48,4 +48,8 @@
     };
   };
 }
+<<<<<<< HEAD
+# -- first-changed
+=======
 # -- second
+>>>>>>> origin/master
