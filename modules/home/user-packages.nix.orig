@@ -1,0 +1,29 @@
+{pkgs, ...}: {
+  # -- user packages
+  home.packages = with pkgs; [
+    # -- dev/cli tools
+    python3
+    clang
+    nixd
+    clang-tools
+    neofetch
+    libinput
+
+    # -- desktop apps
+    gparted
+    wireshark
+    dconf-editor
+    prismlauncher
+    kdePackages.kdenlive
+    telegram-desktop
+<<<<<<< HEAD
+    firefox
+=======
+    firefox # -- TODO: CONFIGURE IN HOME MANAGER
+>>>>>>> origin/master
+    libreoffice-fresh
+    qbittorrent
+    blender
+    gimp
+  ];
+}
