@@ -7,8 +7,6 @@
     nixd
     clang-tools
     neofetch
-
-    # -- misc
     libinput
 
     # -- desktop apps
@@ -18,7 +16,7 @@
     prismlauncher
     kdePackages.kdenlive
     telegram-desktop
-    vivaldi
+    firefox# -- TODO: CONFIGURE IN HOME MANAGER
     libreoffice-fresh
     qbittorrent
     blender

@@ -19,7 +19,7 @@
   nix.settings.experimental-features = ["nix-command" "flakes"];
 
   # -- system state version
-  system.stateVersion = "25.05";
+  system.stateVersion = "25.11";
 
   # -- boot configuration
   boot.loader = {
@@ -43,7 +43,4 @@
     shell = pkgs.zsh;
     packages = [];
   };
-
-  # -- touchpad support
-  services.libinput.enable = true;
 }
