@@ -48,4 +48,8 @@
     };
   };
 }
+<<<<<<< HEAD
 # -- first changed
+=======
+# -- stashed change
+>>>>>>> origin/master
