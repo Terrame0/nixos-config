@@ -1,0 +1,13 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "nixos-update"
+version = "0.1.0"
+
+[tool.setuptools.packages.find]
+where = ["./src"]
+
+[project.scripts]
+nixos-update-python = "core.main:main"
