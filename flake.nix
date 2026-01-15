@@ -1,5 +1,5 @@
 {
-  description = "nixos asdfasdfafsdhh flake";
+  description = "nixos configuration flake";
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.11";
@@ -48,3 +48,4 @@
     };
   };
 }
+# -- first
