@@ -4,11 +4,7 @@
   ...
 }: {
   # -- importing modules and other stuff
-  imports =
-    [
-      ../../modules/utils/nixos-update.nix
-    ]
-    ++ lib.filter
+  imports = lib.filter
     (path: lib.hasSuffix ".nix" (toString path))
     (lib.filesystem.listFilesRecursive ../../modules/system);
 

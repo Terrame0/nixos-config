@@ -7,20 +7,23 @@
       url = "github:nix-community/home-manager/release-25.11";
       inputs.nixpkgs.follows = "nixpkgs"; # -- make home manager use the above nixpkgs url
     };
+    nixos-update.url = "path:./tools/nixos-update"; # -- system update package
   };
 
   outputs = {
     nixpkgs,
     home-manager,
+    nixos-update,
     ...
   }: {
     nixosConfigurations.laptop = nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
+      specialArgs = {
+        inherit nixos-update;
+      };
       modules = [
-        # -- base config files
         ./hosts/laptop/configuration.nix
         ./hosts/laptop/hardware-configuration.nix
-        # -- home manager
         home-manager.nixosModules.home-manager
         {
           home-manager.useGlobalPkgs = true;
@@ -32,11 +35,12 @@
     };
     nixosConfigurations.desktop = nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
+      specialArgs = {
+        inherit nixos-update;
+      };
       modules = [
-        # -- base config files
         ./hosts/laptop/configuration.nix
         ./hosts/laptop/hardware-configuration.nix
-        # -- home manager
         home-manager.nixosModules.home-manager
         {
           home-manager.useGlobalPkgs = true;
@@ -48,5 +52,4 @@
     };
   };
 }
-# -- first-stashed
 
