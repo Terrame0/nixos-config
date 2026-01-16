@@ -15,7 +15,7 @@
           "network.proxy.http_port" = 10808;
           "network.proxy.ssl" = "127.0.0.1";
           "network.proxy.ssl_port" = 10808;
-          "network.proxy.no_proxies_on" = ".deepseek.com, .youtube.com, .vk.com, .yandex.ru, .duckduckgo.com, .google.com";
+          "network.proxy.no_proxies_on" = "localhost,127.0.0.1,.deepseek.com,.youtube.com,.vk.com,.yandex.ru,.duckduckgo.com,.google.com";
 
           # -- startup behaviour
           "browser.startup.homepage" = "about:blank";
