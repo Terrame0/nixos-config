@@ -10,6 +10,8 @@
     git
     alejandra
     libinput
+    sops
+    age
 
     # -- desktop apps
     gparted

@@ -4,7 +4,6 @@
   ...
 }: {
   environment.systemPackages = with pkgs; [
-    sops
     keyd
     v2rayn
     nix-ld
