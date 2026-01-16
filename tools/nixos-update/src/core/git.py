@@ -67,12 +67,12 @@ def push_changes():
         f"[gen: {gen_number} | ver: {gen_version}]",
         f"[{gen_date} {gen_time}]",
     ]
-    commit_message=" -m ".join(commit_message_lines) # -- forms the commit message
+    commit_message=" ".join(['-m ' + line for line in commit_message_lines]) # -- forms the commit message
     run("git add .")
     print(f"\033[36m🖹 creating commit: {commit_message}\033[0m")
     for line in commit_message_lines:
         print('  '+line)
-    run(f"git commit -m '{commit_message}'",nofail=True)
+    run(f"git commit {commit_message}",nofail=True)
     print("\033[36m⇈ pushing to remote...\033[0m")
     run(f"git push {script_args().remote} {script_args().branch}")
     print("\033[32m✔ pushed successfuly\033[0m")
