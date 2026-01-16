@@ -4,12 +4,10 @@
   ...
 }: {
   environment.systemPackages = with pkgs; [
+    sops
     keyd
-    git
-    alejandra
-    nix-ld
     v2rayn
-    nix-output-monitor
+    nix-ld
     nixos-update-script.packages.${pkgs.system}.default
   ];
 }

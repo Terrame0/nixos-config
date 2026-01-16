@@ -7,8 +7,8 @@
     nixd
     clang-tools
     neofetch
-
-    # -- misc
+    git
+    alejandra
     libinput
 
     # -- desktop apps

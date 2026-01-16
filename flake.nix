@@ -11,12 +11,14 @@
       url = "path:./tools/nixos-update";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    sops-nix.url = "github:Mic92/sops-nix";
   };
 
   outputs = {
     nixpkgs,
     home-manager,
     nixos-update-script,
+    sops-nix,
     ...
   }: {
     nixosConfigurations.laptop = nixpkgs.lib.nixosSystem {
@@ -28,6 +30,7 @@
         # -- base config files
         ./hosts/laptop/configuration.nix
         ./hosts/laptop/hardware-configuration.nix
+        sops-nix.nixosModules.sops
         home-manager.nixosModules.home-manager
         {
           home-manager.useGlobalPkgs = true;
@@ -45,6 +48,7 @@
       modules = [
         ./hosts/desktop/configuration.nix
         ./hosts/desktop/hardware-configuration.nix
+        sops-nix.nixosModules.sops
         home-manager.nixosModules.home-manager
         {
           home-manager.useGlobalPkgs = true;
