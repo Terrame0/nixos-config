@@ -20,7 +20,6 @@
     prismlauncher
     kdePackages.kdenlive
     telegram-desktop
-    firefox # -- TODO: CONFIGURE IN HOME MANAGER
     libreoffice-fresh
     qbittorrent
     blender
