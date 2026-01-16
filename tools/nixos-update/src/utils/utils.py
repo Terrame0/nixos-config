@@ -55,7 +55,7 @@ class log:
     def delete(self):
         os.remove(script_args().log_path)
         
-def run(cmd: str, print_output = False):
+def run(cmd: str, print_output = False, nofail = False):
     print_string = f"running: [{cmd}]"
     if script_args().print_cmd:
         print(f"\033[34m↪ {print_string}\033[0m")
@@ -79,13 +79,14 @@ def run(cmd: str, print_output = False):
             log().write(result.stdout)
         return result
     except subprocess.CalledProcessError as e:
-        print(f"\033[31m✖ command failed with exit code {e.returncode}, check log for info: {script_args().log_path}\033[0m")
-        if e.stderr:
-            log().write(e.stderr)
-        if e.stdout:
-            log().write(e.stdout)
-        log().write(f"returncode: {e.returncode}")
-        sys.exit(e.returncode)
+        if not nofail:
+            print(f"\033[31m✖ command failed with exit code {e.returncode}, check log for info: {script_args().log_path}\033[0m")
+            if e.stderr:
+                log().write(e.stderr)
+            if e.stdout:
+                log().write(e.stdout)
+            log().write(f"returncode: {e.returncode}")
+            sys.exit(e.returncode)
     except Exception as e:
         print(f"\033[31m✖ an error occurred: {e}, check log for info: {script_args().log_path}\033[0m")
         log().write(f"error: {e}")
