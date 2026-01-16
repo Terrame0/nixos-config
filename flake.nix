@@ -11,7 +11,10 @@
       url = "path:./tools/nixos-update";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    sops-nix.url = "github:Mic92/sops-nix";
+    sops-nix = {
+      url = "github:Mic92/sops-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = {
@@ -27,7 +30,6 @@
         inherit nixos-update-script;
       };
       modules = [
-        # -- base config files
         ./hosts/laptop/configuration.nix
         ./hosts/laptop/hardware-configuration.nix
         sops-nix.nixosModules.sops

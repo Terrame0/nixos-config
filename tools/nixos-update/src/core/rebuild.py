@@ -3,6 +3,7 @@ from core.utils import script_args
 
 def rebuild():
     run("alejandra .")
+    run("git add .")
     run("sudo -v")
 
     print("\033[36m↻ rebuilding...\033[0m")

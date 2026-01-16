@@ -6,7 +6,7 @@
       hide-icons = true;
       hot-sensors = [
         "__network-rx_max__"
-        "_memory_free_"
+        "_memory_available_"
         "__temperature_avg__"
       ];
       icon-style = 1;

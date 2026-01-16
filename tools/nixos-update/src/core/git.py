@@ -18,7 +18,6 @@ def pop_and_merge_stash():
     print("\033[36m↷ applying stashed changes\033[0m")
     run("git stash apply")
     resolve_merge_conflicts()
-    run("git add .")
     run("git stash drop")
 
 def resolve_merge_conflicts():
