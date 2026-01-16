@@ -5,7 +5,7 @@
     system = "x86_64-linux"; # -- system we are building for
     pkgs = nixpkgs.legacyPackages.${system};
     # -- building package with setuptools (details in pyproject.toml)
-    nixos-update = pkgs.python3Packages.buildPythonApplication {
+    nixos-update-script = pkgs.python3Packages.buildPythonApplication {
       pname = "nixos-update";
       version = "0.1.0";
       src = ./.;
@@ -19,9 +19,9 @@
       ];
     };
   in {
-    packages.${system}.nixos-update = nixos-update;
+    packages.${system}.default = nixos-update-script;
     devShells.${system}.default = pkgs.mkShell {
-      buildInputs = [ nixos-update ];
+      buildInputs = [ nixos-update-script ];
     };
   };
 }

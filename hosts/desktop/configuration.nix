@@ -4,7 +4,8 @@
   ...
 }: {
   # -- importing modules and other stuff
-  imports = lib.filter
+  imports =
+    lib.filter
     (path: lib.hasSuffix ".nix" (toString path))
     (lib.filesystem.listFilesRecursive ../../modules/system);
 

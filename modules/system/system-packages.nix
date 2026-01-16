@@ -1,4 +1,8 @@
-{pkgs, nixos-update, ...}: {
+{
+  pkgs,
+  nixos-update-script,
+  ...
+}: {
   environment.systemPackages = with pkgs; [
     keyd
     git
@@ -6,6 +10,6 @@
     nix-ld
     v2rayn
     nix-output-monitor
-    nixos-update.packages.${pkgs.system}.nixos-update
+    nixos-update-script.packages.${pkgs.system}.default
   ];
 }
