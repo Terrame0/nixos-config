@@ -2,8 +2,8 @@
   dconf.settings = {
     "org/gnome/shell" = {
       favorite-apps = [
+        "firefox.desktop"
         "Alacritty.desktop"
-        "vivaldi-stable.desktop"
         "code.desktop"
         "org.gnome.Nautilus.desktop"
         "org.prismlauncher.PrismLauncher.desktop"
