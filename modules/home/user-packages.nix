@@ -14,6 +14,7 @@
     age
 
     # -- desktop apps
+    firefox
     gparted
     wireshark
     dconf-editor
