@@ -64,5 +64,9 @@ def push_changes():
     hostname = run("hostname").stdout
     commit_message=f"[hostname {hostname} | gen {gen_number} | ver {gen_version} | {gen_date} {gen_time}]" # -- form the commit message
     run("git add .")
+    print(f"\033[36m🖹 creating commit {commit_message}\033[0m")
     run(f"git commit -m '{commit_message}'")
+    print("\033[36m⇈ pushing to remote...\033[0m")
     run(f"git push {script_args().origin}/{script_args().branch}")
+    print("\033[32m✔ pushed successfuly\033[0m")
+    
