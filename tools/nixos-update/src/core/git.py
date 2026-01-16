@@ -62,7 +62,7 @@ def fetch_and_merge():
 def push_changes():
     gen_number,gen_date,gen_time,gen_version = run("sudo nixos-rebuild list-generations | grep -m9 'True'").stdout.split()[:4]
     hostname = run("hostname").stdout
-    commit_message=f"[hostname {hostname} | gen {gen_number} | ver {gen_version} | {gen_date} {gen_time}]" # -- form the commit message
+    commit_message=f"[hostname {hostname} | gen {gen_number} | ver {gen_version} | {gen_date} {gen_time}]" # -- forms the commit message
     run("git add .")
     print(f"\033[36m🖹 creating commit {commit_message}\033[0m")
     run(f"git commit -m '{commit_message}'",nofail=True)
