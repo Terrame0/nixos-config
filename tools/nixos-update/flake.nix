@@ -10,7 +10,7 @@
       version = "0.1.0";
       src = ./.;
       pyproject = true;
-      build-system = [ pkgs.python3Packages.setuptools ];
+      build-system = [pkgs.python3Packages.setuptools];
       propagatedBuildInputs = with pkgs; [
         git
         nix-output-monitor
@@ -21,7 +21,7 @@
   in {
     packages.${system}.default = nixos-update-script;
     devShells.${system}.default = pkgs.mkShell {
-      buildInputs = [ nixos-update-script ];
+      buildInputs = [nixos-update-script];
     };
   };
 }

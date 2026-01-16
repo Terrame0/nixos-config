@@ -1,23 +1,21 @@
 import os
-from utils.utils import run, has_local_changes, has_unmerged_files, script_args
+from utils.utils import run, script_args
 import sys
 
-# def check_github_auth():
-#     # -- tries to authenticate using the system public ssh key
-#     # -- manually handling errors because this command always returns 1
-#     auth_result = run("ssh -T git@github.com", ignore_returncode = True) 
-#     if "successfully authenticated" not in (auth_result.stdout + auth_result.stderr):
-#         print("\033[31m✖ github authentication failed\033[0m",file=sys.stderr)
-#         sys.exit(1)
-#     else:
-#         print("\033[32m✔ github authentication successful\033[0m")
+def has_local_changes():
+    status = run("git status --porcelain")
+    return bool(status.stdout.strip())
+
+def has_unmerged_files():
+    result = run("git diff --name-only --diff-filter=U")
+    return bool(result.stdout.strip())
 
 def stash_changes():
-    print("\033[36m↓ stashing local changes\033[0m")
+    print("\033[36m↶ stashing local changes\033[0m")
     run("git stash push -u -m 'autostash before merge'")
 
 def pop_and_merge_stash():
-    print("\033[36m↑ applying stashed changes\033[0m")
+    print("\033[36m↷ applying stashed changes\033[0m")
     run("git stash apply")
     resolve_merge_conflicts()
     run("git add .")
@@ -27,11 +25,12 @@ def resolve_merge_conflicts():
     while has_unmerged_files():
         conflicts = run("git diff --name-only --diff-filter=U").stdout.strip().splitlines()
         print(f"\033[33m⚠ there are unmerged files: {', '.join(conflicts)}\033[0m")
+        print("\033[36m↹ attempting to merge...\033[0m")
         run("git -c merge.tool=meld -c mergetool.prompt=false mergetool")
         run("git add .")
         if os.path.exists(".git/MERGE_HEAD"):
             run('git commit -m "automatic merge commit"')
-            print("\033[32m✔ merge successful\033[0m")
+        print("\033[32m✔ merge successful\033[0m")
 
     for root, _, files in os.walk("."):
         for f in files:
@@ -42,30 +41,26 @@ def resolve_merge_conflicts():
 def clone_from_github():
     errors = []
     if script_args().login is None:
-        errors.append("github account name (--name)")
+        errors.append("github account name [--login]")
     if script_args().repo is None:
-        errors.append("repository name (--repo)")
+        errors.append("repository name [--repo]")
     if errors:
         print(f"\033[31m✖ no {' and '.join(errors)} specified\033[0m")
         sys.exit(1)
+    print("\033[36m⇊ cloning...\033[0m")
     run(f"git clone git@github.com:{script_args().login}/{script_args().repo}.git {script_args().config_path}")
+    print("\033[32m✔ cloned successfuly\033[0m")
 
 def fetch_and_merge():
-    run("git fetch origin")
-    merge_result = run("git merge origin/master")
+    print("\033[36m⇊ fetching from remote...\033[0m")
+    run(f"git fetch {script_args().remote}")
+    print("\033[32m✔ fetched successfuly\033[0m")
+    merge_result = run(f"git merge origin/{script_args().branch}")
     if merge_result.returncode != 0:
         resolve_merge_conflicts()
-
-def update_local_state():
-    # check_github_auth()
-    if not os.path.exists(f"{script_args().config_path}/.git"):
-        clone_from_github()
-    else:
-        stashed = False
-        if has_local_changes():
-            stash_changes()
-            stashed = True
-        fetch_and_merge()
-        if stashed:
-            pop_and_merge_stash()
     
+def commit_changes():
+    gen_number,gen_date,gen_time,gen_version = run("sudo nixos-rebuild list-generations | grep -m9 'True'").stdout.split()[:4]
+    commit_message=f"[gen {gen_number} | ver {gen_version} | {gen_date} {gen_time}]" # -- form the commit message
+    run("git add .")
+    run(f"git commit -m '{commit_message}'")
