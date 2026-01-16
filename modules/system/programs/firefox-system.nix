@@ -1,8 +1,4 @@
-{
-  config,
-  pkgs,
-  ...
-}: let
+{...}: let
   lock-false = {
     Value = false;
     Status = "locked";
@@ -58,7 +54,7 @@ in {
 
         # -- cookies / tracking
         "network.cookie.cookieBehavior" = {
-          Value = 1;
+          Value = 0;
           Status = "locked";
         };
 
@@ -93,52 +89,14 @@ in {
           install_url = "https://addons.mozilla.org/firefox/downloads/latest/ublock-origin/latest.xpi";
           installation_mode = "force_installed";
         };
-        "jid1-MnnxcxisBPnSXQ@jetpack" = {
-          install_url = "https://addons.mozilla.org/firefox/downloads/latest/privacy-badger17/latest.xpi";
-          installation_mode = "force_installed";
-        };
         "extension@tabliss.io" = {
           install_url = "https://addons.mozilla.org/firefox/downloads/file/3940751/tabliss-2.6.0.xpi";
           installation_mode = "force_installed";
         };
-
         "*" = {
           installation_mode = "blocked";
         };
       };
-
-      # -- managed bookmarks
-      ManagedBookmarks = [
-        {
-          title = "Managed Bookmarks";
-          children = [
-            {
-              title = "YouTube";
-              url = "https://www.youtube.com";
-            }
-            {
-              title = "YouTube Music";
-              url = "https://music.youtube.com";
-            }
-            {
-              title = "ChatGPT";
-              url = "https://chat.openai.com";
-            }
-            {
-              title = "DeepSeek";
-              url = "https://www.deepseek.com";
-            }
-            {
-              title = "GitHub";
-              url = "https://github.com";
-            }
-            {
-              title = "VK";
-              url = "https://vk.com";
-            }
-          ];
-        }
-      ];
     };
   };
 }
