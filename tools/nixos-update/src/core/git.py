@@ -63,8 +63,8 @@ def push_changes():
     gen_number,gen_date,gen_time,gen_version = run("sudo nixos-rebuild list-generations | grep -m9 'True'").stdout.split()[:4]
     hostname = run("hostname").stdout.strip('\n')
     commit_message_lines = [
-        f"[hostname: {hostname}]",
-        f"[gen: {gen_number} | ver: {gen_version}]",
+        f"[hostname '{hostname}']",
+        f"[gen {gen_number} | ver {gen_version}]",
         f"[{gen_date} {gen_time}]",
     ]
     commit_message=" ".join([f'-m "{line}"' for line in commit_message_lines]) # -- forms the commit message
