@@ -1,5 +1,5 @@
-from utils.utils import run
-from utils.utils import script_args
+from core.utils import run
+from core.utils import script_args
 
 def rebuild():
     run("alejandra .")

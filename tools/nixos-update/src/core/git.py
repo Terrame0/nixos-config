@@ -1,5 +1,5 @@
 import os
-from utils.utils import run, script_args
+from core.utils import run, script_args
 import sys
 
 def has_local_changes():
