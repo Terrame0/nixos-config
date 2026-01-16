@@ -59,8 +59,10 @@ def fetch_and_merge():
     if merge_result.returncode != 0:
         resolve_merge_conflicts()
     
-def commit_changes():
+def push_changes():
     gen_number,gen_date,gen_time,gen_version = run("sudo nixos-rebuild list-generations | grep -m9 'True'").stdout.split()[:4]
-    commit_message=f"[gen {gen_number} | ver {gen_version} | {gen_date} {gen_time}]" # -- form the commit message
+    hostname = run("hostname").stdout
+    commit_message=f"[hostname {hostname} | gen {gen_number} | ver {gen_version} | {gen_date} {gen_time}]" # -- form the commit message
     run("git add .")
     run(f"git commit -m '{commit_message}'")
+    run(f"git push {script_args().origin}/{script_args().branch}")
