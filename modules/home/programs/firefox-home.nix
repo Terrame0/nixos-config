@@ -7,10 +7,14 @@
         name = "default";
         isDefault = true;
 
-        settings = {
+        settings = let
+          pac-file = builtins.path {
+            path = ../program-configurations/firefox-pac.js;
+          };
+        in {
           # -- proxy (pac via xray)
           "network.proxy.type" = 2; # -- auto-config (PAC)
-          "network.proxy.autoconfig_url" = "file://${./.}/../program-configurations/firefox-pac.js";
+          "network.proxy.autoconfig_url" = "file://${pac-file}";
 
           # -- startup behaviour
           "browser.startup.homepage" = "about:blank";
