@@ -1,10 +1,8 @@
 function FindProxyForURL(url, host) {
-
   host = host.toLowerCase();
     
   // -- domains that go through proxy
   const proxyDomains = [
-
     // -- meta
     "instagram.com",
     "cdninstagram.com",
@@ -13,34 +11,61 @@ function FindProxyForURL(url, host) {
     "fbsbx.com",
     "whatsapp.com",
     "whatsapp.net",
+    "fb.com",
+    "facebook.net",
+    "fb.me",
+    "fb.watch",
+    "instagram.net",
 
-    // -- x
+    // -- twitter
     "x.com",
     "twitter.com",
     "t.co",
     "twimg.com",
+    "twttr.com",
 
-    // -- messengers
-    "signal.org",
-    "cdn.signal.org",
-    "snapchat.com",
-    "sc-cdn.net",
+    // -- communication
+    "telegram.org",
+    "t.me",
+    "telegram.me",
+    "cdn.telesco.pe",
+    "zoom.us",
+    "zoom.com",
 
-    // -- games
-    "roblox.com",
-    "rbxcdn.com",
-    "robloxcdn.com",
+    // -- social
+    "reddit.com",
+    "redditstatic.com",
+    "medium.com",
 
-    // -- media
-    "bbc.com",
-    "bbc.co.uk",
-    "meduza.io",
-    "theguardian.com",
-    "nytimes.com",
-    "dw.com",
-    "rferl.org",
+    // -- twitch
+    "twitch.tv",
+    "ttvnw.net",
+    "jtvnw.net",
 
     // -- misc
+    "anthropic.com",
+    "claude.ai",
+    "perplexity.ai",
+    "notion.so",
+    "chatgpt.com",
+    "openai.com",
+    
+    // -- dont leak ip
+    "ipleak.net",
+    "browserleaks.com",
+    "dnsleaktest.com",
+    "whoer.net",
+    "ipleak.org",
+    "ip-api.com",
+    "checkip.amazonaws.com",
+    "api.ipify.org",
+    "ipinfo.io",
+    "icanhazip.com",
+
+    // -- misc
+    "wikipedia.org",
+    "wikimedia.org",
+    "archive.org",
     "rutracker.org",
     "cloudflareinsights.com",
     "cloudfront.net",
