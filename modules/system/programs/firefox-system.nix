@@ -31,7 +31,7 @@ in {
           Status = "locked";
         };
         "network.trr.uri" = {
-          Value = "https://dns.adguard.com/dns-query";
+          Value = "https://dns.cloudflare.com/dns-query";
           Status = "locked";
         };
 
