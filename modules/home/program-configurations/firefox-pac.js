@@ -54,7 +54,7 @@ function FindProxyForURL(url, host) {
   // -- use xray if the host is in the list above
   for (let i = 0; i < proxyDomains.length; i++) {
     if (isInDomain(host, proxyDomains[i])) {
-      return "SOCKS5 127.0.0.1:10808; DIRECT";
+      return "PROXY 127.0.0.1:10808";
     }
   }
 
