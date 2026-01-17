@@ -25,6 +25,16 @@ in {
       SearchBar = "unified";
 
       Preferences = {
+        # -- dns over https
+        "network.trr.mode" = {
+          Value = 2;
+          Status = "locked";
+        };
+        "network.trr.uri" = {
+          Value = "https://dns.adguard.com/dns-query";
+          Status = "locked";
+        };
+
         # -- telemetry / reporting
         "toolkit.telemetry.unified" = lock-false;
         "toolkit.telemetry.enabled" = lock-false;
