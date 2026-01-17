@@ -24,11 +24,8 @@
           # -- session restore
           "browser.sessionstore.resume_from_crash" = true;
           "browser.sessionstore.resume_session_once" = false;
-
-          # -- search defaults
-          "browser.search.defaultenginename" = "ddg";
-          "browser.search.order.1" = "ddg";
         };
+
         search = {
           force = true;
           default = "ddg";
