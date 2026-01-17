@@ -16,14 +16,20 @@ in {
       DisableFirefoxStudies = true;
       DisablePocket = true;
       DisableAppUpdate = true;
+      DontCheckDefaultBrowser = true;
+      DisableFeedbackCommands = true;
       SearchBar = "unified";
 
       Preferences = {
         # -- telemetry / reporting
         "toolkit.telemetry.unified" = lock-false;
         "toolkit.telemetry.enabled" = lock-false;
-        "datareporting.policy.dataSubmissionEnabled" = lock-false;
+        # "datareporting.policy.dataSubmissionEnabled" = lock-false; # -- BREAKS GOOGLE AUTO AUTH
         "datareporting.healthreport.uploadEnabled" = lock-false;
+
+        # -- safe browsing
+        "browser.safebrowsing.malware.enabled" = lock-true;
+        "browser.safebrowsing.phishing.enabled" = lock-true;
 
         # -- new tab / sponsored
         "extensions.pocket.enabled" = lock-false;

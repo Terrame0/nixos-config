@@ -24,6 +24,29 @@
           # -- session restore
           "browser.sessionstore.resume_from_crash" = true;
           "browser.sessionstore.resume_session_once" = false;
+
+          # -- new tab behaviour
+          "browser.urlbar.focusOnNewTab" = true; # -- autofocus on search bar
+          "browser.toolbars.bookmarks.visibility" = "never"; # -- hide bookmarks bar
+
+          # -- password and forms
+          "signon.rememberSignons" = true;
+          "browser.formfill.enable" = true;
+
+          # -- ui
+          "browser.aboutConfig.showWarning" = false;
+          "browser.uidensity" = 1; # -- 1 is default, 0 is compact
+
+          # -- tab behaviour
+          "browser.tabs.warnOnClose" = false;
+          "browser.tabs.closeWindowWithLastTab" = true;
+
+          # -- performance
+          "browser.cache.disk.enable" = true;
+          "browser.sessionstore.interval" = 15000;
+
+          # -- launch on the current workspace
+          "widget.disable-workspace-management" = true;
         };
 
         search = {
@@ -32,6 +55,7 @@
           order = [
             "ddg"
             "google"
+            "yandex"
             "NixOS Packages"
             "NixOS Options"
             "Nix Flakes"
@@ -71,6 +95,22 @@
               definedAliases = ["@no"];
             };
 
+            "Nix Flakes" = {
+              urls = [
+                {
+                  template = "https://search.nixos.org/flakes";
+                  params = [
+                    {
+                      name = "q";
+                      value = "{searchTerms} flake.nix";
+                    }
+                  ];
+                }
+              ];
+              icon = "https://nixos.org/favicon.ico";
+              definedAliases = ["@nf"];
+            };
+
             "Home Manager Options" = {
               urls = [
                 {
@@ -85,22 +125,6 @@
               ];
               icon = "https://nixos.org/favicon.ico";
               definedAliases = ["@hm"];
-            };
-
-            "Nix Flakes" = {
-              urls = [
-                {
-                  template = "https://github.com/search";
-                  params = [
-                    {
-                      name = "q";
-                      value = "{searchTerms} flake.nix";
-                    }
-                  ];
-                }
-              ];
-              icon = "https://github.com/favicon.ico";
-              definedAliases = ["@nf"];
             };
           };
         };
