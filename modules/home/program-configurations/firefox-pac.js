@@ -42,7 +42,7 @@ function FindProxyForURL(url, host) {
     "ttvnw.net",
     "jtvnw.net",
 
-    // -- misc
+    // -- ai
     "anthropic.com",
     "claude.ai",
     "perplexity.ai",
@@ -50,7 +50,7 @@ function FindProxyForURL(url, host) {
     "chatgpt.com",
     "openai.com",
     
-    // -- dont leak ip
+    // -- ip checkers
     "ipleak.net",
     "browserleaks.com",
     "dnsleaktest.com",
@@ -63,6 +63,8 @@ function FindProxyForURL(url, host) {
     "icanhazip.com",
 
     // -- misc
+    "home-manager-options.extranix.com",
+    "extranix.com",
     "wikipedia.org",
     "wikimedia.org",
     "archive.org",
