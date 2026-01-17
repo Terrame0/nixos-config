@@ -12,6 +12,10 @@
             path = ../program-configurations/firefox-pac.js;
           };
         in {
+          # -- dns over https
+          "network.trr.mode" = 2;
+          "network.trr.uri" = "https://dns.cloudflare.com/dns-query";
+
           # -- proxy (pac via xray)
           "network.proxy.type" = 2; # -- auto-config (PAC)
           "network.proxy.autoconfig_url" = "file://${pac-file}";
