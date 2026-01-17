@@ -29,6 +29,10 @@
           "browser.urlbar.focusOnNewTab" = true; # -- autofocus on search bar
           "browser.toolbars.bookmarks.visibility" = "never"; # -- hide bookmarks bar
 
+          # -- show only engines defined in config
+          "browser.search.separatePrivateDefault.ui.enabled" = false;
+          "browser.search.showOneOffButtons" = false;
+
           # -- password and forms
           "signon.rememberSignons" = true;
           "browser.formfill.enable" = true;

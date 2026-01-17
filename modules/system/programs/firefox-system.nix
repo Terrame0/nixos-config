@@ -7,6 +7,10 @@
     Value = true;
     Status = "locked";
   };
+  lock-default = {
+    Value = true;
+    Status = "locked";
+  };
 in {
   programs.firefox = {
     enable = true;
@@ -24,7 +28,7 @@ in {
         # -- telemetry / reporting
         "toolkit.telemetry.unified" = lock-false;
         "toolkit.telemetry.enabled" = lock-false;
-        # "datareporting.policy.dataSubmissionEnabled" = lock-false; # -- BREAKS GOOGLE AUTO AUTH
+        "datareporting.policy.dataSubmissionEnabled" = lock-default; # -- BREAKS GOOGLE AUTO AUTH
         "datareporting.healthreport.uploadEnabled" = lock-false;
 
         # -- safe browsing
