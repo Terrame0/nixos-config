@@ -22,10 +22,6 @@
           # -- all traffix goes through pacproxy
           "network.proxy.no_proxies_on" = "";
 
-          # -- proxy (pac via xray)
-          #"network.proxy.type" = 2; # -- auto-config (PAC)
-          #"network.proxy.autoconfig_url" = "file://${pac-file}";
-
           # -- startup behaviour
           "browser.startup.homepage" = "about:newtab";
           "browser.startup.page" = 3; # -- auto restore session

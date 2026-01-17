@@ -8,6 +8,7 @@ def main():
     run("sudo -v")
     os.makedirs(script_args().config_path, exist_ok=True)
     os.chdir(script_args().config_path)
+    run("git add .")
     if not os.path.exists(f"{script_args().config_path}/.git"):
         clone_from_github()
     else:
