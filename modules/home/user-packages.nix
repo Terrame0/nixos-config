@@ -1,5 +1,12 @@
-{pkgs, ...}: {
-  # -- user packages
+{pkgs, ...}: let
+  unstable = import (builtins.fetchTarball {
+    url = "https://github.com/NixOS/nixpkgs/archive/nixos-unstable.tar.gz";
+  }) {};
+  myOverlay = self: super: {
+    discordo = unstable.discordo;
+  };
+in {
+  nixpkgs.overlays = [myOverlay];
   home.packages = with pkgs; [
     # -- dev/cli tools
     python3
