@@ -25,10 +25,10 @@ function FindProxyForURL(url, host) {
     "twttr.com",
 
     // -- communication
-    "telegram.org",
-    "t.me",
-    "telegram.me",
-    "cdn.telesco.pe",
+    // "telegram.org",
+    // "t.me",
+    // "telegram.me",
+    // "cdn.telesco.pe",
     "zoom.us",
     "zoom.com",
 
@@ -76,8 +76,8 @@ function FindProxyForURL(url, host) {
     "wikimedia.org",
     "archive.org",
     "rutracker.org",
-    "cloudflareinsights.com",
-    "cloudfront.net"
+    // "cloudflareinsights.com",
+    // "cloudfront.net"
   ];
 
   // -- matches domain or subdomain
