@@ -14,6 +14,7 @@
     age
 
     # -- desktop apps
+    discord
     gparted
     wireshark
     dconf-editor
