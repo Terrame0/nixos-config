@@ -25,16 +25,6 @@ in {
       SearchBar = "unified";
 
       Preferences = {
-        # -- dns over https
-        "network.trr.mode" = {
-          Value = 2;
-          Status = "locked";
-        };
-        "network.trr.uri" = {
-          Value = "https://dns.cloudflare.com/dns-query";
-          Status = "locked";
-        };
-
         # -- telemetry / reporting
         "toolkit.telemetry.unified" = lock-false;
         "toolkit.telemetry.enabled" = lock-false;
@@ -55,14 +45,6 @@ in {
       ExtensionSettings = {
         "uBlock0@raymondhill.net" = {
           install_url = "https://addons.mozilla.org/firefox/downloads/latest/ublock-origin/latest.xpi";
-          installation_mode = "force_installed";
-        };
-        "ReturnYouTubeDislike@pollo.xyz" = {
-          install_url = "https://addons.mozilla.org/firefox/downloads/latest/return-youtube-dislike/latest.xpi";
-          installation_mode = "force_installed";
-        };
-        "video_downloadhelper@yahoo.com" = {
-          install_url = "https://addons.mozilla.org/firefox/downloads/latest/video-downloadhelper/latest.xpi";
           installation_mode = "force_installed";
         };
         "*" = {
