@@ -1,0 +1,19 @@
+{pkgs, ...}: let
+  pac-file = builtins.path {
+    path = ./configurations/pac.js;
+  };
+in {
+  systemd.services.pacproxy = {
+    description = "PAC Proxy (system-wide)";
+    after = ["network.target"];
+    wantedBy = ["multi-user.target"];
+
+    serviceConfig = {
+      ExecStart = "${pkgs.pacproxy}/bin/pacproxy -c ${pac-file} -l 127.0.0.1:8080";
+      Restart = "always";
+      User = "nobody";
+      Group = "nogroup";
+      UMask = "0077";
+    };
+  };
+}

@@ -33,7 +33,7 @@
     # -- environment
     initContent = ''
       # -- powerlevel10k prompt theme configuration
-      source ${../program-configurations/p10k.zsh}
+      source ${./configurations/p10k.zsh}
       # -- better key bindings
       bindkey -e
       # -- history search with arrows

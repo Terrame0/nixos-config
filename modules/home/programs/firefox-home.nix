@@ -7,21 +7,27 @@
         name = "default";
         isDefault = true;
 
-        settings = let
-          pac-file = builtins.path {
-            path = ../program-configurations/firefox-pac.js;
-          };
-        in {
+        settings = {
           # -- dns over https
           "network.trr.mode" = 2;
           "network.trr.uri" = "https://dns.cloudflare.com/dns-query";
 
+          # -- routing through pacproxy
+          "network.proxy.type" = 1;
+          "network.proxy.http" = "127.0.0.1";
+          "network.proxy.http_port" = 8080;
+          "network.proxy.ssl" = "127.0.0.1";
+          "network.proxy.ssl_port" = 8080;
+
+          # -- all traffix goes through pacproxy
+          "network.proxy.no_proxies_on" = "";
+
           # -- proxy (pac via xray)
-          "network.proxy.type" = 2; # -- auto-config (PAC)
-          "network.proxy.autoconfig_url" = "file://${pac-file}";
+          #"network.proxy.type" = 2; # -- auto-config (PAC)
+          #"network.proxy.autoconfig_url" = "file://${pac-file}";
 
           # -- startup behaviour
-          "browser.startup.homepage" = "about:blank";
+          "browser.startup.homepage" = "about:newtab";
           "browser.startup.page" = 3; # -- auto restore session
 
           # -- session restore
