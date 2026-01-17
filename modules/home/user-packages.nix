@@ -12,6 +12,7 @@
     libinput
     sops
     age
+    discordo
 
     # -- desktop apps
     gparted
