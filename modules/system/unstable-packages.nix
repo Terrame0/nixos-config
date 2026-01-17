@@ -12,7 +12,7 @@
   };
 in {
   nixpkgs.overlays = [myOverlay];
-  environment.systemPackages = with pkgs; [
-    discordo
+  environment.systemPackages = [
+    # -- packages from the unstable branch go here
   ];
 }

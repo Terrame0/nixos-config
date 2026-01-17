@@ -36,10 +36,10 @@ function FindProxyForURL(url, host) {
     "reddit.com",
     "redditstatic.com",
     "medium.com",
-    "discord.com",
-    "discord.gg",
-    "discordapp.com",
-    "discordapp.net",
+    // "discord.com",
+    // "discord.gg",
+    // "discordapp.com",
+    // "discordapp.net",
 
     // -- twitch
     "twitch.tv",
@@ -67,6 +67,8 @@ function FindProxyForURL(url, host) {
     "icanhazip.com",
 
     // -- misc
+    "github.com",
+    "githubusercontent.com",
     "extranix.com",
     "nixos.org",
     "nix.dev",
