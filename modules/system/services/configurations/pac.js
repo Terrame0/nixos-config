@@ -2,7 +2,7 @@ function FindProxyForURL(url, host) {
   host = host.toLowerCase();
     
   // -- domains that go through proxy
-  const proxyDomains = [
+  var proxyDomains = [
     // -- meta
     "instagram.com",
     "cdninstagram.com",
@@ -69,13 +69,12 @@ function FindProxyForURL(url, host) {
     // -- misc
     "extranix.com",
     "nixos.org",
-    "extranix.com",
     "wikipedia.org",
     "wikimedia.org",
     "archive.org",
     "rutracker.org",
     "cloudflareinsights.com",
-    "cloudfront.net",
+    "cloudfront.net"
   ];
 
   // -- matches domain or subdomain
@@ -84,7 +83,7 @@ function FindProxyForURL(url, host) {
   }
 
   // -- use xray if the host is in the list above
-  for (let i = 0; i < proxyDomains.length; i++) {
+  for (var i = 0; i < proxyDomains.length; i++) {
     if (isInDomain(host, proxyDomains[i])) {
       return "PROXY 127.0.0.1:10808";
     }
