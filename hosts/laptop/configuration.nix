@@ -9,7 +9,7 @@
   system.stateVersion = "25.05";
 
   # -- hostname
-  networking.hostName = "desktop";
+  networking.hostName = "laptop";
 
   # -- touchpad support
   services.libinput.enable = true;
