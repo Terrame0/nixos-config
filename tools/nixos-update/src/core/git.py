@@ -18,7 +18,7 @@ def resolve_merge_conflicts():
         run("git -c merge.tool=meld -c mergetool.prompt=false mergetool")
         run("git add .")
         if os.path.exists(".git/MERGE_HEAD"):
-            run('git commit -m "automatic merge commit"')
+            create_commit("MERGE")
         print("\033[32m✔ merge successful\033[0m")
 
     for root, _, files in os.walk("."):
@@ -44,7 +44,7 @@ def fetch_and_merge():
     print("\033[36m⇊ fetching from remote...\033[0m")
     run(f"git fetch {script_args().remote}")
     print("\033[32m✔ fetched successfuly\033[0m")
-    merge_result = run(f"git merge --ff-only {script_args().remote}/{script_args().branch}")
+    merge_result = run(f"git merge --no-ff {script_args().remote}/{script_args().branch}")
     if merge_result.returncode != 0:
         resolve_merge_conflicts()
 
