@@ -3,14 +3,13 @@
     enable = true;
     theme = "vscode";
     settings = {
-      background_opacity = 0.85;
       window = {
         padding = {
           x = 8;
           y = 8;
         };
         dynamic_padding = true;
-        opacity = 0.85;
+        opacity = 0.5;
         startup_mode = "Maximized";
         title = "Terminal";
       };
