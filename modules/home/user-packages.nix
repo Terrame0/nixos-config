@@ -11,6 +11,7 @@
     libinput
     sops
     age
+    tree
 
     # -- desktop apps
     gparted
