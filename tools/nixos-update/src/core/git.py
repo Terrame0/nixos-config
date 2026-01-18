@@ -1,5 +1,5 @@
 import os
-from core.utils import run, script_args
+from core.utils import run, script_args,get_hostname
 import sys
 
 def has_local_changes():
@@ -50,9 +50,8 @@ def fetch_and_merge():
 
 def generate_commit_message():
     gen_number,gen_date,gen_time,gen_version = run("sudo nixos-rebuild list-generations | grep -m9 'True'").stdout.split()[:4]
-    hostname = run("hostname").stdout.strip('\n')
     commit_message_lines = [
-        f"[hostname '{hostname}']",
+        f"[hostname '{get_hostname()}']",
         f"[gen {gen_number} | ver {gen_version}]",
         f"[{gen_date} {gen_time}]",
     ]

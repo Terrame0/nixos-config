@@ -55,7 +55,10 @@ class log:
 
     def delete(self):
         os.remove(script_args().log_path)
-        
+
+def get_hostname():
+    return run("hostname").stdout.strip('\n') if script_args().hostname == "current" else script_args().hostname
+
 def run(cmd: str, print_output = False, nofail = False):
     print_string = f"running: [{cmd}]"
     if script_args().print_cmd:
