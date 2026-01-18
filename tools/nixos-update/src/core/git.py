@@ -59,14 +59,14 @@ def generate_commit_message():
     commit_message = " ".join([f'-m "{line}"' for line in commit_message_lines])
     return commit_message, commit_message_lines
 
-def create_commit(type:str):
+def create_commit(commit_type:str):
     commit_message, commit_message_lines = generate_commit_message()
     run("git add .")
     print("\033[36m🢒 creating commit:\033[0m")
-    print([{type}])
+    print(f"[{commit_type}]")
     for line in commit_message_lines:
         print('  '+line)
-    run(f"git commit -m [{type}] {commit_message}",nofail=True)  
+    run(f"git commit -m [{commit_type}] {commit_message}",nofail=True)  
 
 def push_on_success():
     create_commit("FUNCTIONAL")
