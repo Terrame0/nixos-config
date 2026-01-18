@@ -16,11 +16,13 @@
         hashKnownHosts = true;
         forwardAgent = false;
         compression = false;
+        addKeysToAgent = "yes";
       };
       "github.com" = {
         user = "git";
         identityFile = github-ssh-key-path;
         identitiesOnly = true;
+        addKeysToAgent = "yes";
       };
     };
   };
