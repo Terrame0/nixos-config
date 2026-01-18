@@ -24,7 +24,7 @@ class script_args:
             parser.add_argument("--print-cmd",action="store_true")
             parser.add_argument("--branch",default="master")
             parser.add_argument("--remote",default="origin")
-            parser.add_argument("--hostname",default=run("hostname").stdout.strip('\n'))
+            parser.add_argument("--hostname",default="current")
 
             args = parser.parse_args()
 
