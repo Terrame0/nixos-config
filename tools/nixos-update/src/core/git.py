@@ -66,7 +66,7 @@ def create_commit(commit_type:str):
     print(f"  [{commit_type}]")
     for line in commit_message_lines:
         print('  '+line)
-    run(f"git commit -m [{commit_type}] {commit_message}",nofail=True)  
+    run(f"git commit --allow-empty -m [{commit_type}] {commit_message}",nofail=True)  
 
 def push_on_success():
     create_commit("FUNCTIONAL")
