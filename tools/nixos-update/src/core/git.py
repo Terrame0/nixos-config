@@ -63,7 +63,7 @@ def create_commit(commit_type:str):
     commit_message, commit_message_lines = generate_commit_message()
     run("git add .")
     print("\033[36m🢒 creating commit:\033[0m")
-    print(f"[{commit_type}]")
+    print(f"  [{commit_type}]")
     for line in commit_message_lines:
         print('  '+line)
     run(f"git commit -m [{commit_type}] {commit_message}",nofail=True)  
