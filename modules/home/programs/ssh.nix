@@ -1,10 +1,16 @@
-{...}: {
+{
+  personal-ssh-key-path,
+  github-ssh-key-path,
+  ...
+}: {
   programs.ssh = {
     enable = true;
     # -- do not auto-inject defaults in the future
     enableDefaultConfig = false;
     matchBlocks = {
       "*" = {
+        identityFile = personal-ssh-key-path;
+        identitiesOnly = true;
         serverAliveInterval = 60;
         serverAliveCountMax = 3;
         hashKnownHosts = true;
@@ -13,7 +19,7 @@
       };
       "github.com" = {
         user = "git";
-        identityFile = "~/.ssh/id_ed25519";
+        identityFile = github-ssh-key-path;
         identitiesOnly = true;
       };
     };

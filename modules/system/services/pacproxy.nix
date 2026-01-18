@@ -4,7 +4,7 @@
   };
 in {
   systemd.services.pacproxy = {
-    description = "PAC Proxy (system-wide)";
+    description = "pacproxy (system-wide)";
     after = ["network.target"];
     wantedBy = ["multi-user.target"];
 
