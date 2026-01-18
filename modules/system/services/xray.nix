@@ -24,7 +24,7 @@
         protocol = "vless";
         settings.vnext = [
           {
-            address = config.sops.placeholder."xray/server_ip";
+            address = config.sops.placeholder."xray/server-ip";
             port = 40090;
             users = [
               {
