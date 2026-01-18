@@ -13,7 +13,6 @@
         opacity = 0.85;
         startup_mode = "Maximized";
         title = "Terminal";
-        
       };
       keyboard.bindings = [
         # -- latin keybinds
