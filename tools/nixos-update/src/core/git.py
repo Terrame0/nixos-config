@@ -10,16 +10,6 @@ def has_unmerged_files():
     result = run("git diff --name-only --diff-filter=U")
     return bool(result.stdout.strip())
 
-def stash_changes():
-    print("\033[36m↶ stashing local changes\033[0m")
-    run("git stash push -u -m 'autostash before merge'")
-
-def pop_and_merge_stash():
-    print("\033[36m↷ applying stashed changes\033[0m")
-    run("git stash apply")
-    resolve_merge_conflicts()
-    run("git stash drop")
-
 def resolve_merge_conflicts():
     while has_unmerged_files():
         conflicts = run("git diff --name-only --diff-filter=U").stdout.strip().splitlines()
@@ -54,11 +44,11 @@ def fetch_and_merge():
     print("\033[36m⇊ fetching from remote...\033[0m")
     run(f"git fetch {script_args().remote}")
     print("\033[32m✔ fetched successfuly\033[0m")
-    merge_result = run(f"git merge origin/{script_args().branch}")
+    merge_result = run(f"git merge --ff-only {script_args().remote}/{script_args().branch}")
     if merge_result.returncode != 0:
         resolve_merge_conflicts()
-    
-def push_changes():
+
+def generate_commit_message():
     gen_number,gen_date,gen_time,gen_version = run("sudo nixos-rebuild list-generations | grep -m9 'True'").stdout.split()[:4]
     hostname = run("hostname").stdout.strip('\n')
     commit_message_lines = [
@@ -66,12 +56,19 @@ def push_changes():
         f"[gen {gen_number} | ver {gen_version}]",
         f"[{gen_date} {gen_time}]",
     ]
-    commit_message=" ".join([f'-m "{line}"' for line in commit_message_lines]) # -- forms the commit message
+    commit_message = " ".join([f'-m "{line}"' for line in commit_message_lines])
+    return commit_message, commit_message_lines
+
+def create_commit(type:str):
+    commit_message, commit_message_lines = generate_commit_message()
     run("git add .")
     print("\033[36m🢒 creating commit:\033[0m")
     for line in commit_message_lines:
         print('  '+line)
-    run(f"git commit {commit_message}",nofail=True)
+    run(f"git commit -m [{type}] {commit_message}",nofail=True)  
+
+def push_on_success():
+    create_commit("FUNCTIONAL")
     print("\033[36m⇈ pushing to remote...\033[0m")
     run(f"git push {script_args().remote} {script_args().branch}")
     print("\033[32m✔ pushed successfuly\033[0m")
