@@ -9,9 +9,9 @@
     in {
       ipc = "on";
       splash = false;
-      preload = ["~/wallpaper.png"];
+      preload = ["${wallpaper}"];
       wallpaper = [
-        "DP-1,~/wallpaper.png"
+        "DP-1,${wallpaper}"
       ];
     };
   };

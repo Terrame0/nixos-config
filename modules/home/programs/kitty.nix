@@ -1,7 +1,7 @@
 {...}: {
   programs.kitty = {
     enable = true;
-    theme = "VSCode_Dark";
+    themeFile = "VSCode_Dark";
 
     settings = {
       window_padding_width = "8 8";
