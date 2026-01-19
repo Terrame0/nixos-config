@@ -6,6 +6,9 @@
     CLUTTER_BACKEND = "wayland";
     GTK_USE_PORTAL = "1";
     NIXOS_XDG_OPEN_USE_PORTAL = "1";
+    MOZ_ENABLE_WAYLAND = "1";
+    GDK_BACKEND = "wayland,x11";
+    QT_QPA_PLATFORM = "wayland;xcb";
   };
 
   programs.hyprland = {
