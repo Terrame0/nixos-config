@@ -1,5 +1,4 @@
 {pkgs, ...}: {
-
   # -- desktop environment
   services.desktopManager.gnome.enable = true;
 
