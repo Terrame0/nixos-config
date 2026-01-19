@@ -71,7 +71,7 @@
           background = "#373b41";
         };
         bright = {
-          black = "#000000";
+          black = "#373b41";
           red = "#d54e53";
           green = "#b9ca4a";
           yellow = "#e7c547";
@@ -81,14 +81,14 @@
           white = "#eaeaea";
         };
         normal = {
-          black = "#282a2e";
-          red = "#cc6666";
-          green = "#b5bd68";
-          yellow = "#f0c674";
-          blue = "#81a2be";
-          magenta = "#b294bb";
-          cyan = "#8abeb7";
-          white = "#c5c8c6";
+          black = "#373b41";
+          red = "#d54e53";
+          green = "#b9ca4a";
+          yellow = "#e7c547";
+          blue = "#7aa6da";
+          magenta = "#c397d8";
+          cyan = "#70c0b1";
+          white = "#eaeaea";
         };
       };
       window = {
