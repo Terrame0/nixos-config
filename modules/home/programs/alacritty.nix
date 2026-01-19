@@ -1,4 +1,4 @@
-{...}: {
+{pkgs,...}: {
   # foreground = "#c5c8c6"
   # background = "#1d1f21"
   # selection = "#373b41"
@@ -16,6 +16,9 @@
   programs.alacritty = {
     enable = true;
     settings = {
+      terminal = {
+        shell = "${pkgs.zsh}/bin/zsh}";
+      };
       colors = {
         transparent_background_colors = true;
         primary = {
@@ -32,10 +35,22 @@
             background = "#373b41";
           };
         };
+        hints = {
+          start = {
+            foreground = "#e78c45";
+            background = "CellBackground";
+          };
+          end = {
+            foreground = "#e78c45";
+            background = "CellBackground";
+          };
+        };
         line_indicator = {
+          foreground = "None";
           background = "#373b41";
         };
         footer_bar = {
+          foreground = "#7aa6da";
           background = "#373b41";
         };
         selection = {
@@ -63,6 +78,16 @@
           white = "#eaeaea";
         };
       };
+
+      
+
+      hints.enabled = {
+        regex = "http[s]?://[\\w\\.-]+";
+        hyperlinks = true;
+        action = "Select";
+        mouse.enabled = true;
+      };
+
       window = {
         padding = {
           x = 8;
@@ -74,6 +99,7 @@
         title = "Terminal";
         blur = true;
       };
+
       keyboard.bindings = [
         # -- latin keybinds
         {
