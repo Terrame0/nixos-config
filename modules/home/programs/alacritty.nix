@@ -1,4 +1,4 @@
-{pkgs, ...}: {
+{...}: {
   # foreground = "#c5c8c6"
   # background = "#1d1f21"
   # selection = "#373b41"

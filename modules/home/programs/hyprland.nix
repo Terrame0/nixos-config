@@ -1,7 +1,25 @@
-{...}: {
+{ ... }:
+
+let
+  terminal = "alacritty";
+  file-manager = "dolphin";
+  menu = "hyprlauncher";
+  super = "SUPER";
+in
+{
   wayland.windowManager.hyprland = {
     enable = true;
+
     settings = {
+      general = {
+        layout = "dwindle";
+        gaps_in = 5;
+        gaps_out = 20;
+        border_size = 0;
+        resize_on_border = false;
+        allow_tearing = false;
+      };
+
       decoration = {
         rounding = 10;
         rounding_power = 2;
@@ -11,7 +29,7 @@
           enabled = true;
           range = 10;
           render_power = 3;
-          "col.shadow" = "rgba(1a1a1aee)";
+          color = "rgba(1a1a1aee)";
         };
         blur = {
           enabled = true;
@@ -19,15 +37,6 @@
           passes = 4;
           vibrancy = 0.1696;
         };
-      };
-
-      general = {
-        gaps_in = 5;
-        gaps_out = 20;
-        border_size = 0;
-        resize_on_border = false;
-        allow_tearing = false;
-        layout = "dwindle";
       };
 
       animations = {
@@ -60,50 +69,48 @@
         ];
       };
 
-      "$mod" = "SUPER";
-
       bind = [
-        "$mod,q,exec,$terminal"
-        "$mod,c,killactive,"
-        "$mod,m,exec,command -v hyprshutdown >/dev/null 2>&1 && hyprshutdown || hyprctl dispatch exit"
-        "$mod,e,exec,$fileManager"
-        "$mod,v,togglefloating,"
-        "$mod,r,exec,$menu"
-        "$mod,p,pseudo,"
-        "$mod,j,togglesplit,"
-        "$mod,left,movefocus,l"
-        "$mod,right,movefocus,r"
-        "$mod,up,movefocus,u"
-        "$mod,down,movefocus,d"
-        "$mod,1,workspace,1"
-        "$mod,2,workspace,2"
-        "$mod,3,workspace,3"
-        "$mod,4,workspace,4"
-        "$mod,5,workspace,5"
-        "$mod,6,workspace,6"
-        "$mod,7,workspace,7"
-        "$mod,8,workspace,8"
-        "$mod,9,workspace,9"
-        "$mod,0,workspace,10"
-        "$mod,SHIFT,1,movetoworkspace,1"
-        "$mod,SHIFT,2,movetoworkspace,2"
-        "$mod,SHIFT,3,movetoworkspace,3"
-        "$mod,SHIFT,4,movetoworkspace,4"
-        "$mod,SHIFT,5,movetoworkspace,5"
-        "$mod,SHIFT,6,movetoworkspace,6"
-        "$mod,SHIFT,7,movetoworkspace,7"
-        "$mod,SHIFT,8,movetoworkspace,8"
-        "$mod,SHIFT,9,movetoworkspace,9"
-        "$mod,SHIFT,0,movetoworkspace,10"
-        "$mod,s,togglespecialworkspace,magic"
-        "$mod,SHIFT,s,movetoworkspace,special:magic"
-        "$mod,mouse_down,workspace,e+1"
-        "$mod,mouse_up,workspace,e-1"
+        "${super},q,exec,${terminal}"
+        "${super},c,killactive,"
+        "${super},m,exec,sh -c 'command -v hyprshutdown >/dev/null 2>&1 && hyprshutdown || hyprctl dispatch exit'"
+        "${super},e,exec,${file-manager}"
+        "${super},v,togglefloating,"
+        "${super},r,exec,${menu}"
+        "${super},p,pseudo,"
+        "${super},j,togglesplit,"
+        "${super},left,movefocus,l"
+        "${super},right,movefocus,r"
+        "${super},up,movefocus,u"
+        "${super},down,movefocus,d"
+        "${super},1,workspace,1"
+        "${super},2,workspace,2"
+        "${super},3,workspace,3"
+        "${super},4,workspace,4"
+        "${super},5,workspace,5"
+        "${super},6,workspace,6"
+        "${super},7,workspace,7"
+        "${super},8,workspace,8"
+        "${super},9,workspace,9"
+        "${super},0,workspace,10"
+        "${super}+SHIFT,1,movetoworkspace,1"
+        "${super}+SHIFT,2,movetoworkspace,2"
+        "${super}+SHIFT,3,movetoworkspace,3"
+        "${super}+SHIFT,4,movetoworkspace,4"
+        "${super}+SHIFT,5,movetoworkspace,5"
+        "${super}+SHIFT,6,movetoworkspace,6"
+        "${super}+SHIFT,7,movetoworkspace,7"
+        "${super}+SHIFT,8,movetoworkspace,8"
+        "${super}+SHIFT,9,movetoworkspace,9"
+        "${super}+SHIFT,0,movetoworkspace,10"
+        "${super},s,togglespecialworkspace,magic"
+        "${super}+SHIFT,s,movetoworkspace,special:magic"
+        "${super},mouse_down,workspace,e+1"
+        "${super},mouse_up,workspace,e-1"
       ];
 
       bindm = [
-        "$mod,mouse:272,movewindow"
-        "$mod,mouse:273,resizewindow"
+        "${super},mouse:272,movewindow"
+        "${super},mouse:273,resizewindow"
       ];
 
       bindel = [
