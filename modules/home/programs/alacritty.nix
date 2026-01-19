@@ -39,7 +39,7 @@
           background = "#373b41";
         };
         selection = {
-          text = "CellForeground"; 
+          text = "CellForeground";
           background = "#373b41";
         };
         bright = {
