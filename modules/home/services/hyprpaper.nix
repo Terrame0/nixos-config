@@ -13,7 +13,7 @@
       wallpaper = [
         "DP-1,${wallpaper}"
       ];
-      offset = ["0.0" "-0.2"];
+      offset = ["0.0" "0.2"];
     };
   };
 }
