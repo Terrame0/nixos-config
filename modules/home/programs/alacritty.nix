@@ -12,6 +12,35 @@
   # sel #474c52
   # cur #35383c
   # bg #27292c
+
+  # let s:foreground = "#c5c8c6"
+  # let s:background = "#1d1f21"
+  # let s:selection = "#373b41"
+  # let s:line = "#282a2e"
+  # let s:comment = "#969896"
+  # let s:red = "#cc6666"
+  # let s:orange = "#de935f"
+  # let s:yellow = "#f0c674"
+  # let s:green = "#b5bd68"
+  # let s:aqua = "#8abeb7"
+  # let s:blue = "#81a2be"
+  # let s:purple = "#b294bb"
+  # let s:window = "#4d5057"
+
+  # -- BRIGHT
+  # let s:foreground = "#eaeaea"
+  # let s:background = "#000000"
+  # let s:selection = "#424242"
+  # let s:line = "#2a2a2a"
+  # let s:comment = "#969896"
+  # let s:red = "#d54e53"
+  # let s:orange = "#e78c45"
+  # let s:yellow = "#e7c547"
+  # let s:green = "#b9ca4a"
+  # let s:aqua = "#70c0b1"
+  # let s:blue = "#7aa6da"
+  # let s:purple = "#c397d8"
+  # let s:window = "#4d5057"
   programs.alacritty = {
     enable = true;
     theme = "vscode";
@@ -19,40 +48,50 @@
       colors = {
         transparent_background_colors = true;
         primary = {
-          foreground = "#d7dad8";
-          background = "#27292c";
+          foreground = "#c5c8c6";
+          background = "#1d1f21";
         };
         search = {
           matches = {
-            foreground = "#a7a8a7";
-            background = "#474c52";
+            foreground = "None";
+            background = "#373b41";
           };
           focused_match = {
-            foreground = "#d7dad8";
-            background = "#474c52";
+            foreground = "#f0c674";
+            background = "#373b41";
           };
         };
         line_indicator = {
-          foreground = "#d7dad8";
-          background = "#474c52";
+          foreground = "None";
+          background = "#373b41";
         };
         footer_bar = {
-          foreground = "#d7dad8";
-          background = "#474c52";
+          foreground = "None";
+          background = "#373b41";
         };
         selection = {
-          foreground = "#d7dad8";
-          background = "#474c52";
+          foreground = "None";
+          background = "#373b41";
+        };
+        bright = {
+          black = "#000000";
+          red = "#d54e53";
+          green = "#b9ca4a";
+          yellow = "#e7c547";
+          blue = "#7aa6da";
+          magenta = "#c397d8";
+          cyan = "#70c0b1";
+          white = "#eaeaea";
         };
         normal = {
-          black = "#27292c";
-          red = "#d77c79";
-          green = "#c2c77b";
-          yellow = "#f4cf86";
-          blue = "#92b2ca";
-          magenta = "#c0a7c7";
-          cyan = "#9ac9c4";
-          white = "#d7dad8";
+          black = "#282a2e";
+          red = "#cc6666";
+          green = "#b5bd68";
+          yellow = "#f0c674";
+          blue = "#81a2be";
+          magenta = "#b294bb";
+          cyan = "#8abeb7";
+          white = "#c5c8c6";
         };
       };
       window = {
