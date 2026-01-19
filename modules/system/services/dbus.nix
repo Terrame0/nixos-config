@@ -1,3 +1,3 @@
-{lib,...}:{
-    services.dbus.implementation = lib.mkForce "dbus";
+{lib, ...}: {
+  services.dbus.implementation = lib.mkForce "dbus";
 }

@@ -12,7 +12,7 @@
   };
 in {
   nixpkgs.overlays = [myOverlay];
-  environment.systemPackages = [
-    # -- packages from the unstable branch go here
+  environment.systemPackages = with pkgs; [
+    hyprland
   ];
 }
