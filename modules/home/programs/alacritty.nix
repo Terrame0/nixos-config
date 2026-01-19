@@ -16,9 +16,6 @@
   programs.alacritty = {
     enable = true;
     settings = {
-      terminal = {
-        shell = pkgs.zsh;
-      };
       colors = {
         transparent_background_colors = true;
         primary = {
