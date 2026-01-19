@@ -39,7 +39,7 @@
           background = "#373b41";
         };
         selection = {
-          foreground = "${"CellForeground"}";
+          text = "CellForeground"; 
           background = "#373b41";
         };
         bright = {
