@@ -7,12 +7,9 @@
       system = pkgs.stdenv.hostPlatform.system;
       config = {};
     };
-  myOverlay = self: super: {
-    discordo = unstable.discordo;
+  overlay = self: super: {
+    hyprland = unstable.hyprland;
   };
 in {
-  nixpkgs.overlays = [myOverlay];
-  environment.systemPackages = with pkgs; [
-    hyprland
-  ];
+  nixpkgs.overlays = [overlay];
 }
