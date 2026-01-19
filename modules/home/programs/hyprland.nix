@@ -1,12 +1,9 @@
-{ ... }:
-
-let
+{...}: let
   terminal = "alacritty";
   file-manager = "dolphin";
   menu = "hyprlauncher";
   super = "SUPER";
-in
-{
+in {
   wayland.windowManager.hyprland = {
     enable = true;
 
