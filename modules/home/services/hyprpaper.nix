@@ -9,11 +9,10 @@
     in {
       ipc = "on";
       splash = false;
-      preload = ["${wallpaper}"];
+      preload = ["~/wallpaper.png"];
       wallpaper = [
-        "DP-1,${wallpaper}"
+        "DP-1,~/wallpaper.png"
       ];
-      offset = "0.0 -0.2";
     };
   };
 }
