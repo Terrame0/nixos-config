@@ -1,4 +1,4 @@
-{pkgs,...}: {
+{pkgs, ...}: {
   # foreground = "#c5c8c6"
   # background = "#1d1f21"
   # selection = "#373b41"
@@ -78,8 +78,6 @@
           white = "#eaeaea";
         };
       };
-
-      
 
       hints.enabled = {
         regex = "http[s]?://[\\w\\.-]+";
