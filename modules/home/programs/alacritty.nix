@@ -53,8 +53,8 @@
         };
         search = {
           matches = {
-            foreground = "None";
-            background = "#373b41";
+            foreground = "#f0c674";
+            background = "#1d1f21";
           };
           focused_match = {
             foreground = "#f0c674";
@@ -62,15 +62,12 @@
           };
         };
         line_indicator = {
-          foreground = "None";
           background = "#373b41";
         };
         footer_bar = {
-          foreground = "None";
           background = "#373b41";
         };
         selection = {
-          foreground = "None";
           background = "#373b41";
         };
         bright = {
