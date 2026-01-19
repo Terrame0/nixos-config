@@ -76,6 +76,7 @@ function FindProxyForURL(url, host) {
     "wikimedia.org",
     "archive.org",
     "rutracker.org",
+    "itsfoss.com1080",
     // "cloudflareinsights.com",
     // "cloudfront.net"
   ];

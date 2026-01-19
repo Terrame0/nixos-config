@@ -14,12 +14,12 @@
     tree
 
     # -- hyprland
-    # waybar
-    # hyprpaper
-    # wl-clipboard
-    # mako
-    # pamixer
-    # xdg-desktop-portal
+    waybar
+    hyprpaper
+    wl-clipboard
+    mako
+    pamixer
+    xdg-desktop-portal
 
     # -- desktop apps
     gparted
