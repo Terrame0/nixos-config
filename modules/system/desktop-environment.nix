@@ -1,4 +1,8 @@
 {pkgs, ...}: {
+
+  # -- make chromium and electron based apps use wayland instead of xwayland
+  environment.sessionVariables.NIXOS_OZONE_WL = "1";
+
   # -- desktop environment
   services.desktopManager.gnome.enable = true;
 

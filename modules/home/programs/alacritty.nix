@@ -8,22 +8,19 @@
   # aqu #9ac9c4
   # blu #92b2ca
   # pur #c0a7c7
-  # 
+  #
   # sel #474c52
   # cur #35383c
   # bg #27292c
-  # -- run vscode under
-  environment.sessionVariables.NIXOS_OZONE_WL = "1";
   programs.alacritty = {
     enable = true;
     theme = "vscode";
     settings = {
       colors = {
         transparent_background_colors = true;
-        primary ={
+        primary = {
           foreground = "#d7dad8";
           background = "#27292c";
-
         };
         search = {
           matches = {
@@ -37,15 +34,15 @@
         };
         line_indicator = {
           foreground = "#d7dad8";
-          background = "#474c52"; 
+          background = "#474c52";
         };
         footer_bar = {
           foreground = "#d7dad8";
-          background = "#474c52"; 
+          background = "#474c52";
         };
         selection = {
           foreground = "#d7dad8";
-          background = "#474c52"; 
+          background = "#474c52";
         };
         normal = {
           black = "#27292c";
