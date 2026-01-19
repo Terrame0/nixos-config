@@ -17,7 +17,7 @@
     enable = true;
     settings = {
       terminal = {
-        shell = "${pkgs.zsh}/bin/zsh}";
+        shell = pkgs.zsh;
       };
       colors = {
         transparent_background_colors = true;
