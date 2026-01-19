@@ -35,16 +35,6 @@
             background = "#373b41";
           };
         };
-        hints = {
-          start = {
-            foreground = "#e78c45";
-            background = "CellBackground";
-          };
-          end = {
-            foreground = "#e78c45";
-            background = "CellBackground";
-          };
-        };
         line_indicator = {
           foreground = "None";
           background = "#373b41";
@@ -77,13 +67,6 @@
           cyan = "#70c0b1";
           white = "#eaeaea";
         };
-      };
-
-      hints.enabled = {
-        regex = "http[s]?://[\\w\\.-]+";
-        hyperlinks = true;
-        action = "Select";
-        mouse.enabled = true;
       };
 
       window = {
