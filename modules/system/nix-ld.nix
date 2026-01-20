@@ -1,8 +1,5 @@
 {pkgs, ...}: {
   # -- nix-ld (run unpatched binaries)
-  # Automatically creates a loader in /lib/*
-  # To disable temporarily:
-  #   unset NIX_LD
   programs.nix-ld = {
     enable = true;
 
