@@ -1,13 +1,20 @@
-{...}: let
+{pkgs, ...}: let
   terminal = "alacritty";
   file-manager = "dolphin";
   menu = "hyprlauncher";
   super = "SUPER";
 in {
   wayland.windowManager.hyprland = {
+    
     enable = true;
 
     settings = {
+      exec-once = [
+        "systemctl --user stop waybar.service"
+        "waybar"
+        "${menu} -d"
+      ];
+
       general = {
         layout = "dwindle";
         gaps_in = 5;

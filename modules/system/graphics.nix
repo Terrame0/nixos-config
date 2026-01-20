@@ -5,12 +5,6 @@
     enable32Bit = true;
   };
 
-  # -- xserver
-  services.xserver = {
-    enable = true;
-    videoDrivers = ["nvidia"];
-  };
-
   # -- nvidia configuration
   hardware.nvidia = {
     modesetting.enable = true;
@@ -18,6 +12,5 @@
     powerManagement.finegrained = false;
     nvidiaSettings = true;
     open = true;
-    forceFullCompositionPipeline = true;
   };
 }

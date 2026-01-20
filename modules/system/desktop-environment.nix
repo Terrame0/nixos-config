@@ -1,32 +1,43 @@
 {pkgs, ...}: {
-  # -- desktop environment
-  services.desktopManager.gnome.enable = true;
+  # -- xserver
+  services.xserver = {
+    enable = true;
+    videoDrivers = ["nvidia"];
+    displayManager.startx.enable = true;
+  };
 
-  # -- login screen
-  services.displayManager.gdm.enable = true;
+  environment.sessionVariables = {
+    # -- force apps to use wayland
+    NIXOS_OZONE_WL = "1";
+    GDK_BACKEND = "wayland,x11,*";
+    QT_QPA_PLATFORM = "wayland;xcb";
+    SDL_VIDEODRIVER = "wayland";
+    CLUTTER_BACKEND = "wayland";
+    # -- force to use nvidia
+    LIBVA_DRIVER_NAME = "nvidia";
+    __GLX_VENDOR_LIBRARY_NAME = "nvidia";
+    # -- set gtk themes
+    GTK_THEME = "Adwaita-dark";
+    XCURSOR_THEME = "Adwaita";
+    XCURSOR_SIZE = "24";
+  };
 
-  # -- remove gnome preinstalled apps
+  programs.waybar.enable = true;
+
+  programs.hyprland = {
+    package = pkgs.hyprland;
+    enable = true;
+    xwayland.enable = true;
+  };
+  environment.systemPackages = with pkgs; [
+    # -- hyprland
+    #waybar
+    hyprpaper
+    mako
+    hyprlauncher
+  ];
+
+  # -- remove preinstalled apps
   documentation.nixos.enable = false;
   services.xserver.excludePackages = [pkgs.xterm];
-  environment.gnome.excludePackages = with pkgs; [
-    cheese
-    epiphany
-    simple-scan
-    yelp
-    file-roller
-    geary
-    seahorse
-    gnome-console
-    gnome-photos
-    gnome-tour
-    gnome-contacts
-    gnome-font-viewer
-    gnome-logs
-    gnome-maps
-    gnome-music
-    gnome-photos
-    gnome-weather
-    gnome-disk-utility
-    gnome-connections
-  ];
 }
