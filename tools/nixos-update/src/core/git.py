@@ -41,6 +41,9 @@ def clone_from_github():
     print("\033[32m✔ cloned successfuly\033[0m")
 
 def fetch_and_merge():
+    if has_local_changes():
+        create_commit("WIP")
+    print(f"\033[36m↹ checking out branch [{script_args().branch}]\033[0m")
     print("\033[36m⇊ fetching from remote...\033[0m")
     run(f"git fetch {script_args().remote}")
     print("\033[32m✔ fetched successfuly\033[0m")
