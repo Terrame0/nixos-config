@@ -20,7 +20,7 @@
 
   # -- using an unstable version (overridden in an overlay)
   programs.hyprland = {
-    package = pkgs.hyprland; 
+    package = pkgs.hyprland;
     enable = true;
     xwayland.enable = true;
   };
