@@ -20,6 +20,7 @@
 
   # -- using an unstable version (overridden in an overlay)
   programs.hyprland = {
+    withUSWM = true;
     package = pkgs.hyprland;
     enable = true;
     xwayland.enable = true;
