@@ -8,10 +8,6 @@
     nix-ld
     pacproxy
     nixos-update-script.packages.${pkgs.system}.default
-
-    # -- gtk themes
-    gnome-themes-extra
-    adwaita-icon-theme
   ];
 
   # -- remove preinstalled apps
