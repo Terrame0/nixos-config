@@ -3,7 +3,6 @@
   services.xserver = {
     enable = true;
     videoDrivers = ["nvidia"];
-    displayManager.startx.enable = true;
   };
 
   environment.sessionVariables = {
