@@ -1,6 +1,6 @@
 {
   lib,
-  config,
+  pkgs,
   ...
 }: {
   # -- duplicating this option so the package
@@ -10,8 +10,13 @@
     enable = true;
     settings = {
       default_session = {
-        command = "${lib.getExe config.programs.uwsm.package} start -e -D Hyprland hyprland-uwsm.desktop";
-        user = "terrame";
+        command = ''
+          ${pkgs.greetd.tuigreet}/bin/tuigreet
+            --time
+            --remember
+            --cmd "${lib.getExe pkgs.uwsm} start -e -D Hyprland hyprland-uwsm.desktop"
+        '';
+        user = "greeter";
       };
     };
   };
