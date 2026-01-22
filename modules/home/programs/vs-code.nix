@@ -11,6 +11,7 @@
         charliermarsh.ruff
         mads-hartmann.bash-ide-vscode
         llvm-vs-code-extensions.vscode-clangd
+        ecmel.vscode-html-css
       ];
       # -- settings.json
       userSettings = {
