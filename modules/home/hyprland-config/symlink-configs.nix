@@ -1,6 +1,5 @@
 {
   config,
-  pkgs,
   ...
 }: let
   config-dir = "./config";
@@ -8,8 +7,8 @@
 
   configs = {
     hypr = "hypr";
-    rofi = "rofi";
-    waybar = "waybar";
+    # rofi = "rofi";
+    # waybar = "waybar";
   };
 in {
   xdg.configFile =
