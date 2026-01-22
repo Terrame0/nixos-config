@@ -1,5 +1,8 @@
-{ lib, config, ... }:
 {
+  lib,
+  config,
+  ...
+}: {
   # -- duplicating this option so the package
   # -- is available in system configuration
   programs.uwsm.enable = true;
