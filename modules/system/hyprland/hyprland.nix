@@ -8,7 +8,7 @@
 
   environment.sessionVariables = {
     # -- force apps to use wayland
-    NIXOS_OZONE_WL = "1";
+    NIXOS_OZONE_WL = "0";
     GDK_BACKEND = "wayland,x11,*";
     QT_QPA_PLATFORM = "wayland;xcb";
     SDL_VIDEODRIVER = "wayland";
