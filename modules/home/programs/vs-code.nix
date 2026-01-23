@@ -95,8 +95,8 @@ in {
           "editor.foreground" = colors.foreground;
 
           # selection style: use green bg and dark text (text = background color)
-          "editor.selectionBackground" = colors.selection;
-          "editor.selectionForeground" = colors.foreground;
+          "editor.selectionBackground" = colors.green;
+          "editor.selectionForeground" = colors.background;
 
           # editor line highlight kept subtle
           "editor.lineHighlightBackground" = colors.line;
@@ -131,6 +131,16 @@ in {
           "panelTitle.inactiveForeground" = colors.comment;
 
           # -- tabs
+          # disable problem-based tab emphasis as much as possible
+          "problems.decorations.enabled" = false;
+
+          # force tab colors even under warning state
+          "tab.activeModifiedForeground" = colors.background;
+
+          # kill any remaining emphasis borders
+          "tab.activeModifiedBorder" = "#00000000";
+          "tab.activeBorder" = "#00000000";
+
           # replace selection-border approach: active tab = green bg, text = background color
           "tab.activeBackground" = colors.green;
           "tab.activeForeground" = colors.background;
@@ -194,6 +204,7 @@ in {
           "editorOverviewRuler.modifiedForeground" = "${colors.yellow}99";
           "editorOverviewRuler.deletedForeground" = "${colors.red}99";
           "editorOverviewRuler.commonContentForeground" = "${colors.window}99";
+          "editorOverviewRuler.warningForeground" = colors.orange;
 
           # -- diagnostics (problems)
           "editorError.foreground" = colors.red;
@@ -257,6 +268,46 @@ in {
           "terminal.ansiBrightCyan" = colors.aqua;
           "terminal.ansiBrightWhite" = colors.foreground;
 
+          # word under cursor / hover highlight
+          "editor.wordHighlightBackground" = colors.selection;
+          "editor.wordHighlightStrongBackground" = colors.selection;
+
+          # symbol occurrences
+          "editor.selectionHighlightBackground" = colors.selection;
+
+          # hover widget itself
+          "editorHoverWidget.background" = colors.line;
+          "editorHoverWidget.foreground" = colors.foreground;
+          "editorHoverWidget.border" = colors.line;
+
+          "editor.wordHighlightBorder" = "#00000000";
+          "editor.wordHighlightStrongBorder" = "#00000000";
+          "editor.selectionHighlightBorder" = "#00000000";
+
+          # suggest / autocomplete widget
+          "suggestWidget.background" = colors.background;
+          "suggestWidget.foreground" = colors.foreground;
+          "suggestWidget.border" = colors.line;
+
+          # selected item
+          "suggestWidget.selectedBackground" = colors.selection;
+          "suggestWidget.selectedForeground" = colors.foreground;
+
+          # matched text
+          "suggestWidget.highlightForeground" = colors.yellow;
+
+          # documentation pane inside suggest
+          "suggestWidget.focusHighlightForeground" = colors.blue;
+
+          # scrollbar inside suggest widget
+          "suggestWidgetScrollbarSlider.background" = colors.window;
+          "suggestWidgetScrollbarSlider.hoverBackground" = colors.comment;
+          "suggestWidgetScrollbarSlider.activeBackground" = colors.foreground;
+
+          # docs popup inside completion
+          "editorSuggestWidget.background" = colors.background;
+          "editorSuggestWidget.border" = colors.line;
+
           # -- buttons, badges, extension buttons
           "button.background" = colors.blue;
           "button.foreground" = colors.background;
@@ -317,7 +368,7 @@ in {
 
           # -- bracket highlighting (make all bracket depths the same color)
           # remove border and use green background to follow the 'selection as green' pattern
-          "editorBracketMatch.background" = colors.selection;
+          "editorBracketMatch.background" = "#00000000";
           "editorBracketMatch.border" = "#00000000";
           "editorBracketHighlight.foreground1" = colors.purple;
           "editorBracketHighlight.foreground2" = colors.purple;
@@ -341,6 +392,10 @@ in {
           "editorBracketPairGuide.background4" = "#00000000";
           "editorBracketPairGuide.background5" = "#00000000";
           "editorBracketPairGuide.background6" = "#00000000";
+
+          # thin vertical line connecting brackets
+          "editor.guides.bracketPairs" = colors.line;
+          "editor.guides.bracketPairsActive" = colors.selection;
         };
 
         # -- ensure bracket pair colorization is enabled
