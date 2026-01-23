@@ -82,7 +82,7 @@ in {
           "editorLineNumber.activeForeground" = colors.foreground;
 
           # Sidebar
-          "sideBar.background" = colors.background;
+          "sideBar.background" = colors.line;
           "sideBar.foreground" = colors.foreground;
           "sideBar.border" = colors.line;
 
@@ -105,6 +105,25 @@ in {
           "tab.inactiveBackground" = colors.background;
 
           "tab.border" = colors.line;
+
+          # Errors
+          "editorError.foreground" = colors.red;
+          "editorError.border" = colors.red;
+
+          # Warnings
+          "editorWarning.foreground" = colors.orange;
+          "editorWarning.border" = colors.orange;
+
+          # Info / hints
+          "editorInfo.foreground" = colors.blue;
+          "editorInfo.border" = colors.blue;
+
+          # Deprecated (strikethrough)
+          "editorDeprecated.foreground" = colors.window;
+
+          "editor.errorDecoration" = "underline";
+          "editor.warningDecoration" = "underline";
+          "editor.infoDecoration" = "underline";
         };
 
         # -- syntax theming
@@ -148,6 +167,15 @@ in {
             {
               scope = "variable";
               settings.foreground = colors.foreground;
+            }
+            {
+              scope = [
+                "entity.other.attribute-name"
+                "entity.other.attribute-name.multipart.nix"
+              ];
+              settings = {
+                foreground = colors.foreground;
+              };
             }
           ];
         };
