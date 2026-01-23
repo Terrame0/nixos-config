@@ -114,15 +114,6 @@ in {
           "sideBar.foreground" = colors.foreground;
           "sideBar.border" = colors.transparent;
 
-          # -- explorer selection (restore green selection here)
-          "list.activeSelectionBackground" = colors.green;
-          "list.activeSelectionForeground" = colors.background;
-          "list.activeSelectionIconForeground" = colors.background;
-          "list.inactiveSelectionBackground" = colors.line;
-          "list.inactiveSelectionForeground" = colors.foreground;
-          "list.hoverBackground" = colors.selection;
-          "list.focusOutline" = colors.transparent;
-          "tree.indentGuidesStroke" = colors.line;
 
           # -- tabs: return green selection for editor tabs
           # active tab = green background, text = background color (consistent with explorer)
@@ -393,9 +384,15 @@ in {
 
           # list renderer (used by suggest widget rows)
           "list.foreground" = colors.foreground;
-          "list.activeSelectionForeground" = colors.background;
-          "list.inactiveSelectionForeground" = colors.foreground;
           "list.hoverForeground" = colors.foreground;
+          "list.activeSelectionBackground" = colors.green;
+          "list.activeSelectionForeground" = colors.background;
+          "list.activeSelectionIconForeground" = colors.background;
+          "list.inactiveSelectionBackground" = colors.line;
+          "list.inactiveSelectionForeground" = colors.foreground;
+          "list.hoverBackground" = colors.selection;
+          "list.focusOutline" = colors.transparent;
+          "tree.indentGuidesStroke" = colors.line;
 
           # quick input renderer (shared by suggest widget internals)
           "quickInput.background" = colors.background;
