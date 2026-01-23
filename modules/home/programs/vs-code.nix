@@ -176,9 +176,9 @@ in {
           "editorHint.foreground" = colors.comment;
 
           # -- search
-          "editor.findMatchBackground" = colors.yellow;
-          "editor.findMatchBorder" = colors.orange;
-          "editor.findMatchHighlightBackground" = colors.orange;
+          "editor.findMatchBackground" = colors.line;
+          "editor.findMatchBorder" = colors.line;
+          "editor.findMatchHighlightBackground" = colors.selection;
 
           # -- welcome
           "welcomePage.background" = colors.background;
