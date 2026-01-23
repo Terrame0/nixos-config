@@ -1,26 +1,32 @@
-{pkgs, ...}: let
+{ pkgs, ... }:
+
+let
   colors = {
     foreground = "#c5c8c6";
     background = "#1d1f21";
-    selection = "#373b41";
-    line = "#282a2e";
-    comment = "#969896";
-    red = "#d54e53";
+    selection  = "#373b41";
+    line       = "#282a2e";
+    comment    = "#969896";
+
+    red    = "#d54e53";
     orange = "#e78c45";
     yellow = "#e7c547";
-    green = "#b9ca4a";
-    aqua = "#70c0b1";
-    blue = "#7aa6da";
+    green  = "#b9ca4a";
+    aqua   = "#70c0b1";
+    blue   = "#7aa6da";
     purple = "#c397d8";
+
     window = "#4d5057";
   };
-in {
+in
+{
   programs.vscode = {
     enable = true;
     package = pkgs.vscode-fhs;
     mutableExtensionsDir = false;
 
     profiles.default = {
+      # -- extensions
       extensions = with pkgs.vscode-extensions; [
         ms-python.python
         jnoortheen.nix-ide
@@ -30,46 +36,51 @@ in {
         ecmel.vscode-html-css
       ];
 
+      # -- settings.json
       userSettings = {
-        # -- misc tweaks
+
+        # -- misc
         "keyboard.dispatch" = "keyCode";
         "security.workspace.trust.untrustedFiles" = "open";
-        "explorer.confirmDelete" = false;
-        "explorer.confirmDragAndDrop" = false;
         "telemetry.telemetryLevel" = "off";
         "chat.disableAIFeatures" = true;
 
-        # -- nix linting
-        "nix.enableLanguageServer" = true;
-        "nix.formatterPath" = "alejandra";
-        "nix.serverPath" = "nixd";
-        "nix.hiddenLanguageServerErrors" = ["textDocument/definition"];
+        "explorer.confirmDelete" = false;
+        "explorer.confirmDragAndDrop" = false;
 
-        # -- terminal
-        "terminal.external.linuxExec" = "alacritty";
-
-        # -- disable updates
+        # -- updates
         "update.mode" = "none";
         "extensions.autoUpdate" = false;
         "extensions.autoCheckUpdates" = false;
 
-        # -- cursor
-        "editor.cursorSmoothCaretAnimation" = "on";
-        "editor.cursorBlinking" = "solid";
-        "editor.cursorStyle" = "line";
+        # -- nix
+        "nix.enableLanguageServer" = true;
+        "nix.formatterPath" = "alejandra";
+        "nix.serverPath" = "nixd";
+        "nix.hiddenLanguageServerErrors" = [ "textDocument/definition" ];
 
-        # -- general appearance
-        "workbench.tree.indent" = 20;
-        "editor.minimap.enabled" = false;
-        "editor.fontLigatures" = true;
+        # -- fonts & cursor
         "editor.fontFamily" = "JetBrainsMono Nerd Font";
+        "editor.fontLigatures" = true;
+
+        "editor.cursorStyle" = "line";
+        "editor.cursorBlinking" = "solid";
+        "editor.cursorSmoothCaretAnimation" = "on";
+
+        # -- editor layout
+        "editor.minimap.enabled" = false;
+        "workbench.tree.indent" = 20;
+
         "workbench.colorTheme" = "Default Dark Modern";
         "workbench.iconTheme" = "vs-seti";
 
-        # -- UI theming
-        "workbench.colorCustomizations" = {
-          "editor.semanticHighlighting.enabled" = false;
+        # ============================================================
+        # -- ui theming
+        # ============================================================
 
+        "workbench.colorCustomizations" = {
+
+          # -- core editor
           "editor.background" = colors.background;
           "editor.foreground" = colors.foreground;
 
@@ -81,107 +92,40 @@ in {
           "editorLineNumber.foreground" = colors.window;
           "editorLineNumber.activeForeground" = colors.foreground;
 
-          # Sidebar
+          # -- focus & borders
+          "focusBorder" = colors.blue;
+          "contrastBorder" = colors.line;
+
+          # -- sidebar / activity / status
           "sideBar.background" = colors.background;
           "sideBar.foreground" = colors.foreground;
           "sideBar.border" = colors.line;
 
-          # Activity bar
           "activityBar.background" = colors.background;
           "activityBar.foreground" = colors.foreground;
           "activityBar.inactiveForeground" = colors.comment;
           "activityBar.border" = colors.line;
 
-          # Status bar
           "statusBar.background" = colors.background;
           "statusBar.foreground" = colors.foreground;
           "statusBar.border" = colors.line;
 
-          # Tabs
+          # -- panels
+          "panel.background" = colors.background;
+          "panel.border" = colors.line;
+          "panelTitle.activeForeground" = colors.foreground;
+          "panelTitle.inactiveForeground" = colors.comment;
+
+          # -- tabs
           "tab.activeBackground" = colors.selection;
           "tab.activeForeground" = colors.foreground;
 
-          "tab.inactiveForeground" = colors.comment;
           "tab.inactiveBackground" = colors.background;
+          "tab.inactiveForeground" = colors.comment;
 
           "tab.border" = colors.line;
 
-          # Errors
-          "editorError.foreground" = colors.red;
-          "editorError.border" = colors.red;
-
-          # Warnings
-          "editorWarning.foreground" = colors.orange;
-          "editorWarning.border" = colors.orange;
-
-          # Info / hints
-          "editorInfo.foreground" = colors.blue;
-          "editorInfo.border" = colors.blue;
-
-          # Deprecated (strikethrough)
-          "editorDeprecated.foreground" = colors.window;
-
-          "editor.errorDecoration" = "underline";
-          "editor.warningDecoration" = "underline";
-          "editor.infoDecoration" = "underline";
-
-          # Terminal panel
-          "terminal.background" = colors.background;
-          "terminal.foreground" = colors.foreground;
-
-          "terminal.border" = colors.line;
-
-          # Cursor
-          "terminalCursor.foreground" = colors.foreground;
-          "terminalCursor.background" = colors.background;
-
-          # Selection
-          "terminal.selectionBackground" = colors.selection;
-
-          # ANSI bright black used for separators
-          "terminal.ansiBrightBlack" = colors.window;
-
-          "terminal.integrated.colorPalette" = [
-            # 0–7: normal
-            colors.background # black
-            colors.red # red
-            colors.green # green
-            colors.yellow # yellow
-            colors.blue # blue
-            colors.purple # magenta
-            colors.aqua # cyan
-            colors.foreground # white
-
-            # 8–15: bright
-            colors.window # bright black (gray)
-            colors.red # bright red
-            colors.green # bright green
-            colors.yellow # bright yellow
-            colors.blue # bright blue
-            colors.purple # bright magenta
-            colors.aqua # bright cyan
-            colors.foreground # bright white
-          ];
-
-          "terminal.integrated.fontFamily" = "JetBrainsMono Nerd Font";
-          "terminal.integrated.fontLigatures" = true;
-
-          "terminal.integrated.cursorBlinking" = false;
-          "terminal.integrated.cursorStyle" = "line";
-
-          # -- Welcome / Getting Started
-          "welcomePage.background" = colors.background;
-
-          "welcomePage.tileBackground" = colors.line;
-          "welcomePage.tileHoverBackground" = colors.selection;
-          "welcomePage.tileBorder" = colors.line;
-          "welcomePage.tileShadow" = "#00000000";
-
-          "welcomePage.progress.background" = colors.line;
-          "welcomePage.progress.foreground" = colors.blue;
-
-          # -- Explorer
-
+          # -- lists & trees
           "list.activeSelectionBackground" = colors.selection;
           "list.activeSelectionForeground" = colors.foreground;
 
@@ -192,94 +136,99 @@ in {
           "list.hoverForeground" = colors.foreground;
 
           "list.focusOutline" = colors.blue;
-
           "tree.indentGuidesStroke" = colors.line;
 
-          # -- Search
-          "searchEditor.findMatchBackground" = colors.yellow;
-          "searchEditor.findMatchBorder" = colors.orange;
+          # -- inputs
+          "input.background" = colors.line;
+          "input.foreground" = colors.foreground;
+          "input.border" = colors.line;
 
+          "dropdown.background" = colors.line;
+          "dropdown.foreground" = colors.foreground;
+          "dropdown.border" = colors.line;
+
+          # -- scrollbar
+          "scrollbarSlider.background" = colors.window;
+          "scrollbarSlider.hoverBackground" = colors.comment;
+          "scrollbarSlider.activeBackground" = colors.foreground;
+
+          # -- git decorations
+          "gitDecoration.modifiedResourceForeground" = colors.orange;
+          "gitDecoration.addedResourceForeground" = colors.green;
+          "gitDecoration.deletedResourceForeground" = colors.red;
+          "gitDecoration.untrackedResourceForeground" = colors.aqua;
+          "gitDecoration.ignoredResourceForeground" = colors.comment;
+
+          # -- diagnostics
+          "editorError.foreground" = colors.red;
+          "editorWarning.foreground" = colors.orange;
+          "editorInfo.foreground" = colors.blue;
+          "editorHint.foreground" = colors.comment;
+
+          # -- search
           "editor.findMatchBackground" = colors.yellow;
+          "editor.findMatchBorder" = colors.orange;
           "editor.findMatchHighlightBackground" = colors.orange;
 
-          "editor.findMatchBorder" = colors.orange;
-          "editor.findMatchHighlightBorder" = colors.orange;
+          # -- welcome
+          "welcomePage.background" = colors.background;
+          "welcomePage.tileBackground" = colors.line;
+          "welcomePage.tileHoverBackground" = colors.selection;
+          "welcomePage.tileBorder" = colors.line;
+          "welcomePage.tileShadow" = "#00000000";
 
-          # -- Debug
+          # -- debug
           "debugToolBar.background" = colors.line;
           "debugToolBar.border" = colors.line;
 
-          "debugIcon.breakpointForeground" = colors.red;
-          "debugIcon.breakpointDisabledForeground" = colors.comment;
-          "debugIcon.breakpointUnverifiedForeground" = colors.orange;
+          # -- terminal
+          "terminal.background" = colors.background;
+          "terminal.foreground" = colors.foreground;
+          "terminal.border" = colors.line;
 
-          "debugConsole.infoForeground" = colors.blue;
-          "debugConsole.warningForeground" = colors.yellow;
-          "debugConsole.errorForeground" = colors.red;
+          "terminalCursor.foreground" = colors.foreground;
+          "terminal.selectionBackground" = colors.selection;
 
-          # -- Extensions
-          "extensionButton.prominentBackground" = colors.blue;
-          "extensionButton.prominentForeground" = colors.background;
-          "extensionButton.prominentHoverBackground" = colors.aqua;
+          "terminal.ansiBrightBlack" = colors.window;
 
-          "extensionButton.background" = colors.line;
-          "extensionButton.foreground" = colors.foreground;
-          "extensionButton.hoverBackground" = colors.selection;
-
-          "extensionBadge.remoteBackground" = colors.purple;
-          "extensionBadge.remoteForeground" = colors.background;
+          "terminal.integrated.colorPalette" = [
+            colors.background colors.red colors.green colors.yellow
+            colors.blue colors.purple colors.aqua colors.foreground
+            colors.window colors.red colors.green colors.yellow
+            colors.blue colors.purple colors.aqua colors.foreground
+          ];
         };
 
+        # ============================================================
         # -- syntax theming
+        # ============================================================
+
+        "editor.semanticHighlighting.enabled" = false;
+
         "editor.tokenColorCustomizations" = {
           textMateRules = [
+
+            { scope = "comment"; settings.foreground = colors.comment; }
+            { scope = "string"; settings.foreground = colors.green; }
+            { scope = "keyword"; settings.foreground = colors.purple; }
+            { scope = "entity.name.function"; settings.foreground = colors.blue; }
+            { scope = "entity.name.type"; settings.foreground = colors.yellow; }
+
             {
-              scope = "comment";
-              settings.foreground = colors.comment;
-            }
-            {
-              scope = "string";
-              settings.foreground = colors.green;
-            }
-            {
-              scope = "keyword";
-              settings.foreground = colors.purple;
-            }
-            {
-              scope = "entity.name.function";
-              settings.foreground = colors.blue;
-            }
-            {
-              scope = "entity.name.type";
+              scope = [ "constant.language" "support.constant" ];
               settings.foreground = colors.yellow;
             }
-            {
-              scope = [
-                "constant.language"
-                "support.constant"
-              ];
-              settings.foreground = colors.yellow;
-            }
-            {
-              scope = "punctuation";
-              settings.foreground = colors.comment;
-            }
-            {
-              scope = "constant.numeric";
-              settings.foreground = colors.orange;
-            }
-            {
-              scope = "variable";
-              settings.foreground = colors.foreground;
-            }
+
+            { scope = "constant.numeric"; settings.foreground = colors.orange; }
+            { scope = "punctuation"; settings.foreground = colors.comment; }
+            { scope = "variable"; settings.foreground = colors.foreground; }
+
             {
               scope = [
                 "entity.other.attribute-name"
                 "entity.other.attribute-name.multipart.nix"
               ];
-              settings = {
-                foreground = colors.foreground;
-              };
+              settings.foreground = colors.foreground;
             }
           ];
         };
