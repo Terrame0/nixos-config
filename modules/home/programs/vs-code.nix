@@ -1,4 +1,7 @@
-{pkgs,nix4vscode,...}: {
+{
+  pkgs,
+  ...
+}: {
   programs.vscode = {
     enable = true;
     package = pkgs.vscode-fhs;
@@ -34,7 +37,7 @@
         llvm-vs-code-extensions.vscode-clangd
         ecmel.vscode-html-css
       ];
-      marketplace-extensions = nix4vscode.forVscode [
+      marketplace-extensions = pkgs.nix4vscode.forVscode [
         "s-nlf-fh.glassit"
       ];
     in {
