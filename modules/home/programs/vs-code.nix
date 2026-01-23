@@ -83,21 +83,25 @@ in {
           "editor.background" = colors.background;
           "editor.foreground" = colors.foreground;
 
+          # -- editor text selection (leave as regular selection)
           "editor.selectionBackground" = colors.selection;
           "editor.selectionForeground" = colors.foreground;
           "editor.selectionHighlightBackground" = colors.selection;
           "editor.selectionHighlightBorder" = colors.transparent;
 
+          # -- current line
           "editor.lineHighlightBackground" = colors.line;
 
+          # -- cursor and line numbers
           "editorCursor.foreground" = colors.foreground;
           "editorLineNumber.foreground" = colors.window;
           "editorLineNumber.activeForeground" = colors.foreground;
 
+          # -- remove implicit focus accent
           "focusBorder" = colors.transparent;
           "contrastBorder" = colors.transparent;
 
-          # -- activity bar
+          # -- activity bar (left vertical) - remove selection bar & implicit accent
           "activityBar.background" = colors.background;
           "activityBar.foreground" = colors.foreground;
           "activityBar.inactiveForeground" = colors.comment;
@@ -105,12 +109,12 @@ in {
           "activityBar.activeBorder" = colors.transparent;
           "activityBar.activeFocusBorder" = colors.transparent;
 
-          # -- sidebar
+          # -- sidebar / explorer
           "sideBar.background" = colors.background;
           "sideBar.foreground" = colors.foreground;
           "sideBar.border" = colors.transparent;
 
-          # -- explorer selection
+          # -- explorer selection (restore green selection here)
           "list.activeSelectionBackground" = colors.green;
           "list.activeSelectionForeground" = colors.background;
           "list.activeSelectionIconForeground" = colors.background;
@@ -120,27 +124,15 @@ in {
           "list.focusOutline" = colors.transparent;
           "tree.indentGuidesStroke" = colors.line;
 
-          # ============================================================
-          # -- suggestion / completion fallback FIX (ONLY ADDITION)
-          # ============================================================
-          "list.foreground" = colors.foreground;
-          "list.hoverForeground" = colors.foreground;
-
-          "quickInput.background" = colors.background;
-          "quickInput.foreground" = colors.foreground;
-          "quickInputList.focusBackground" = colors.selection;
-          "quickInputList.focusForeground" = colors.foreground;
-          "quickInputList.focusIconForeground" = colors.foreground;
-
-          "symbolIcon.textForeground" = colors.foreground;
-          # ============================================================
-
-          # -- tabs
+          # -- tabs: return green selection for editor tabs
+          # active tab = green background, text = background color (consistent with explorer)
           "tab.activeBackground" = colors.line;
           "tab.activeForeground" = colors.foreground;
+
           "tab.inactiveBackground" = colors.background;
           "tab.inactiveForeground" = colors.comment;
 
+          # remove thin underlines and borders for tabs completely
           "tab.inactiveBorder" = colors.transparent;
           "tab.unfocusedInactiveBorder" = colors.transparent;
           "tab.activeBorderTop" = colors.transparent;
@@ -151,18 +143,25 @@ in {
           "tab.unfocusedActiveBorder" = colors.transparent;
           "tab.activeModifiedBorder" = colors.transparent;
 
+          # try to prevent SCM/problems from recoloring text in tabs (best effort)
           "tab.activeModifiedForeground" = colors.background;
           "tab.inactiveModifiedForeground" = colors.comment;
-
           "problems.decorations.enabled" = false;
           "scm.diffDecorations" = "none";
 
-          # -- title bar
+          # -- top/title bar: use green selection when active (as requested)
           "titleBar.activeBackground" = colors.background;
           "titleBar.activeForeground" = colors.foreground;
           "titleBar.inactiveBackground" = colors.background;
           "titleBar.inactiveForeground" = colors.comment;
           "titleBar.border" = colors.transparent;
+
+          # also style command center (search/command) active state in green
+          "commandCenter.background" = colors.line;
+          "commandCenter.foreground" = colors.foreground;
+          "commandCenter.border" = colors.transparent;
+          "commandCenter.activeBackground" = colors.green;
+          "commandCenter.activeForeground" = colors.background;
 
           # -- panels
           "panel.background" = colors.background;
@@ -170,44 +169,529 @@ in {
           "panelTitle.activeForeground" = colors.foreground;
           "panelTitle.inactiveForeground" = colors.comment;
 
-          # -- inputs
+          # -- inputs & dropdowns
           "input.background" = colors.line;
           "input.foreground" = colors.foreground;
           "input.border" = colors.transparent;
-
           "dropdown.background" = colors.line;
           "dropdown.foreground" = colors.foreground;
           "dropdown.border" = colors.transparent;
 
-          # -- scrollbars
+          # -- scrollbar (force styled scrollbar)
           "scrollbar.shadow" = colors.transparent;
           "scrollbarSlider.background" = "${colors.window}99";
           "scrollbarSlider.hoverBackground" = "${colors.comment}cc";
           "scrollbarSlider.activeBackground" = colors.foreground;
 
-          # -- hover
+          # -- git decorations (explorer + generic)
+          "gitDecoration.modifiedResourceForeground" = colors.yellow;
+          "gitDecoration.addedResourceForeground" = colors.green;
+          "gitDecoration.deletedResourceForeground" = colors.red;
+          "gitDecoration.untrackedResourceForeground" = colors.aqua;
+          "gitDecoration.ignoredResourceForeground" = colors.comment;
+          "gitDecoration.renamedResourceForeground" = colors.aqua;
+
+          # -- gutter & overview ruler (vertical diff lines)
+          "editorGutter.addedBackground" = colors.green;
+          "editorGutter.modifiedBackground" = colors.yellow;
+          "editorGutter.deletedBackground" = colors.red;
+
+          "editorOverviewRuler.addedForeground" = "${colors.green}99";
+          "editorOverviewRuler.modifiedForeground" = "${colors.yellow}99";
+          "editorOverviewRuler.deletedForeground" = "${colors.red}99";
+          "editorOverviewRuler.commonContentForeground" = "${colors.window}99";
+          "editorOverviewRuler.warningForeground" = colors.orange;
+
+          # -- diagnostics (problems)
+          "editorError.foreground" = colors.red;
+          "editorWarning.foreground" = colors.orange;
+          "editorInfo.foreground" = colors.foreground; # avoid implicit blue accent
+          "editorHint.foreground" = colors.comment;
+
+          "editor.errorDecoration" = "underline";
+          "editor.warningDecoration" = "underline";
+          "editor.infoDecoration" = "underline";
+
+          # -- search / find
+          # active (currently selected) match
+          "editor.findMatchForeground" = colors.background;
+          "editor.findMatchBackground" = colors.yellow;
+          "editor.findMatchBorder" = colors.transparent;
+
+          # other matches
+          "editor.findMatchHighlightForeground" = colors.background;
+          "editor.findMatchHighlightBackground" = colors.green;
+          "editor.findMatchHighlightBorder" = colors.transparent;
+
+          # other matches
+
+          # -- welcome
+          "welcomePage.background" = colors.background;
+          "welcomePage.tileBackground" = colors.line;
+          "welcomePage.tileHoverBackground" = colors.selection;
+          "welcomePage.tileBorder" = colors.transparent;
+          "welcomePage.tileShadow" = colors.transparent;
+
+          # -- debug view + links (avoid implicit blue)
+          "debugToolBar.background" = colors.line;
+          "debugToolBar.border" = colors.transparent;
+          "textLink.foreground" = colors.blue; # links still blue for discoverability
+          "textLink.activeForeground" = colors.aqua;
+          "debugConsole.infoForeground" = colors.blue;
+          "debugConsole.warningForeground" = colors.yellow;
+          "debugConsole.errorForeground" = colors.red;
+          "debugConsoleLink.foreground" = colors.blue;
+
+          # -- terminal (UI)
+          "terminal.background" = colors.background;
+          "terminal.foreground" = colors.foreground;
+          "terminal.border" = colors.transparent;
+          "terminal.selectionBackground" = colors.selection;
+
+          # -- terminal tabs: remove notification dots and underlines
+          "terminal.tab.activeBackground" = colors.line;
+          "terminal.tab.activeForeground" = colors.foreground;
+          "terminal.tab.inactiveBackground" = colors.background;
+          "terminal.tab.inactiveForeground" = colors.comment;
+          "terminal.tab.activeBorder" = colors.transparent;
+          "terminal.tab.activeBorderTop" = colors.transparent;
+          "terminal.tab.activeIconForeground" = colors.transparent; # remove notification dot
+          "terminal.tab.inactiveIconForeground" = colors.transparent; # remove notification dot
+
+          # -- terminal ansi colors (16)
+          "terminal.ansiBlack" = colors.background;
+          "terminal.ansiRed" = colors.red;
+          "terminal.ansiGreen" = colors.green;
+          "terminal.ansiYellow" = colors.yellow;
+          "terminal.ansiBlue" = colors.blue;
+          "terminal.ansiMagenta" = colors.purple;
+          "terminal.ansiCyan" = colors.aqua;
+          "terminal.ansiWhite" = colors.foreground;
+
+          "terminal.ansiBrightBlack" = colors.window;
+          "terminal.ansiBrightRed" = colors.red;
+          "terminal.ansiBrightGreen" = colors.green;
+          "terminal.ansiBrightYellow" = colors.yellow;
+          "terminal.ansiBrightBlue" = colors.blue;
+          "terminal.ansiBrightMagenta" = colors.purple;
+          "terminal.ansiBrightCyan" = colors.aqua;
+          "terminal.ansiBrightWhite" = colors.foreground;
+
+          # -- hover & word highlight
+          "editor.wordHighlightBackground" = colors.selection;
+          "editor.wordHighlightStrongBackground" = colors.selection;
+
           "editorHoverWidget.background" = colors.line;
           "editorHoverWidget.foreground" = colors.foreground;
           "editorHoverWidget.border" = colors.transparent;
 
-          # -- suggest widget (already styled)
+          # -- suggest / completion popup (style text + selection)
           "suggestWidget.background" = colors.background;
           "suggestWidget.foreground" = colors.foreground;
           "suggestWidget.border" = colors.transparent;
+
           "suggestWidget.selectedBackground" = colors.selection;
           "suggestWidget.selectedForeground" = colors.foreground;
-          "suggestWidget.highlightForeground" = colors.yellow;
-          "suggestWidget.detailForeground" = colors.comment;
 
+          "suggestWidget.highlightForeground" = colors.yellow; # matched text color
+          "suggestWidget.detailForeground" = colors.comment; # secondary text (module, return types)
+          "suggestWidget.documentationFontSize" = 12;
+
+          # sometimes VS Code uses editorSuggest* tokens too
           "editorSuggestWidget.background" = colors.background;
           "editorSuggestWidget.border" = colors.transparent;
           "editorSuggestWidget.selectedForeground" = colors.foreground;
+
+          # scrollbar in suggest widget
+          "suggestWidgetScrollbarSlider.background" = colors.window;
+          "suggestWidgetScrollbarSlider.hoverBackground" = colors.comment;
+          "suggestWidgetScrollbarSlider.activeBackground" = colors.foreground;
+
+          # -- buttons / badges / extension buttons
+          "button.background" = colors.foreground; # neutralize implicit accent
+          "button.foreground" = colors.background;
+          "button.hoverBackground" = colors.line;
+          "button.border" = colors.transparent;
+
+          "button.secondaryBackground" = colors.transparent;
+          "button.secondaryForeground" = colors.foreground;
+
+          "badge.background" = colors.window;
+          "badge.foreground" = colors.background;
+
+          "extensionButton.background" = colors.line;
+          "extensionButton.foreground" = colors.foreground;
+          "extensionButton.hoverBackground" = colors.selection;
+          "extensionButton.prominentBackground" = colors.blue;
+          "extensionButton.prominentForeground" = colors.background;
+          "extensionButton.separator" = colors.window;
+
+          # -- menus / context menus
+          "menu.background" = colors.background;
+          "menu.foreground" = colors.foreground;
+          "menu.selectionBackground" = colors.green; # top panel menu selection -> green
+          "menu.selectionForeground" = colors.background;
+          "menu.separatorBackground" = colors.line;
+          "menu.border" = colors.transparent;
+
+          "menubar.background" = colors.background;
+          "menubar.foreground" = colors.foreground;
+          "menubar.selectionBackground" = colors.green;
+          "menubar.selectionForeground" = colors.background;
+          "menubar.selectionBorder" = colors.transparent;
+
+          # -- notifications
+          "notifications.background" = colors.background;
+          "notifications.foreground" = colors.foreground;
+          "notifications.border" = colors.transparent;
+          "notificationLink.foreground" = colors.blue;
+          "notificationsInfoIcon.foreground" = colors.blue;
+          "notificationsErrorIcon.foreground" = colors.red;
+          "notificationsWarningIcon.foreground" = colors.orange;
+
+          # -- breadcrumbs
+          "breadcrumb.background" = colors.background;
+          "breadcrumb.foreground" = colors.comment;
+          "breadcrumb.focusForeground" = colors.foreground;
+          "breadcrumb.activeSelectionForeground" = colors.foreground;
+
+          # -- diff editor inline
+          "diffEditor.insertedTextBackground" = "${colors.green}33";
+          "diffEditor.removedTextBackground" = "${colors.red}33";
+
+          # -- bracket highlighting (brackets themselves)
+          "editorBracketMatch.background" = colors.transparent;
+          "editorBracketMatch.border" = colors.transparent;
+          "editorBracketHighlight.foreground1" = colors.purple;
+          "editorBracketHighlight.foreground2" = colors.purple;
+          "editorBracketHighlight.foreground3" = colors.purple;
+          "editorBracketHighlight.foreground4" = colors.purple;
+          "editorBracketHighlight.foreground5" = colors.purple;
+          "editorBracketHighlight.foreground6" = colors.purple;
+          "editorBracketHighlight.unexpectedBracket.foreground" = colors.red;
+
+          # -- bracket pair guides (block) keep transparent
+          "editorBracketPairGuide.activeBackground1" = colors.transparent;
+          "editorBracketPairGuide.activeBackground2" = colors.transparent;
+          "editorBracketPairGuide.activeBackground3" = colors.transparent;
+          "editorBracketPairGuide.activeBackground4" = colors.transparent;
+          "editorBracketPairGuide.activeBackground5" = colors.transparent;
+          "editorBracketPairGuide.activeBackground6" = colors.transparent;
+
+          "editorBracketPairGuide.background1" = colors.transparent;
+          "editorBracketPairGuide.background2" = colors.transparent;
+          "editorBracketPairGuide.background3" = colors.transparent;
+          "editorBracketPairGuide.background4" = colors.transparent;
+          "editorBracketPairGuide.background5" = colors.transparent;
+          "editorBracketPairGuide.background6" = colors.transparent;
+
+          # -- thin vertical bracket guide line: use selection color
+          "editor.guides.bracketPairs" = colors.selection;
+          "editor.guides.bracketPairsActive" = colors.selection;
         };
 
+        # -- editor behavior
+        "editor.bracketPairColorization.enabled" = true;
+        "editor.guides.bracketPairs" = "active";
+
         # ============================================================
-        # -- syntax theming (unchanged)
+        # -- syntax theming (textmate only, semantic disabled)
         # ============================================================
+
         "editor.semanticHighlighting.enabled" = false;
+
+        "editor.tokenColorCustomizations" = {
+          textMateRules = [
+            # --------------------------------------------------------
+            # -- comments
+            # --------------------------------------------------------
+            {
+              scope = "comment";
+              settings.foreground = colors.comment;
+            }
+
+            # --------------------------------------------------------
+            # -- strings
+            # --------------------------------------------------------
+            {
+              scope = [
+                "string"
+                "string.quoted"
+                "string.template"
+                "string.interpolated"
+              ];
+              settings.foreground = colors.green;
+            }
+
+            # --------------------------------------------------------
+            # -- numbers
+            # --------------------------------------------------------
+            {
+              scope = "constant.numeric";
+              settings.foreground = colors.orange;
+            }
+
+            # --------------------------------------------------------
+            # -- booleans / null
+            # --------------------------------------------------------
+            {
+              scope = [
+                "constant.language.boolean"
+                "constant.language.true"
+                "constant.language.false"
+                "constant.language.null"
+              ];
+              settings.foreground = colors.purple;
+            }
+
+            # --------------------------------------------------------
+            # -- keywords (generic)
+            # --------------------------------------------------------
+            {
+              scope = "keyword";
+              settings.foreground = colors.purple;
+            }
+
+            # --------------------------------------------------------
+            # -- operators
+            # --------------------------------------------------------
+            {
+              scope = "keyword.operator";
+              settings.foreground = colors.purple;
+            }
+
+            # --------------------------------------------------------
+            # -- functions (generic)
+            # --------------------------------------------------------
+            {
+              scope = [
+                "entity.name.function"
+                "support.function"
+              ];
+              settings.foreground = colors.blue;
+            }
+
+            # --------------------------------------------------------
+            # -- types / classes / structs
+            # --------------------------------------------------------
+            {
+              scope = [
+                "entity.name.type"
+                "storage.type"
+                "support.type"
+              ];
+              settings.foreground = colors.yellow;
+            }
+
+            # --------------------------------------------------------
+            # -- variables / parameters
+            # --------------------------------------------------------
+            {
+              scope = [
+                "variable"
+                "variable.parameter"
+                "variable.other.readwrite"
+              ];
+              settings.foreground = colors.foreground;
+            }
+
+            # --------------------------------------------------------
+            # -- attributes / properties / object keys
+            # --------------------------------------------------------
+            {
+              scope = [
+                "variable.other.object.property"
+                "entity.other.attribute-name"
+                "entity.name.tag"
+              ];
+              settings.foreground = colors.foreground;
+            }
+
+            # --------------------------------------------------------
+            # -- punctuation (base)
+            # --------------------------------------------------------
+            {
+              scope = "punctuation";
+              settings.foreground = colors.comment;
+            }
+
+            # --------------------------------------------------------
+            # -- brackets (force single color everywhere)
+            # --------------------------------------------------------
+            {
+              scope = [
+                "punctuation.section.brackets"
+                "punctuation.section.parens"
+                "punctuation.section.block"
+                "punctuation.definition.brackets"
+                "punctuation.definition.parameters"
+              ];
+              settings.foreground = colors.blue;
+            }
+
+            # ========================================================
+            # -- nix
+            # ========================================================
+            {
+              scope = "source.nix";
+              settings.foreground = colors.foreground;
+            }
+            {
+              scope = [
+                "keyword.other.nix"
+                "keyword.control.nix"
+                "keyword.operator.nix"
+                "storage.type.nix"
+              ];
+              settings.foreground = colors.purple;
+            }
+            {
+              scope = [
+                "entity.name.function.nix"
+                "support.function.builtin.nix"
+              ];
+              settings.foreground = colors.blue;
+            }
+            {
+              scope = [
+                "entity.other.attribute-name.multipart.nix"
+                "entity.name.attribute-name.nix"
+                "variable.other.constant.nix"
+                "meta.attribute-set.nix"
+              ];
+              settings.foreground = colors.foreground;
+            }
+            {
+              scope = "support.constant.nix";
+              settings.foreground = colors.yellow;
+            }
+
+            # ========================================================
+            # -- shell / bash
+            # ========================================================
+            {
+              scope = "source.shell keyword";
+              settings.foreground = colors.purple;
+            }
+            {
+              scope = "source.shell variable";
+              settings.foreground = colors.foreground;
+            }
+            {
+              scope = "source.shell support.function";
+              settings.foreground = colors.blue;
+            }
+
+            # ========================================================
+            # -- python
+            # ========================================================
+            {
+              scope = "source.python keyword";
+              settings.foreground = colors.purple;
+            }
+            {
+              scope = "entity.name.function.python";
+              settings.foreground = colors.blue;
+            }
+            {
+              scope = "storage.type.function.python";
+              settings.foreground = colors.purple;
+            }
+
+            # ========================================================
+            # -- c / c++
+            # ========================================================
+            {
+              scope = [
+                "source.c keyword"
+                "source.cpp keyword"
+              ];
+              settings.foreground = colors.purple;
+            }
+            {
+              scope = [
+                "entity.name.function.c"
+                "entity.name.function.cpp"
+              ];
+              settings.foreground = colors.blue;
+            }
+            {
+              scope = [
+                "storage.type.c"
+                "storage.type.cpp"
+              ];
+              settings.foreground = colors.yellow;
+            }
+
+            # ========================================================
+            # -- javascript / typescript
+            # ========================================================
+            {
+              scope = [
+                "source.js keyword"
+                "source.ts keyword"
+              ];
+              settings.foreground = colors.purple;
+            }
+            {
+              scope = [
+                "entity.name.function.js"
+                "entity.name.function.ts"
+              ];
+              settings.foreground = colors.blue;
+            }
+
+            # ========================================================
+            # -- json
+            # ========================================================
+            {
+              scope = "source.json entity.name.section";
+              settings.foreground = colors.yellow;
+            }
+
+            # ========================================================
+            # -- yaml
+            # ========================================================
+            {
+              scope = "source.yaml key";
+              settings.foreground = colors.yellow;
+            }
+
+            # ========================================================
+            # -- toml
+            # ========================================================
+            {
+              scope = "source.toml entity.name.section";
+              settings.foreground = colors.yellow;
+            }
+
+            # ========================================================
+            # -- css / html
+            # ========================================================
+            {
+              scope = [
+                "source.css support.type.property-name"
+                "source.css entity.name.tag"
+              ];
+              settings.foreground = colors.purple;
+            }
+            {
+              scope = [
+                "text.html.basic entity.name.tag"
+                "text.html.basic entity.other.attribute-name"
+              ];
+              settings.foreground = colors.yellow;
+            }
+
+            # --------------------------------------------------------
+            # -- fallback
+            # --------------------------------------------------------
+            {
+              scope = "meta";
+              settings.foreground = colors.foreground;
+            }
+          ];
+        };
       };
     };
   };
