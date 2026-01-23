@@ -114,7 +114,6 @@ in {
           "sideBar.foreground" = colors.foreground;
           "sideBar.border" = colors.transparent;
 
-
           # -- tabs: return green selection for editor tabs
           # active tab = green background, text = background color (consistent with explorer)
           "tab.activeBackground" = colors.line;
