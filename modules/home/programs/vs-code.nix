@@ -50,13 +50,100 @@
         "workbench.colorTheme" = "Default Dark Modern";
         "workbench.iconTheme" = "vs-seti";
 
+        # -- theming
+        # foreground = "#c5c8c6"
+        # background = "#1d1f21"
+        # selection = "#373b41"
+        # line = "#282a2e"
+        # comment = "#969896"
+        # red = "#d54e53"
+        # orange = "#e78c45"
+        # yellow = "#e7c547"
+        # green = "#b9ca4a"
+        # aqua = "#70c0b1"
+        # blue = "#7aa6da"
+        # purple = "#c397d8"
+        # window = "#4d5057"
+
+        "workbench.colorCustomizations" = {
+          "editor.background" = "#1d1f21";
+          "editor.foreground" = "#c5c8c6";
+
+          "editor.selectionBackground" = "#373b41";
+          "editor.lineHighlightBackground" = "#282a2e";
+
+          "editorCursor.foreground" = "#c5c8c6";
+
+          "editorLineNumber.foreground" = "#4d5057";
+          "editorLineNumber.activeForeground" = "#c5c8c6";
+        };
+
         "editor.tokenColorCustomizations" = {
           textMateRules = [
+            # Comments
             {
               scope = "comment";
               settings = {
-                foreground = "#5f875f";
-                fontStyle = "italic";
+                foreground = "#969896";
+              };
+            }
+
+            # Strings
+            {
+              scope = "string";
+              settings = {
+                foreground = "#b9ca4a";
+              };
+            }
+
+            # Keywords / control flow
+            {
+              scope = "keyword";
+              settings = {
+                foreground = "#c397d8";
+              };
+            }
+
+            # Function names
+            {
+              scope = "entity.name.function";
+              settings = {
+                foreground = "#7aa6da";
+              };
+            }
+
+            # Types, classes, structs
+            {
+              scope = "entity.name.type";
+              settings = {
+                foreground = "#e7c547";
+              };
+            }
+
+            # Constants / builtins
+            {
+              scope = [
+                "constant.language"
+                "support.constant"
+              ];
+              settings = {
+                foreground = "#e7c547";
+              };
+            }
+
+            # Numbers
+            {
+              scope = "constant.numeric";
+              settings = {
+                foreground = "#e78c45";
+              };
+            }
+
+            # Variables (keep neutral, kill rainbow)
+            {
+              scope = "variable";
+              settings = {
+                foreground = "#c5c8c6";
               };
             }
           ];
