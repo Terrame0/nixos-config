@@ -510,7 +510,7 @@ in {
             # -- comments
             {
               scope = "comment";
-              settings.foreground = colors.comment;
+              settings.foreground = colors.green;
             }
 
             # -- strings
@@ -521,7 +521,7 @@ in {
                 "string.template"
                 "string.interpolated"
               ];
-              settings.foreground = colors.green;
+              settings.foreground = colors.orange;
             }
 
             # -- numbers
