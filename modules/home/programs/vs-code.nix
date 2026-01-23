@@ -1,17 +1,17 @@
-{pkgs, ...}: let
+{ pkgs, ... }: let
   colors = {
     foreground = "#c5c8c6";
     background = "#1d1f21";
-    selection = "#373b41";
-    line = "#282a2e";
-    comment = "#969896";
+    selection  = "#373b41";
+    line       = "#282a2e";
+    comment    = "#969896";
 
-    red = "#d54e53";
+    red    = "#d54e53";
     orange = "#e78c45";
     yellow = "#e7c547";
-    green = "#b9ca4a";
-    aqua = "#70c0b1";
-    blue = "#7aa6da";
+    green  = "#b9ca4a";
+    aqua   = "#70c0b1";
+    blue   = "#7aa6da";
     purple = "#c397d8";
 
     window = "#4d5057";
@@ -53,9 +53,9 @@ in {
         "nix.enableLanguageServer" = true;
         "nix.formatterPath" = "alejandra";
         "nix.serverPath" = "nixd";
-        "nix.hiddenLanguageServerErrors" = ["textDocument/definition"];
+        "nix.hiddenLanguageServerErrors" = [ "textDocument/definition" ];
 
-        # -- fonts & cursor
+        # -- fonts and cursor
         "editor.fontFamily" = "JetBrainsMono Nerd Font";
         "editor.fontLigatures" = true;
 
@@ -70,9 +70,24 @@ in {
         "workbench.colorTheme" = "Default Dark Modern";
         "workbench.iconTheme" = "vs-seti";
 
+        # -- disable welcome / startup pages
+        "workbench.startupEditor" = "none";
+        "workbench.welcome.enabled" = false;
+        "workbench.tips.enabled" = false;
+        "workbench.enableExperiments" = false;
+
+        # -- disable walkthroughs and release notes
+        "workbench.editor.showTabs" = true;
+        "update.showReleaseNotes" = false;
+        "extensions.showRecommendationsOnlyOnDemand" = true;
+
         # ============================================================
         # -- ui theming
         # ============================================================
+
+        # ensure VS Code draws its own titlebar/menu so colors apply
+        "window.titleBarStyle" = "custom";
+        "window.menuBarVisibility" = "toggle";
 
         "workbench.colorCustomizations" = {
           # -- core editor
@@ -151,8 +166,8 @@ in {
           "gitDecoration.modifiedResourceForeground" = colors.orange;
           "gitDecoration.addedResourceForeground" = colors.green;
           "gitDecoration.deletedResourceForeground" = colors.red;
-          "gitDecoration.untrackedResourceForeground" = colors.comment;
-          "gitDecoration.ignoredResourceForeground" = colors.selection;
+          "gitDecoration.untrackedResourceForeground" = colors.aqua;
+          "gitDecoration.ignoredResourceForeground" = colors.comment;
 
           # -- diagnostics
           "editorError.foreground" = colors.red;
@@ -176,7 +191,7 @@ in {
           "debugToolBar.background" = colors.line;
           "debugToolBar.border" = colors.line;
 
-          # -- terminal
+          # -- terminal (UI)
           "terminal.background" = colors.background;
           "terminal.foreground" = colors.foreground;
           "terminal.border" = colors.line;
@@ -186,101 +201,181 @@ in {
 
           "terminal.ansiBrightBlack" = colors.window;
 
-          "terminal.integrated.colorPalette" = [
-            colors.background
-            colors.red
-            colors.green
-            colors.yellow
-            colors.blue
-            colors.purple
-            colors.aqua
-            colors.foreground
-            colors.window
-            colors.red
-            colors.green
-            colors.yellow
-            colors.blue
-            colors.purple
-            colors.aqua
-            colors.foreground
-          ];
+          # proper 16-color ansi terminal mapping
+          "terminal.ansiBlack" = colors.background;
+          "terminal.ansiRed" = colors.red;
+          "terminal.ansiGreen" = colors.green;
+          "terminal.ansiYellow" = colors.yellow;
+          "terminal.ansiBlue" = colors.blue;
+          "terminal.ansiMagenta" = colors.purple;
+          "terminal.ansiCyan" = colors.aqua;
+          "terminal.ansiWhite" = colors.foreground;
+
+          "terminal.ansiBrightBlack" = colors.window;
+          "terminal.ansiBrightRed" = colors.red;
+          "terminal.ansiBrightGreen" = colors.green;
+          "terminal.ansiBrightYellow" = colors.yellow;
+          "terminal.ansiBrightBlue" = colors.blue;
+          "terminal.ansiBrightMagenta" = colors.purple;
+          "terminal.ansiBrightCyan" = colors.aqua;
+          "terminal.ansiBrightWhite" = colors.foreground;
+
+          # -- buttons, badges, extension buttons
+          "button.background" = colors.blue;
+          "button.foreground" = colors.background;
+          "button.hoverBackground" = colors.aqua;
+          "button.border" = colors.line;
+
+          "button.secondaryBackground" = colors.line;
+          "button.secondaryForeground" = colors.foreground;
+          "button.secondaryHoverBackground" = colors.selection;
+
+          "badge.background" = colors.window;
+          "badge.foreground" = colors.background;
+
+          "extensionButton.background" = colors.line;
+          "extensionButton.foreground" = colors.foreground;
+          "extensionButton.hoverBackground" = colors.selection;
+          "extensionButton.prominentBackground" = colors.blue;
+          "extensionButton.prominentForeground" = colors.background;
+          "extensionButton.prominentHoverBackground" = colors.aqua;
+          "extensionButton.separator" = colors.window;
+
+          # -- menus / context menus / menubar
+          "menu.background" = colors.background;
+          "menu.foreground" = colors.foreground;
+          "menu.selectionBackground" = colors.selection;
+          "menu.selectionForeground" = colors.foreground;
+          "menu.separatorBackground" = colors.line;
+          "menu.border" = colors.line;
+
+          "menubar.selectionBackground" = colors.selection;
+          "menubar.selectionForeground" = colors.foreground;
+          "menubar.selectionBorder" = colors.line;
+
+          # -- notifications / toasts
+          "notifications.background" = colors.background;
+          "notifications.foreground" = colors.foreground;
+          "notifications.border" = colors.line;
+
+          "notificationCenterHeader.background" = colors.background;
+          "notificationCenterHeader.foreground" = colors.foreground;
+          "notificationToast.background" = colors.line;
+          "notificationToast.border" = colors.line;
+          "notificationLink.foreground" = colors.blue;
+
+          # -- breadcrumbs
+          "breadcrumb.background" = colors.background;
+          "breadcrumb.foreground" = colors.comment;
+          "breadcrumb.focusForeground" = colors.foreground;
+          "breadcrumb.activeSelectionForeground" = colors.foreground;
+
+          # -- diff editor
+          "diffEditor.insertedTextBackground" = "${colors.green}33";
+          "diffEditor.removedTextBackground" = "${colors.red}33";
+
+          # -- bracket highlighting (make all bracket depths the same color)
+          "editorBracketMatch.background" = "#00000000";
+          "editorBracketMatch.border" = colors.blue;
+          "editorBracketHighlight.foreground1" = colors.blue;
+          "editorBracketHighlight.foreground2" = colors.blue;
+          "editorBracketHighlight.foreground3" = colors.blue;
+          "editorBracketHighlight.foreground4" = colors.blue;
+          "editorBracketHighlight.foreground5" = colors.blue;
+          "editorBracketHighlight.foreground6" = colors.blue;
+          "editorBracketHighlight.unexpectedBracket.foreground" = colors.red;
+
+          # bracket guides (disable colors per-depth, use the same)
+          "editorBracketPairGuide.activeBackground1" = colors.blue;
+          "editorBracketPairGuide.activeBackground2" = colors.blue;
+          "editorBracketPairGuide.activeBackground3" = colors.blue;
+          "editorBracketPairGuide.activeBackground4" = colors.blue;
+          "editorBracketPairGuide.activeBackground5" = colors.blue;
+          "editorBracketPairGuide.activeBackground6" = colors.blue;
+
+          "editorBracketPairGuide.background1" = "#00000000";
+          "editorBracketPairGuide.background2" = "#00000000";
+          "editorBracketPairGuide.background3" = "#00000000";
+          "editorBracketPairGuide.background4" = "#00000000";
+          "editorBracketPairGuide.background5" = "#00000000";
+          "editorBracketPairGuide.background6" = "#00000000";
         };
 
-        # -- top bar / window chrome
-        "window.titleBarStyle" = "custom";
-
-        "titleBar.activeBackground" = colors.background;
-        "titleBar.activeForeground" = colors.foreground;
-
-        "titleBar.inactiveBackground" = colors.background;
-        "titleBar.inactiveForeground" = colors.comment;
-
-        "titleBar.border" = colors.line;
-
-        "commandCenter.background" = colors.line;
-        "commandCenter.foreground" = colors.foreground;
-        "commandCenter.border" = colors.line;
-
-        "commandCenter.activeBackground" = colors.selection;
-        "commandCenter.activeForeground" = colors.foreground;
-
-        "window.activeBorder" = colors.line;
-        "window.inactiveBorder" = colors.line;
+        # ensure bracket pair colorization is enabled (we set all bracket colors to same above)
+        "editor.bracketPairColorization.enabled" = true;
+        "editor.guides.bracketPairs" = "active";
 
         # ============================================================
         # -- syntax theming
         # ============================================================
 
+        # semantic highlighting left off so textmate rules apply consistently
         "editor.semanticHighlighting.enabled" = false;
 
         "editor.tokenColorCustomizations" = {
           textMateRules = [
-            {
-              scope = "comment";
-              settings.foreground = colors.comment;
-            }
-            {
-              scope = "string";
-              settings.foreground = colors.green;
-            }
-            {
-              scope = "keyword";
-              settings.foreground = colors.purple;
-            }
-            {
-              scope = "entity.name.function";
-              settings.foreground = colors.blue;
-            }
-            {
-              scope = "entity.name.type";
-              settings.foreground = colors.yellow;
-            }
 
-            {
-              scope = ["constant.language" "support.constant"];
-              settings.foreground = colors.yellow;
-            }
+            # -- comments
+            { scope = "comment"; settings.foreground = colors.comment; }
 
-            {
-              scope = "constant.numeric";
-              settings.foreground = colors.orange;
-            }
-            {
-              scope = "punctuation";
-              settings.foreground = colors.comment;
-            }
-            {
-              scope = "variable";
-              settings.foreground = colors.foreground;
-            }
+            # -- strings & interpolations
+            { scope = "string"; settings.foreground = colors.green; }
+            { scope = "string.interpolated"; settings.foreground = colors.green; }
 
+            # -- numbers
+            { scope = "constant.numeric"; settings.foreground = colors.orange; }
+
+            # -- keywords (nix keywords included)
+            { scope = "keyword"; settings.foreground = colors.purple; }
+            { scope = "keyword.other.nix"; settings.foreground = colors.purple; }
+            { scope = "keyword.control.nix"; settings.foreground = colors.purple; }
+            { scope = "keyword.operator.nix"; settings.foreground = colors.purple; }
+
+            # -- functions & builtin functions
+            { scope = "entity.name.function"; settings.foreground = colors.blue; }
+            { scope = "support.function.builtin.nix"; settings.foreground = colors.blue; }
+            { scope = "support.function"; settings.foreground = colors.blue; }
+
+            # -- types / constructors (rare in nix but keep)
+            { scope = "entity.name.type"; settings.foreground = colors.yellow; }
+
+            # -- variables & parameters
+            { scope = "variable"; settings.foreground = colors.foreground; }
+            { scope = "variable.parameter"; settings.foreground = colors.foreground; }
+            { scope = "variable.other.readwrite.nix"; settings.foreground = colors.foreground; }
+
+            # -- attribute names / attr paths (nix)
             {
               scope = [
                 "entity.other.attribute-name"
                 "entity.other.attribute-name.multipart.nix"
+                "entity.name.attribute-name.nix"
+                "variable.other.object.property.nix"
               ];
               settings.foreground = colors.foreground;
             }
+
+            # -- punctuation: make general punctuation muted
+            { scope = "punctuation"; settings.foreground = colors.comment; }
+
+            # -- brackets specifically (force parens/brackets/braces to one color)
+            { scope = "punctuation.section.brackets"; settings.foreground = colors.blue; }
+            { scope = "punctuation.section.parens"; settings.foreground = colors.blue; }
+            { scope = "punctuation.section.block"; settings.foreground = colors.blue; }
+            { scope = "punctuation.definition.brackets"; settings.foreground = colors.blue; }
+
+            # -- selectors for nix-specific scopes (broad coverage)
+            { scope = "source.nix"; settings.foreground = colors.foreground; }
+            { scope = "keyword.other.nix"; settings.foreground = colors.purple; }
+            { scope = "variable.other.constant.nix"; settings.foreground = colors.yellow; }
+            { scope = "entity.name.function.nix"; settings.foreground = colors.blue; }
+            { scope = "entity.name.variable.nix"; settings.foreground = colors.foreground; }
+            { scope = "support.constant.nix"; settings.foreground = colors.yellow; }
+            { scope = "storage.type.nix"; settings.foreground = colors.purple; }
+            { scope = "meta.attribute-set.nix"; settings.foreground = colors.foreground; }
+
+            # fallback: lighten punctuation and keep text readable
+            { scope = "meta"; settings.foreground = colors.foreground; }
           ];
         };
       };
