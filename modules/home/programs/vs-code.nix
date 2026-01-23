@@ -400,7 +400,6 @@ in {
           "list.activeSelectionForeground" = colors.line; # untyped text
           "list.inactiveSelectionForeground" = colors.line;
 
-
           # -- icons inside selected row
           "list.activeSelectionIconForeground" = colors.background;
 
