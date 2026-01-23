@@ -428,12 +428,12 @@ in {
           "editorBracketMatch.background" = colors.transparent;
           "editorBracketMatch.border" = colors.transparent;
 
-          "editorBracketHighlight.foreground1" = colors.purple;
-          "editorBracketHighlight.foreground2" = colors.purple;
-          "editorBracketHighlight.foreground3" = colors.purple;
-          "editorBracketHighlight.foreground4" = colors.purple;
-          "editorBracketHighlight.foreground5" = colors.purple;
-          "editorBracketHighlight.foreground6" = colors.purple;
+          "editorBracketHighlight.foreground1" = colors.aqua;
+          "editorBracketHighlight.foreground2" = colors.aqua;
+          "editorBracketHighlight.foreground3" = colors.aqua;
+          "editorBracketHighlight.foreground4" = colors.aqua;
+          "editorBracketHighlight.foreground5" = colors.aqua;
+          "editorBracketHighlight.foreground6" = colors.aqua;
           "editorBracketHighlight.unexpectedBracket.foreground" = colors.red;
 
           "editorBracketPairGuide.activeBackground1" = colors.transparent;
@@ -486,7 +486,7 @@ in {
 
           "editorSuggestWidget.highlightForeground" = colors.foreground;
 
-          "editorSuggestWidget.selectedBackground" = colors.selection;
+          "editorSuggestWidget.selectedBackground" = colors.line;
           "editorSuggestWidget.selectedForeground" = colors.green;
 
           "symbolIcon.textForeground" = colors.aqua;
@@ -527,7 +527,7 @@ in {
             # -- numbers
             {
               scope = "constant.numeric";
-              settings.foreground = colors.orange;
+              settings.foreground = colors.purple;
             }
 
             # -- booleans and null
@@ -550,7 +550,7 @@ in {
             # -- operators
             {
               scope = "keyword.operator";
-              settings.foreground = colors.purple;
+              settings.foreground = colors.aqua;
             }
 
             # -- functions
@@ -559,7 +559,7 @@ in {
                 "entity.name.function"
                 "support.function"
               ];
-              settings.foreground = colors.blue;
+              settings.foreground = colors.orange;
             }
 
             # -- types
@@ -569,7 +569,7 @@ in {
                 "storage.type"
                 "support.type"
               ];
-              settings.foreground = colors.yellow;
+              settings.foreground = colors.blue;
             }
 
             # -- variables
@@ -579,7 +579,7 @@ in {
                 "variable.parameter"
                 "variable.other.readwrite"
               ];
-              settings.foreground = colors.foreground;
+              settings.foreground = colors.blue;
             }
 
             # -- attributes and properties
@@ -589,7 +589,7 @@ in {
                 "entity.other.attribute-name"
                 "entity.name.tag"
               ];
-              settings.foreground = colors.foreground;
+              settings.foreground = colors.yellow;
             }
 
             # -- punctuation

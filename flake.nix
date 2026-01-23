@@ -43,7 +43,7 @@
         sops-nix.nixosModules.sops
         home-manager.nixosModules.home-manager
         {
-          extraSpecialArgs = module-args;
+          specialArgs = module-args;
           home-manager.useGlobalPkgs = true;
           home-manager.useUserPackages = true;
           home-manager.backupFileExtension = "hm-backup";
@@ -60,7 +60,7 @@
         sops-nix.nixosModules.sops
         home-manager.nixosModules.home-manager
         {
-          extraSpecialArgs = module-args;
+          specialArgs = module-args;
           home-manager.useGlobalPkgs = true;
           home-manager.useUserPackages = true;
           home-manager.backupFileExtension = "hm-backup";
