@@ -150,8 +150,8 @@ in {
           "commandCenter.background" = colors.line;
           "commandCenter.foreground" = colors.foreground;
           "commandCenter.border" = colors.transparent;
-          "commandCenter.activeBackground" = colors.green;
-          "commandCenter.activeForeground" = colors.background;
+          "commandCenter.activeBackground" = colors.selection;
+          "commandCenter.activeForeground" = colors.foreground;
 
           # -- panels
           "panel.background" = colors.background;
@@ -210,7 +210,7 @@ in {
 
           # other matches
           "editor.findMatchHighlightForeground" = colors.background;
-          "editor.findMatchHighlightBackground" = colors.yellow;
+          "editor.findMatchHighlightBackground" = colors.foreground;
           "editor.findMatchHighlightBorder" = colors.transparent;
 
           # other matches
@@ -319,15 +319,15 @@ in {
           # -- menus / context menus
           "menu.background" = colors.background;
           "menu.foreground" = colors.foreground;
-          "menu.selectionBackground" = colors.green; # top panel menu selection -> green
-          "menu.selectionForeground" = colors.background;
+          "menu.selectionBackground" = colors.selection; # top panel menu selection -> green
+          "menu.selectionForeground" = colors.foreground;
           "menu.separatorBackground" = colors.line;
           "menu.border" = colors.transparent;
 
           "menubar.background" = colors.background;
           "menubar.foreground" = colors.foreground;
-          "menubar.selectionBackground" = colors.green;
-          "menubar.selectionForeground" = colors.background;
+          "menubar.selectionBackground" = colors.selection;
+          "menubar.selectionForeground" = colors.foreground;
           "menubar.selectionBorder" = colors.transparent;
 
           # -- notifications
@@ -406,7 +406,7 @@ in {
           "list.activeSelectionIconForeground" = colors.background;
 
           # -- remove focus outline
-          "list.focusOutline" = colors.transparent;
+          "list.focusOutline" = colors;
 
           # ============================================================
           # quick input renderer (shared by suggest widget internals)
