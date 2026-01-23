@@ -293,7 +293,7 @@ in {
 
           "terminal.background" = colors.background;
           "terminal.foreground" = colors.foreground;
-          "terminal.border" = colors.transparent;
+          "terminal.border" = colors.line;
           "terminal.selectionBackground" = colors.selection;
 
           "terminal.tab.activeBackground" = colors.line;
