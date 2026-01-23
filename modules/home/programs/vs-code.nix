@@ -402,10 +402,10 @@ in {
 
           # matched / typed text inside suggest widget (kills default blue)
           "list.highlightForeground" = colors.foreground;
-          "list.focusHighlightForeground" = colors.foreground;
+          "list.focusHighlightForeground" = colors.background;
 
           # some providers still route through editorSuggest
-          # "editorSuggestWidget.highlightForeground" = colors.foreground;
+          "editorSuggestWidget.highlightForeground" = colors.background;
 
           # completion item kind / label text
           "symbolIcon.textForeground" = colors.comment;
