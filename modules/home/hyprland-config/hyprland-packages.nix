@@ -3,6 +3,6 @@
     waybar
     hyprpaper
     mako
-    hyprlauncher
+    wofi
   ];
 }
