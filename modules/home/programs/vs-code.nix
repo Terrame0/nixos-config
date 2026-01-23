@@ -1,22 +1,20 @@
-{ pkgs, ... }:
-
-let
+{pkgs, ...}: let
   colors = {
     # -- base
     foreground = "#c5c8c6";
     background = "#1d1f21";
-    selection  = "#373b41";
-    line       = "#282a2e";
-    comment    = "#969896";
-    window     = "#4d5057";
+    selection = "#373b41";
+    line = "#282a2e";
+    comment = "#969896";
+    window = "#4d5057";
 
     # -- accents
-    red    = "#d54e53";
+    red = "#d54e53";
     orange = "#e78c45";
     yellow = "#e7c547";
-    green  = "#b9ca4a";
-    aqua   = "#70c0b1";
-    blue   = "#7aa6da";
+    green = "#b9ca4a";
+    aqua = "#70c0b1";
+    blue = "#7aa6da";
     purple = "#c397d8";
 
     # -- utility
@@ -81,7 +79,6 @@ in {
         # -- ui theming
         # ============================================================
         "workbench.colorCustomizations" = {
-
           # -- core editor
           "editor.background" = colors.background;
           "editor.foreground" = colors.foreground;
@@ -228,7 +225,7 @@ in {
           # -- debug view + links (avoid implicit blue)
           "debugToolBar.background" = colors.line;
           "debugToolBar.border" = colors.line;
-          "textLink.foreground" = colors.blue;           # links still blue for discoverability
+          "textLink.foreground" = colors.blue; # links still blue for discoverability
           "textLink.activeForeground" = colors.aqua;
           "debugConsole.infoForeground" = colors.blue;
           "debugConsole.warningForeground" = colors.yellow;
@@ -248,7 +245,7 @@ in {
           "terminal.tab.inactiveForeground" = colors.comment;
           "terminal.tab.activeBorder" = colors.transparent;
           "terminal.tab.activeBorderTop" = colors.transparent;
-          "terminal.tab.activeIconForeground" = colors.transparent;   # remove notification dot
+          "terminal.tab.activeIconForeground" = colors.transparent; # remove notification dot
           "terminal.tab.inactiveIconForeground" = colors.transparent; # remove notification dot
 
           # -- terminal ansi colors (16)
@@ -286,8 +283,8 @@ in {
           "suggestWidget.selectedBackground" = colors.selection;
           "suggestWidget.selectedForeground" = colors.foreground;
 
-          "suggestWidget.highlightForeground" = colors.yellow;            # matched text color
-          "suggestWidget.detailForeground" = colors.comment;             # secondary text (module, return types)
+          "suggestWidget.highlightForeground" = colors.yellow; # matched text color
+          "suggestWidget.detailForeground" = colors.comment; # secondary text (module, return types)
           "suggestWidget.documentationFontSize" = 12;
 
           # sometimes VS Code uses editorSuggest* tokens too
@@ -301,7 +298,7 @@ in {
           "suggestWidgetScrollbarSlider.activeBackground" = colors.foreground;
 
           # -- buttons / badges / extension buttons
-          "button.background" = colors.foreground;    # neutralize implicit accent
+          "button.background" = colors.foreground; # neutralize implicit accent
           "button.foreground" = colors.background;
           "button.hoverBackground" = colors.line;
           "button.border" = colors.transparent;
@@ -322,7 +319,7 @@ in {
           # -- menus / context menus
           "menu.background" = colors.background;
           "menu.foreground" = colors.foreground;
-          "menu.selectionBackground" = colors.green;  # top panel menu selection -> green
+          "menu.selectionBackground" = colors.green; # top panel menu selection -> green
           "menu.selectionForeground" = colors.background;
           "menu.separatorBackground" = colors.line;
           "menu.border" = colors.line;
@@ -413,61 +410,165 @@ in {
         # -- textmate rules: add language-specific rules (python, cpp, css, json, yaml, js, toml)
         "editor.tokenColorCustomizations" = {
           textMateRules = [
-
             # -- comments
-            { scope = "comment"; settings.foreground = colors.comment; }
+            {
+              scope = "comment";
+              settings.foreground = colors.comment;
+            }
 
             # -- python
-            { scope = "source.python string"; settings.foreground = colors.green; }
-            { scope = "source.python constant.numeric"; settings.foreground = colors.orange; }
-            { scope = "source.python keyword.control"; settings.foreground = colors.purple; }
-            { scope = "source.python constant.language.boolean"; settings.foreground = colors.purple; }
-            { scope = "entity.name.function.python"; settings.foreground = colors.blue; }
-            { scope = "variable.parameter.function.python"; settings.foreground = colors.foreground; }
+            {
+              scope = "source.python string";
+              settings.foreground = colors.green;
+            }
+            {
+              scope = "source.python constant.numeric";
+              settings.foreground = colors.orange;
+            }
+            {
+              scope = "source.python keyword.control";
+              settings.foreground = colors.purple;
+            }
+            {
+              scope = "source.python constant.language.boolean";
+              settings.foreground = colors.purple;
+            }
+            {
+              scope = "entity.name.function.python";
+              settings.foreground = colors.blue;
+            }
+            {
+              scope = "variable.parameter.function.python";
+              settings.foreground = colors.foreground;
+            }
 
             # -- c / c++
-            { scope = "source.c++ entity.name.function"; settings.foreground = colors.blue; }
-            { scope = "source.cpp entity.name.function"; settings.foreground = colors.blue; }
-            { scope = "source.c keyword.control"; settings.foreground = colors.purple; }
-            { scope = "storage.type.c"; settings.foreground = colors.yellow; }
-            { scope = "storage.type.cpp"; settings.foreground = colors.yellow; }
-            { scope = "constant.numeric.cpp"; settings.foreground = colors.orange; }
+            {
+              scope = "source.c++ entity.name.function";
+              settings.foreground = colors.blue;
+            }
+            {
+              scope = "source.cpp entity.name.function";
+              settings.foreground = colors.blue;
+            }
+            {
+              scope = "source.c keyword.control";
+              settings.foreground = colors.purple;
+            }
+            {
+              scope = "storage.type.c";
+              settings.foreground = colors.yellow;
+            }
+            {
+              scope = "storage.type.cpp";
+              settings.foreground = colors.yellow;
+            }
+            {
+              scope = "constant.numeric.cpp";
+              settings.foreground = colors.orange;
+            }
 
             # -- javascript / typescript
-            { scope = "source.js string"; settings.foreground = colors.green; }
-            { scope = "source.js constant.numeric"; settings.foreground = colors.orange; }
-            { scope = "source.js keyword.operator"; settings.foreground = colors.purple; }
-            { scope = "source.js entity.name.function"; settings.foreground = colors.blue; }
-            { scope = "source.ts keyword"; settings.foreground = colors.purple; }
+            {
+              scope = "source.js string";
+              settings.foreground = colors.green;
+            }
+            {
+              scope = "source.js constant.numeric";
+              settings.foreground = colors.orange;
+            }
+            {
+              scope = "source.js keyword.operator";
+              settings.foreground = colors.purple;
+            }
+            {
+              scope = "source.js entity.name.function";
+              settings.foreground = colors.blue;
+            }
+            {
+              scope = "source.ts keyword";
+              settings.foreground = colors.purple;
+            }
 
             # -- css
-            { scope = "source.css entity.name.tag.css"; settings.foreground = colors.yellow; }
-            { scope = "source.css support.type.property-name.css"; settings.foreground = colors.purple; }
-            { scope = "source.css string.quoted"; settings.foreground = colors.green; }
+            {
+              scope = "source.css entity.name.tag.css";
+              settings.foreground = colors.yellow;
+            }
+            {
+              scope = "source.css support.type.property-name.css";
+              settings.foreground = colors.purple;
+            }
+            {
+              scope = "source.css string.quoted";
+              settings.foreground = colors.green;
+            }
 
             # -- json
-            { scope = "source.json string.quoted"; settings.foreground = colors.green; }
-            { scope = "source.json constant.numeric"; settings.foreground = colors.orange; }
-            { scope = "source.json entity.name.section"; settings.foreground = colors.yellow; }
+            {
+              scope = "source.json string.quoted";
+              settings.foreground = colors.green;
+            }
+            {
+              scope = "source.json constant.numeric";
+              settings.foreground = colors.orange;
+            }
+            {
+              scope = "source.json entity.name.section";
+              settings.foreground = colors.yellow;
+            }
 
             # -- yaml
-            { scope = "source.yaml key"; settings.foreground = colors.yellow; }
-            { scope = "source.yaml constant.scalar"; settings.foreground = colors.green; }
-            { scope = "source.yaml constant.numeric"; settings.foreground = colors.orange; }
+            {
+              scope = "source.yaml key";
+              settings.foreground = colors.yellow;
+            }
+            {
+              scope = "source.yaml constant.scalar";
+              settings.foreground = colors.green;
+            }
+            {
+              scope = "source.yaml constant.numeric";
+              settings.foreground = colors.orange;
+            }
 
             # -- toml
-            { scope = "source.toml string"; settings.foreground = colors.green; }
-            { scope = "source.toml constant.numeric"; settings.foreground = colors.orange; }
-            { scope = "source.toml entity.name.section"; settings.foreground = colors.yellow; }
+            {
+              scope = "source.toml string";
+              settings.foreground = colors.green;
+            }
+            {
+              scope = "source.toml constant.numeric";
+              settings.foreground = colors.orange;
+            }
+            {
+              scope = "source.toml entity.name.section";
+              settings.foreground = colors.yellow;
+            }
 
             # -- punctuation / brackets (force single color)
-            { scope = "punctuation"; settings.foreground = colors.purple; }
-            { scope = "punctuation.section.brackets"; settings.foreground = colors.purple; }
-            { scope = "punctuation.section.parens"; settings.foreground = colors.purple; }
-            { scope = "punctuation.section.block"; settings.foreground = colors.purple; }
+            {
+              scope = "punctuation";
+              settings.foreground = colors.purple;
+            }
+            {
+              scope = "punctuation.section.brackets";
+              settings.foreground = colors.purple;
+            }
+            {
+              scope = "punctuation.section.parens";
+              settings.foreground = colors.purple;
+            }
+            {
+              scope = "punctuation.section.block";
+              settings.foreground = colors.purple;
+            }
 
             # -- fallback
-            { scope = "meta"; settings.foreground = colors.foreground; }
+            {
+              scope = "meta";
+              settings.foreground = colors.foreground;
+            }
           ];
         };
       };
