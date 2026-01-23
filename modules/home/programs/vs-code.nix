@@ -357,9 +357,9 @@ in {
           # -- buttons and badges
           # ----------------------------------------------------------
 
-          "button.background" = colors.foreground;
-          "button.foreground" = colors.background;
-          "button.hoverBackground" = colors.line;
+          "button.background" = colors.background;
+          "button.foreground" = colors.foreground;
+          "button.hoverBackground" = colors.selection;
           "button.border" = colors.transparent;
 
           "button.secondaryBackground" = colors.transparent;
