@@ -151,8 +151,8 @@ in {
           "gitDecoration.modifiedResourceForeground" = colors.orange;
           "gitDecoration.addedResourceForeground" = colors.green;
           "gitDecoration.deletedResourceForeground" = colors.red;
-          "gitDecoration.untrackedResourceForeground" = colors.aqua;
-          "gitDecoration.ignoredResourceForeground" = colors.comment;
+          "gitDecoration.untrackedResourceForeground" = colors.comment;
+          "gitDecoration.ignoredResourceForeground" = colors.selection;
 
           # -- diagnostics
           "editorError.foreground" = colors.red;
@@ -205,6 +205,28 @@ in {
             colors.foreground
           ];
         };
+
+        # -- top bar / window chrome
+"window.titleBarStyle" = "custom";
+
+"titleBar.activeBackground" = colors.background;
+"titleBar.activeForeground" = colors.foreground;
+
+"titleBar.inactiveBackground" = colors.background;
+"titleBar.inactiveForeground" = colors.comment;
+
+"titleBar.border" = colors.line;
+
+"commandCenter.background" = colors.line;
+"commandCenter.foreground" = colors.foreground;
+"commandCenter.border" = colors.line;
+
+"commandCenter.activeBackground" = colors.selection;
+"commandCenter.activeForeground" = colors.foreground;
+
+"window.activeBorder" = colors.line;
+"window.inactiveBorder" = colors.line;
+
 
         # ============================================================
         # -- syntax theming
