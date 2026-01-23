@@ -1,17 +1,17 @@
-{ pkgs, ... }: let
+{pkgs, ...}: let
   colors = {
     foreground = "#c5c8c6";
     background = "#1d1f21";
-    selection  = "#373b41";
-    line       = "#282a2e";
-    comment    = "#969896";
+    selection = "#373b41";
+    line = "#282a2e";
+    comment = "#969896";
 
-    red    = "#d54e53";
+    red = "#d54e53";
     orange = "#e78c45";
     yellow = "#e7c547";
-    green  = "#b9ca4a";
-    aqua   = "#70c0b1";
-    blue   = "#7aa6da";
+    green = "#b9ca4a";
+    aqua = "#70c0b1";
+    blue = "#7aa6da";
     purple = "#c397d8";
 
     window = "#4d5057";
@@ -56,7 +56,7 @@ in {
         "nix.enableLanguageServer" = true;
         "nix.formatterPath" = "alejandra";
         "nix.serverPath" = "nixd";
-        "nix.hiddenLanguageServerErrors" = [ "textDocument/definition" ];
+        "nix.hiddenLanguageServerErrors" = ["textDocument/definition"];
 
         # -- fonts and cursor
         "editor.fontFamily" = "JetBrainsMono Nerd Font";
@@ -292,7 +292,6 @@ in {
           "editor.wordHighlightBackground" = colors.selection;
           "editor.wordHighlightStrongBackground" = colors.selection;
 
-
           # -- hover widget itself
           "editorHoverWidget.background" = colors.line;
           "editorHoverWidget.foreground" = colors.foreground;
@@ -468,7 +467,7 @@ in {
 
             # -- booleans (true / false)
             {
-              scope = [ "constant.language.boolean" "constant.language.true" "constant.language.false" ];
+              scope = ["constant.language.boolean" "constant.language.true" "constant.language.false"];
               settings.foreground = colors.purple;
             }
 
