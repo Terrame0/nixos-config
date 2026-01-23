@@ -126,13 +126,15 @@ in {
 
           # -- tabs: return green selection for editor tabs
           # active tab = green background, text = background color (consistent with explorer)
-          "tab.activeBackground" = colors.green;
-          "tab.activeForeground" = colors.background;
+          "tab.activeBackground" = colors.line;
+          "tab.activeForeground" = colors.foreground;
 
           "tab.inactiveBackground" = colors.background;
           "tab.inactiveForeground" = colors.comment;
 
           # remove thin underlines and borders for tabs completely
+          "tab.inactiveBorder" = colors.transparent;
+          "tab.unfocusedInactiveBorder" = colors.transparent;
           "tab.activeBorderTop" = colors.transparent;
           "tab.unfocusedActiveBorderTop" = colors.transparent;
           "tab.selectedBorderTop" = colors.transparent;
@@ -149,7 +151,7 @@ in {
 
           # -- top/title bar: use green selection when active (as requested)
           "titleBar.activeBackground" = colors.background;
-          "titleBar.activeForeground" = colors.background;
+          "titleBar.activeForeground" = colors.foreground;
           "titleBar.inactiveBackground" = colors.background;
           "titleBar.inactiveForeground" = colors.comment;
           "titleBar.border" = colors.transparent;
@@ -182,7 +184,7 @@ in {
           "scrollbarSlider.activeBackground" = colors.foreground;
 
           # -- git decorations (explorer + generic)
-          "gitDecoration.modifiedResourceForeground" = colors.orange;
+          "gitDecoration.modifiedResourceForeground" = colors.yellow;
           "gitDecoration.addedResourceForeground" = colors.green;
           "gitDecoration.deletedResourceForeground" = colors.red;
           "gitDecoration.untrackedResourceForeground" = colors.aqua;
@@ -324,6 +326,8 @@ in {
           "menu.separatorBackground" = colors.line;
           "menu.border" = colors.transparent;
 
+          "menubar.background" = colors.background;
+          "menubar.foreground" = colors.foreground;
           "menubar.selectionBackground" = colors.green;
           "menubar.selectionForeground" = colors.background;
           "menubar.selectionBorder" = colors.transparent;
