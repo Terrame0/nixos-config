@@ -1,17 +1,17 @@
-{ pkgs, ... }: let
+{pkgs, ...}: let
   colors = {
     foreground = "#c5c8c6";
     background = "#1d1f21";
-    selection  = "#373b41";
-    line       = "#282a2e";
-    comment    = "#969896";
+    selection = "#373b41";
+    line = "#282a2e";
+    comment = "#969896";
 
-    red    = "#d54e53";
+    red = "#d54e53";
     orange = "#e78c45";
     yellow = "#e7c547";
-    green  = "#b9ca4a";
-    aqua   = "#70c0b1";
-    blue   = "#7aa6da";
+    green = "#b9ca4a";
+    aqua = "#70c0b1";
+    blue = "#7aa6da";
     purple = "#c397d8";
 
     window = "#4d5057";
@@ -53,7 +53,7 @@ in {
         "nix.enableLanguageServer" = true;
         "nix.formatterPath" = "alejandra";
         "nix.serverPath" = "nixd";
-        "nix.hiddenLanguageServerErrors" = [ "textDocument/definition" ];
+        "nix.hiddenLanguageServerErrors" = ["textDocument/definition"];
 
         # -- fonts and cursor
         "editor.fontFamily" = "JetBrainsMono Nerd Font";
@@ -199,8 +199,6 @@ in {
           "terminalCursor.foreground" = colors.foreground;
           "terminal.selectionBackground" = colors.selection;
 
-          "terminal.ansiBrightBlack" = colors.window;
-
           # proper 16-color ansi terminal mapping
           "terminal.ansiBlack" = colors.background;
           "terminal.ansiRed" = colors.red;
@@ -314,35 +312,79 @@ in {
 
         "editor.tokenColorCustomizations" = {
           textMateRules = [
-
             # -- comments
-            { scope = "comment"; settings.foreground = colors.comment; }
+            {
+              scope = "comment";
+              settings.foreground = colors.comment;
+            }
 
             # -- strings & interpolations
-            { scope = "string"; settings.foreground = colors.green; }
-            { scope = "string.interpolated"; settings.foreground = colors.green; }
+            {
+              scope = "string";
+              settings.foreground = colors.green;
+            }
+            {
+              scope = "string.interpolated";
+              settings.foreground = colors.green;
+            }
 
             # -- numbers
-            { scope = "constant.numeric"; settings.foreground = colors.orange; }
+            {
+              scope = "constant.numeric";
+              settings.foreground = colors.orange;
+            }
 
             # -- keywords (nix keywords included)
-            { scope = "keyword"; settings.foreground = colors.purple; }
-            { scope = "keyword.other.nix"; settings.foreground = colors.purple; }
-            { scope = "keyword.control.nix"; settings.foreground = colors.purple; }
-            { scope = "keyword.operator.nix"; settings.foreground = colors.purple; }
+            {
+              scope = "keyword";
+              settings.foreground = colors.purple;
+            }
+            {
+              scope = "keyword.other.nix";
+              settings.foreground = colors.purple;
+            }
+            {
+              scope = "keyword.control.nix";
+              settings.foreground = colors.purple;
+            }
+            {
+              scope = "keyword.operator.nix";
+              settings.foreground = colors.purple;
+            }
 
             # -- functions & builtin functions
-            { scope = "entity.name.function"; settings.foreground = colors.blue; }
-            { scope = "support.function.builtin.nix"; settings.foreground = colors.blue; }
-            { scope = "support.function"; settings.foreground = colors.blue; }
+            {
+              scope = "entity.name.function";
+              settings.foreground = colors.blue;
+            }
+            {
+              scope = "support.function.builtin.nix";
+              settings.foreground = colors.blue;
+            }
+            {
+              scope = "support.function";
+              settings.foreground = colors.blue;
+            }
 
             # -- types / constructors (rare in nix but keep)
-            { scope = "entity.name.type"; settings.foreground = colors.yellow; }
+            {
+              scope = "entity.name.type";
+              settings.foreground = colors.yellow;
+            }
 
             # -- variables & parameters
-            { scope = "variable"; settings.foreground = colors.foreground; }
-            { scope = "variable.parameter"; settings.foreground = colors.foreground; }
-            { scope = "variable.other.readwrite.nix"; settings.foreground = colors.foreground; }
+            {
+              scope = "variable";
+              settings.foreground = colors.foreground;
+            }
+            {
+              scope = "variable.parameter";
+              settings.foreground = colors.foreground;
+            }
+            {
+              scope = "variable.other.readwrite.nix";
+              settings.foreground = colors.foreground;
+            }
 
             # -- attribute names / attr paths (nix)
             {
@@ -356,26 +398,68 @@ in {
             }
 
             # -- punctuation: make general punctuation muted
-            { scope = "punctuation"; settings.foreground = colors.comment; }
+            {
+              scope = "punctuation";
+              settings.foreground = colors.comment;
+            }
 
             # -- brackets specifically (force parens/brackets/braces to one color)
-            { scope = "punctuation.section.brackets"; settings.foreground = colors.blue; }
-            { scope = "punctuation.section.parens"; settings.foreground = colors.blue; }
-            { scope = "punctuation.section.block"; settings.foreground = colors.blue; }
-            { scope = "punctuation.definition.brackets"; settings.foreground = colors.blue; }
+            {
+              scope = "punctuation.section.brackets";
+              settings.foreground = colors.blue;
+            }
+            {
+              scope = "punctuation.section.parens";
+              settings.foreground = colors.blue;
+            }
+            {
+              scope = "punctuation.section.block";
+              settings.foreground = colors.blue;
+            }
+            {
+              scope = "punctuation.definition.brackets";
+              settings.foreground = colors.blue;
+            }
 
             # -- selectors for nix-specific scopes (broad coverage)
-            { scope = "source.nix"; settings.foreground = colors.foreground; }
-            { scope = "keyword.other.nix"; settings.foreground = colors.purple; }
-            { scope = "variable.other.constant.nix"; settings.foreground = colors.yellow; }
-            { scope = "entity.name.function.nix"; settings.foreground = colors.blue; }
-            { scope = "entity.name.variable.nix"; settings.foreground = colors.foreground; }
-            { scope = "support.constant.nix"; settings.foreground = colors.yellow; }
-            { scope = "storage.type.nix"; settings.foreground = colors.purple; }
-            { scope = "meta.attribute-set.nix"; settings.foreground = colors.foreground; }
+            {
+              scope = "source.nix";
+              settings.foreground = colors.foreground;
+            }
+            {
+              scope = "keyword.other.nix";
+              settings.foreground = colors.purple;
+            }
+            {
+              scope = "variable.other.constant.nix";
+              settings.foreground = colors.yellow;
+            }
+            {
+              scope = "entity.name.function.nix";
+              settings.foreground = colors.blue;
+            }
+            {
+              scope = "entity.name.variable.nix";
+              settings.foreground = colors.foreground;
+            }
+            {
+              scope = "support.constant.nix";
+              settings.foreground = colors.yellow;
+            }
+            {
+              scope = "storage.type.nix";
+              settings.foreground = colors.purple;
+            }
+            {
+              scope = "meta.attribute-set.nix";
+              settings.foreground = colors.foreground;
+            }
 
             # fallback: lighten punctuation and keep text readable
-            { scope = "meta"; settings.foreground = colors.foreground; }
+            {
+              scope = "meta";
+              settings.foreground = colors.foreground;
+            }
           ];
         };
       };
