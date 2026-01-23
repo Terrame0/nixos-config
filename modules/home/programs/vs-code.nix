@@ -379,6 +379,10 @@ in {
           "editor.guides.bracketPairs" = colors.selection;
           "editor.guides.bracketPairsActive" = colors.selection;
 
+          # ============================================================
+          # list renderer (suggest widget, quick pick, search results)
+          # ============================================================
+
           # -- base list backgrounds
           "list.hoverBackground" = colors.selection; # hover only
           "list.activeSelectionBackground" = colors.blue;
