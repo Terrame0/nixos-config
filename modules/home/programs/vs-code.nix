@@ -82,14 +82,14 @@ in {
           "editorLineNumber.activeForeground" = colors.foreground;
 
           # Sidebar
-          "sideBar.background" = colors.line;
+          "sideBar.background" = colors.background;
           "sideBar.foreground" = colors.foreground;
           "sideBar.border" = colors.line;
 
           # Activity bar
           "activityBar.background" = colors.background;
-          "activityBar.foreground" = colors.blue;
-          "activityBar.inactiveForeground" = colors.window;
+          "activityBar.foreground" = colors.foreground;
+          "activityBar.inactiveForeground" = colors.comment;
           "activityBar.border" = colors.line;
 
           # Status bar
@@ -98,8 +98,8 @@ in {
           "statusBar.border" = colors.line;
 
           # Tabs
-          "tab.activeBackground" = colors.green;
-          "tab.activeForeground" = colors.background;
+          "tab.activeBackground" = colors.selection;
+          "tab.activeForeground" = colors.foreground;
 
           "tab.inactiveForeground" = colors.comment;
           "tab.inactiveBackground" = colors.background;
@@ -124,6 +124,44 @@ in {
           "editor.errorDecoration" = "underline";
           "editor.warningDecoration" = "underline";
           "editor.infoDecoration" = "underline";
+
+          # Terminal panel
+          "terminal.background" = colors.background;
+          "terminal.foreground" = colors.foreground;
+
+          "terminal.border" = colors.line;
+
+          # Cursor
+          "terminalCursor.foreground" = colors.foreground;
+          "terminalCursor.background" = colors.background;
+
+          # Selection
+          "terminal.selectionBackground" = colors.selection;
+
+          # ANSI bright black used for separators
+          "terminal.ansiBrightBlack" = colors.window;
+
+          "terminal.integrated.colorPalette" = [
+            # 0–7: normal
+            colors.background # black
+            colors.red # red
+            colors.green # green
+            colors.yellow # yellow
+            colors.blue # blue
+            colors.purple # magenta
+            colors.aqua # cyan
+            colors.foreground # white
+
+            # 8–15: bright
+            colors.window # bright black (gray)
+            colors.red # bright red
+            colors.green # bright green
+            colors.yellow # bright yellow
+            colors.blue # bright blue
+            colors.purple # bright magenta
+            colors.aqua # bright cyan
+            colors.foreground # bright white
+          ];
         };
 
         # -- syntax theming
