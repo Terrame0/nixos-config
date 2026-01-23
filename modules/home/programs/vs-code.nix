@@ -1,20 +1,23 @@
-{pkgs, ...}: let
+{ pkgs, ... }: let
   colors = {
     foreground = "#c5c8c6";
     background = "#1d1f21";
-    selection = "#373b41";
-    line = "#282a2e";
-    comment = "#969896";
+    selection  = "#373b41";
+    line       = "#282a2e";
+    comment    = "#969896";
 
-    red = "#d54e53";
+    red    = "#d54e53";
     orange = "#e78c45";
     yellow = "#e7c547";
-    green = "#b9ca4a";
-    aqua = "#70c0b1";
-    blue = "#7aa6da";
+    green  = "#b9ca4a";
+    aqua   = "#70c0b1";
+    blue   = "#7aa6da";
     purple = "#c397d8";
 
     window = "#4d5057";
+
+    # -- transparent token used instead of literal "#00000000"
+    transparent = "#00000000";
   };
 in {
   programs.vscode = {
@@ -53,7 +56,7 @@ in {
         "nix.enableLanguageServer" = true;
         "nix.formatterPath" = "alejandra";
         "nix.serverPath" = "nixd";
-        "nix.hiddenLanguageServerErrors" = ["textDocument/definition"];
+        "nix.hiddenLanguageServerErrors" = [ "textDocument/definition" ];
 
         # -- fonts and cursor
         "editor.fontFamily" = "JetBrainsMono Nerd Font";
@@ -79,13 +82,13 @@ in {
         # -- disable walkthroughs and release notes
         "workbench.editor.showTabs" = true;
         "update.showReleaseNotes" = false;
-        "extensions.showRecommendationsOnlyOnDemand" = true;
+        "extensions.ignoreRecommendations" = true;
 
         # ============================================================
         # -- ui theming
         # ============================================================
 
-        # ensure VS Code draws its own titlebar/menu so colors apply
+        # -- ensure VS Code draws its own titlebar/menu so colors apply
         "window.titleBarStyle" = "custom";
         "window.menuBarVisibility" = "classic";
 
@@ -94,11 +97,13 @@ in {
           "editor.background" = colors.background;
           "editor.foreground" = colors.foreground;
 
-          # selection style: use green bg and dark text (text = background color)
-          "editor.selectionBackground" = colors.green;
-          "editor.selectionForeground" = colors.background;
+          # -- editor selection
+          "editor.selectionBackground" = colors.selection;
+          "editor.selectionForeground" = colors.foreground;
+          "editor.selectionHighlightBackground" = colors.selection;
+          "editor.selectionHighlightBorder" = colors.transparent;
 
-          # editor line highlight kept subtle
+          # -- editor line highlight
           "editor.lineHighlightBackground" = colors.line;
 
           "editorCursor.foreground" = colors.foreground;
@@ -106,9 +111,9 @@ in {
           "editorLineNumber.foreground" = colors.window;
           "editorLineNumber.activeForeground" = colors.foreground;
 
-          # -- focus & borders (disable visible outline so selection is just color swap)
-          "focusBorder" = "#00000000";
-          "contrastBorder" = "#00000000";
+          # -- focus & borders
+          "focusBorder" = colors.transparent;
+          "contrastBorder" = colors.transparent;
 
           # -- sidebar / activity / status
           "sideBar.background" = colors.background;
@@ -118,6 +123,11 @@ in {
           "activityBar.background" = colors.background;
           "activityBar.foreground" = colors.foreground;
           "activityBar.inactiveForeground" = colors.comment;
+          # -- remove activity bar selection bar
+          "activityBar.activeBorder" = colors.transparent;
+          "activityBar.activeFocusBorder" = colors.transparent;
+          "activityBar.activeBackground" = colors.background;
+          "activityBar.inactiveBackground" = colors.background;
           "activityBar.border" = colors.line;
 
           "statusBar.background" = colors.background;
@@ -131,37 +141,35 @@ in {
           "panelTitle.inactiveForeground" = colors.comment;
 
           # -- tabs
-          # disable problem-based tab emphasis as much as possible
+          # -- disable green selection for tabs: active = line bg + fg text
           "problems.decorations.enabled" = false;
 
-          # force tab colors even under warning state
-          "tab.activeModifiedForeground" = colors.background;
-
-          # kill any remaining emphasis borders
-          "tab.activeModifiedBorder" = "#00000000";
-          "tab.activeBorder" = "#00000000";
-
-          # replace selection-border approach: active tab = green bg, text = background color
-          "tab.activeBackground" = colors.green;
-          "tab.activeForeground" = colors.background;
+          "tab.activeBackground" = colors.line;
+          "tab.activeForeground" = colors.foreground;
 
           "tab.inactiveBackground" = colors.background;
           "tab.inactiveForeground" = colors.comment;
 
-          # -- git diffs dont affect tab colors
+          # remove any active/selected thin top border
+          "tab.activeBorderTop" = colors.transparent;
+          "tab.unfocusedActiveBorderTop" = colors.transparent;
+          "tab.selectedBorderTop" = colors.transparent;
+          "tab.border" = colors.transparent;
+
+          # mitigate modified/problem overrides (best-effort)
+          "tab.activeModifiedBorder" = colors.transparent;
+          "tab.inactiveModifiedBorder" = colors.transparent;
+          "tab.activeModifiedForeground" = colors.foreground;
+          "tab.inactiveModifiedForeground" = colors.comment;
+
+          # make sure scm doesn't recolor tab backgrounds
           "scm.diffDecorations" = "none";
 
-          # remove the thin top border above active tab
-          "tab.activeBorderTop" = "#00000000";
-          "tab.unfocusedActiveBorderTop" = "#00000000";
-          "tab.selectedBorderTop" = "#00000000";
-          "tab.border" = "#00000000";
-
           # -- lists & trees (explorer)
-          # selection style: green bg, text = background color
+          # explorer selection: use subtle line bg + fg text
           "list.activeSelectionBackground" = colors.line;
-          "list.activeSelectionForeground" = colors.background;
-          "list.activeSelectionIconForeground" = colors.background;
+          "list.activeSelectionForeground" = colors.foreground;
+          "list.activeSelectionIconForeground" = colors.foreground;
 
           "list.inactiveSelectionBackground" = colors.line;
           "list.inactiveSelectionForeground" = colors.foreground;
@@ -169,7 +177,7 @@ in {
           "list.hoverBackground" = colors.selection;
           "list.hoverForeground" = colors.foreground;
 
-          "list.focusOutline" = "#00000000";
+          "list.focusOutline" = colors.transparent;
           "tree.indentGuidesStroke" = colors.line;
 
           # -- inputs
@@ -182,8 +190,10 @@ in {
           "dropdown.border" = colors.line;
 
           # -- scrollbar
-          "scrollbarSlider.background" = colors.window;
-          "scrollbarSlider.hoverBackground" = colors.comment;
+          # ensure scrollbar tokens are set (this fixes non-styled scrollbars)
+          "scrollbar.shadow" = colors.transparent;
+          "scrollbarSlider.background" = "${colors.window}99";
+          "scrollbarSlider.hoverBackground" = "${colors.comment}cc";
           "scrollbarSlider.activeBackground" = colors.foreground;
 
           # -- git decorations (explorer + generic)
@@ -199,7 +209,7 @@ in {
           "editorGutter.modifiedBackground" = colors.yellow;
           "editorGutter.deletedBackground" = colors.red;
 
-          # -- overview ruler (vertical diff lines)
+          # -- overview ruler (vertical diff lines / modified markers)
           "editorOverviewRuler.addedForeground" = "${colors.green}99";
           "editorOverviewRuler.modifiedForeground" = "${colors.yellow}99";
           "editorOverviewRuler.deletedForeground" = "${colors.red}99";
@@ -212,7 +222,7 @@ in {
           "editorInfo.foreground" = colors.blue;
           "editorHint.foreground" = colors.comment;
 
-          # underlines only (no extra borders)
+          # only underline decorations for problems
           "editor.errorDecoration" = "underline";
           "editor.warningDecoration" = "underline";
           "editor.infoDecoration" = "underline";
@@ -227,7 +237,7 @@ in {
           "welcomePage.tileBackground" = colors.line;
           "welcomePage.tileHoverBackground" = colors.selection;
           "welcomePage.tileBorder" = colors.line;
-          "welcomePage.tileShadow" = "#00000000";
+          "welcomePage.tileShadow" = colors.transparent;
 
           # -- debug
           "debugToolBar.background" = colors.line;
@@ -249,7 +259,17 @@ in {
           "terminalCursor.foreground" = colors.foreground;
           "terminal.selectionBackground" = colors.selection;
 
-          # proper 16-color ansi terminal mapping (these are the keys VS Code reads)
+          # -- terminal tabs & notification dots
+          "terminal.tab.activeBackground" = colors.line;
+          "terminal.tab.activeForeground" = colors.foreground;
+          "terminal.tab.inactiveBackground" = colors.background;
+          "terminal.tab.inactiveForeground" = colors.comment;
+          "terminal.tab.activeBorder" = colors.transparent;
+          "terminal.tab.activeBorderTop" = colors.transparent;
+          "terminal.tab.activeIconForeground" = colors.foreground;
+          "terminal.tab.inactiveIconForeground" = colors.comment;
+
+          # -- terminal ansi colors (16)
           "terminal.ansiBlack" = colors.background;
           "terminal.ansiRed" = colors.red;
           "terminal.ansiGreen" = colors.green;
@@ -268,53 +288,49 @@ in {
           "terminal.ansiBrightCyan" = colors.aqua;
           "terminal.ansiBrightWhite" = colors.foreground;
 
-          # word under cursor / hover highlight
+          # -- word under cursor / hover highlight
           "editor.wordHighlightBackground" = colors.selection;
           "editor.wordHighlightStrongBackground" = colors.selection;
 
-          # symbol occurrences
-          "editor.selectionHighlightBackground" = colors.selection;
 
-          # hover widget itself
+          # -- hover widget itself
           "editorHoverWidget.background" = colors.line;
           "editorHoverWidget.foreground" = colors.foreground;
           "editorHoverWidget.border" = colors.line;
 
-          "editor.wordHighlightBorder" = "#00000000";
-          "editor.wordHighlightStrongBorder" = "#00000000";
-          "editor.selectionHighlightBorder" = "#00000000";
+          # -- symbol occurrences
+          "editor.wordHighlightBorder" = colors.transparent;
+          "editor.wordHighlightStrongBorder" = colors.transparent;
 
-          # suggest / autocomplete widget
+          # -- suggest / autocomplete widget
           "suggestWidget.background" = colors.background;
           "suggestWidget.foreground" = colors.foreground;
           "suggestWidget.border" = colors.line;
 
-          # selected item
+          # selected item in suggest
           "suggestWidget.selectedBackground" = colors.selection;
           "suggestWidget.selectedForeground" = colors.foreground;
 
-          # matched text
+          # matched text in suggest
           "suggestWidget.highlightForeground" = colors.yellow;
 
           # documentation pane inside suggest
           "suggestWidget.focusHighlightForeground" = colors.blue;
+          "editorSuggestWidget.background" = colors.background;
+          "editorSuggestWidget.border" = colors.line;
 
           # scrollbar inside suggest widget
           "suggestWidgetScrollbarSlider.background" = colors.window;
           "suggestWidgetScrollbarSlider.hoverBackground" = colors.comment;
           "suggestWidgetScrollbarSlider.activeBackground" = colors.foreground;
 
-          # docs popup inside completion
-          "editorSuggestWidget.background" = colors.background;
-          "editorSuggestWidget.border" = colors.line;
-
           # -- buttons, badges, extension buttons
           "button.background" = colors.blue;
           "button.foreground" = colors.background;
           "button.hoverBackground" = colors.aqua;
-          "button.border" = "#00000000";
+          "button.border" = colors.transparent;
 
-          "button.secondaryBackground" = "#00000000";
+          "button.secondaryBackground" = colors.transparent;
           "button.secondaryForeground" = colors.foreground;
           "button.secondaryHoverBackground" = colors.selection;
 
@@ -332,14 +348,14 @@ in {
           # -- menus / context menus / menubar (top-bar context menus)
           "menu.background" = colors.background;
           "menu.foreground" = colors.foreground;
-          "menu.selectionBackground" = colors.green;
-          "menu.selectionForeground" = colors.background;
+          "menu.selectionBackground" = colors.selection;
+          "menu.selectionForeground" = colors.foreground;
           "menu.separatorBackground" = colors.line;
           "menu.border" = colors.line;
 
-          "menubar.selectionBackground" = colors.green;
-          "menubar.selectionForeground" = colors.background;
-          "menubar.selectionBorder" = "#00000000";
+          "menubar.selectionBackground" = colors.selection;
+          "menubar.selectionForeground" = colors.foreground;
+          "menubar.selectionBorder" = colors.transparent;
 
           # -- notifications / toasts
           "notifications.background" = colors.background;
@@ -366,10 +382,10 @@ in {
           "diffEditor.insertedTextBackground" = "${colors.green}33";
           "diffEditor.removedTextBackground" = "${colors.red}33";
 
-          # -- bracket highlighting (make all bracket depths the same color)
-          # remove border and use green background to follow the 'selection as green' pattern
-          "editorBracketMatch.background" = "#00000000";
-          "editorBracketMatch.border" = "#00000000";
+          # -- bracket highlighting: brackets themselves and guides
+          "editorBracketMatch.background" = colors.transparent;
+          "editorBracketMatch.border" = colors.transparent;
+
           "editorBracketHighlight.foreground1" = colors.purple;
           "editorBracketHighlight.foreground2" = colors.purple;
           "editorBracketHighlight.foreground3" = colors.purple;
@@ -378,27 +394,27 @@ in {
           "editorBracketHighlight.foreground6" = colors.purple;
           "editorBracketHighlight.unexpectedBracket.foreground" = colors.red;
 
-          # bracket pair guides (use selection color but ensure no visual border)
-          "editorBracketPairGuide.activeBackground1" = "#00000000";
-          "editorBracketPairGuide.activeBackground2" = "#00000000";
-          "editorBracketPairGuide.activeBackground3" = "#00000000";
-          "editorBracketPairGuide.activeBackground4" = "#00000000";
-          "editorBracketPairGuide.activeBackground5" = "#00000000";
-          "editorBracketPairGuide.activeBackground6" = "#00000000";
+          # bracket pair guides (block background) - keep invisible or transparent
+          "editorBracketPairGuide.activeBackground1" = colors.transparent;
+          "editorBracketPairGuide.activeBackground2" = colors.transparent;
+          "editorBracketPairGuide.activeBackground3" = colors.transparent;
+          "editorBracketPairGuide.activeBackground4" = colors.transparent;
+          "editorBracketPairGuide.activeBackground5" = colors.transparent;
+          "editorBracketPairGuide.activeBackground6" = colors.transparent;
 
-          "editorBracketPairGuide.background1" = "#00000000";
-          "editorBracketPairGuide.background2" = "#00000000";
-          "editorBracketPairGuide.background3" = "#00000000";
-          "editorBracketPairGuide.background4" = "#00000000";
-          "editorBracketPairGuide.background5" = "#00000000";
-          "editorBracketPairGuide.background6" = "#00000000";
+          "editorBracketPairGuide.background1" = colors.transparent;
+          "editorBracketPairGuide.background2" = colors.transparent;
+          "editorBracketPairGuide.background3" = colors.transparent;
+          "editorBracketPairGuide.background4" = colors.transparent;
+          "editorBracketPairGuide.background5" = colors.transparent;
+          "editorBracketPairGuide.background6" = colors.transparent;
 
-          # thin vertical line connecting brackets
-          "editor.guides.bracketPairs" = colors.line;
+          # thin vertical line connecting brackets: set to selection color
+          "editor.guides.bracketPairs" = colors.selection;
           "editor.guides.bracketPairsActive" = colors.selection;
         };
 
-        # -- ensure bracket pair colorization is enabled
+        # -- ensure bracket pair colorization is enabled and guides behavior set to active
         "editor.bracketPairColorization.enabled" = true;
         "editor.guides.bracketPairs" = "active";
 
@@ -411,21 +427,21 @@ in {
 
         "editor.semanticTokenColorCustomizations" = {
           rules = {
-            # variables / params / properties
+            # -- variables / params / properties
             "variable" = colors.foreground;
             "parameter" = colors.foreground;
             "property" = colors.foreground;
 
-            # functions
+            # -- functions
             "function" = colors.blue;
 
-            # types
+            # -- types
             "type" = colors.yellow;
 
-            # keywords
+            # -- keywords
             "keyword" = colors.purple;
 
-            # strings & numbers & booleans
+            # -- strings & numbers & booleans
             "string" = colors.green;
             "number" = colors.orange;
             "boolean" = colors.purple;
@@ -452,7 +468,7 @@ in {
 
             # -- booleans (true / false)
             {
-              scope = ["constant.language.boolean" "constant.language.true" "constant.language.false"];
+              scope = [ "constant.language.boolean" "constant.language.true" "constant.language.false" ];
               settings.foreground = colors.purple;
             }
 
@@ -526,7 +542,7 @@ in {
               settings.foreground = colors.foreground;
             }
 
-            # -- punctuation: muted by default, but bracket punctuation forced below
+            # -- punctuation: muted by default; brackets forced below
             {
               scope = "punctuation";
               settings.foreground = colors.comment;
@@ -535,23 +551,23 @@ in {
             # -- brackets specifically (force parens/brackets/braces to one color)
             {
               scope = "punctuation.section.brackets";
-              settings.foreground = colors.blue;
+              settings.foreground = colors.purple;
             }
             {
               scope = "punctuation.section.parens";
-              settings.foreground = colors.blue;
+              settings.foreground = colors.purple;
             }
             {
               scope = "punctuation.section.block";
-              settings.foreground = colors.blue;
+              settings.foreground = colors.purple;
             }
             {
               scope = "punctuation.definition.brackets";
-              settings.foreground = colors.blue;
+              settings.foreground = colors.purple;
             }
             {
               scope = "punctuation.definition.parameters";
-              settings.foreground = colors.blue;
+              settings.foreground = colors.purple;
             }
 
             # -- broad nix coverage: ensure keyword.other.nix and source.nix are covered
