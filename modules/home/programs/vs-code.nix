@@ -379,35 +379,42 @@ in {
           "editor.guides.bracketPairs" = colors.selection;
           "editor.guides.bracketPairsActive" = colors.selection;
 
-          # -- suggestion text fallback paths
-
-          # list renderer (used by suggest widget rows)
-          "list.foreground" = colors.foreground;
+          # -- list renderer (used by suggest widget rows, search, quick pick)
+          "list.hoverBackground" = colors.selection;
           "list.hoverForeground" = colors.foreground;
-          "list.activeSelectionBackground" = colors.green;
-          "list.activeSelectionForeground" = colors.background;
+
+          "list.activeSelectionBackground" = colors.background;
+          "list.activeSelectionForeground" = colors.foreground;
           "list.activeSelectionIconForeground" = colors.background;
+
           "list.inactiveSelectionBackground" = colors.line;
           "list.inactiveSelectionForeground" = colors.foreground;
-          "list.hoverBackground" = colors.selection;
-          "list.focusOutline" = colors.transparent;
-          "tree.indentGuidesStroke" = colors.line;
 
-          # quick input renderer (shared by suggest widget internals)
+          "list.focusOutline" = colors.transparent;
+
+          # -- list text (untyped / normal labels)
+          "list.foreground" = colors.foreground;
+          "list.focusForeground" = colors.line;
+
+          # -- matched / typed text inside suggest widget (kills default blue)
+          "list.focusHighlightForeground" = colors.background;
+
+          # -- fallback path used by some completion providers
+          "editorSuggestWidget.highlightForeground" = colors.line;
+
+          # -- quick input renderer (shared by suggest widget internals, cmd palette)
           "quickInput.background" = colors.background;
-          "quickInput.foreground" = colors.line;
-          "quickInputList.focusBackground" = colors.green;
+          "quickInput.foreground" = colors.foreground;
+
+          "quickInputList.focusBackground" = colors.blue;
           "quickInputList.focusForeground" = colors.background;
           "quickInputList.focusIconForeground" = colors.background;
 
-          # matched / typed text inside suggest widget (kills default blue)
-          "list.focusHighlightForeground" = colors.background;
+          # -- completion item kind / symbol labels
+          "symbolIcon.textForeground" = colors.blue;
 
-          # some providers still route through editorSuggest
-          "editorSuggestWidget.highlightForeground" = colors.comment;
-
-          # completion item kind / label text
-          "symbolIcon.textForeground" = colors.green;
+          # -- shared tree visuals
+          "tree.indentGuidesStroke" = colors.line;
         };
 
         # -- editor behavior
@@ -465,7 +472,7 @@ in {
             }
 
             # --------------------------------------------------------
-            # -- keywords (generic)
+            # -- keywords (generic)s
             # --------------------------------------------------------
             {
               scope = "keyword";
