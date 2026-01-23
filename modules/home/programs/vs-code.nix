@@ -66,6 +66,8 @@
         # window = "#4d5057"
 
         "workbench.colorCustomizations" = {
+          "editor.semanticHighlighting.enabled" = false;
+
           "editor.background" = "#1d1f21";
           "editor.foreground" = "#c5c8c6";
 
@@ -76,6 +78,30 @@
 
           "editorLineNumber.foreground" = "#4d5057";
           "editorLineNumber.activeForeground" = "#c5c8c6";
+
+          # Sidebar
+          "sideBar.background" = "#1d1f21";
+          "sideBar.foreground" = "#c5c8c6";
+          "sideBar.border" = "#282a2e";
+
+          # Activity bar (icons on the far left)
+          "activityBar.background" = "#1d1f21";
+          "activityBar.foreground" = "#7aa6da";
+          "activityBar.inactiveForeground" = "#4d5057";
+          "activityBar.border" = "#282a2e";
+
+          # Status bar
+          "statusBar.background" = "#1d1f21";
+          "statusBar.foreground" = "#c5c8c6";
+          "statusBar.border" = "#282a2e";
+          # tabs
+          "tab.activeBackground" = "#1d1f21";
+          "tab.inactiveBackground" = "#282a2e";
+
+          "tab.activeForeground" = "#c5c8c6";
+          "tab.inactiveForeground" = "#969896";
+
+          "tab.border" = "#282a2e";
         };
 
         "editor.tokenColorCustomizations" = {
@@ -131,6 +157,14 @@
               };
             }
 
+            # -- punctuation
+            {
+              scope = "punctuation";
+              settings = {
+                foreground = "#4d5057";
+              };
+            }
+
             # Numbers
             {
               scope = "constant.numeric";
@@ -139,7 +173,7 @@
               };
             }
 
-            # Variables (keep neutral, kill rainbow)
+            # Variables
             {
               scope = "variable";
               settings = {
