@@ -396,20 +396,19 @@ in {
           # quick input renderer (shared by suggest widget internals)
           "quickInput.background" = colors.background;
           "quickInput.foreground" = colors.foreground;
-          "quickInputList.focusBackground" = colors.selection;
-          "quickInputList.focusForeground" = colors.foreground;
-          "quickInputList.focusIconForeground" = colors.foreground;
+          "quickInputList.focusBackground" = colors.green;
+          "quickInputList.focusForeground" = colors.background;
+          "quickInputList.focusIconForeground" = colors.background;
 
           # matched / typed text inside suggest widget (kills default blue)
           "list.highlightForeground" = colors.foreground;
           "list.focusHighlightForeground" = colors.foreground;
-
+          
           # some providers still route through editorSuggest
-          "editorSuggestWidget.highlightForeground" = colors.comment;
-          "editorSuggestWidget.highlightBackground" = colors.green;
+          # "editorSuggestWidget.highlightForeground" = colors.foreground;
 
           # completion item kind / label text
-          "symbolIcon.textForeground" = colors.background;
+          "symbolIcon.textForeground" = colors.comment;
         };
 
         # -- editor behavior
