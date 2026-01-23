@@ -510,7 +510,7 @@ in {
             # -- comments
             {
               scope = "comment";
-              settings.foreground = colors.green;
+              settings.foreground = colors.comment;
             }
 
             # -- strings
