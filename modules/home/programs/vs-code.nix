@@ -45,7 +45,6 @@ in {
       # ============================================================
 
       userSettings = {
-
         # ============================================================
         # -- misc behavior
         # ============================================================
@@ -105,7 +104,6 @@ in {
         # ============================================================
 
         "workbench.colorCustomizations" = {
-
           # ----------------------------------------------------------
           # -- editor core
           # ----------------------------------------------------------
@@ -510,7 +508,10 @@ in {
         "editor.tokenColorCustomizations" = {
           textMateRules = [
             # -- comments
-            { scope = "comment"; settings.foreground = colors.comment; }
+            {
+              scope = "comment";
+              settings.foreground = colors.comment;
+            }
 
             # -- strings
             {
@@ -524,7 +525,10 @@ in {
             }
 
             # -- numbers
-            { scope = "constant.numeric"; settings.foreground = colors.orange; }
+            {
+              scope = "constant.numeric";
+              settings.foreground = colors.orange;
+            }
 
             # -- booleans and null
             {
@@ -538,10 +542,16 @@ in {
             }
 
             # -- keywords
-            { scope = "keyword"; settings.foreground = colors.purple; }
+            {
+              scope = "keyword";
+              settings.foreground = colors.purple;
+            }
 
             # -- operators
-            { scope = "keyword.operator"; settings.foreground = colors.purple; }
+            {
+              scope = "keyword.operator";
+              settings.foreground = colors.purple;
+            }
 
             # -- functions
             {
@@ -583,7 +593,10 @@ in {
             }
 
             # -- punctuation
-            { scope = "punctuation"; settings.foreground = colors.comment; }
+            {
+              scope = "punctuation";
+              settings.foreground = colors.comment;
+            }
 
             # -- brackets
             {
@@ -598,7 +611,10 @@ in {
             }
 
             # -- nix
-            { scope = "source.nix"; settings.foreground = colors.foreground; }
+            {
+              scope = "source.nix";
+              settings.foreground = colors.foreground;
+            }
 
             {
               scope = [
@@ -628,17 +644,38 @@ in {
               settings.foreground = colors.foreground;
             }
 
-            { scope = "support.constant.nix"; settings.foreground = colors.yellow; }
+            {
+              scope = "support.constant.nix";
+              settings.foreground = colors.yellow;
+            }
 
             # -- shell
-            { scope = "source.shell keyword"; settings.foreground = colors.purple; }
-            { scope = "source.shell variable"; settings.foreground = colors.foreground; }
-            { scope = "source.shell support.function"; settings.foreground = colors.blue; }
+            {
+              scope = "source.shell keyword";
+              settings.foreground = colors.purple;
+            }
+            {
+              scope = "source.shell variable";
+              settings.foreground = colors.foreground;
+            }
+            {
+              scope = "source.shell support.function";
+              settings.foreground = colors.blue;
+            }
 
             # -- python
-            { scope = "source.python keyword"; settings.foreground = colors.purple; }
-            { scope = "entity.name.function.python"; settings.foreground = colors.blue; }
-            { scope = "storage.type.function.python"; settings.foreground = colors.purple; }
+            {
+              scope = "source.python keyword";
+              settings.foreground = colors.purple;
+            }
+            {
+              scope = "entity.name.function.python";
+              settings.foreground = colors.blue;
+            }
+            {
+              scope = "storage.type.function.python";
+              settings.foreground = colors.purple;
+            }
 
             # -- c and c plus plus
             {
@@ -683,13 +720,22 @@ in {
             }
 
             # -- json
-            { scope = "source.json entity.name.section"; settings.foreground = colors.yellow; }
+            {
+              scope = "source.json entity.name.section";
+              settings.foreground = colors.yellow;
+            }
 
             # -- yaml
-            { scope = "source.yaml key"; settings.foreground = colors.yellow; }
+            {
+              scope = "source.yaml key";
+              settings.foreground = colors.yellow;
+            }
 
             # -- toml
-            { scope = "source.toml entity.name.section"; settings.foreground = colors.yellow; }
+            {
+              scope = "source.toml entity.name.section";
+              settings.foreground = colors.yellow;
+            }
 
             # -- css and html
             {
@@ -709,7 +755,10 @@ in {
             }
 
             # -- fallback
-            { scope = "meta"; settings.foreground = colors.foreground; }
+            {
+              scope = "meta";
+              settings.foreground = colors.foreground;
+            }
           ];
         };
       };
