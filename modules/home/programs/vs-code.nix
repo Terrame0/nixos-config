@@ -345,7 +345,7 @@ in {
           "suggestWidget.selectedBackground" = colors.selection;
           "suggestWidget.selectedForeground" = colors.foreground;
 
-          "suggestWidget.highlightForeground" = colors.background;
+          "suggestWidget.highlightForeground" = colors.green;
           "suggestWidget.detailForeground" = colors.foreground;
           "suggestWidget.documentationFontSize" = 12;
 
@@ -478,7 +478,7 @@ in {
           # ----------------------------------------------------------
 
           "list.highlightForeground" = colors.foreground;
-          "list.focusHighlightForeground" = colors.background;
+          "list.focusHighlightForeground" = colors.green;
 
           "editorSuggestWidget.background" = colors.background;
           "editorSuggestWidget.foreground" = colors.foreground;
@@ -550,7 +550,7 @@ in {
             # -- operators
             {
               scope = "keyword.operator";
-              settings.foreground = colors.aqua;
+              settings.foreground = colors.comment;
             }
 
             # -- functions
@@ -623,7 +623,7 @@ in {
                 "keyword.operator.nix"
                 "storage.type.nix"
               ];
-              settings.foreground = colors.purple;
+              settings.foreground = colors.comment;
             }
 
             {
