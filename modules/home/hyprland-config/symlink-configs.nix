@@ -4,11 +4,11 @@
     (_: type: type == "directory")
     (builtins.readDir ./config);
 in {
-  xdg.configFile =
-    lib.mapAttrs
-    (name: _: {
-      source = ./config/${name};
-      recursive = true;
-    })
-    config-directories;
+  # xdg.configFile =
+  #   lib.mapAttrs
+  #   (name: _: {
+  #     source = ./config/${name};
+  #     recursive = true;
+  #   })
+  #   config-directories;
 }

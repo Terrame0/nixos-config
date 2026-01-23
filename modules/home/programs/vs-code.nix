@@ -49,6 +49,18 @@
         "editor.fontFamily" = "JetBrainsMono Nerd Font";
         "workbench.colorTheme" = "Default Dark Modern";
         "workbench.iconTheme" = "vs-seti";
+
+        "editor.tokenColorCustomizations" = {
+          textMateRules = [
+            {
+              scope = "comment";
+              settings = {
+                foreground = "#5f875f";
+                fontStyle = "italic";
+              };
+            }
+          ];
+        };
       };
     };
   };
