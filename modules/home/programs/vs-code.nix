@@ -207,26 +207,25 @@ in {
         };
 
         # -- top bar / window chrome
-"window.titleBarStyle" = "custom";
+        "window.titleBarStyle" = "custom";
 
-"titleBar.activeBackground" = colors.background;
-"titleBar.activeForeground" = colors.foreground;
+        "titleBar.activeBackground" = colors.background;
+        "titleBar.activeForeground" = colors.foreground;
 
-"titleBar.inactiveBackground" = colors.background;
-"titleBar.inactiveForeground" = colors.comment;
+        "titleBar.inactiveBackground" = colors.background;
+        "titleBar.inactiveForeground" = colors.comment;
 
-"titleBar.border" = colors.line;
+        "titleBar.border" = colors.line;
 
-"commandCenter.background" = colors.line;
-"commandCenter.foreground" = colors.foreground;
-"commandCenter.border" = colors.line;
+        "commandCenter.background" = colors.line;
+        "commandCenter.foreground" = colors.foreground;
+        "commandCenter.border" = colors.line;
 
-"commandCenter.activeBackground" = colors.selection;
-"commandCenter.activeForeground" = colors.foreground;
+        "commandCenter.activeBackground" = colors.selection;
+        "commandCenter.activeForeground" = colors.foreground;
 
-"window.activeBorder" = colors.line;
-"window.inactiveBorder" = colors.line;
-
+        "window.activeBorder" = colors.line;
+        "window.inactiveBorder" = colors.line;
 
         # ============================================================
         # -- syntax theming
