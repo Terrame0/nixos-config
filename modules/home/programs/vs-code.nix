@@ -379,41 +379,57 @@ in {
           "editor.guides.bracketPairs" = colors.selection;
           "editor.guides.bracketPairsActive" = colors.selection;
 
-          # -- list renderer (used by suggest widget rows, search, quick pick)
-          "list.hoverBackground" = colors.selection;
-          "list.hoverForeground" = colors.foreground;
+          # -- base list backgrounds
+          "list.hoverBackground" = colors.selection; # hover only
+          "list.activeSelectionBackground" = colors.blue;
+          "list.inactiveSelectionBackground" = colors.background;
 
-          "list.activeSelectionBackground" = colors.background;
-          "list.activeSelectionForeground" = colors.foreground;
-          "list.activeSelectionIconForeground" = colors.background;
+          # -- list foregrounds (UNSELECTED)
+          "list.foreground" = colors.comment; # untyped text
+          "list.focusForeground" = colors.comment;
 
-          "list.inactiveSelectionBackground" = colors.line;
-          "list.inactiveSelectionForeground" = colors.foreground;
+          # -- typed / matched text (UNSELECTED)
+          "list.highlightForeground" = colors.foreground;
 
-          "list.focusOutline" = colors.transparent;
+          # -- SELECTED row text
+          "list.activeSelectionForeground" = colors.line; # untyped text
+          "list.inactiveSelectionForeground" = colors.line;
 
-          # -- list text (untyped / normal labels)
-          "list.foreground" = colors.foreground;
-          "list.focusForeground" = colors.line;
-
-          # -- matched / typed text inside suggest widget (kills default blue)
+          # -- typed text inside SELECTED row
           "list.focusHighlightForeground" = colors.background;
 
-          # -- fallback path used by some completion providers
-          "editorSuggestWidget.highlightForeground" = colors.line;
+          # -- icons inside selected row
+          "list.activeSelectionIconForeground" = colors.background;
 
-          # -- quick input renderer (shared by suggest widget internals, cmd palette)
+          # -- remove focus outline
+          "list.focusOutline" = colors.transparent;
+
+          # ============================================================
+          # quick input renderer (shared by suggest widget internals)
+          # ============================================================
+
           "quickInput.background" = colors.background;
-          "quickInput.foreground" = colors.foreground;
+          "quickInput.foreground" = colors.comment; # untyped text baseline
 
+          # -- focused (selected) entry
           "quickInputList.focusBackground" = colors.blue;
-          "quickInputList.focusForeground" = colors.background;
+          "quickInputList.focusForeground" = colors.line;
           "quickInputList.focusIconForeground" = colors.background;
 
-          # -- completion item kind / symbol labels
+          # ============================================================
+          # fallback paths (kill default VS Code blue)
+          # ============================================================
+
+          # -- some completion providers still route here
+          "editorSuggestWidget.highlightForeground" = colors.foreground;
+
+          # -- completion kind / symbol text
           "symbolIcon.textForeground" = colors.blue;
 
-          # -- shared tree visuals
+          # ============================================================
+          # shared tree visuals
+          # ============================================================
+
           "tree.indentGuidesStroke" = colors.line;
         };
 
