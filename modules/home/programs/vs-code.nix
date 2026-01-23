@@ -300,8 +300,8 @@ in {
           "terminal.tab.activeForeground" = colors.foreground;
           "terminal.tab.inactiveBackground" = colors.background;
           "terminal.tab.inactiveForeground" = colors.comment;
-          "terminal.tab.activeBorder" = colors.transparent;
-          "terminal.tab.activeBorderTop" = colors.transparent;
+          "terminal.tab.activeBorder" = colors.line;
+          "terminal.tab.activeBorderTop" = colors.line;
           "terminal.tab.activeIconForeground" = colors.transparent;
           "terminal.tab.inactiveIconForeground" = colors.transparent;
 
@@ -340,7 +340,7 @@ in {
 
           "suggestWidget.background" = colors.background;
           "suggestWidget.foreground" = colors.foreground;
-          "suggestWidget.border" = colors.transparent;
+          "suggestWidget.border" = colors.line;
 
           "suggestWidget.selectedBackground" = colors.selection;
           "suggestWidget.selectedForeground" = colors.foreground;
@@ -482,7 +482,7 @@ in {
 
           "editorSuggestWidget.background" = colors.background;
           "editorSuggestWidget.foreground" = colors.foreground;
-          "editorSuggestWidget.border" = colors.transparent;
+          "editorSuggestWidget.border" = colors.line;
 
           "editorSuggestWidget.highlightForeground" = colors.foreground;
 
