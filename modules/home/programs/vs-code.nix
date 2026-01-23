@@ -162,6 +162,72 @@ in {
             colors.aqua # bright cyan
             colors.foreground # bright white
           ];
+
+          "terminal.integrated.fontFamily" = "JetBrainsMono Nerd Font";
+          "terminal.integrated.fontLigatures" = true;
+
+          "terminal.integrated.cursorBlinking" = false;
+          "terminal.integrated.cursorStyle" = "line";
+
+          # -- Welcome / Getting Started
+          "welcomePage.background" = colors.background;
+
+          "welcomePage.tileBackground" = colors.line;
+          "welcomePage.tileHoverBackground" = colors.selection;
+          "welcomePage.tileBorder" = colors.line;
+          "welcomePage.tileShadow" = "#00000000";
+
+          "welcomePage.progress.background" = colors.line;
+          "welcomePage.progress.foreground" = colors.blue;
+
+          # -- Explorer
+
+          "list.activeSelectionBackground" = colors.selection;
+          "list.activeSelectionForeground" = colors.foreground;
+
+          "list.inactiveSelectionBackground" = colors.line;
+          "list.inactiveSelectionForeground" = colors.foreground;
+
+          "list.hoverBackground" = colors.selection;
+          "list.hoverForeground" = colors.foreground;
+
+          "list.focusOutline" = colors.blue;
+
+          "tree.indentGuidesStroke" = colors.line;
+
+          # -- Search
+          "searchEditor.findMatchBackground" = colors.yellow;
+          "searchEditor.findMatchBorder" = colors.orange;
+
+          "editor.findMatchBackground" = colors.yellow;
+          "editor.findMatchHighlightBackground" = colors.orange;
+
+          "editor.findMatchBorder" = colors.orange;
+          "editor.findMatchHighlightBorder" = colors.orange;
+
+          # -- Debug
+          "debugToolBar.background" = colors.line;
+          "debugToolBar.border" = colors.line;
+
+          "debugIcon.breakpointForeground" = colors.red;
+          "debugIcon.breakpointDisabledForeground" = colors.comment;
+          "debugIcon.breakpointUnverifiedForeground" = colors.orange;
+
+          "debugConsole.infoForeground" = colors.blue;
+          "debugConsole.warningForeground" = colors.yellow;
+          "debugConsole.errorForeground" = colors.red;
+
+          # -- Extensions
+          "extensionButton.prominentBackground" = colors.blue;
+          "extensionButton.prominentForeground" = colors.background;
+          "extensionButton.prominentHoverBackground" = colors.aqua;
+
+          "extensionButton.background" = colors.line;
+          "extensionButton.foreground" = colors.foreground;
+          "extensionButton.hoverBackground" = colors.selection;
+
+          "extensionBadge.remoteBackground" = colors.purple;
+          "extensionBadge.remoteForeground" = colors.background;
         };
 
         # -- syntax theming
