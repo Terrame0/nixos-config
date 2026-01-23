@@ -102,6 +102,7 @@
 
         "window.titleBarStyle" = "custom";
         "window.menuBarVisibility" = "classic";
+        "glassit.alpha" = 100;
 
         # ============================================================
         # -- ui theming
@@ -284,7 +285,8 @@
           "debugToolBar.border" = colors.transparent;
 
           "textLink.foreground" = colors.blue;
-          "textLink.activeForeground" = colors.aqua;
+          "textLink.activeForeground" = colors.blue;
+          "textLink.border" = colors.transparent;
 
           "debugConsole.infoForeground" = colors.blue;
           "debugConsole.warningForeground" = colors.yellow;
