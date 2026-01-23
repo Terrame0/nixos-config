@@ -35,7 +35,7 @@
         ecmel.vscode-html-css
       ];
       marketplace-extensions = pkgs.nix4vscode.forVscode [
-        "s-nlf-fh.glassit"
+        # "s-nlf-fh.glassit"
       ];
     in {
       # ============================================================
@@ -265,7 +265,6 @@
           "editor.findMatchHighlightForeground" = colors.background;
           "editor.findMatchHighlightBackground" = colors.foreground;
           "editor.findMatchHighlightBorder" = colors.transparent;
-          "glassit.alpha" = 0;
 
           # ----------------------------------------------------------
           # -- welcome page
