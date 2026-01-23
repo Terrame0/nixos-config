@@ -1,10 +1,29 @@
-{pkgs, ...}: {
+{ pkgs, ... }:
+
+let
+  colors = {
+    foreground = "#c5c8c6";
+    background = "#1d1f21";
+    selection  = "#373b41";
+    line       = "#282a2e";
+    comment    = "#969896";
+    red        = "#d54e53";
+    orange     = "#e78c45";
+    yellow     = "#e7c547";
+    green      = "#b9ca4a";
+    aqua       = "#70c0b1";
+    blue       = "#7aa6da";
+    purple     = "#c397d8";
+    window     = "#4d5057";
+  };
+in
+{
   programs.vscode = {
     enable = true;
     package = pkgs.vscode-fhs;
     mutableExtensionsDir = false;
+
     profiles.default = {
-      # -- vscode extensions
       extensions = with pkgs.vscode-extensions; [
         ms-python.python
         jnoortheen.nix-ide
@@ -13,7 +32,7 @@
         llvm-vs-code-extensions.vscode-clangd
         ecmel.vscode-html-css
       ];
-      # -- settings.json
+
       userSettings = {
         # -- misc tweaks
         "keyboard.dispatch" = "keyCode";
@@ -27,9 +46,9 @@
         "nix.enableLanguageServer" = true;
         "nix.formatterPath" = "alejandra";
         "nix.serverPath" = "nixd";
-        "nix.hiddenLanguageServerErrors" = ["textDocument/definition"];
+        "nix.hiddenLanguageServerErrors" = [ "textDocument/definition" ];
 
-        # -- default terminal emulator
+        # -- terminal
         "terminal.external.linuxExec" = "alacritty";
 
         # -- disable updates
@@ -37,7 +56,7 @@
         "extensions.autoUpdate" = false;
         "extensions.autoCheckUpdates" = false;
 
-        # -- cursor appearance
+        # -- cursor
         "editor.cursorSmoothCaretAnimation" = "on";
         "editor.cursorBlinking" = "solid";
         "editor.cursorStyle" = "line";
@@ -50,135 +69,88 @@
         "workbench.colorTheme" = "Default Dark Modern";
         "workbench.iconTheme" = "vs-seti";
 
-        # -- theming
-        # foreground = "#c5c8c6"
-        # background = "#1d1f21"
-        # selection = "#373b41"
-        # line = "#282a2e"
-        # comment = "#969896"
-        # red = "#d54e53"
-        # orange = "#e78c45"
-        # yellow = "#e7c547"
-        # green = "#b9ca4a"
-        # aqua = "#70c0b1"
-        # blue = "#7aa6da"
-        # purple = "#c397d8"
-        # window = "#4d5057"
-
+        # -- UI theming
         "workbench.colorCustomizations" = {
           "editor.semanticHighlighting.enabled" = false;
 
-          "editor.background" = "#1d1f21";
-          "editor.foreground" = "#c5c8c6";
+          "editor.background" = colors.background;
+          "editor.foreground" = colors.foreground;
 
-          "editor.selectionBackground" = "#373b41";
-          "editor.lineHighlightBackground" = "#282a2e";
+          "editor.selectionBackground" = colors.selection;
+          "editor.lineHighlightBackground" = colors.line;
 
-          "editorCursor.foreground" = "#c5c8c6";
+          "editorCursor.foreground" = colors.foreground;
 
-          "editorLineNumber.foreground" = "#4d5057";
-          "editorLineNumber.activeForeground" = "#c5c8c6";
+          "editorLineNumber.foreground" = colors.window;
+          "editorLineNumber.activeForeground" = colors.foreground;
 
           # Sidebar
-          "sideBar.background" = "#1d1f21";
-          "sideBar.foreground" = "#c5c8c6";
-          "sideBar.border" = "#282a2e";
+          "sideBar.background" = colors.background;
+          "sideBar.foreground" = colors.foreground;
+          "sideBar.border" = colors.line;
 
-          # Activity bar (icons on the far left)
-          "activityBar.background" = "#1d1f21";
-          "activityBar.foreground" = "#7aa6da";
-          "activityBar.inactiveForeground" = "#4d5057";
-          "activityBar.border" = "#282a2e";
+          # Activity bar
+          "activityBar.background" = colors.background;
+          "activityBar.foreground" = colors.blue;
+          "activityBar.inactiveForeground" = colors.window;
+          "activityBar.border" = colors.line;
 
           # Status bar
-          "statusBar.background" = "#1d1f21";
-          "statusBar.foreground" = "#c5c8c6";
-          "statusBar.border" = "#282a2e";
-          # tabs
-          "tab.activeBackground" = "#1d1f21";
-          "tab.inactiveBackground" = "#282a2e";
+          "statusBar.background" = colors.background;
+          "statusBar.foreground" = colors.foreground;
+          "statusBar.border" = colors.line;
 
-          "tab.activeForeground" = "#c5c8c6";
-          "tab.inactiveForeground" = "#969896";
+          # Tabs
+          "tab.activeBackground" = colors.red;
+          "tab.inactiveBackground" = colors.line;
 
-          "tab.border" = "#282a2e";
+          "tab.activeForeground" = colors.foreground;
+          "tab.inactiveForeground" = colors.comment;
+
+          "tab.border" = colors.line;
         };
 
+        # -- syntax theming
         "editor.tokenColorCustomizations" = {
           textMateRules = [
-            # Comments
             {
               scope = "comment";
-              settings = {
-                foreground = "#969896";
-              };
+              settings.foreground = colors.comment;
             }
-
-            # Strings
             {
               scope = "string";
-              settings = {
-                foreground = "#b9ca4a";
-              };
+              settings.foreground = colors.green;
             }
-
-            # Keywords / control flow
             {
               scope = "keyword";
-              settings = {
-                foreground = "#c397d8";
-              };
+              settings.foreground = colors.purple;
             }
-
-            # Function names
             {
               scope = "entity.name.function";
-              settings = {
-                foreground = "#7aa6da";
-              };
+              settings.foreground = colors.blue;
             }
-
-            # Types, classes, structs
             {
               scope = "entity.name.type";
-              settings = {
-                foreground = "#e7c547";
-              };
+              settings.foreground = colors.yellow;
             }
-
-            # Constants / builtins
             {
               scope = [
                 "constant.language"
                 "support.constant"
               ];
-              settings = {
-                foreground = "#e7c547";
-              };
+              settings.foreground = colors.yellow;
             }
-
-            # -- punctuation
             {
               scope = "punctuation";
-              settings = {
-                foreground = "#4d5057";
-              };
+              settings.foreground = colors.window;
             }
-
-            # Numbers
             {
               scope = "constant.numeric";
-              settings = {
-                foreground = "#e78c45";
-              };
+              settings.foreground = colors.orange;
             }
-
-            # Variables
             {
               scope = "variable";
-              settings = {
-                foreground = "#c5c8c6";
-              };
+              settings.foreground = colors.foreground;
             }
           ];
         };
