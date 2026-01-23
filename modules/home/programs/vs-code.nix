@@ -87,7 +87,7 @@ in {
 
         # ensure VS Code draws its own titlebar/menu so colors apply
         "window.titleBarStyle" = "custom";
-        "window.menuBarVisibility" = "toggle";
+        "window.menuBarVisibility" = "classic";
 
         "workbench.colorCustomizations" = {
           # -- core editor
@@ -95,8 +95,8 @@ in {
           "editor.foreground" = colors.foreground;
 
           # selection style: use green bg and dark text (text = background color)
-          "editor.selectionBackground" = colors.green;
-          "editor.selectionForeground" = colors.background;
+          "editor.selectionBackground" = colors.selection;
+          "editor.selectionForeground" = colors.foreground;
 
           # editor line highlight kept subtle
           "editor.lineHighlightBackground" = colors.line;
@@ -138,19 +138,18 @@ in {
           "tab.inactiveBackground" = colors.background;
           "tab.inactiveForeground" = colors.comment;
 
+          # -- git diffs dont affect tab colors
+          "scm.diffDecorations" = "none";
+
           # remove the thin top border above active tab
           "tab.activeBorderTop" = "#00000000";
           "tab.unfocusedActiveBorderTop" = "#00000000";
           "tab.selectedBorderTop" = "#00000000";
           "tab.border" = "#00000000";
 
-          # in case modified tab shows a different color, force its fg to background for visibility
-          "tab.activeModifiedBorder" = "#00000000";
-          "tab.inactiveModifiedBorder" = "#00000000";
-
           # -- lists & trees (explorer)
           # selection style: green bg, text = background color
-          "list.activeSelectionBackground" = colors.green;
+          "list.activeSelectionBackground" = colors.line;
           "list.activeSelectionForeground" = colors.background;
           "list.activeSelectionIconForeground" = colors.background;
 
@@ -187,12 +186,12 @@ in {
 
           # -- gutter (left side of editor): explicit line/gutter markers for added/modified/deleted
           "editorGutter.addedBackground" = colors.green;
-          "editorGutter.modifiedBackground" = colors.orange;
+          "editorGutter.modifiedBackground" = colors.yellow;
           "editorGutter.deletedBackground" = colors.red;
 
           # -- overview ruler (vertical diff lines)
           "editorOverviewRuler.addedForeground" = "${colors.green}99";
-          "editorOverviewRuler.modifiedForeground" = "${colors.orange}99";
+          "editorOverviewRuler.modifiedForeground" = "${colors.yellow}99";
           "editorOverviewRuler.deletedForeground" = "${colors.red}99";
           "editorOverviewRuler.commonContentForeground" = "${colors.window}99";
 
@@ -318,14 +317,14 @@ in {
 
           # -- bracket highlighting (make all bracket depths the same color)
           # remove border and use green background to follow the 'selection as green' pattern
-          "editorBracketMatch.background" = colors.green;
+          "editorBracketMatch.background" = colors.selection;
           "editorBracketMatch.border" = "#00000000";
-          "editorBracketHighlight.foreground1" = colors.blue;
-          "editorBracketHighlight.foreground2" = colors.blue;
-          "editorBracketHighlight.foreground3" = colors.blue;
-          "editorBracketHighlight.foreground4" = colors.blue;
-          "editorBracketHighlight.foreground5" = colors.blue;
-          "editorBracketHighlight.foreground6" = colors.blue;
+          "editorBracketHighlight.foreground1" = colors.purple;
+          "editorBracketHighlight.foreground2" = colors.purple;
+          "editorBracketHighlight.foreground3" = colors.purple;
+          "editorBracketHighlight.foreground4" = colors.purple;
+          "editorBracketHighlight.foreground5" = colors.purple;
+          "editorBracketHighlight.foreground6" = colors.purple;
           "editorBracketHighlight.unexpectedBracket.foreground" = colors.red;
 
           # bracket pair guides (use selection color but ensure no visual border)
