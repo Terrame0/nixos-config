@@ -105,14 +105,14 @@ in {
           "activityBar.background" = colors.background;
           "activityBar.foreground" = colors.foreground;
           "activityBar.inactiveForeground" = colors.comment;
-          "activityBar.border" = colors.line;
+          "activityBar.border" = colors.transparent;
           "activityBar.activeBorder" = colors.transparent;
           "activityBar.activeFocusBorder" = colors.transparent;
 
           # -- sidebar / explorer
           "sideBar.background" = colors.background;
           "sideBar.foreground" = colors.foreground;
-          "sideBar.border" = colors.line;
+          "sideBar.border" = colors.transparent;
 
           # -- explorer selection (restore green selection here)
           "list.activeSelectionBackground" = colors.green;
@@ -148,32 +148,32 @@ in {
           "scm.diffDecorations" = "none";
 
           # -- top/title bar: use green selection when active (as requested)
-          "titleBar.activeBackground" = colors.green;
+          "titleBar.activeBackground" = colors.background;
           "titleBar.activeForeground" = colors.background;
           "titleBar.inactiveBackground" = colors.background;
           "titleBar.inactiveForeground" = colors.comment;
-          "titleBar.border" = colors.line;
+          "titleBar.border" = colors.transparent;
 
           # also style command center (search/command) active state in green
           "commandCenter.background" = colors.line;
           "commandCenter.foreground" = colors.foreground;
-          "commandCenter.border" = colors.line;
+          "commandCenter.border" = colors.transparent;
           "commandCenter.activeBackground" = colors.green;
           "commandCenter.activeForeground" = colors.background;
 
           # -- panels
           "panel.background" = colors.background;
-          "panel.border" = colors.line;
+          "panel.border" = colors.transparent;
           "panelTitle.activeForeground" = colors.foreground;
           "panelTitle.inactiveForeground" = colors.comment;
 
           # -- inputs & dropdowns
           "input.background" = colors.line;
           "input.foreground" = colors.foreground;
-          "input.border" = colors.line;
+          "input.border" = colors.transparent;
           "dropdown.background" = colors.line;
           "dropdown.foreground" = colors.foreground;
-          "dropdown.border" = colors.line;
+          "dropdown.border" = colors.transparent;
 
           # -- scrollbar (force styled scrollbar)
           "scrollbar.shadow" = colors.transparent;
@@ -212,19 +212,19 @@ in {
 
           # -- search / find
           "editor.findMatchBackground" = colors.line;
-          "editor.findMatchBorder" = colors.line;
+          "editor.findMatchBorder" = colors.transparent;
           "editor.findMatchHighlightBackground" = colors.selection;
 
           # -- welcome
           "welcomePage.background" = colors.background;
           "welcomePage.tileBackground" = colors.line;
           "welcomePage.tileHoverBackground" = colors.selection;
-          "welcomePage.tileBorder" = colors.line;
+          "welcomePage.tileBorder" = colors.transparent;
           "welcomePage.tileShadow" = colors.transparent;
 
           # -- debug view + links (avoid implicit blue)
           "debugToolBar.background" = colors.line;
-          "debugToolBar.border" = colors.line;
+          "debugToolBar.border" = colors.transparent;
           "textLink.foreground" = colors.blue; # links still blue for discoverability
           "textLink.activeForeground" = colors.aqua;
           "debugConsole.infoForeground" = colors.blue;
@@ -235,7 +235,7 @@ in {
           # -- terminal (UI)
           "terminal.background" = colors.background;
           "terminal.foreground" = colors.foreground;
-          "terminal.border" = colors.line;
+          "terminal.border" = colors.transparent;
           "terminal.selectionBackground" = colors.selection;
 
           # -- terminal tabs: remove notification dots and underlines
@@ -273,12 +273,12 @@ in {
 
           "editorHoverWidget.background" = colors.line;
           "editorHoverWidget.foreground" = colors.foreground;
-          "editorHoverWidget.border" = colors.line;
+          "editorHoverWidget.border" = colors.transparent;
 
           # -- suggest / completion popup (style text + selection)
           "suggestWidget.background" = colors.background;
           "suggestWidget.foreground" = colors.foreground;
-          "suggestWidget.border" = colors.line;
+          "suggestWidget.border" = colors.transparent;
 
           "suggestWidget.selectedBackground" = colors.selection;
           "suggestWidget.selectedForeground" = colors.foreground;
@@ -289,7 +289,7 @@ in {
 
           # sometimes VS Code uses editorSuggest* tokens too
           "editorSuggestWidget.background" = colors.background;
-          "editorSuggestWidget.border" = colors.line;
+          "editorSuggestWidget.border" = colors.transparent;
           "editorSuggestWidget.selectedForeground" = colors.foreground;
 
           # scrollbar in suggest widget
@@ -322,7 +322,7 @@ in {
           "menu.selectionBackground" = colors.green; # top panel menu selection -> green
           "menu.selectionForeground" = colors.background;
           "menu.separatorBackground" = colors.line;
-          "menu.border" = colors.line;
+          "menu.border" = colors.transparent;
 
           "menubar.selectionBackground" = colors.green;
           "menubar.selectionForeground" = colors.background;
@@ -331,7 +331,7 @@ in {
           # -- notifications
           "notifications.background" = colors.background;
           "notifications.foreground" = colors.foreground;
-          "notifications.border" = colors.line;
+          "notifications.border" = colors.transparent;
           "notificationLink.foreground" = colors.blue;
           "notificationsInfoIcon.foreground" = colors.blue;
           "notificationsErrorIcon.foreground" = colors.red;
@@ -383,54 +383,198 @@ in {
         "editor.guides.bracketPairs" = "active";
 
         # ============================================================
-        # -- semantic + syntax token mappings (broad coverage)
+        # -- syntax theming (textmate only, semantic disabled)
         # ============================================================
 
-        "editor.semanticHighlighting.enabled" = true;
+        "editor.semanticHighlighting.enabled" = false;
 
-        "editor.semanticTokenColorCustomizations" = {
-          rules = {
-            # -- general tokens
-            "variable" = colors.foreground;
-            "parameter" = colors.foreground;
-            "property" = colors.foreground;
-            "function" = colors.blue;
-            "method" = colors.blue;
-            "type" = colors.yellow;
-            "class" = colors.yellow;
-            "keyword" = colors.purple;
-            "string" = colors.green;
-            "number" = colors.orange;
-            "boolean" = colors.purple;
-            "namespace" = colors.foreground;
-            "enum" = colors.yellow;
-          };
-        };
-
-        # -- textmate rules: add language-specific rules (python, cpp, css, json, yaml, js, toml)
         "editor.tokenColorCustomizations" = {
           textMateRules = [
+            # --------------------------------------------------------
             # -- comments
+            # --------------------------------------------------------
             {
               scope = "comment";
               settings.foreground = colors.comment;
             }
 
-            # -- python
+            # --------------------------------------------------------
+            # -- strings
+            # --------------------------------------------------------
             {
-              scope = "source.python string";
+              scope = [
+                "string"
+                "string.quoted"
+                "string.template"
+                "string.interpolated"
+              ];
               settings.foreground = colors.green;
             }
+
+            # --------------------------------------------------------
+            # -- numbers
+            # --------------------------------------------------------
             {
-              scope = "source.python constant.numeric";
+              scope = "constant.numeric";
               settings.foreground = colors.orange;
             }
+
+            # --------------------------------------------------------
+            # -- booleans / null
+            # --------------------------------------------------------
             {
-              scope = "source.python keyword.control";
+              scope = [
+                "constant.language.boolean"
+                "constant.language.true"
+                "constant.language.false"
+                "constant.language.null"
+              ];
+              settings.foreground = colors.purple;
+            }
+
+            # --------------------------------------------------------
+            # -- keywords (generic)
+            # --------------------------------------------------------
+            {
+              scope = "keyword";
+              settings.foreground = colors.purple;
+            }
+
+            # --------------------------------------------------------
+            # -- operators
+            # --------------------------------------------------------
+            {
+              scope = "keyword.operator";
+              settings.foreground = colors.purple;
+            }
+
+            # --------------------------------------------------------
+            # -- functions (generic)
+            # --------------------------------------------------------
+            {
+              scope = [
+                "entity.name.function"
+                "support.function"
+              ];
+              settings.foreground = colors.blue;
+            }
+
+            # --------------------------------------------------------
+            # -- types / classes / structs
+            # --------------------------------------------------------
+            {
+              scope = [
+                "entity.name.type"
+                "storage.type"
+                "support.type"
+              ];
+              settings.foreground = colors.yellow;
+            }
+
+            # --------------------------------------------------------
+            # -- variables / parameters
+            # --------------------------------------------------------
+            {
+              scope = [
+                "variable"
+                "variable.parameter"
+                "variable.other.readwrite"
+              ];
+              settings.foreground = colors.foreground;
+            }
+
+            # --------------------------------------------------------
+            # -- attributes / properties / object keys
+            # --------------------------------------------------------
+            {
+              scope = [
+                "variable.other.object.property"
+                "entity.other.attribute-name"
+                "entity.name.tag"
+              ];
+              settings.foreground = colors.foreground;
+            }
+
+            # --------------------------------------------------------
+            # -- punctuation (base)
+            # --------------------------------------------------------
+            {
+              scope = "punctuation";
+              settings.foreground = colors.comment;
+            }
+
+            # --------------------------------------------------------
+            # -- brackets (force single color everywhere)
+            # --------------------------------------------------------
+            {
+              scope = [
+                "punctuation.section.brackets"
+                "punctuation.section.parens"
+                "punctuation.section.block"
+                "punctuation.definition.brackets"
+                "punctuation.definition.parameters"
+              ];
+              settings.foreground = colors.blue;
+            }
+
+            # ========================================================
+            # -- nix
+            # ========================================================
+            {
+              scope = "source.nix";
+              settings.foreground = colors.foreground;
+            }
+            {
+              scope = [
+                "keyword.other.nix"
+                "keyword.control.nix"
+                "keyword.operator.nix"
+                "storage.type.nix"
+              ];
               settings.foreground = colors.purple;
             }
             {
-              scope = "source.python constant.language.boolean";
+              scope = [
+                "entity.name.function.nix"
+                "support.function.builtin.nix"
+              ];
+              settings.foreground = colors.blue;
+            }
+            {
+              scope = [
+                "entity.other.attribute-name.multipart.nix"
+                "entity.name.attribute-name.nix"
+                "variable.other.constant.nix"
+                "meta.attribute-set.nix"
+              ];
+              settings.foreground = colors.foreground;
+            }
+            {
+              scope = "support.constant.nix";
+              settings.foreground = colors.yellow;
+            }
+
+            # ========================================================
+            # -- shell / bash
+            # ========================================================
+            {
+              scope = "source.shell keyword";
+              settings.foreground = colors.purple;
+            }
+            {
+              scope = "source.shell variable";
+              settings.foreground = colors.foreground;
+            }
+            {
+              scope = "source.shell support.function";
+              settings.foreground = colors.blue;
+            }
+
+            # ========================================================
+            # -- python
+            # ========================================================
+            {
+              scope = "source.python keyword";
               settings.foreground = colors.purple;
             }
             {
@@ -438,133 +582,98 @@ in {
               settings.foreground = colors.blue;
             }
             {
-              scope = "variable.parameter.function.python";
-              settings.foreground = colors.foreground;
+              scope = "storage.type.function.python";
+              settings.foreground = colors.purple;
             }
 
+            # ========================================================
             # -- c / c++
+            # ========================================================
             {
-              scope = "source.c++ entity.name.function";
-              settings.foreground = colors.blue;
-            }
-            {
-              scope = "source.cpp entity.name.function";
-              settings.foreground = colors.blue;
-            }
-            {
-              scope = "source.c keyword.control";
+              scope = [
+                "source.c keyword"
+                "source.cpp keyword"
+              ];
               settings.foreground = colors.purple;
             }
             {
-              scope = "storage.type.c";
-              settings.foreground = colors.yellow;
+              scope = [
+                "entity.name.function.c"
+                "entity.name.function.cpp"
+              ];
+              settings.foreground = colors.blue;
             }
             {
-              scope = "storage.type.cpp";
+              scope = [
+                "storage.type.c"
+                "storage.type.cpp"
+              ];
               settings.foreground = colors.yellow;
-            }
-            {
-              scope = "constant.numeric.cpp";
-              settings.foreground = colors.orange;
             }
 
+            # ========================================================
             # -- javascript / typescript
+            # ========================================================
             {
-              scope = "source.js string";
-              settings.foreground = colors.green;
-            }
-            {
-              scope = "source.js constant.numeric";
-              settings.foreground = colors.orange;
-            }
-            {
-              scope = "source.js keyword.operator";
+              scope = [
+                "source.js keyword"
+                "source.ts keyword"
+              ];
               settings.foreground = colors.purple;
             }
             {
-              scope = "source.js entity.name.function";
+              scope = [
+                "entity.name.function.js"
+                "entity.name.function.ts"
+              ];
               settings.foreground = colors.blue;
             }
-            {
-              scope = "source.ts keyword";
-              settings.foreground = colors.purple;
-            }
 
-            # -- css
-            {
-              scope = "source.css entity.name.tag.css";
-              settings.foreground = colors.yellow;
-            }
-            {
-              scope = "source.css support.type.property-name.css";
-              settings.foreground = colors.purple;
-            }
-            {
-              scope = "source.css string.quoted";
-              settings.foreground = colors.green;
-            }
-
+            # ========================================================
             # -- json
-            {
-              scope = "source.json string.quoted";
-              settings.foreground = colors.green;
-            }
-            {
-              scope = "source.json constant.numeric";
-              settings.foreground = colors.orange;
-            }
+            # ========================================================
             {
               scope = "source.json entity.name.section";
               settings.foreground = colors.yellow;
             }
 
+            # ========================================================
             # -- yaml
+            # ========================================================
             {
               scope = "source.yaml key";
               settings.foreground = colors.yellow;
             }
-            {
-              scope = "source.yaml constant.scalar";
-              settings.foreground = colors.green;
-            }
-            {
-              scope = "source.yaml constant.numeric";
-              settings.foreground = colors.orange;
-            }
 
+            # ========================================================
             # -- toml
-            {
-              scope = "source.toml string";
-              settings.foreground = colors.green;
-            }
-            {
-              scope = "source.toml constant.numeric";
-              settings.foreground = colors.orange;
-            }
+            # ========================================================
             {
               scope = "source.toml entity.name.section";
               settings.foreground = colors.yellow;
             }
 
-            # -- punctuation / brackets (force single color)
+            # ========================================================
+            # -- css / html
+            # ========================================================
             {
-              scope = "punctuation";
+              scope = [
+                "source.css support.type.property-name"
+                "source.css entity.name.tag"
+              ];
               settings.foreground = colors.purple;
             }
             {
-              scope = "punctuation.section.brackets";
-              settings.foreground = colors.purple;
-            }
-            {
-              scope = "punctuation.section.parens";
-              settings.foreground = colors.purple;
-            }
-            {
-              scope = "punctuation.section.block";
-              settings.foreground = colors.purple;
+              scope = [
+                "text.html.basic entity.name.tag"
+                "text.html.basic entity.other.attribute-name"
+              ];
+              settings.foreground = colors.yellow;
             }
 
+            # --------------------------------------------------------
             # -- fallback
+            # --------------------------------------------------------
             {
               scope = "meta";
               settings.foreground = colors.foreground;
