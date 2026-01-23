@@ -215,12 +215,12 @@ in {
           # -- search / find
           # active (currently selected) match
           "editor.findMatchForeground" = colors.background;
-          "editor.findMatchBackground" = colors.yellow;
+          "editor.findMatchBackground" = colors.green;
           "editor.findMatchBorder" = colors.transparent;
 
           # other matches
           "editor.findMatchHighlightForeground" = colors.background;
-          "editor.findMatchHighlightBackground" = colors.green;
+          "editor.findMatchHighlightBackground" = colors.yellow;
           "editor.findMatchHighlightBorder" = colors.transparent;
 
           # other matches
@@ -388,6 +388,24 @@ in {
           # -- thin vertical bracket guide line: use selection color
           "editor.guides.bracketPairs" = colors.selection;
           "editor.guides.bracketPairsActive" = colors.selection;
+
+          # -- suggestion text fallback paths
+
+          # list renderer (used by suggest widget rows)
+          "list.foreground" = colors.foreground;
+          "list.activeSelectionForeground" = colors.background;
+          "list.inactiveSelectionForeground" = colors.foreground;
+          "list.hoverForeground" = colors.foreground;
+
+          # quick input renderer (shared by suggest widget internals)
+          "quickInput.background" = colors.background;
+          "quickInput.foreground" = colors.foreground;
+          "quickInputList.focusBackground" = colors.selection;
+          "quickInputList.focusForeground" = colors.foreground;
+          "quickInputList.focusIconForeground" = colors.foreground;
+
+          # completion item kind / label text
+          "symbolIcon.textForeground" = colors.foreground;
         };
 
         # -- editor behavior
