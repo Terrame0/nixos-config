@@ -1,37 +1,32 @@
-{pkgs, ...}: let
-  colors = {
-    # -- base
-    foreground = "#c5c8c6";
-    background = "#1d1f21";
-    selection = "#373b41";
-    line = "#282a2e";
-    comment = "#969896";
-    window = "#4d5057";
-
-    # -- accents
-    red = "#d54e53";
-    orange = "#e78c45";
-    yellow = "#e7c547";
-    green = "#b9ca4a";
-    aqua = "#70c0b1";
-    blue = "#7aa6da";
-    purple = "#c397d8";
-
-    # -- utility
-    transparent = "#00000000";
-  };
-in {
+{pkgs,nix4vscode,...}: {
   programs.vscode = {
     enable = true;
     package = pkgs.vscode-fhs;
     mutableExtensionsDir = false;
 
-    profiles.default = {
-      # ============================================================
-      # -- extensions
-      # ============================================================
+    profiles.default = let
+      colors = {
+        # -- base
+        foreground = "#c5c8c6";
+        background = "#1d1f21";
+        selection = "#373b41";
+        line = "#282a2e";
+        comment = "#969896";
+        window = "#4d5057";
 
-      extensions = with pkgs.vscode-extensions; [
+        # -- accents
+        red = "#d54e53";
+        orange = "#e78c45";
+        yellow = "#e7c547";
+        green = "#b9ca4a";
+        aqua = "#70c0b1";
+        blue = "#7aa6da";
+        purple = "#c397d8";
+
+        # -- utility
+        transparent = "#00000000";
+      };
+      nixpkgs-extensions = with pkgs.vscode-extensions; [
         ms-python.python
         jnoortheen.nix-ide
         charliermarsh.ruff
@@ -39,6 +34,15 @@ in {
         llvm-vs-code-extensions.vscode-clangd
         ecmel.vscode-html-css
       ];
+      marketplace-extensions = nix4vscode.forVscode [
+        "s-nlf-fh.glassit"
+      ];
+    in {
+      # ============================================================
+      # -- extensions
+      # ============================================================
+
+      extensions = nixpkgs-extensions ++ marketplace-extensions;
 
       # ============================================================
       # -- user settings
@@ -559,7 +563,7 @@ in {
                 "entity.name.function"
                 "support.function"
               ];
-              settings.foreground = colors.orange;
+              settings.foreground = colors.yellow;
             }
 
             # -- types
@@ -589,7 +593,7 @@ in {
                 "entity.other.attribute-name"
                 "entity.name.tag"
               ];
-              settings.foreground = colors.yellow;
+              settings.foreground = colors.purple;
             }
 
             # -- punctuation
@@ -647,7 +651,7 @@ in {
 
             {
               scope = "support.constant.nix";
-              settings.foreground = colors.yellow;
+              settings.foreground = colors.blue;
             }
 
             # -- shell
