@@ -403,7 +403,7 @@ in {
           # matched / typed text inside suggest widget (kills default blue)
           "list.highlightForeground" = colors.foreground;
           "list.focusHighlightForeground" = colors.foreground;
-          
+
           # some providers still route through editorSuggest
           # "editorSuggestWidget.highlightForeground" = colors.foreground;
 
