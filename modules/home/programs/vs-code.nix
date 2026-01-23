@@ -1,17 +1,17 @@
-{pkgs, ...}: let
+{ pkgs, ... }: let
   colors = {
     foreground = "#c5c8c6";
     background = "#1d1f21";
-    selection = "#373b41";
-    line = "#282a2e";
-    comment = "#969896";
+    selection  = "#373b41";
+    line       = "#282a2e";
+    comment    = "#969896";
 
-    red = "#d54e53";
+    red    = "#d54e53";
     orange = "#e78c45";
     yellow = "#e7c547";
-    green = "#b9ca4a";
-    aqua = "#70c0b1";
-    blue = "#7aa6da";
+    green  = "#b9ca4a";
+    aqua   = "#70c0b1";
+    blue   = "#7aa6da";
     purple = "#c397d8";
 
     window = "#4d5057";
@@ -53,7 +53,7 @@ in {
         "nix.enableLanguageServer" = true;
         "nix.formatterPath" = "alejandra";
         "nix.serverPath" = "nixd";
-        "nix.hiddenLanguageServerErrors" = ["textDocument/definition"];
+        "nix.hiddenLanguageServerErrors" = [ "textDocument/definition" ];
 
         # -- fonts and cursor
         "editor.fontFamily" = "JetBrainsMono Nerd Font";
@@ -94,7 +94,11 @@ in {
           "editor.background" = colors.background;
           "editor.foreground" = colors.foreground;
 
-          "editor.selectionBackground" = colors.selection;
+          # selection style: use green bg and dark text (text = background color)
+          "editor.selectionBackground" = colors.green;
+          "editor.selectionForeground" = colors.background;
+
+          # editor line highlight kept subtle
           "editor.lineHighlightBackground" = colors.line;
 
           "editorCursor.foreground" = colors.foreground;
@@ -102,9 +106,9 @@ in {
           "editorLineNumber.foreground" = colors.window;
           "editorLineNumber.activeForeground" = colors.foreground;
 
-          # -- focus & borders
-          "focusBorder" = colors.blue;
-          "contrastBorder" = colors.line;
+          # -- focus & borders (disable visible outline so selection is just color swap)
+          "focusBorder" = "#00000000";
+          "contrastBorder" = "#00000000";
 
           # -- sidebar / activity / status
           "sideBar.background" = colors.background;
@@ -127,17 +131,28 @@ in {
           "panelTitle.inactiveForeground" = colors.comment;
 
           # -- tabs
-          "tab.activeBackground" = colors.selection;
-          "tab.activeForeground" = colors.foreground;
+          # replace selection-border approach: active tab = green bg, text = background color
+          "tab.activeBackground" = colors.green;
+          "tab.activeForeground" = colors.background;
 
           "tab.inactiveBackground" = colors.background;
           "tab.inactiveForeground" = colors.comment;
 
-          "tab.border" = colors.line;
+          # remove the thin top border above active tab
+          "tab.activeBorderTop" = "#00000000";
+          "tab.unfocusedActiveBorderTop" = "#00000000";
+          "tab.selectedBorderTop" = "#00000000";
+          "tab.border" = "#00000000";
 
-          # -- lists & trees
-          "list.activeSelectionBackground" = colors.selection;
-          "list.activeSelectionForeground" = colors.foreground;
+          # in case modified tab shows a different color, force its fg to background for visibility
+          "tab.activeModifiedBorder" = "#00000000";
+          "tab.inactiveModifiedBorder" = "#00000000";
+
+          # -- lists & trees (explorer)
+          # selection style: green bg, text = background color
+          "list.activeSelectionBackground" = colors.green;
+          "list.activeSelectionForeground" = colors.background;
+          "list.activeSelectionIconForeground" = colors.background;
 
           "list.inactiveSelectionBackground" = colors.line;
           "list.inactiveSelectionForeground" = colors.foreground;
@@ -145,7 +160,7 @@ in {
           "list.hoverBackground" = colors.selection;
           "list.hoverForeground" = colors.foreground;
 
-          "list.focusOutline" = colors.blue;
+          "list.focusOutline" = "#00000000";
           "tree.indentGuidesStroke" = colors.line;
 
           # -- inputs
@@ -162,18 +177,35 @@ in {
           "scrollbarSlider.hoverBackground" = colors.comment;
           "scrollbarSlider.activeBackground" = colors.foreground;
 
-          # -- git decorations
+          # -- git decorations (explorer + generic)
           "gitDecoration.modifiedResourceForeground" = colors.orange;
           "gitDecoration.addedResourceForeground" = colors.green;
           "gitDecoration.deletedResourceForeground" = colors.red;
           "gitDecoration.untrackedResourceForeground" = colors.aqua;
           "gitDecoration.ignoredResourceForeground" = colors.comment;
+          "gitDecoration.renamedResourceForeground" = colors.aqua;
 
-          # -- diagnostics
+          # -- gutter (left side of editor): explicit line/gutter markers for added/modified/deleted
+          "editorGutter.addedBackground" = colors.green;
+          "editorGutter.modifiedBackground" = colors.orange;
+          "editorGutter.deletedBackground" = colors.red;
+
+          # -- overview ruler (vertical diff lines)
+          "editorOverviewRuler.addedForeground" = "${colors.green}99";
+          "editorOverviewRuler.modifiedForeground" = "${colors.orange}99";
+          "editorOverviewRuler.deletedForeground" = "${colors.red}99";
+          "editorOverviewRuler.commonContentForeground" = "${colors.window}99";
+
+          # -- diagnostics (problems)
           "editorError.foreground" = colors.red;
           "editorWarning.foreground" = colors.orange;
           "editorInfo.foreground" = colors.blue;
           "editorHint.foreground" = colors.comment;
+
+          # underlines only (no extra borders)
+          "editor.errorDecoration" = "underline";
+          "editor.warningDecoration" = "underline";
+          "editor.infoDecoration" = "underline";
 
           # -- search
           "editor.findMatchBackground" = colors.line;
@@ -191,6 +223,14 @@ in {
           "debugToolBar.background" = colors.line;
           "debugToolBar.border" = colors.line;
 
+          # debug links styling
+          "textLink.foreground" = colors.blue;
+          "textLink.activeForeground" = colors.aqua;
+          "debugConsole.infoForeground" = colors.blue;
+          "debugConsole.warningForeground" = colors.yellow;
+          "debugConsole.errorForeground" = colors.red;
+          "debugConsoleLink.foreground" = colors.blue;
+
           # -- terminal (UI)
           "terminal.background" = colors.background;
           "terminal.foreground" = colors.foreground;
@@ -199,7 +239,7 @@ in {
           "terminalCursor.foreground" = colors.foreground;
           "terminal.selectionBackground" = colors.selection;
 
-          # proper 16-color ansi terminal mapping
+          # proper 16-color ansi terminal mapping (these are the keys VS Code reads)
           "terminal.ansiBlack" = colors.background;
           "terminal.ansiRed" = colors.red;
           "terminal.ansiGreen" = colors.green;
@@ -222,9 +262,9 @@ in {
           "button.background" = colors.blue;
           "button.foreground" = colors.background;
           "button.hoverBackground" = colors.aqua;
-          "button.border" = colors.line;
+          "button.border" = "#00000000";
 
-          "button.secondaryBackground" = colors.line;
+          "button.secondaryBackground" = "#00000000";
           "button.secondaryForeground" = colors.foreground;
           "button.secondaryHoverBackground" = colors.selection;
 
@@ -239,17 +279,17 @@ in {
           "extensionButton.prominentHoverBackground" = colors.aqua;
           "extensionButton.separator" = colors.window;
 
-          # -- menus / context menus / menubar
+          # -- menus / context menus / menubar (top-bar context menus)
           "menu.background" = colors.background;
           "menu.foreground" = colors.foreground;
-          "menu.selectionBackground" = colors.selection;
-          "menu.selectionForeground" = colors.foreground;
+          "menu.selectionBackground" = colors.green;
+          "menu.selectionForeground" = colors.background;
           "menu.separatorBackground" = colors.line;
           "menu.border" = colors.line;
 
-          "menubar.selectionBackground" = colors.selection;
-          "menubar.selectionForeground" = colors.foreground;
-          "menubar.selectionBorder" = colors.line;
+          "menubar.selectionBackground" = colors.green;
+          "menubar.selectionForeground" = colors.background;
+          "menubar.selectionBorder" = "#00000000";
 
           # -- notifications / toasts
           "notifications.background" = colors.background;
@@ -262,19 +302,24 @@ in {
           "notificationToast.border" = colors.line;
           "notificationLink.foreground" = colors.blue;
 
+          "notificationsInfoIcon.foreground" = colors.blue;
+          "notificationsErrorIcon.foreground" = colors.red;
+          "notificationsWarningIcon.foreground" = colors.orange;
+
           # -- breadcrumbs
           "breadcrumb.background" = colors.background;
           "breadcrumb.foreground" = colors.comment;
           "breadcrumb.focusForeground" = colors.foreground;
           "breadcrumb.activeSelectionForeground" = colors.foreground;
 
-          # -- diff editor
+          # -- diff editor (inline)
           "diffEditor.insertedTextBackground" = "${colors.green}33";
           "diffEditor.removedTextBackground" = "${colors.red}33";
 
           # -- bracket highlighting (make all bracket depths the same color)
-          "editorBracketMatch.background" = "#00000000";
-          "editorBracketMatch.border" = colors.blue;
+          # remove border and use green background to follow the 'selection as green' pattern
+          "editorBracketMatch.background" = colors.green;
+          "editorBracketMatch.border" = "#00000000";
           "editorBracketHighlight.foreground1" = colors.blue;
           "editorBracketHighlight.foreground2" = colors.blue;
           "editorBracketHighlight.foreground3" = colors.blue;
@@ -283,13 +328,13 @@ in {
           "editorBracketHighlight.foreground6" = colors.blue;
           "editorBracketHighlight.unexpectedBracket.foreground" = colors.red;
 
-          # bracket guides (disable colors per-depth, use the same)
-          "editorBracketPairGuide.activeBackground1" = colors.blue;
-          "editorBracketPairGuide.activeBackground2" = colors.blue;
-          "editorBracketPairGuide.activeBackground3" = colors.blue;
-          "editorBracketPairGuide.activeBackground4" = colors.blue;
-          "editorBracketPairGuide.activeBackground5" = colors.blue;
-          "editorBracketPairGuide.activeBackground6" = colors.blue;
+          # bracket pair guides (use selection color but ensure no visual border)
+          "editorBracketPairGuide.activeBackground1" = "#00000000";
+          "editorBracketPairGuide.activeBackground2" = "#00000000";
+          "editorBracketPairGuide.activeBackground3" = "#00000000";
+          "editorBracketPairGuide.activeBackground4" = "#00000000";
+          "editorBracketPairGuide.activeBackground5" = "#00000000";
+          "editorBracketPairGuide.activeBackground6" = "#00000000";
 
           "editorBracketPairGuide.background1" = "#00000000";
           "editorBracketPairGuide.background2" = "#00000000";
@@ -299,7 +344,7 @@ in {
           "editorBracketPairGuide.background6" = "#00000000";
         };
 
-        # ensure bracket pair colorization is enabled (we set all bracket colors to same above)
+        # -- ensure bracket pair colorization is enabled
         "editor.bracketPairColorization.enabled" = true;
         "editor.guides.bracketPairs" = "active";
 
@@ -307,84 +352,65 @@ in {
         # -- syntax theming
         # ============================================================
 
-        # semantic highlighting left off so textmate rules apply consistently
-        "editor.semanticHighlighting.enabled" = false;
+        # enable semantic highlighting and supply rules so language-server tokens follow palette
+        "editor.semanticHighlighting.enabled" = true;
+
+        "editor.semanticTokenColorCustomizations" = {
+          rules = {
+            # variables / params / properties
+            "variable" = colors.foreground;
+            "parameter" = colors.foreground;
+            "property" = colors.foreground;
+
+            # functions
+            "function" = colors.blue;
+
+            # types
+            "type" = colors.yellow;
+
+            # keywords
+            "keyword" = colors.purple;
+
+            # strings & numbers & booleans
+            "string" = colors.green;
+            "number" = colors.orange;
+            "boolean" = colors.purple;
+          };
+        };
 
         "editor.tokenColorCustomizations" = {
           textMateRules = [
             # -- comments
-            {
-              scope = "comment";
-              settings.foreground = colors.comment;
-            }
+            { scope = "comment"; settings.foreground = colors.comment; }
 
             # -- strings & interpolations
-            {
-              scope = "string";
-              settings.foreground = colors.green;
-            }
-            {
-              scope = "string.interpolated";
-              settings.foreground = colors.green;
-            }
+            { scope = "string"; settings.foreground = colors.green; }
+            { scope = "string.interpolated"; settings.foreground = colors.green; }
+
+            # -- booleans (true / false)
+            { scope = [ "constant.language.boolean" "constant.language.true" "constant.language.false" ]; settings.foreground = colors.purple; }
 
             # -- numbers
-            {
-              scope = "constant.numeric";
-              settings.foreground = colors.orange;
-            }
+            { scope = "constant.numeric"; settings.foreground = colors.orange; }
 
             # -- keywords (nix keywords included)
-            {
-              scope = "keyword";
-              settings.foreground = colors.purple;
-            }
-            {
-              scope = "keyword.other.nix";
-              settings.foreground = colors.purple;
-            }
-            {
-              scope = "keyword.control.nix";
-              settings.foreground = colors.purple;
-            }
-            {
-              scope = "keyword.operator.nix";
-              settings.foreground = colors.purple;
-            }
+            { scope = "keyword"; settings.foreground = colors.purple; }
+            { scope = "keyword.other.nix"; settings.foreground = colors.purple; }
+            { scope = "keyword.control.nix"; settings.foreground = colors.purple; }
+            { scope = "keyword.operator.nix"; settings.foreground = colors.purple; }
 
             # -- functions & builtin functions
-            {
-              scope = "entity.name.function";
-              settings.foreground = colors.blue;
-            }
-            {
-              scope = "support.function.builtin.nix";
-              settings.foreground = colors.blue;
-            }
-            {
-              scope = "support.function";
-              settings.foreground = colors.blue;
-            }
+            { scope = "entity.name.function"; settings.foreground = colors.blue; }
+            { scope = "support.function.builtin.nix"; settings.foreground = colors.blue; }
+            { scope = "support.function"; settings.foreground = colors.blue; }
 
-            # -- types / constructors (rare in nix but keep)
-            {
-              scope = "entity.name.type";
-              settings.foreground = colors.yellow;
-            }
+            # -- types / constructors
+            { scope = "entity.name.type"; settings.foreground = colors.yellow; }
 
             # -- variables & parameters
-            {
-              scope = "variable";
-              settings.foreground = colors.foreground;
-            }
-            {
-              scope = "variable.parameter";
-              settings.foreground = colors.foreground;
-            }
-            {
-              scope = "variable.other.readwrite.nix";
-              settings.foreground = colors.foreground;
-            }
+            { scope = "variable"; settings.foreground = colors.foreground; }
+            { scope = "variable.parameter"; settings.foreground = colors.foreground; }
+            { scope = "variable.other.readwrite.nix"; settings.foreground = colors.foreground; }
 
             # -- attribute names / attr paths (nix)
             {
@@ -393,73 +419,32 @@ in {
                 "entity.other.attribute-name.multipart.nix"
                 "entity.name.attribute-name.nix"
                 "variable.other.object.property.nix"
+                "meta.attribute-set.nix"
               ];
               settings.foreground = colors.foreground;
             }
 
-            # -- punctuation: make general punctuation muted
-            {
-              scope = "punctuation";
-              settings.foreground = colors.comment;
-            }
+            # -- punctuation: muted by default, but bracket punctuation forced below
+            { scope = "punctuation"; settings.foreground = colors.comment; }
 
             # -- brackets specifically (force parens/brackets/braces to one color)
-            {
-              scope = "punctuation.section.brackets";
-              settings.foreground = colors.blue;
-            }
-            {
-              scope = "punctuation.section.parens";
-              settings.foreground = colors.blue;
-            }
-            {
-              scope = "punctuation.section.block";
-              settings.foreground = colors.blue;
-            }
-            {
-              scope = "punctuation.definition.brackets";
-              settings.foreground = colors.blue;
-            }
+            { scope = "punctuation.section.brackets"; settings.foreground = colors.blue; }
+            { scope = "punctuation.section.parens"; settings.foreground = colors.blue; }
+            { scope = "punctuation.section.block"; settings.foreground = colors.blue; }
+            { scope = "punctuation.definition.brackets"; settings.foreground = colors.blue; }
+            { scope = "punctuation.definition.parameters"; settings.foreground = colors.blue; }
 
-            # -- selectors for nix-specific scopes (broad coverage)
-            {
-              scope = "source.nix";
-              settings.foreground = colors.foreground;
-            }
-            {
-              scope = "keyword.other.nix";
-              settings.foreground = colors.purple;
-            }
-            {
-              scope = "variable.other.constant.nix";
-              settings.foreground = colors.yellow;
-            }
-            {
-              scope = "entity.name.function.nix";
-              settings.foreground = colors.blue;
-            }
-            {
-              scope = "entity.name.variable.nix";
-              settings.foreground = colors.foreground;
-            }
-            {
-              scope = "support.constant.nix";
-              settings.foreground = colors.yellow;
-            }
-            {
-              scope = "storage.type.nix";
-              settings.foreground = colors.purple;
-            }
-            {
-              scope = "meta.attribute-set.nix";
-              settings.foreground = colors.foreground;
-            }
+            # -- broad nix coverage: ensure keyword.other.nix and source.nix are covered
+            { scope = "source.nix"; settings.foreground = colors.foreground; }
+            { scope = "keyword.other.nix"; settings.foreground = colors.purple; }
+            { scope = "variable.other.constant.nix"; settings.foreground = colors.yellow; }
+            { scope = "entity.name.function.nix"; settings.foreground = colors.blue; }
+            { scope = "entity.name.variable.nix"; settings.foreground = colors.foreground; }
+            { scope = "support.constant.nix"; settings.foreground = colors.yellow; }
+            { scope = "storage.type.nix"; settings.foreground = colors.purple; }
 
-            # fallback: lighten punctuation and keep text readable
-            {
-              scope = "meta";
-              settings.foreground = colors.foreground;
-            }
+            # fallback to keep meta sections readable
+            { scope = "meta"; settings.foreground = colors.foreground; }
           ];
         };
       };
