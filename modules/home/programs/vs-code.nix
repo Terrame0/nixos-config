@@ -98,11 +98,11 @@ in {
           "statusBar.border" = colors.line;
 
           # Tabs
-          "tab.activeBackground" = colors.red;
-          "tab.inactiveBackground" = colors.line;
+          "tab.activeBackground" = colors.green;
+          "tab.activeForeground" = colors.background;
 
-          "tab.activeForeground" = colors.foreground;
           "tab.inactiveForeground" = colors.comment;
+          "tab.inactiveBackground" = colors.background;
 
           "tab.border" = colors.line;
         };
@@ -139,7 +139,7 @@ in {
             }
             {
               scope = "punctuation";
-              settings.foreground = colors.window;
+              settings.foreground = colors.comment;
             }
             {
               scope = "constant.numeric";
