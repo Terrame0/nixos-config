@@ -390,23 +390,22 @@ in {
 
           # -- list foregrounds (UNSELECTED)
           "list.foreground" = colors.comment; # untyped text
-          "list.focusForeground" = colors.comment;
+          "list.focusForeground" = colors.line;
 
           # -- typed / matched text (UNSELECTED)
           "list.highlightForeground" = colors.foreground;
+          "list.focusHighlightForeground" = colors.background;
 
           # -- SELECTED row text
           "list.activeSelectionForeground" = colors.line; # untyped text
           "list.inactiveSelectionForeground" = colors.line;
 
-          # -- typed text inside SELECTED row
-          "list.focusHighlightForeground" = colors.background;
 
           # -- icons inside selected row
           "list.activeSelectionIconForeground" = colors.background;
 
           # -- remove focus outline
-          "list.focusOutline" = colors;
+          "list.focusOutline" = colors.transparent;
 
           # ============================================================
           # quick input renderer (shared by suggest widget internals)
@@ -416,7 +415,7 @@ in {
           "quickInput.foreground" = colors.comment; # untyped text baseline
 
           # -- focused (selected) entry
-          "quickInputList.focusBackground" = colors.blue;
+          "quickInputList.focusBackground" = colors.yellow;
           "quickInputList.focusForeground" = colors.line;
           "quickInputList.focusIconForeground" = colors.background;
 
@@ -425,7 +424,7 @@ in {
           # ============================================================
 
           # -- some completion providers still route here
-          "editorSuggestWidget.highlightForeground" = colors.foreground;
+          # "editorSuggestWidget.highlightForeground" = colors.foreground;
 
           # -- completion kind / symbol text
           "symbolIcon.textForeground" = colors.blue;
