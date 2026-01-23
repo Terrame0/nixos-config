@@ -459,7 +459,7 @@ in {
 
           "list.activeSelectionBackground" = colors.selection;
           "list.activeSelectionForeground" = colors.foreground;
-          "list.activeSelectionIconForeground" = colors.background;
+          "list.activeSelectionIconForeground" = colors.green;
 
           "list.inactiveSelectionBackground" = colors.line;
           "list.inactiveSelectionForeground" = colors.foreground;
@@ -489,7 +489,7 @@ in {
           "editorSuggestWidget.selectedBackground" = colors.line;
           "editorSuggestWidget.selectedForeground" = colors.green;
 
-          "symbolIcon.textForeground" = colors.aqua;
+          "symbolIcon.textForeground" = colors.foreground;
         };
 
         # ============================================================
@@ -550,7 +550,7 @@ in {
             # -- operators
             {
               scope = "keyword.operator";
-              settings.foreground = colors.comment;
+              settings.foreground = colors.aqua;
             }
 
             # -- functions
@@ -623,7 +623,7 @@ in {
                 "keyword.operator.nix"
                 "storage.type.nix"
               ];
-              settings.foreground = colors.comment;
+              settings.foreground = colors.aqua;
             }
 
             {
