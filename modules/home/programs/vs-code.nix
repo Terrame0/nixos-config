@@ -1,25 +1,22 @@
-{ pkgs, ... }:
-
-let
+{pkgs, ...}: let
   colors = {
     foreground = "#c5c8c6";
     background = "#1d1f21";
-    selection  = "#373b41";
-    line       = "#282a2e";
-    comment    = "#969896";
+    selection = "#373b41";
+    line = "#282a2e";
+    comment = "#969896";
 
-    red    = "#d54e53";
+    red = "#d54e53";
     orange = "#e78c45";
     yellow = "#e7c547";
-    green  = "#b9ca4a";
-    aqua   = "#70c0b1";
-    blue   = "#7aa6da";
+    green = "#b9ca4a";
+    aqua = "#70c0b1";
+    blue = "#7aa6da";
     purple = "#c397d8";
 
     window = "#4d5057";
   };
-in
-{
+in {
   programs.vscode = {
     enable = true;
     package = pkgs.vscode-fhs;
@@ -38,7 +35,6 @@ in
 
       # -- settings.json
       userSettings = {
-
         # -- misc
         "keyboard.dispatch" = "keyCode";
         "security.workspace.trust.untrustedFiles" = "open";
@@ -57,7 +53,7 @@ in
         "nix.enableLanguageServer" = true;
         "nix.formatterPath" = "alejandra";
         "nix.serverPath" = "nixd";
-        "nix.hiddenLanguageServerErrors" = [ "textDocument/definition" ];
+        "nix.hiddenLanguageServerErrors" = ["textDocument/definition"];
 
         # -- fonts & cursor
         "editor.fontFamily" = "JetBrainsMono Nerd Font";
@@ -79,7 +75,6 @@ in
         # ============================================================
 
         "workbench.colorCustomizations" = {
-
           # -- core editor
           "editor.background" = colors.background;
           "editor.foreground" = colors.foreground;
@@ -192,10 +187,22 @@ in
           "terminal.ansiBrightBlack" = colors.window;
 
           "terminal.integrated.colorPalette" = [
-            colors.background colors.red colors.green colors.yellow
-            colors.blue colors.purple colors.aqua colors.foreground
-            colors.window colors.red colors.green colors.yellow
-            colors.blue colors.purple colors.aqua colors.foreground
+            colors.background
+            colors.red
+            colors.green
+            colors.yellow
+            colors.blue
+            colors.purple
+            colors.aqua
+            colors.foreground
+            colors.window
+            colors.red
+            colors.green
+            colors.yellow
+            colors.blue
+            colors.purple
+            colors.aqua
+            colors.foreground
           ];
         };
 
@@ -207,21 +214,44 @@ in
 
         "editor.tokenColorCustomizations" = {
           textMateRules = [
-
-            { scope = "comment"; settings.foreground = colors.comment; }
-            { scope = "string"; settings.foreground = colors.green; }
-            { scope = "keyword"; settings.foreground = colors.purple; }
-            { scope = "entity.name.function"; settings.foreground = colors.blue; }
-            { scope = "entity.name.type"; settings.foreground = colors.yellow; }
-
             {
-              scope = [ "constant.language" "support.constant" ];
+              scope = "comment";
+              settings.foreground = colors.comment;
+            }
+            {
+              scope = "string";
+              settings.foreground = colors.green;
+            }
+            {
+              scope = "keyword";
+              settings.foreground = colors.purple;
+            }
+            {
+              scope = "entity.name.function";
+              settings.foreground = colors.blue;
+            }
+            {
+              scope = "entity.name.type";
               settings.foreground = colors.yellow;
             }
 
-            { scope = "constant.numeric"; settings.foreground = colors.orange; }
-            { scope = "punctuation"; settings.foreground = colors.comment; }
-            { scope = "variable"; settings.foreground = colors.foreground; }
+            {
+              scope = ["constant.language" "support.constant"];
+              settings.foreground = colors.yellow;
+            }
+
+            {
+              scope = "constant.numeric";
+              settings.foreground = colors.orange;
+            }
+            {
+              scope = "punctuation";
+              settings.foreground = colors.comment;
+            }
+            {
+              scope = "variable";
+              settings.foreground = colors.foreground;
+            }
 
             {
               scope = [
