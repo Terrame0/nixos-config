@@ -102,7 +102,6 @@
 
         "window.titleBarStyle" = "custom";
         "window.menuBarVisibility" = "classic";
-        "glassit.alpha" = 100;
 
         # ============================================================
         # -- ui theming
@@ -266,6 +265,7 @@
           "editor.findMatchHighlightForeground" = colors.background;
           "editor.findMatchHighlightBackground" = colors.foreground;
           "editor.findMatchHighlightBorder" = colors.transparent;
+          "glassit.alpha" = 0;
 
           # ----------------------------------------------------------
           # -- welcome page
