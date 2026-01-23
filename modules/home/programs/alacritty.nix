@@ -72,7 +72,7 @@
           y = 8;
         };
         dynamic_padding = true;
-        opacity = 0.85;
+        opacity = 0.7;
         startup_mode = "Maximized";
         title = "Terminal";
         blur = true;

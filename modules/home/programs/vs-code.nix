@@ -345,8 +345,8 @@ in {
           "suggestWidget.selectedBackground" = colors.selection;
           "suggestWidget.selectedForeground" = colors.foreground;
 
-          "suggestWidget.highlightForeground" = colors.yellow;
-          "suggestWidget.detailForeground" = colors.comment;
+          "suggestWidget.highlightForeground" = colors.background;
+          "suggestWidget.detailForeground" = colors.foreground;
           "suggestWidget.documentationFontSize" = 12;
 
           "suggestWidgetScrollbarSlider.background" = colors.window;
@@ -357,7 +357,7 @@ in {
           # -- buttons and badges
           # ----------------------------------------------------------
 
-          "button.background" = colors.background;
+          "button.background" = colors.line;
           "button.foreground" = colors.foreground;
           "button.hoverBackground" = colors.selection;
           "button.border" = colors.transparent;
@@ -486,10 +486,10 @@ in {
 
           "editorSuggestWidget.highlightForeground" = colors.foreground;
 
-          "editorSuggestWidget.selectedBackground" = colors.green;
-          "editorSuggestWidget.selectedForeground" = colors.line;
+          "editorSuggestWidget.selectedBackground" = colors.selection;
+          "editorSuggestWidget.selectedForeground" = colors.green;
 
-          "symbolIcon.textForeground" = colors.blue;
+          "symbolIcon.textForeground" = colors.aqua;
         };
 
         # ============================================================
@@ -630,6 +630,7 @@ in {
               scope = [
                 "entity.name.function.nix"
                 "support.function.builtin.nix"
+                "constant.language.nix"
               ];
               settings.foreground = colors.blue;
             }

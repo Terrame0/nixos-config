@@ -15,6 +15,10 @@
       url = "github:Mic92/sops-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    nix4vscode = {
+      url = "github:nix-community/nix4vscode";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = {
@@ -22,19 +26,24 @@
     home-manager,
     nixos-update-script,
     sops-nix,
+    nix4vscode,
     ...
-  }: {
+  }: let
+    module-args = {
+      inherit nixos-update-script;
+      inherit nix4vscode;
+    };
+  in {
     nixosConfigurations.laptop = nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
-      specialArgs = {
-        inherit nixos-update-script;
-      };
+      specialArgs = module-args;
       modules = [
         ./hosts/laptop/configuration.nix
         ./hosts/laptop/hardware-configuration.nix
         sops-nix.nixosModules.sops
         home-manager.nixosModules.home-manager
         {
+          extraSpecialArgs = module-args;
           home-manager.useGlobalPkgs = true;
           home-manager.useUserPackages = true;
           home-manager.backupFileExtension = "hm-backup";
@@ -44,15 +53,14 @@
     };
     nixosConfigurations.desktop = nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
-      specialArgs = {
-        inherit nixos-update-script;
-      };
+      specialArgs = module-args;
       modules = [
         ./hosts/desktop/configuration.nix
         ./hosts/desktop/hardware-configuration.nix
         sops-nix.nixosModules.sops
         home-manager.nixosModules.home-manager
         {
+          extraSpecialArgs = module-args;
           home-manager.useGlobalPkgs = true;
           home-manager.useUserPackages = true;
           home-manager.backupFileExtension = "hm-backup";
