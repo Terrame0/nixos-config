@@ -400,8 +400,16 @@ in {
           "quickInputList.focusForeground" = colors.foreground;
           "quickInputList.focusIconForeground" = colors.foreground;
 
+          # matched / typed text inside suggest widget (kills default blue)
+          "list.highlightForeground" = colors.foreground;
+          "list.focusHighlightForeground" = colors.foreground;
+
+          # some providers still route through editorSuggest
+          "editorSuggestWidget.highlightForeground" = colors.comment;
+          "editorSuggestWidget.highlightBackground" = colors.green;
+
           # completion item kind / label text
-          "symbolIcon.textForeground" = colors.foreground;
+          "symbolIcon.textForeground" = colors.background;
         };
 
         # -- editor behavior
