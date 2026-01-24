@@ -14,6 +14,11 @@
     tree
 
     # -- desktop apps
+    showtime
+    loupe
+    nautilus
+    gnome-calculator
+    gnome-text-editor
     gparted
     wireshark
     dconf-editor
