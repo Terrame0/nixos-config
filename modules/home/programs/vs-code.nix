@@ -27,6 +27,7 @@
         transparent = "#00000000";
       };
       nixpkgs-extensions = with pkgs.vscode-extensions; [
+        ms-vscode.cmake-tools
         ms-python.python
         jnoortheen.nix-ide
         charliermarsh.ruff
@@ -53,6 +54,8 @@
         # -- misc behavior
         # ============================================================
 
+        "explorer.confirmDelete" = false;
+        "explorer.confirmDragAndDrop" = false;
         "keyboard.dispatch" = "keyCode";
         "security.workspace.trust.untrustedFiles" = "open";
         "telemetry.telemetryLevel" = "off";
@@ -370,14 +373,14 @@
           "button.secondaryBackground" = colors.transparent;
           "button.secondaryForeground" = colors.foreground;
 
-          "badge.background" = colors.window;
-          "badge.foreground" = colors.background;
+          "badge.background" = colors.line;
+          "badge.foreground" = colors.foreground;
 
           "extensionButton.background" = colors.line;
           "extensionButton.foreground" = colors.foreground;
           "extensionButton.hoverBackground" = colors.selection;
-          "extensionButton.prominentBackground" = colors.blue;
-          "extensionButton.prominentForeground" = colors.background;
+          "extensionButton.prominentBackground" = colors.line;
+          "extensionButton.prominentForeground" = colors.foreground;
           "extensionButton.separator" = colors.window;
 
           # ----------------------------------------------------------
@@ -502,7 +505,7 @@
         # ============================================================
 
         "editor.bracketPairColorization.enabled" = true;
-        "editor.guides.bracketPairs" = "active";
+        "editor.guides.bracketPairs" = true;
 
         # ============================================================
         # -- syntax theming

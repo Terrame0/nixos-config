@@ -1,68 +1,79 @@
-{...}: {
-  # foreground = "#c5c8c6"
-  # background = "#1d1f21"
-  # selection = "#373b41"
-  # line = "#282a2e"
-  # comment = "#969896"
-  # red = "#d54e53"
-  # orange = "#e78c45"
-  # yellow = "#e7c547"
-  # green = "#b9ca4a"
-  # aqua = "#70c0b1"
-  # blue = "#7aa6da"
-  # purple = "#c397d8"
-  # window = "#4d5057"
-
+{...}: let
+  # -- color palette
+  colors = {
+    foreground = "#c5c8c6";
+    background = "#1d1f21";
+    selection-bg = "#373b41";
+    line = "#282a2e";
+    comment = "#969896";
+    red = "#d54e53";
+    orange = "#e78c45";
+    yellow = "#e7c547";
+    green = "#b9ca4a";
+    aqua = "#70c0b1";
+    blue = "#7aa6da";
+    purple = "#c397d8";
+    window = "#4d5057";
+    white = "#eaeaea";
+  };
+in {
   programs.alacritty = {
     enable = true;
     settings = {
       colors = {
-        transparent_background_colors = false;
+        transparent-background-colors = false;
+
         primary = {
-          foreground = "#c5c8c6";
-          background = "#1d1f21";
+          foreground = colors.foreground;
+          background = colors.background;
         };
+
         search = {
           matches = {
-            foreground = "#f0c674";
-            background = "#1d1f21";
+            foreground = colors.foreground;
+            background = colors.yellow;
           };
-          focused_match = {
-            foreground = "#f0c674";
-            background = "#373b41";
+          focused-match = {
+            foreground = colors.foreground;
+            background = colors.green;
           };
         };
-        line_indicator = {
+
+        line-indicator = {
           foreground = "None";
-          background = "#373b41";
+          background = colors.selection-bg;
         };
-        footer_bar = {
-          foreground = "#7aa6da";
-          background = "#373b41";
+
+        footer-bar = {
+          foreground = colors.blue;
+          background = colors.selection-bg;
         };
+
         selection = {
           text = "CellForeground";
-          background = "#373b41";
+          background = colors.selection-bg;
         };
+
         bright = {
-          black = "#4d5057";
-          red = "#d54e53";
-          green = "#b9ca4a";
-          yellow = "#e7c547";
-          blue = "#7aa6da";
-          magenta = "#c397d8";
-          cyan = "#70c0b1";
-          white = "#eaeaea";
+          black = colors.window;
+          red = colors.red;
+          green = colors.green;
+          yellow = colors.yellow;
+          blue = colors.blue;
+          magenta = colors.purple;
+          cyan = colors.aqua;
+          white = colors.white;
         };
+
         normal = {
-          black = "#4d5057";
-          red = "#d54e53";
-          green = "#b9ca4a";
-          yellow = "#e7c547";
-          blue = "#7aa6da";
-          magenta = "#c397d8";
-          cyan = "#70c0b1";
-          white = "#eaeaea";
+          black = colors.background;
+          red = colors.red;
+          green = colors.green;
+          yellow = colors.yellow;
+          blue = colors.blue;
+          magenta = colors.purple;
+          cyan = colors.aqua;
+          white = colors.white;
         };
       };
 
@@ -71,15 +82,14 @@
           x = 8;
           y = 8;
         };
-        dynamic_padding = true;
+        dynamic-padding = true;
         opacity = 0.7;
-        startup_mode = "Maximized";
+        startup-mode = "Maximized";
         title = "Terminal";
         blur = true;
       };
 
-      keyboard.bindings = [
-        # -- latin keybinds
+      keyboard-bindings = [
         {
           key = "C";
           mods = "Control|Shift";
@@ -90,7 +100,6 @@
           mods = "Control|Shift";
           action = "Paste";
         }
-        # -- cyrillic keybinds
         {
           key = "С";
           mods = "Control|Shift";
