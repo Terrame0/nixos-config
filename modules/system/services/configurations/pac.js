@@ -78,6 +78,7 @@ function FindProxyForURL(url, host) {
     "archive.org",
     "rutracker.org",
     "itsfoss.com",
+    "starship.rs",
     // "cloudflareinsights.com",
     // "cloudfront.net"
   ];

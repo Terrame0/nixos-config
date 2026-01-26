@@ -1,18 +1,27 @@
 {lib, ...}: let
   config-path = ./configurations;
-  config-directories =
+  entries =
     if builtins.pathExists config-path
-    then
-      lib.filterAttrs
-      (_: type: type == "directory")
-      (builtins.readDir config-path)
+    then builtins.readDir config-path
     else {};
+  config-files =
+    lib.filterAttrs (key: value: value != null)
+    (lib.mapAttrs
+      (
+        name: type:
+          if type == "directory"
+          then {
+            source = config-path + "/${name}";
+            recursive = true;
+          }
+          else if type == "regular"
+          then {
+            source = config-path + "/${name}";
+            recursive = false;
+          }
+          else null
+      )
+      entries);
 in {
-  xdg.configFile =
-    lib.mapAttrs
-    (name: _: {
-      source = ./config/${name};
-      recursive = true;
-    })
-    config-directories;
+  xdg.configFile = config-files;
 }
