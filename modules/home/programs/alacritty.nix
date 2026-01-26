@@ -63,7 +63,7 @@ in {
         };
 
         bright = {
-          black = colors.selection;
+          black = colors.comment;
           red = colors.red;
           green = colors.green;
           yellow = colors.yellow;
@@ -123,6 +123,7 @@ in {
           style = "Italic";
         };
         size = 14.0;
+        line_height = 1.02;
       };
 
       cursor = {
