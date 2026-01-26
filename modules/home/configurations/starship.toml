@@ -31,7 +31,6 @@ format = """
 """
 
 [nix_shell]
-heuristic = true
 disabled = false
 format = """
 [ in ](fg:white)\
