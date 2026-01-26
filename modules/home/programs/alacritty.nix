@@ -1,3 +1,4 @@
+{...}:
 let
   colors = {
     foreground = "#c5c8c6";
@@ -12,8 +13,6 @@ let
     aqua = "#70c0b1";
     blue = "#7aa6da";
     purple = "#c397d8";
-    window = "#4d5057";
-    white = "#eaeaea";
   };
 in {
   programs.alacritty = {
@@ -61,7 +60,7 @@ in {
           blue = colors.blue;
           magenta = colors.purple;
           cyan = colors.aqua;
-          white = colors.white;
+          white = colors.foreground;
         };
 
         bright = {
@@ -72,7 +71,7 @@ in {
           blue = colors.blue;
           magenta = colors.purple;
           cyan = colors.aqua;
-          white = colors.white;
+          white = colors.foreground;
         };
       };
 
