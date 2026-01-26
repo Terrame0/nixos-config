@@ -5,7 +5,6 @@ $username\
 $git_branch\
 $nix_shell\
 $directory\
- \
 """
 
 add_newline = false
@@ -23,7 +22,7 @@ disabled = false
 
 [directory]
 format = """
-[$path](fg:bold white) \
+[$path](fg:bold white)  \
 """
 truncation_length = 2
 truncation_symbol = "…/"
