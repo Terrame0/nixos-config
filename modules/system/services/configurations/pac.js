@@ -67,6 +67,7 @@ function FindProxyForURL(url, host) {
     "icanhazip.com",
 
     // -- misc
+    "mpv.io",
     "github.com",
     "githubusercontent.com",
     "extranix.com",

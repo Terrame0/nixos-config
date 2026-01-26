@@ -7,6 +7,10 @@
     autosuggestion.enable = true;
     syntaxHighlighting.enable = true;
 
+    programs.starship = {
+      enable = true;
+    };
+
     # plugins = [
     #   {
     #     name = "powerlevel10k";
@@ -32,8 +36,8 @@
 
     # -- environment
     initContent = ''
-      # -- powerlevel10k prompt theme configuration
-      source ${./configurations/p10k.zsh}
+      # -- use starship prompt theme
+      eval "$(starship init zsh)"
       # -- better key bindings
       bindkey -e
       # -- history search with arrows

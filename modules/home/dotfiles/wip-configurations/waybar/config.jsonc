@@ -1,71 +1,79 @@
 // -*- mode: jsonc -*-
 {
-    "layer": "top", 
+    "layer": "bottom", 
     "position": "top", 
-    "height": 100, 
-    "spacing": 4, 
-
+    "height": 40, 
+    "spacing": 0,
+    
     // Choose the order of the modules
     "modules-left": [
-        "hyprland/workspaces",
-        "custom/sep",
-        "hyprland/window",
-        "custom/sep"
+        "hyprland/window"
     ],
     "modules-center": [
+        "hyprland/workspaces"
     ],
-
+    
     "modules-right": [
-        "custom/sep",
         "network",
-        "custom/sep",
         "cpu",
-        "custom/sep",
         "memory",
-        "custom/sep",
         "disk",
-        "custom/sep",
         "clock",
-        "custom/sep",
         "tray"
     ],
+    
+    "reload_style_on_change": true,
+    "margin-bottom" : 0,
+    "margin-top" : 10,
+    "margin-left" : 10,
+    "margin-right" : 10,
 
     // Modules configuration
     "hyprland/workspaces": {
+        "format-icons": {
+            "default": "●"
+	    },
+        
         "disable-scroll": true,
         "all-outputs": true,
         "warp-on-scroll": false,
         "format": "{name}",
         "persistent-workspaces": {
-            "*" : 9
-        }
+            "*" : 5
+        },
+        "tooltip": false
     },
     "hyprland/window" : {
-        "max-length": 40,
-        "seperate-outputs": false
+        "expand": true,
+        "seperate-outputs": false,
+        "tooltip": false
     },
     "tray": {
-        // "icon-size": 21,
-        "spacing": 10
-        // "icons": {
-        //   "blueman": "bluetooth",
-        //   "TelegramDesktop": "$HOME/.local/share/icons/hicolor/16x16/apps/telegram.png"
-        // }
+        "icon-size": 20,
+        "spacing": 10,
+        "icons": {
+          "blueman": "bluetooth",
+          "TelegramDesktop": "$HOME/.local/share/icons/hicolor/16x16/apps/telegram.png"
+        },
+        "tooltip": false
     },
     "clock": {
-        "format-alt": "{:%Y-%m-%d}"
+        "format-alt": "{:%Y-%m-%d}",
+        "tooltip": false
     },
     "cpu": {
         "format": "CPU: {usage}%",
         "tooltip": false
     },
     "memory": {
-        "format": "Mem: {used}GiB"
+        "format": "Mem: {avail}GiB",
+        "tooltip": false
     },
     "disk": {
         "interval": 60,
         "path": "/",
-        "format": "Disk: {free}"
+        "format": "Disk: {free}",
+        "tooltip": false
     },
     "battery": {
         "states": {
@@ -77,14 +85,17 @@
         "format-plugged": "{capacity}% ",
         "format-alt": "Bat {capacity}%",
         "format-time": "{H}:{M}",
-        "format-icons": ["", "", "", "", ""]
+        "format-icons": ["", "", "", "", ""],
+        "tooltip": false
     },
     "network": {
         "format": "Online",
-        "format-disconnected": "Disconnected ⚠"
+        "format-disconnected": "Disconnected ⚠",
+        "tooltip": false
     },
     "custom/sep": {
         "format" : "|",
-        "interval" : 0
+        "interval" : 0,
+        "tooltip": false
     }
 }

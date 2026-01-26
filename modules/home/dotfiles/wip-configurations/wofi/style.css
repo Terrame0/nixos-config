@@ -1,0 +1,109 @@
+/* =========================================================
+ * Color palette (matching Waybar)
+ * ========================================================= */
+
+@define-color bg    rgba(29,31,33,0.7);
+@define-color fg    #c5c8c6;
+@define-color wnd   #4d5057;
+@define-color sel   #373b41;
+
+@define-color red   #d54e53;
+@define-color orange #e78c45;
+@define-color ylw   #e7c547;
+@define-color grn   #b9ca4a;
+@define-color aqua  #70c0b1;
+@define-color blu   #7aa6da;
+@define-color mag   #c397d8;
+
+@define-color transparent #00000000;
+
+
+
+/* =========================================================
+ * Fonts
+ * ========================================================= */
+
+* {
+    font-family: "JetBrainsMono Nerd Font", monospace;
+    font-weight: bold;
+    font-size: 16px;
+}
+
+
+/* =========================================================
+ * Wofi window
+ * ========================================================= */
+
+#window {
+
+    all: unset;
+    background-color: @bg;
+    color: @fg;
+    border: none;
+    border-radius: 10px;
+}
+
+#outer-box {
+    padding: 10px;
+}
+
+#inner-box {
+    opacity: 1;
+}
+
+/*#scroll {
+    margin-top: 10px;
+}*/
+
+
+/* Gradient fade at the bottom */
+
+
+/* =========================================================
+ * Input field
+ * ========================================================= */
+
+/*entry styling*/
+
+#entry {
+    background-color: transparent;
+    outline: none;
+    padding: 6px;
+    border-radius: 10px;
+}
+
+#input,
+#input:focus {
+    box-shadow: none; /* remove GTK focus shadows if any */
+}
+
+#input {
+    color: @fg;
+
+    background-color: transparent;
+    border: 0;
+    padding: 8px 12px;
+    opacity: 1;
+    border-radius: 10px;
+}
+
+
+
+
+
+
+/* =========================================================
+ * Text / Items
+ * ========================================================= */
+
+#text {
+    color: @fg;
+}
+
+#text:selected {
+    color: @grn;
+}
+
+#img {
+    padding-right: 8px;
+}
