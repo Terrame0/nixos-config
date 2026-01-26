@@ -1,8 +1,8 @@
 {pkgs, ...}: {
   # -- zsh prompt theme
   programs.starship = {
-      enable = true;
-    };
+    enable = true;
+  };
 
   programs.zsh = {
     enable = true;
@@ -11,8 +11,6 @@
     enableCompletion = true;
     autosuggestion.enable = true;
     syntaxHighlighting.enable = true;
-
-    
 
     # plugins = [
     #   {
