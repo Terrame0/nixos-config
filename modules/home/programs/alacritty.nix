@@ -1,5 +1,4 @@
-{...}:
-let
+{...}: let
   colors = {
     foreground = "#c5c8c6";
     background = "#1d1f21";
@@ -64,7 +63,7 @@ in {
         };
 
         bright = {
-          black = colors.window;
+          black = colors.selection;
           red = colors.red;
           green = colors.green;
           yellow = colors.yellow;
