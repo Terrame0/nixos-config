@@ -29,12 +29,12 @@ in {
 
         search = {
           matches = {
-            foreground = "#f0c674";
-            background = colors.background;
+            foreground = colors.background;
+            background = colors.yellow;
           };
           focused_match = {
-            foreground = "#f0c674";
-            background = colors.selection;
+            foreground = colors.background;
+            background = colors.green;
           };
         };
 
@@ -53,8 +53,8 @@ in {
           background = colors.selection;
         };
 
-        bright = {
-          black = colors.window;
+        normal = {
+          black = colors.background;
           red = colors.red;
           green = colors.green;
           yellow = colors.yellow;
@@ -64,7 +64,7 @@ in {
           white = colors.white;
         };
 
-        normal = {
+        bright = {
           black = colors.window;
           red = colors.red;
           green = colors.green;
