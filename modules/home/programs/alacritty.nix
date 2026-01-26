@@ -124,7 +124,7 @@ in {
         };
         size = 14.0;
         glyph_offset = {
-          y = 1;
+          y = 0.3;
         };
       };
 
