@@ -1,11 +1,12 @@
 {lib, ...}: let
   config-path = ./configurations;
-    config-directories =
-      if builtins.pathExists config-path then
+  config-directories =
+    if builtins.pathExists config-path
+    then
       lib.filterAttrs
       (_: type: type == "directory")
       (builtins.readDir config-path)
-      else {};
+    else {};
 in {
   xdg.configFile =
     lib.mapAttrs
