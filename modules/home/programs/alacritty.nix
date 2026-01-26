@@ -123,9 +123,6 @@ in {
           style = "Italic";
         };
         size = 14.0;
-        glyph_offset = {
-          y = 0.3;
-        };
       };
 
       cursor = {
