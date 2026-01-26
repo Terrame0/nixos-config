@@ -19,7 +19,7 @@ disabled = false
 [directory]
 format = """
 [ at ](fg:white)\
-[ $path](fg:bold cyan)  \
+[  $path](fg:bold cyan)  \
 """
 truncation_length = 2
 truncation_symbol = "/"
