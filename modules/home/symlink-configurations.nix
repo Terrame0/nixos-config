@@ -26,5 +26,5 @@
       )
       dir);
 in {
-  # xdg.configFile = lib.listToAttrs (collect-files config-path "");
+  xdg.configFile = lib.listToAttrs (collect-files config-path "");
 }
