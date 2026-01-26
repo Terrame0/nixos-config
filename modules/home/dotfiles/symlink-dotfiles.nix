@@ -23,5 +23,5 @@
       )
       entries);
 in {
-  # xdg.configFile = config-files;
+  xdg.configFile = config-files;
 }

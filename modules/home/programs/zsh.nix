@@ -36,7 +36,7 @@
     };
 
     initContent = ''
-      ${pkgs.any-nix-shell}/bin/any-nix-shell zsh --info-right | source /dev/stdin
+      ${pkgs.any-nix-shell}/bin/any-nix-shell zsh | source /dev/stdin
       # -- use starship prompt theme
       eval "$(starship init zsh)"
       # -- better key bindings

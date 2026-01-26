@@ -1,0 +1,58 @@
+"$schema" = 'https://starship.rs/config-schema.json'
+
+format = """
+$username\
+$git_branch\
+$nix_shell\
+$directory\
+ \
+"""
+
+add_newline = false
+
+[username]
+show_always = true
+format = """
+[](fg:black)\
+[ ](fg:blue bg:black)\
+[](fg:black bg:green)\
+[ $user   ](fg:bold black bg:green)\
+[](fg:green) \
+"""
+disabled = false
+
+[directory]
+format = """
+[$path](fg:bold white) \
+"""
+truncation_length = 2
+truncation_symbol = "…/"
+
+[directory.substitutions]
+"Documents" = "󰈙 "
+"Downloads" = " "
+"Music" = " "
+"Pictures" = " "
+"nixos-config" = " -config"
+
+[git_branch]
+symbol = "󰘬"
+format = """
+[](fg:yellow)\
+[ $symbol $branch ](bg:yellow fg:bold black)\
+[](fg:yellow) \
+"""
+
+[nix_shell]
+symbol = " "
+disabled = false
+impure_msg = '[ ](fg:red bg:black)'
+pure_msg = '[ ](fg:green bg:black)'
+unknown_msg = '[ ](fg:yellow bg:black)'
+format = """
+[](fg:black)\
+[ $state](fg:blue bg:black)\
+[](fg:black bg:blue)\
+[ $name ](bg:blue fg:bold black)\
+[](fg:blue) \
+"""
