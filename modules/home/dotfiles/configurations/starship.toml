@@ -1,0 +1,67 @@
+"$schema" = "https://starship.rs/config-schema.json"
+
+add_newline = false
+
+# -- colors
+format = """
+[](fg:color5)\
+$username\
+[](fg:color5 bg:color1)\
+$directory\
+[](fg:color1 bg:color3)\
+$git_branch\
+$git_status\
+[](fg:color3 bg:color6)\
+$nix_shell\
+[](fg:color6 bg:color4)\
+$time\
+[ ](fg:color4)\
+"""
+
+# -- user
+[username]
+show_always = true
+style_user = "bg:color5 fg:color0"
+style_root = "bg:color5 fg:color0"
+format = "[ $user ]($style)"
+
+# -- directory
+[directory]
+style = "bg:color1 fg:color0"
+format = "[ $path ]($style)"
+truncation_length = 3
+truncation_symbol = "…/"
+
+[directory.substitutions]
+"Documents" = "󰈙 "
+"Downloads" = " "
+"Music" = " "
+"Pictures" = " "
+
+# -- git
+[git_branch]
+symbol = ""
+style = "bg:color3 fg:color0"
+format = "[ $symbol $branch ]($style)"
+
+[git_status]
+style = "bg:color3 fg:color0"
+format = "[ $all_status$ahead_behind ]($style)"
+
+# -- dev shell
+[nix_shell]
+symbol = " "
+style = "bg:color6 fg:color0"
+format = "[ $symbol$state ]($style)"
+
+# -- time
+[time]
+disabled = false
+time_format = "%R"
+style = "bg:color4 fg:color0"
+format = "[ ♥ $time ]($style)"
+
+# -- disable language runtimes
+[c]        disabled = true
+[cpp]      disabled = true
+[python]   disabled = true
