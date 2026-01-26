@@ -1,9 +1,8 @@
-{...}: let
-  # -- color palette
+let
   colors = {
     foreground = "#c5c8c6";
     background = "#1d1f21";
-    selection-bg = "#373b41";
+    selection = "#373b41";
     line = "#282a2e";
     comment = "#969896";
     red = "#d54e53";
@@ -16,12 +15,13 @@
     window = "#4d5057";
     white = "#eaeaea";
   };
-in {
+in
+{
   programs.alacritty = {
     enable = true;
     settings = {
       colors = {
-        transparent-background-colors = false;
+        transparent_background_colors = false;
 
         primary = {
           foreground = colors.foreground;
@@ -30,28 +30,28 @@ in {
 
         search = {
           matches = {
-            foreground = colors.foreground;
-            background = colors.yellow;
+            foreground = "#f0c674";
+            background = colors.background;
           };
-          focused-match = {
-            foreground = colors.foreground;
-            background = colors.green;
+          focused_match = {
+            foreground = "#f0c674";
+            background = colors.selection;
           };
         };
 
-        line-indicator = {
+        line_indicator = {
           foreground = "None";
-          background = colors.selection-bg;
+          background = colors.selection;
         };
 
-        footer-bar = {
+        footer_bar = {
           foreground = colors.blue;
-          background = colors.selection-bg;
+          background = colors.selection;
         };
 
         selection = {
           text = "CellForeground";
-          background = colors.selection-bg;
+          background = colors.selection;
         };
 
         bright = {
@@ -66,7 +66,7 @@ in {
         };
 
         normal = {
-          black = colors.background;
+          black = colors.window;
           red = colors.red;
           green = colors.green;
           yellow = colors.yellow;
@@ -78,61 +78,30 @@ in {
       };
 
       window = {
-        padding = {
-          x = 8;
-          y = 8;
-        };
-        dynamic-padding = true;
+        padding = { x = 8; y = 8; };
+        dynamic_padding = true;
         opacity = 0.7;
-        startup-mode = "Maximized";
+        startup_mode = "Maximized";
         title = "Terminal";
         blur = true;
       };
 
-      keyboard-bindings = [
-        {
-          key = "C";
-          mods = "Control|Shift";
-          action = "Copy";
-        }
-        {
-          key = "V";
-          mods = "Control|Shift";
-          action = "Paste";
-        }
-        {
-          key = "С";
-          mods = "Control|Shift";
-          action = "Copy";
-        }
-        {
-          key = "М";
-          mods = "Control|Shift";
-          action = "Paste";
-        }
+      keyboard.bindings = [
+        { key = "C"; mods = "Control|Shift"; action = "Copy"; }
+        { key = "V"; mods = "Control|Shift"; action = "Paste"; }
+        { key = "С"; mods = "Control|Shift"; action = "Copy"; }
+        { key = "М"; mods = "Control|Shift"; action = "Paste"; }
       ];
 
       font = {
-        normal = {
-          family = "JetBrainsMono Nerd Font";
-          style = "Regular";
-        };
-        bold = {
-          family = "JetBrainsMono Nerd Font";
-          style = "Bold";
-        };
-        italic = {
-          family = "JetBrainsMono Nerd Font";
-          style = "Italic";
-        };
+        normal = { family = "JetBrainsMono Nerd Font"; style = "Regular"; };
+        bold = { family = "JetBrainsMono Nerd Font"; style = "Bold"; };
+        italic = { family = "JetBrainsMono Nerd Font"; style = "Italic"; };
         size = 14.0;
       };
 
       cursor = {
-        style = {
-          shape = "Beam";
-          blinking = "Off";
-        };
+        style = { shape = "Beam"; blinking = "Off"; };
       };
     };
   };
