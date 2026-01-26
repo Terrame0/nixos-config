@@ -35,11 +35,8 @@
       git-log = "git log --oneline --graph --decorate";
     };
 
-    promptInit = ''
-      ${pkgs.any-nix-shell}/bin/any-nix-shell zsh --info-right | source /dev/stdin
-    '';
-
     initContent = ''
+      ${pkgs.any-nix-shell}/bin/any-nix-shell zsh --info-right | source /dev/stdin
       # -- use starship prompt theme
       eval "$(starship init zsh)"
       # -- better key bindings
