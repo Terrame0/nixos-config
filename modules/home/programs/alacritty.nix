@@ -15,8 +15,7 @@ let
     window = "#4d5057";
     white = "#eaeaea";
   };
-in
-{
+in {
   programs.alacritty = {
     enable = true;
     settings = {
@@ -78,7 +77,10 @@ in
       };
 
       window = {
-        padding = { x = 8; y = 8; };
+        padding = {
+          x = 8;
+          y = 8;
+        };
         dynamic_padding = true;
         opacity = 0.7;
         startup_mode = "Maximized";
@@ -87,21 +89,49 @@ in
       };
 
       keyboard.bindings = [
-        { key = "C"; mods = "Control|Shift"; action = "Copy"; }
-        { key = "V"; mods = "Control|Shift"; action = "Paste"; }
-        { key = "С"; mods = "Control|Shift"; action = "Copy"; }
-        { key = "М"; mods = "Control|Shift"; action = "Paste"; }
+        {
+          key = "C";
+          mods = "Control|Shift";
+          action = "Copy";
+        }
+        {
+          key = "V";
+          mods = "Control|Shift";
+          action = "Paste";
+        }
+        {
+          key = "С";
+          mods = "Control|Shift";
+          action = "Copy";
+        }
+        {
+          key = "М";
+          mods = "Control|Shift";
+          action = "Paste";
+        }
       ];
 
       font = {
-        normal = { family = "JetBrainsMono Nerd Font"; style = "Regular"; };
-        bold = { family = "JetBrainsMono Nerd Font"; style = "Bold"; };
-        italic = { family = "JetBrainsMono Nerd Font"; style = "Italic"; };
+        normal = {
+          family = "JetBrainsMono Nerd Font";
+          style = "Regular";
+        };
+        bold = {
+          family = "JetBrainsMono Nerd Font";
+          style = "Bold";
+        };
+        italic = {
+          family = "JetBrainsMono Nerd Font";
+          style = "Italic";
+        };
         size = 14.0;
       };
 
       cursor = {
-        style = { shape = "Beam"; blinking = "Off"; };
+        style = {
+          shape = "Beam";
+          blinking = "Off";
+        };
       };
     };
   };
