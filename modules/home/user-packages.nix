@@ -12,6 +12,7 @@
     sops
     age
     tree
+    any-nix-shell
 
     # -- desktop apps
     gparted

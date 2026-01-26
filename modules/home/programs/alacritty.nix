@@ -17,7 +17,7 @@
     enable = true;
     settings = {
       colors = {
-        transparent_background_colors = true;
+        transparent_background_colors = false;
         primary = {
           foreground = "#c5c8c6";
           background = "#1d1f21";

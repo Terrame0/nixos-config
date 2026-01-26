@@ -1,91 +1,86 @@
-"$schema" = "https://starship.rs/config-schema.json"
+"$schema" = 'https://starship.rs/config-schema.json'
 
-add_newline = false
-
-# The *format* places a single left corner, then a sequence of modules.
-# Modules own their backgrounds (see their `style` + `format`) so empty modules
-# don't leave separators behind.
 format = """
-[](fg:color5)\
+[](#9A348E)\
+$os\
 $username\
-[](fg:color5 bg:color1)\
+[](bg:#DA627D fg:#9A348E)\
 $directory\
+[](fg:#DA627D bg:#FCA17D)\
 $git_branch\
 $git_status\
-$nix_shell\
-[](fg:color6 bg:color4)\
+[](fg:#FCA17D bg:#86BBD8)\
+$scala\
+[](fg:#86BBD8 bg:#06969A)\
 $time\
-[ ](fg:color4)\
+[ ](fg:#33658A)\
 """
 
-# ---------------------
-# Username (leftmost)
-# ---------------------
+# Disable the blank line at the start of the prompt
+# add_newline = false
+
+# You can also replace your username with a neat symbol like   or disable this
+# and use the os module below
 [username]
 show_always = true
-style_user = "bg:color5 fg:color0"
-style_root = "bg:color5 fg:color0"
-# username prints a trailing separator into the directory background (color1)
-format = '[$user ]($style)[](fg:color5 bg:color1)'
+style_user = "bg:green fg:black"
+style_root = "bg:#9A348E"
+format = '[$user ]($style)'
+disabled = false
 
-# ---------------------
-# Directory segment
-# ---------------------
+# An alternative to the username module which displays a symbol that
+# represents the current operating system
+[os]
+style = "bg:blue"
+disabled = true # Disabled by default
+
 [directory]
-# background uses terminal color1 (you control color1 in your terminal)
-style = "bg:color1 fg:color0"
-# formats its own content (and *does not* print an extra separator here)
+style = "bg:#DA627D"
 format = "[ $path ]($style)"
 truncation_length = 3
 truncation_symbol = "…/"
 
+# Here is how you can shorten some long paths by text replacement
+# similar to mapped_locations in Oh My Posh:
 [directory.substitutions]
 "Documents" = "󰈙 "
 "Downloads" = " "
 "Music" = " "
 "Pictures" = " "
+# Keep in mind that the order matters. For example:
+# "Important Documents" = " 󰈙 "
+# will not be replaced, because "Documents" was already substituted before.
+# So either put "Important Documents" before "Documents" or use the substituted version:
+# "Important 󰈙 " = " 󰈙 "
 
-# ---------------------
-# Git: branch + status
-# ---------------------
-# Both share the same background so they appear as a single block when present.
+[nix_shell]
+disabled = false
+impure_msg = '[impure shell](bold red)'
+pure_msg = '[pure shell](bold green)'
+unknown_msg = '[unknown shell](bold yellow)'
+format = 'via [☃️ $state( \($name\))](bold blue) '
+
+[c]
+symbol = " "
+style = "bg:#86BBD8"
+format = '[ $symbol ($version) ]($style)'
+
+[cpp]
+symbol = " "
+style = "bg:#86BBD8"
+format = '[ $symbol ($version) ]($style)'
+
 [git_branch]
 symbol = ""
-style = "bg:color3 fg:color0"
-format = "[ $symbol $branch ]($style)"
+style = "bg:#FCA17D"
+format = '[ $symbol $branch ]($style)'
 
 [git_status]
-style = "bg:color3 fg:color0"
-# prints the compact combined status for the repo
-format = "[ $all_status$ahead_behind ]($style)"
+style = "bg:#FCA17D"
+format = '[$all_status$ahead_behind ]($style)'
 
-# When git_branch + git_status are both empty, nothing from color3 prints,
-# and the next separator (specified in the main format) handles transition.
-
-# ---------------------
-# Nix dev-shell
-# ---------------------
-[nix_shell]
-symbol = " "
-style = "bg:color6 fg:color0"
-# tiny format that shows when a dev shell is active
-format = "[ $symbol$state ]($style)"
-
-# ---------------------
-# Time (rightmost)
-# ---------------------
 [time]
 disabled = false
-time_format = "%R"
-style = "bg:color4 fg:color0"
-format = "[ ♥ $time ]($style)"
-
-# ---------------------
-# Disable all language/runtime modules (no noisy status everywhere)
-# ---------------------
-[c]        
-disabled = true
-[cpp]      
-disabled = true
-[python]   
-disabled = true
+time_format = "%R" # Hour:Minute Format
+style = "bg:#33658A"
+format = '[ ♥ $time ]($style)'
