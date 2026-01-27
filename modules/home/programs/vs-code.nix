@@ -57,8 +57,9 @@
         "nix.enableLanguageServer" = true;
         "nix.serverPath" = "nixd";
         "nix.serverSettings" = {
-          "nixd" = 
-            let flake-import-expr = "(builtins.getFlake (toString ./.)";in {
+          "nixd" = let
+            flake-import-expr = "(builtins.getFlake (toString ./.)";
+          in {
             "formatting" = {
               "command" = ["alejandra"];
             };
