@@ -67,10 +67,11 @@
       );
   in {
     nixosConfigurations = nixos-configuration-list;
-    homeConfigurations = {
-      terrame = home-manager.lib.homeManagerConfiguration {
-        modules = [];
-      };
-    };
+    # homeConfigurations = {
+    #   terrame = home-manager.lib.homeManagerConfiguration {
+    #     pkgs = "a";
+    #     modules = [];
+    #   };
+    # };
   };
 }
