@@ -9,7 +9,6 @@
     };
   overlay = self: super: {
     hyprland = unstable.hyprland;
-    vscode-extensions.jnoortheen.nix-ide = unstable.vscode-extensions.jnoortheen.nix-ide;
     nixd = unstable.nixd;
   };
 in {
