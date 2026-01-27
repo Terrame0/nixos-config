@@ -44,7 +44,6 @@
       # ============================================================
 
       extensions = nixpkgs-extensions ++ marketplace-extensions;
-
       # ============================================================
       # -- user settings
       # ============================================================
@@ -58,20 +57,20 @@
         "nix.serverPath" = "nixd";
         "nix.serverSettings" = {
           "nixd" = let
-            flake-import-expr = "(builtins.getFlake (toString ./.))";
+            flake = "(builtins.getFlake (builtins.toString ./.))";
           in {
             "formatting" = {
               "command" = ["alejandra"];
             };
             "nixpkgs" = {
-              "expr" = "import \${${flake-import-expr} } { }";
+              "expr" = "import ''\${${flake}.inputs.nixpkgs}'' { system = builtins.currentSystem; }";
             };
             "options" = {
               "nixos" = {
-                "expr" = "(let pkgs = import \${${flake-import-expr}.inputs.nixpkgs}} { }; in (pkgs.lib.evalModules { modules =  (import \${${flake-import-expr}.inputs.nixpkgs}/nixos/modules/module-list.nix) ++ [ ({...}: { nixpkgs.hostPlatform = builtins.currentSystem;} ) ] ; })).options";
+                "expr" = "(let pkgs = import ''\${${flake}.inputs.nixpkgs}'' { system = builtins.currentSystem; }; in (pkgs.lib.evalModules { modules =  (import ''\${${flake}.inputs.nixpkgs}/nixos/modules/module-list.nix'') ++ [ ({...}: { nixpkgs.hostPlatform = builtins.currentSystem;} ) ] ; })).options";
               };
               "home_manager" = {
-                "expr" = "(let pkgs = import \"\${inputs.nixpkgs}\" { }; lib = import \"\${inputs.home-manager}/modules/lib/stdlib-extended.nix\" pkgs.lib; in (lib.evalModules { modules =  (import \"\{inputs.home-manager}/modules/modules.nix\") { inherit lib pkgs; check = false; }; })).options";
+                "expr" = "(let pkgs = import ''\${${flake}.inputs.nixpkgs}'' { system = builtins.currentSystem; }; lib = import ''\${${flake}.inputs.home-manager}/modules/lib/stdlib-extended.nix'' pkgs.lib; in (lib.evalModules { modules =  (import ''\${${flake}.inputs.home-manager}/modules/modules.nix'') { inherit lib pkgs; check = false; }; })).options";
               };
             };
           };
