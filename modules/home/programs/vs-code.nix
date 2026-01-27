@@ -32,22 +32,36 @@
         charliermarsh.ruff
         mads-hartmann.bash-ide-vscode
         llvm-vs-code-extensions.vscode-clangd
-        ecmel.vscode-html-css
       ];
       marketplace-extensions = pkgs.nix4vscode.forVscode [
         # "s-nlf-fh.glassit"
       ];
     in {
+
       # ============================================================
       # -- extensions
       # ============================================================
 
       extensions = nixpkgs-extensions ++ marketplace-extensions;
+
       # ============================================================
       # -- user settings
       # ============================================================
 
       userSettings = {
+
+        # ============================================================
+        # -- clangd settings
+        # ============================================================
+
+        "clangd.path" = "clangd";
+        "clangd.arguments" = [
+          "--background-index"
+          "--clang-tidy"
+          "--header-insertion=iwyu"
+          "--completion-style=detailed"
+        ];
+
         # ============================================================
         # -- nix language server integration
         # ============================================================
