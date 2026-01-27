@@ -69,11 +69,7 @@
     nixosConfigurations = nixos-configuration-list;
     homeConfigurations = {
       terrame = home-manager.lib.homeManagerConfiguration {
-        pkgs = nixpkgs.legacyPackages.x86_64-linux; # REQUIRED
-        configuration = ./home/terrame/home-configuration.nix;
-        extraSpecialArgs = module-args;
-        useGlobalPkgs = true;
-        useUserPackages = true;
+        modules = [];
       };
     };
   };
