@@ -57,12 +57,13 @@
         "nix.enableLanguageServer" = true;
         "nix.serverPath" = "nixd";
         "nix.serverSettings" = {
-          "nixd" = {
+          "nixd" = 
+            let flake-import-expr = "(builtins.getFlake (toString ./.)";in {
             "formatting" = {
               "command" = ["alejandra"];
             };
             "nixpkgs" = {
-              "expr" = "import \"\${flake.inputs.nixpkgs}\" { }";
+              "expr" = "import \"${flake-import-expr}\" { }";
             };
             "options" = {
               "nixos" = {
