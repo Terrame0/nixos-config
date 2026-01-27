@@ -68,11 +68,11 @@
   in {
     nixosConfigurations = nixos-configuration-list;
     homeConfigurations = {
-    ${username} = home-manager.lib.homeManagerConfiguration {
-      pkgs = nixpkgs.legacyPackages.${target-system};
-      modules = [ ./home/terrame/home-configuration.nix ];
-      extraSpecialArgs = { inherit nixpkgs; };
+      ${username} = home-manager.lib.homeManagerConfiguration {
+        pkgs = nixpkgs.legacyPackages.${target-system};
+        modules = [./home/terrame/home-configuration.nix];
+        extraSpecialArgs = {inherit nixpkgs;};
+      };
     };
-  };
   };
 }
