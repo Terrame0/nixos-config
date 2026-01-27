@@ -56,23 +56,23 @@
 
         "nix.enableLanguageServer" = true;
         "nix.serverPath" = "nixd";
-        nix.serverSettings = {
-          nixd = {
-            formatting = {
-              command = ["alejandra"];
+        "nix.serverSettings" = {
+          "nixd" = {
+            "formatting" = {
+              "command" = ["alejandra"];
             };
 
             # -- nixpkgs import dynamically
-            nixpkgs = {
-              expr = "import (builtins.getFlake (builtins.toString ./.)).inputs.nixpkgs {system = builtins.currentSystem;};";
+            "nixpkgs" = {
+              "expr" = "import (builtins.getFlake (builtins.toString ./.)).inputs.nixpkgs {system = builtins.currentSystem;};";
             };
 
-            options = {
-              nixos = {
-                expr = "(builtins.getFlake (builtins.toString ./.)).nixosConfigurations.\${builtins.head (builtins.attrNames (builtins.getFlake (builtins.toString ./.).nixosConfigurations))}.options;";
+            "options" = {
+              "nixos" = {
+                "expr" = "(builtins.getFlake (builtins.toString ./.)).nixosConfigurations.\${builtins.head (builtins.attrNames (builtins.getFlake (builtins.toString ./.).nixosConfigurations))}.options;";
               };
-              home-manager = {
-                expr = "(builtins.getFlake (builtins.toString ./.)).homeConfigurations.\${builtins.head (builtins.attrNames (builtins.getFlake (builtins.toString ./.).homeConfigurations))}.options;";
+              "home-manager" = {
+                "expr" = "(builtins.getFlake (builtins.toString ./.)).homeConfigurations.\${builtins.head (builtins.attrNames (builtins.getFlake (builtins.toString ./.).homeConfigurations))}.options;";
               };
             };
           };
