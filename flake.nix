@@ -66,34 +66,13 @@
         )
       );
   in {
-    nixosConfigurations = builtins.listToAttrs (map (host: {
-        name = host;
-        value = nixpkgs.lib.nixosSystem {
-          system = target-system;
-          specialArgs = module-args;
-          modules = [
-            ./hosts/${host}/configuration.nix
-            ./hosts/${host}/hardware-configuration.nix
-            sops-nix.nixosModules.sops
-            home-manager.nixosModules.home-manager
-            {
-              home-manager.extraSpecialArgs = module-args;
-              home-manager.useGlobalPkgs = true;
-              home-manager.useUserPackages = true;
-              home-manager.backupFileExtension = "hm-backup";
-              home-manager.users.${username} =
-                import ./home/${username}/home-configuration.nix;
-            }
-          ];
-        };
-      })
-      hosts);
-    homeConfigurations = {
-      ${username} = home-manager.lib.homeManagerConfiguration {
-        pkgs = nixpkgs.legacyPackages.${target-system};
-        modules = [./home/terrame/home-configuration.nix];
-        extraSpecialArgs = {inherit nixpkgs;};
-      };
-    };
+    nixosConfigurations = nixos-configuration-list;
+    # homeConfigurations = {
+    #   ${username} = home-manager.lib.homeManagerConfiguration {
+    #     pkgs = nixpkgs.legacyPackages.${target-system};
+    #     modules = [./home/terrame/home-configuration.nix];
+    #     extraSpecialArgs = {inherit nixpkgs;};
+    #   };
+    # };
   };
 }

@@ -61,17 +61,15 @@
             "formatting" = {
               "command" = ["alejandra"];
             };
-
             "nixpkgs" = {
-              "expr" = "import (builtins.getFlake (builtins.toString ./.)).inputs.nixpkgs {system = builtins.currentSystem;}";
+              "expr" = "import '\${flake.inputs.nixpkgs}' { }";
             };
-
             "options" = {
               "nixos" = {
-                "expr" = "(builtins.getFlake (builtins.toString ./.)).nixosConfigurations.\${builtins.head (builtins.attrNames (builtins.getFlake (builtins.toString ./.)).nixosConfigurations)}.options";
+                "expr" = "(let pkgs = import '\${inputs.nixpkgs}' { }; in (pkgs.lib.evalModules { modules =  (import '\${inputs.nixpkgs}/nixos/modules/module-list.nix') ++ [ ({...}: { nixpkgs.hostPlatform = builtins.currentSystem;} ) ] ; })).options";
               };
-              "home-manager" = {
-                "expr" = "(builtins.getFlake (builtins.toString ./.)).homeConfigurations.\${builtins.head (builtins.attrNames (builtins.getFlake (builtins.toString ./.)).homeConfigurations)}.options";
+              "home_manager" = {
+                "expr" = "(let pkgs = import '\${inputs.nixpkgs}' { }; lib = import '\${inputs.home-manager}/modules/lib/stdlib-extended.nix' pkgs.lib; in (lib.evalModules { modules =  (import '\{inputs.home-manager}/modules/modules.nix') { inherit lib pkgs; check = false; }; })).options";
               };
             };
           };
