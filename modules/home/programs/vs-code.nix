@@ -51,6 +51,14 @@
 
       userSettings = {
         # ============================================================
+        # -- nix linting
+        # ============================================================
+        "nix.enableLanguageServer" = true;
+        "nix.formatterPath" = "alejandra";
+        "nix.serverPath" = "nixd";
+        "nix.hiddenLanguageServerErrors" = ["textDocument/definition"];
+          
+        # ============================================================
         # -- misc behavior
         # ============================================================
 
@@ -60,6 +68,7 @@
         "security.workspace.trust.untrustedFiles" = "open";
         "telemetry.telemetryLevel" = "off";
         "chat.disableAIFeatures" = true;
+        "terminal.external.linuxExec" = "alacritty";
 
         # ============================================================
         # -- updates and recommendations
