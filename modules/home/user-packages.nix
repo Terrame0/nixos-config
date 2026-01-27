@@ -2,13 +2,10 @@
   home.packages = with pkgs; [
     # -- dev/cli tools
     python3
-    clang
     nixd
-    clang-tools
     neofetch
     git
     alejandra
-    libinput
     sops
     age
     tree

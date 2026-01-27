@@ -27,7 +27,6 @@
         transparent = "#00000000";
       };
       nixpkgs-extensions = with pkgs.vscode-extensions; [
-        ms-vscode.cmake-tools
         ms-python.python
         jnoortheen.nix-ide
         charliermarsh.ruff
