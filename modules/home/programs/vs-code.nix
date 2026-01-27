@@ -56,52 +56,24 @@
 
         "nix.enableLanguageServer" = true;
         "nix.serverPath" = "nixd";
-        "nix.serverSettings" = let
-          flake-expression = "builtins.getFlake (builtins.toString ./.)";
-
-          # -- nixpkgs import
-          nixpkgs-expression = "import ${flake-expression}.inputs.nixpkgs { system = builtins.currentSystem }";
-
-          # -- nixos options
-          nixos-expression = "let \
-              configs = ${flake-expression}.nixosConfigurations or {}; \
-              first-config = \
-                if builtins.length (builtins.attrNames configs) > 0 \
-                then configs.\${builtins.head (builtins.attrNames configs)} \
-                else {}; \
-              result = builtins.tryEval (first-config.options or {}); \
-            in \
-              if result.success \
-              then result.value \
-              else {}";
-
-          # -- home-manager options
-          home-manager-expression = "let \
-              configs = ${flake-expression}.homeConfigurations or {}; \
-              first-config = \
-                if builtins.length (builtins.attrNames configs) > 0 \
-                then configs.\${builtins.head (builtins.attrNames configs)} \
-                else {}; \
-              result = builtins.tryEval (first-config.options or {}); \
-            in \
-              if result.success \
-              then result.value \
-              else {}";
-        in {
-          "nixd" = {
-            "nixpkgs" = {
-              "expr" = nixpkgs-expression;
+        nix.serverSettings = {
+          nixd = {
+            formatting = {
+              command = ["alejandra"];
             };
-            "options" = {
-              "nixos" = {
-                "expr" = nixos-expression;
-              };
-              "home-manager" = {
-                "expr" = home-manager-expression;
-              };
+
+            # -- nixpkgs import dynamically
+            nixpkgs = {
+              expr = "import (builtins.getFlake (builtins.toString ./.)).inputs.nixpkgs {system = builtins.currentSystem;};";
             };
-            "formatting" = {
-              "command" = ["alejandra"];
+
+            options = {
+              nixos = {
+                expr = "(builtins.getFlake (builtins.toString ./.)).nixosConfigurations.\${builtins.head (builtins.attrNames (builtins.getFlake (builtins.toString ./.).nixosConfigurations))}.options;";
+              };
+              home-manager = {
+                expr = "(builtins.getFlake (builtins.toString ./.)).homeConfigurations.\${builtins.head (builtins.attrNames (builtins.getFlake (builtins.toString ./.).homeConfigurations))}.options;";
+              };
             };
           };
         };
