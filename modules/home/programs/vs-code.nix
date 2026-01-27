@@ -62,14 +62,14 @@
               "command" = ["alejandra"];
             };
             "nixpkgs" = {
-              "expr" = "import '\${flake.inputs.nixpkgs}' { }";
+              "expr" = "import \"\${flake.inputs.nixpkgs}\" { }";
             };
             "options" = {
               "nixos" = {
-                "expr" = "(let pkgs = import '\${inputs.nixpkgs}' { }; in (pkgs.lib.evalModules { modules =  (import '\${inputs.nixpkgs}/nixos/modules/module-list.nix') ++ [ ({...}: { nixpkgs.hostPlatform = builtins.currentSystem;} ) ] ; })).options";
+                "expr" = "(let pkgs = import \"\${inputs.nixpkgs}\" { }; in (pkgs.lib.evalModules { modules =  (import \"\${inputs.nixpkgs}/nixos/modules/module-list.nix\") ++ [ ({...}: { nixpkgs.hostPlatform = builtins.currentSystem;} ) ] ; })).options";
               };
               "home_manager" = {
-                "expr" = "(let pkgs = import '\${inputs.nixpkgs}' { }; lib = import '\${inputs.home-manager}/modules/lib/stdlib-extended.nix' pkgs.lib; in (lib.evalModules { modules =  (import '\{inputs.home-manager}/modules/modules.nix') { inherit lib pkgs; check = false; }; })).options";
+                "expr" = "(let pkgs = import \"\${inputs.nixpkgs}\" { }; lib = import \"\${inputs.home-manager}/modules/lib/stdlib-extended.nix\" pkgs.lib; in (lib.evalModules { modules =  (import \"\{inputs.home-manager}/modules/modules.nix\") { inherit lib pkgs; check = false; }; })).options";
               };
             };
           };
