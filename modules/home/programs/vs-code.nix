@@ -57,7 +57,7 @@
         "nix.formatterPath" = "alejandra";
         "nix.serverPath" = "nixd";
         "nix.hiddenLanguageServerErrors" = ["textDocument/definition"];
-          
+
         # ============================================================
         # -- misc behavior
         # ============================================================
