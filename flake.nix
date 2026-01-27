@@ -68,14 +68,14 @@
   in {
     nixosConfigurations = nixos-configuration-list;
     homeConfigurations = {
-  ${username} = home-manager.lib.homeManagerConfiguration {
-    pkgs = nixpkgs.legacyPackages.x86_64-linux;
-    configuration = ./home/terrame/home-configuration.nix;
-    username = username;
-    extraSpecialArgs = module-args;
-    useGlobalPkgs = true;
-    useUserPackages = true;
-  };
-};
+      ${username} = home-manager.lib.homeManagerConfiguration {
+        pkgs = nixpkgs.legacyPackages.x86_64-linux;
+        configuration = ./home/terrame/home-configuration.nix;
+        username = username;
+        extraSpecialArgs = module-args;
+        useGlobalPkgs = true;
+        useUserPackages = true;
+      };
+    };
   };
 }
