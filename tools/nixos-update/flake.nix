@@ -2,8 +2,8 @@
   description = "python nixos update script";
   inputs.nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.11";
   outputs = {nixpkgs, ...}: let
-    target-system = "x86_64-linux"; # -- system we are building for
-    pkgs = nixpkgs.legacyPackages.${target-system};
+    system = "x86_64-linux";
+    pkgs = import nixpkgs {inherit system;};
     # -- building package with setuptools (details in pyproject.toml)
     nixos-update-script = pkgs.python3Packages.buildPythonApplication {
       pname = "nixos-update";
@@ -19,8 +19,8 @@
       ];
     };
   in {
-    packages.${target-system}.default = nixos-update-script;
-    devShells.${target-system}.default = pkgs.mkShell {
+    packages.${system}.default = nixos-update-script;
+    devShells.${system}.default = pkgs.mkShell {
       buildInputs = [nixos-update-script];
     };
   };
