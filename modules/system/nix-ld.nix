@@ -1,15 +1,11 @@
-{ pkgs, ... }:
-
-let
+{pkgs, ...}: let
   # 32‑bit cross package set for i686 Linux
   pkgs32 = pkgs.pkgsCross.i686-linux;
-in
-{
+in {
   programs.nix-ld = {
     enable = true;
 
     libraries = with pkgs; [
-
       # -- basic 64‑bit runtime
       zlib
       zstd
@@ -122,11 +118,7 @@ in
       libxcrypt-legacy
       fuse
       e2fsprogs
-
-      # -- fonts
-      fonts.fontconfig
-      corefonts
-
+      
       # -- 32‑bit graphics / opengl / vulkan
       pkgs32.libGL
       pkgs32.libGLU
