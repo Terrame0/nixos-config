@@ -8,7 +8,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     nixos-update-script = {
-      url = "path:./tools/nixos-update";
+      url = "git+ssh://git@github.com/Terrame0/nixos-update-script.git";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     sops-nix = {
@@ -67,12 +67,5 @@
       );
   in {
     nixosConfigurations = nixos-configuration-list;
-    # homeConfigurations = {
-    #   ${username} = home-manager.lib.homeManagerConfiguration {
-    #     pkgs = nixpkgs.legacyPackages.${target-system};
-    #     modules = [./home/terrame/home-configuration.nix];
-    #     extraSpecialArgs = {inherit nixpkgs;};
-    #   };
-    # };
   };
 }

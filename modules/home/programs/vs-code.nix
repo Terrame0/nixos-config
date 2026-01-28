@@ -66,6 +66,7 @@
 
         "nix.enableLanguageServer" = true;
         "nix.serverPath" = "nixd";
+        "nix.hiddenLanguageServerErrors" = ["textDocument/definition"];
         "nix.serverSettings" = {
           "nixd" = let
             flake = "(builtins.getFlake (builtins.toString ./.))";
