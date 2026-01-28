@@ -66,9 +66,9 @@ def run(cmd: str, print_output = False, nofail = False):
     log().write(print_string)
     try:
         run_kwargs = {
-            "shell":True, 
-            "check":True, 
-            "capture_output":True, 
+            "shell":True,
+            "check":True,
+            "capture_output":True,
             "text":True
         }
 

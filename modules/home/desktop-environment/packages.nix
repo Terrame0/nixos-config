@@ -4,5 +4,6 @@
     hyprpaper
     mako
     wofi
+    hyprshot
   ];
 }
