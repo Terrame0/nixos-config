@@ -8,6 +8,8 @@
     nix-ld
     pacproxy
     nixos-update-script.packages.${pkgs.system}.default
+
+    steam-run
   ];
 
   # -- remove preinstalled apps
