@@ -10,6 +10,7 @@
     age
     tree
     any-nix-shell
+    nix-direnv
 
     # -- desktop apps
     gparted
