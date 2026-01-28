@@ -1,5 +1,8 @@
-{ pkgs, ... }: {
-  # -- nix-ld (run unpatched binaries)
+{ pkgs, ... }:
+
+let
+  pkgs32 = pkgs.pkgs32;
+in {
   programs.nix-ld = {
     enable = true;
 
@@ -39,6 +42,7 @@
       xorg.libXt
       xorg.libXmu
       xorg.libXft
+
       libxcb
 
       # -- opengl / mesa
@@ -138,17 +142,17 @@
       fuse
       e2fsprogs
 
-      # -- 32-bit graphics
-      lib32.libGL
-      lib32.libGLU
-      lib32.mesa
-      lib32.vulkan-loader
+      # -- 32-bit graphics (via pkgs32)
+      pkgs32.libGL
+      pkgs32.libGLU
+      pkgs32.mesa
+      pkgs32.vulkan-loader
 
-      # -- 32-bit audio
-      lib32.alsa-lib
-      lib32.pulseaudio
-      lib32.SDL2
-      lib32.SDL2_mixer
+      # -- 32-bit audio (via pkgs32)
+      pkgs32.alsa-lib
+      pkgs32.pulseaudio
+      pkgs32.SDL2
+      pkgs32.SDL2_mixer
 
       # -- fonts
       fonts.fontconfig
@@ -160,7 +164,7 @@
       libxcb-image
 
       # -- terminal / misc (32-bit)
-      lib32.ncurses
+      pkgs32.ncurses
     ];
   };
 }
