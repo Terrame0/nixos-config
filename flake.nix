@@ -8,7 +8,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     nixos-update-script = {
-      url = "git+ssh://git@github.com/Terrame0/nixos-update-script.git";
+      url = "path:./tools/nixos-update";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     sops-nix = {
