@@ -10,11 +10,6 @@
     nixos-update-script.packages.${pkgs.system}.default
 
     steam-run
-    lib32.glibc
-    lib32.gcc
-    lib32.mesa
-    lib32.vulkan-loader
-    lib32.vulkan-tools
   ];
 
   # -- remove preinstalled apps
