@@ -10,6 +10,7 @@
     age
     tree
     any-nix-shell
+    brightnessctl
 
     # -- desktop apps
     gparted
