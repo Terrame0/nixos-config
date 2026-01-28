@@ -1,4 +1,4 @@
-{pkgs, ...}: {
+{ pkgs, ... }: {
   # -- nix-ld (run unpatched binaries)
   programs.nix-ld = {
     enable = true;
@@ -19,7 +19,7 @@
       xz
       systemd
 
-      # -- X11 / graphics stack
+      # -- x11 / graphics stack
       xorg.libX11
       xorg.libXcomposite
       xorg.libXtst
@@ -39,10 +39,9 @@
       xorg.libXt
       xorg.libXmu
       xorg.libXft
-
       libxcb
 
-      # -- OpenGL / Mesa
+      # -- opengl / mesa
       libGL
       libGLU
       libgbm
@@ -53,7 +52,7 @@
       glew110
       freeglut
 
-      # -- GTK / GLib
+      # -- gtk / glib
       glib
       gtk2
       gtk3
@@ -80,7 +79,7 @@
       libsamplerate
       speex
 
-      # -- SDL
+      # -- sdl
       SDL
       SDL2
       SDL_image
@@ -106,10 +105,10 @@
       networkmanager
       zenity
 
-      # -- Vulkan
+      # -- vulkan
       vulkan-loader
 
-      # -- indicators / legacy GTK
+      # -- indicators / legacy gtk
       libappindicator-gtk2
       libdbusmenu-gtk2
       libindicator-gtk2
@@ -135,32 +134,32 @@
       libxcrypt
       libxcrypt-legacy
 
-      # -- AppImage support
+      # -- appimage support
       fuse
       e2fsprogs
 
-      # 32-bit graphics
+      # -- 32-bit graphics
       lib32.libGL
       lib32.libGLU
       lib32.mesa
       lib32.vulkan-loader
-    
-      # 32-bit audio
+
+      # -- 32-bit audio
       lib32.alsa-lib
       lib32.pulseaudio
       lib32.SDL2
       lib32.SDL2_mixer
-    
-      # Fonts
+
+      # -- fonts
       fonts.fontconfig
       corefonts
-    
-      # Optional XCB extensions
+
+      # -- optional xcb extensions
       libxcb-util
       libxcb-render-util
       libxcb-image
-    
-      # Terminal / misc
+
+      # -- terminal / misc (32-bit)
       lib32.ncurses
     ];
   };
