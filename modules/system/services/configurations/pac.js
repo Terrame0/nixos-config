@@ -81,6 +81,13 @@ function FindProxyForURL(url, host) {
     "starship.rs",
     // "cloudflareinsights.com",
     // "cloudfront.net"
+
+    "steamcloud-tyo.s3.dualstack.ap-northeast-1.amazonaws.com",
+    "steamcloud-us-east.s3.dualstack.us-east-1.amazonaws.com",
+    "steamcloudsweden.blob.core.windows.net",
+    "steamcloudams2.blob.core.windows.net",
+    "steamcloudlrstyo.blob.core.windows.net",
+    "steamcloud-tokyo.storage.googleapis.com"
   ];
 
   // -- matches domain or subdomain
