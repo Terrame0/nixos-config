@@ -11,9 +11,9 @@
       url = "path:./tools/nixos-update";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-   #blabla = {
-   #  url = "git+ssh://git@github.com/Terrame0/nixos-update-script.git";
-   #};
+    #blabla = {
+    #  url = "git+ssh://git@github.com/Terrame0/nixos-update-script.git";
+    #};
     sops-nix = {
       url = "github:Mic92/sops-nix";
       inputs.nixpkgs.follows = "nixpkgs";
