@@ -91,7 +91,7 @@
         # ============================================================
         # -- misc behavior
         # ============================================================
-        
+
         "editor.smoothScrolling" = true;
         "explorer.confirmDelete" = false;
         "explorer.confirmDragAndDrop" = false;
