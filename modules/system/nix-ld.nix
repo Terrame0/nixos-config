@@ -138,6 +138,30 @@
       # -- AppImage support
       fuse
       e2fsprogs
+
+      # 32-bit graphics
+      lib32.libGL
+      lib32.libGLU
+      lib32.mesa
+      lib32.vulkan-loader
+    
+      # 32-bit audio
+      lib32.alsa-lib
+      lib32.pulseaudio
+      lib32.SDL2
+      lib32.SDL2_mixer
+    
+      # Fonts
+      fonts.fontconfig
+      corefonts
+    
+      # Optional XCB extensions
+      libxcb-util
+      libxcb-render-util
+      libxcb-image
+    
+      # Terminal / misc
+      lib32.ncurses
     ];
   };
 }
