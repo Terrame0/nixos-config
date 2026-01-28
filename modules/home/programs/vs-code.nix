@@ -91,7 +91,8 @@
         # ============================================================
         # -- misc behavior
         # ============================================================
-
+        
+        "editor.smoothScrolling" = true;
         "explorer.confirmDelete" = false;
         "explorer.confirmDragAndDrop" = false;
         "keyboard.dispatch" = "keyCode";
@@ -499,7 +500,6 @@
 
           "editor.guides.bracketPairs" = colors.selection;
           "editor.guides.bracketPairsActive" = colors.selection;
-
           # ----------------------------------------------------------
           # -- list renderer
           # ----------------------------------------------------------
@@ -511,7 +511,7 @@
           "list.inactiveSelectionBackground" = colors.line;
           "list.inactiveSelectionForeground" = colors.foreground;
 
-          "list.hoverBackground" = colors.selection;
+          "list.hoverBackground" = colors.line;
 
           "list.foreground" = colors.foreground;
           "list.focusForeground" = colors.foreground;
