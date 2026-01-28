@@ -1,13 +1,16 @@
 { pkgs, ... }:
 
 let
-  pkgs32 = pkgs.pkgs32;
-in {
+  # 32‑bit cross package set for i686 Linux
+  pkgs32 = pkgs.pkgsCross.i686-linux;
+in
+{
   programs.nix-ld = {
     enable = true;
 
     libraries = with pkgs; [
-      # -- default libraries
+
+      # -- basic 64‑bit runtime
       zlib
       zstd
       stdenv.cc.cc
@@ -22,7 +25,18 @@ in {
       xz
       systemd
 
-      # -- x11 / graphics stack
+      # -- GTK / UI libraries
+      glib
+      gtk2
+      gtk3
+      pango
+      cairo
+      atk
+      gdk-pixbuf
+      fontconfig
+      freetype
+
+      # -- X11 / graphics stack
       xorg.libX11
       xorg.libXcomposite
       xorg.libXtst
@@ -42,10 +56,12 @@ in {
       xorg.libXt
       xorg.libXmu
       xorg.libXft
-
       libxcb
+      libxcb-util
+      libxcb-render-util
+      libxcb-image
 
-      # -- opengl / mesa
+      # -- OpenGL / Mesa (64‑bit)
       libGL
       libGLU
       libgbm
@@ -53,23 +69,10 @@ in {
       libvdpau
       libva
       libelf
-      glew110
       freeglut
 
-      # -- gtk / glib
-      glib
-      gtk2
-      gtk3
-      pango
-      cairo
-      atk
-      gdk-pixbuf
-      fontconfig
-      freetype
-      gsettings-desktop-schemas
-      libnotify
-      librsvg
-      gnome2.GConf
+      # -- Vulkan loader
+      vulkan-loader
 
       # -- audio / video
       pipewire
@@ -83,7 +86,7 @@ in {
       libsamplerate
       speex
 
-      # -- sdl
+      # -- SDL (64‑bit)
       SDL
       SDL2
       SDL_image
@@ -93,7 +96,7 @@ in {
       SDL2_ttf
       SDL2_mixer
 
-      # -- system / runtime
+      # -- system / runtime helpers
       coreutils
       pciutils
       util-linux
@@ -109,61 +112,34 @@ in {
       networkmanager
       zenity
 
-      # -- vulkan
-      vulkan-loader
-
-      # -- indicators / legacy gtk
-      libappindicator-gtk2
-      libdbusmenu-gtk2
-      libindicator-gtk2
-      libcanberra
-      libcaca
-      libgcrypt
-
-      # -- image formats
-      libjpeg
-      libpng
-      libpng12
-      libtiff
-      pixman
-
-      # -- misc
+      # -- legacy / misc
+      libxkbcommon
       libidn
       tbb
       libmikmod
       libudev0-shim
-      libxkbcommon
-
-      # -- legacy / compatibility
       libxcrypt
       libxcrypt-legacy
-
-      # -- appimage support
       fuse
       e2fsprogs
-
-      # -- 32-bit graphics (via pkgs32)
-      pkgs32.libGL
-      pkgs32.libGLU
-      pkgs32.mesa
-      pkgs32.vulkan-loader
-
-      # -- 32-bit audio (via pkgs32)
-      pkgs32.alsa-lib
-      pkgs32.pulseaudio
-      pkgs32.SDL2
-      pkgs32.SDL2_mixer
 
       # -- fonts
       fonts.fontconfig
       corefonts
 
-      # -- optional xcb extensions
-      libxcb-util
-      libxcb-render-util
-      libxcb-image
+      # -- 32‑bit graphics / opengl / vulkan
+      pkgs32.libGL
+      pkgs32.libGLU
+      pkgs32.mesa
+      pkgs32.vulkan-loader
 
-      # -- terminal / misc (32-bit)
+      # -- 32‑bit audio / SDL
+      pkgs32.alsa-lib
+      pkgs32.pulseaudio
+      pkgs32.SDL2
+      pkgs32.SDL2_mixer
+
+      # -- 32‑bit terminal / misc
       pkgs32.ncurses
     ];
   };
