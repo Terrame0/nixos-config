@@ -92,6 +92,7 @@
         # -- misc behavior
         # ============================================================
 
+        "editor.smoothScrolling" = true;
         "explorer.confirmDelete" = false;
         "explorer.confirmDragAndDrop" = false;
         "keyboard.dispatch" = "keyCode";
@@ -341,7 +342,7 @@
           "terminal.background" = colors.background;
           "terminal.foreground" = colors.foreground;
           "terminal.border" = colors.line;
-          "terminal.selectionBackground" = colors.selection;
+          "terminal.selectionBackground" = colors.green;
 
           "terminal.tab.activeBackground" = colors.line;
           "terminal.tab.activeForeground" = colors.foreground;
@@ -374,8 +375,8 @@
           # -- hover and word highlight
           # ----------------------------------------------------------
 
-          "editor.wordHighlightBackground" = colors.selection;
-          "editor.wordHighlightStrongBackground" = colors.selection;
+          "editor.wordHighlightBackground" = colors.line;
+          "editor.wordHighlightStrongBackground" = colors.line;
 
           "editorHoverWidget.background" = colors.line;
           "editorHoverWidget.foreground" = colors.foreground;
@@ -499,7 +500,6 @@
 
           "editor.guides.bracketPairs" = colors.selection;
           "editor.guides.bracketPairsActive" = colors.selection;
-
           # ----------------------------------------------------------
           # -- list renderer
           # ----------------------------------------------------------
@@ -511,7 +511,7 @@
           "list.inactiveSelectionBackground" = colors.line;
           "list.inactiveSelectionForeground" = colors.foreground;
 
-          "list.hoverBackground" = colors.selection;
+          "list.hoverBackground" = colors.line;
 
           "list.foreground" = colors.foreground;
           "list.focusForeground" = colors.foreground;

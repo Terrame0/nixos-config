@@ -4,6 +4,12 @@
     gnome-themes-extra
   ];
 
+  dconf.settings = {
+    "org/gnome/desktop/interface" = {
+      color-scheme = "prefer-dark";
+    };
+  };
+
   gtk = {
     enable = true;
     theme.name = "Adwaita-dark";
@@ -21,6 +27,7 @@
     gtk-icon-theme-name=Adwaita
     gtk-cursor-theme-name=Adwaita
     gtk-cursor-theme-size=24
+    gtk-application-prefer-dark-theme=true
   '';
 
   xdg.configFile."gtk-4.0/settings.ini".text = ''
@@ -29,6 +36,7 @@
     gtk-icon-theme-name=Adwaita
     gtk-cursor-theme-name=Adwaita
     gtk-cursor-theme-size=24
+    gtk-application-prefer-dark-theme=true
   '';
 
   home.sessionVariables = {
