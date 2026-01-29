@@ -158,7 +158,7 @@
           "editor.background" = colors.background;
           "editor.foreground" = colors.foreground;
 
-          "editor.selectionBackground" = colors.selection;
+          "editor.selectionBackground" = "${colors.green}4d";
           "editor.selectionForeground" = colors.foreground;
           "editor.selectionHighlightBackground" = colors.selection;
           "editor.selectionHighlightBorder" = colors.transparent;
@@ -342,7 +342,7 @@
           "terminal.background" = colors.background;
           "terminal.foreground" = colors.foreground;
           "terminal.border" = colors.line;
-          "terminal.selectionBackground" = "${colors.green}4d";
+          "terminal.selectionBackground" = colors.green;
 
           "terminal.tab.activeBackground" = colors.line;
           "terminal.tab.activeForeground" = colors.foreground;
