@@ -29,7 +29,7 @@
       nixpkgs-extensions = with pkgs.vscode-extensions; [
       ];
       marketplace-extensions = pkgs.nix4vscode.forVscode [
-        "josetr.cmake-language-support-vscode"
+        "twxs.cmake"
         "ms-python.python"
         "jnoortheen.nix-ide"
         "charliermarsh.ruff"
