@@ -158,7 +158,7 @@
           "editor.background" = colors.background;
           "editor.foreground" = colors.foreground;
 
-          "editor.selectionBackground" = "${colors.green}22";
+          "editor.selectionBackground" = colors.selection;
           "editor.selectionForeground" = colors.foreground;
           "editor.selectionHighlightBackground" = colors.selection;
           "editor.selectionHighlightBorder" = colors.transparent;
@@ -375,8 +375,8 @@
           # -- hover and word highlight
           # ----------------------------------------------------------
 
-          "editor.wordHighlightBackground" = colors.selection;
-          "editor.wordHighlightStrongBackground" = colors.selection;
+          "editor.wordHighlightBackground" = colors.line;
+          "editor.wordHighlightStrongBackground" = colors.line;
 
           "editorHoverWidget.background" = colors.line;
           "editorHoverWidget.foreground" = colors.foreground;
