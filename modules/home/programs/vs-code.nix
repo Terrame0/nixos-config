@@ -342,7 +342,7 @@
           "terminal.background" = colors.background;
           "terminal.foreground" = colors.foreground;
           "terminal.border" = colors.line;
-          "terminal.selectionBackground" = colors.selection;
+          "terminal.selectionBackground" = "${colors.green}4d";
 
           "terminal.tab.activeBackground" = colors.line;
           "terminal.tab.activeForeground" = colors.foreground;
