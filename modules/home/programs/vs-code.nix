@@ -158,7 +158,7 @@
           "editor.background" = colors.background;
           "editor.foreground" = colors.foreground;
 
-          "editor.selectionBackground" = "${colors.green}4d";
+          "editor.selectionBackground" = "${colors.green}22";
           "editor.selectionForeground" = colors.foreground;
           "editor.selectionHighlightBackground" = colors.selection;
           "editor.selectionHighlightBorder" = colors.transparent;
