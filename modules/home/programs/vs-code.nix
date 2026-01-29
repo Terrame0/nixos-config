@@ -27,7 +27,6 @@
         transparent = "#00000000";
       };
       nixpkgs-extensions = with pkgs.vscode-extensions; [
-        
       ];
       marketplace-extensions = pkgs.nix4vscode.forVscode [
         "josetr.cmake-language-support-vscode"
