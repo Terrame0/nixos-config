@@ -27,14 +27,15 @@
         transparent = "#00000000";
       };
       nixpkgs-extensions = with pkgs.vscode-extensions; [
-        ms-python.python
-        jnoortheen.nix-ide
-        charliermarsh.ruff
-        mads-hartmann.bash-ide-vscode
-        llvm-vs-code-extensions.vscode-clangd
+        
       ];
       marketplace-extensions = pkgs.nix4vscode.forVscode [
-        # "s-nlf-fh.glassit"
+        "josetr.cmake-language-support-vscode"
+        "ms-python.python"
+        "jnoortheen.nix-ide"
+        "charliermarsh.ruff"
+        "mads-hartmann.bash-ide-vscode"
+        "llvm-vs-code-extensions.vscode-clangd"
       ];
     in {
       # ============================================================
