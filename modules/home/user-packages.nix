@@ -13,6 +13,7 @@
     brightnessctl
 
     # -- desktop apps
+    whatsapp-electron
     gparted
     wireshark
     dconf-editor
