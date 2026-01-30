@@ -1,7 +1,7 @@
 {pkgs, ...}: {
   programs.vscode = {
     enable = true;
-    package = pkgs.vscode;
+    package = pkgs.vscode-fhs;
     mutableExtensionsDir = false;
 
     profiles.default = let
@@ -52,8 +52,8 @@
         # -- fixing inconsistencies in the integrated terminal
         # ============================================================
 
-        # "terminal.integrated.inheritEnv" = false;
-        # "C_Cpp.default.includePath" = [];
+        "terminal.integrated.inheritEnv" = false;
+        "C_Cpp.default.includePath" = [];
 
         # ============================================================
         # -- clangd settings
