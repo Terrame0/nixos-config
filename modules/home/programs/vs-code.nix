@@ -349,7 +349,7 @@
           "terminal.background" = colors.background;
           "terminal.foreground" = colors.foreground;
           "terminal.border" = colors.line;
-          "terminal.selectionBackground" = colors.green;
+          "terminal.selectionBackground" = colors.selection;
 
           "terminal.tab.activeBackground" = colors.line;
           "terminal.tab.activeForeground" = colors.foreground;
@@ -382,8 +382,8 @@
           # -- hover and word highlight
           # ----------------------------------------------------------
 
-          "editor.wordHighlightBackground" = colors.line;
-          "editor.wordHighlightStrongBackground" = colors.line;
+          "editor.wordHighlightBackground" = "${colors.green}b3";
+          "editor.wordHighlightStrongBackground" = "${colors.green}b3";
 
           "editorHoverWidget.background" = colors.line;
           "editorHoverWidget.foreground" = colors.foreground;
@@ -592,7 +592,7 @@
                 "constant.language.false"
                 "constant.language.null"
               ];
-              settings.foreground = colors.purple;
+              settings.foreground = colors.red;
             }
 
             # -- keywords
@@ -633,7 +633,7 @@
                 "variable.parameter"
                 "variable.other.readwrite"
               ];
-              settings.foreground = colors.blue;
+              settings.foreground = colors.foreground;
             }
 
             # -- attributes and properties
@@ -652,24 +652,7 @@
               settings.foreground = colors.comment;
             }
 
-            # -- brackets
-            {
-              scope = [
-                "punctuation.section.brackets"
-                "punctuation.section.parens"
-                "punctuation.section.block"
-                "punctuation.definition.brackets"
-                "punctuation.definition.parameters"
-              ];
-              settings.foreground = colors.blue;
-            }
-
             # -- nix
-            {
-              scope = "source.nix";
-              settings.foreground = colors.foreground;
-            }
-
             {
               scope = [
                 "keyword.other.nix"
@@ -685,12 +668,14 @@
                 "entity.name.function.nix"
                 "support.function.builtin.nix"
                 "constant.language.nix"
+                "support.constant.nix"
               ];
               settings.foreground = colors.blue;
             }
 
             {
               scope = [
+                "source.nix"
                 "entity.other.attribute-name.multipart.nix"
                 "entity.name.attribute-name.nix"
                 "variable.other.constant.nix"
@@ -699,120 +684,10 @@
               settings.foreground = colors.foreground;
             }
 
-            {
-              scope = "support.constant.nix";
-              settings.foreground = colors.blue;
-            }
-
-            # -- shell
-            {
-              scope = "source.shell keyword";
-              settings.foreground = colors.purple;
-            }
-            {
-              scope = "source.shell variable";
-              settings.foreground = colors.foreground;
-            }
-            {
-              scope = "source.shell support.function";
-              settings.foreground = colors.blue;
-            }
-
-            # -- python
-            {
-              scope = "source.python keyword";
-              settings.foreground = colors.purple;
-            }
-            {
-              scope = "entity.name.function.python";
-              settings.foreground = colors.blue;
-            }
-            {
-              scope = "storage.type.function.python";
-              settings.foreground = colors.purple;
-            }
-
-            # -- c and c plus plus
-            {
-              scope = [
-                "source.c keyword"
-                "source.cpp keyword"
-              ];
-              settings.foreground = colors.purple;
-            }
-
-            {
-              scope = [
-                "entity.name.function.c"
-                "entity.name.function.cpp"
-              ];
-              settings.foreground = colors.blue;
-            }
-
-            {
-              scope = [
-                "storage.type.c"
-                "storage.type.cpp"
-              ];
-              settings.foreground = colors.yellow;
-            }
-
-            # -- javascript and typescript
-            {
-              scope = [
-                "source.js keyword"
-                "source.ts keyword"
-              ];
-              settings.foreground = colors.purple;
-            }
-
-            {
-              scope = [
-                "entity.name.function.js"
-                "entity.name.function.ts"
-              ];
-              settings.foreground = colors.blue;
-            }
-
-            # -- json
-            {
-              scope = "source.json entity.name.section";
-              settings.foreground = colors.yellow;
-            }
-
-            # -- yaml
-            {
-              scope = "source.yaml key";
-              settings.foreground = colors.yellow;
-            }
-
-            # -- toml
-            {
-              scope = "source.toml entity.name.section";
-              settings.foreground = colors.yellow;
-            }
-
-            # -- css and html
-            {
-              scope = [
-                "source.css support.type.property-name"
-                "source.css entity.name.tag"
-              ];
-              settings.foreground = colors.purple;
-            }
-
-            {
-              scope = [
-                "text.html.basic entity.name.tag"
-                "text.html.basic entity.other.attribute-name"
-              ];
-              settings.foreground = colors.yellow;
-            }
-
             # -- fallback
             {
               scope = "meta";
-              settings.foreground = colors.foreground;
+              settings.foreground = colors.red;
             }
           ];
         };
