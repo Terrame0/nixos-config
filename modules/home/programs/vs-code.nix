@@ -372,8 +372,8 @@
           # -- hover and word highlight
           # ----------------------------------------------------------
 
-          "editor.wordHighlightBackground" = "${colors.green}1E";
-          "editor.wordHighlightStrongBackground" = "${colors.green}1E";
+          "editor.wordHighlightBackground" = "${colors.blue}2E";
+          "editor.wordHighlightStrongBackground" = "${colors.blue}2E";
 
           "editorHoverWidget.background" = colors.line;
           "editorHoverWidget.foreground" = colors.foreground;
