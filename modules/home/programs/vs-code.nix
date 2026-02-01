@@ -647,7 +647,7 @@
             # -- fallback
             {
               scope = "meta";
-              settings.foreground = colors.foreground;
+              settings.foreground = colors.red;
             }
           ];
         };
