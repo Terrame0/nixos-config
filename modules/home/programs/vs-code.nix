@@ -621,7 +621,7 @@
               settings.foreground = colors.blue;
             }
 
-            # -- references 
+            # -- references
             {
               scope = [
                 "storage.modifier"
