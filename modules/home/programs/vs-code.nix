@@ -525,7 +525,6 @@
 
         "editor.tokenColorCustomizations" = {
           textMateRules = [
-            
             # -- punctuation
             {
               scope = "punctuation";
@@ -627,7 +626,6 @@
               ];
               settings.foreground = colors.purple;
             }
-
 
             # -- fallback
             {
