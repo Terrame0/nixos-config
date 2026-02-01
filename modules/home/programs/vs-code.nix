@@ -630,7 +630,7 @@
               settings.foreground = colors.comment;
             }
 
-            # -- functions 
+            # -- functions
             {
               scope = [
                 "entity.name.function"
