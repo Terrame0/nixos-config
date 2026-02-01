@@ -470,33 +470,33 @@
           # -- brackets and guides
           # ----------------------------------------------------------
 
-          "editor.bracketPairColorization.enabled" = true;
-          "editor.guides.bracketPairs" = true;
           "editorBracketMatch.background" = colors.transparent;
           "editorBracketMatch.border" = colors.transparent;
 
-          "editorBracketHighlight.foreground1" = colors.yellow;
-          "editorBracketHighlight.foreground2" = colors.yellow;
-          "editorBracketHighlight.foreground3" = colors.yellow;
-          "editorBracketHighlight.foreground4" = colors.yellow;
-          "editorBracketHighlight.foreground5" = colors.yellow;
-          "editorBracketHighlight.foreground6" = colors.yellow;
+          "editorBracketHighlight.foreground1" = colors.aqua;
+          "editorBracketHighlight.foreground2" = colors.aqua;
+          "editorBracketHighlight.foreground3" = colors.aqua;
+          "editorBracketHighlight.foreground4" = colors.aqua;
+          "editorBracketHighlight.foreground5" = colors.aqua;
+          "editorBracketHighlight.foreground6" = colors.aqua;
           "editorBracketHighlight.unexpectedBracket.foreground" = colors.red;
 
-          "editorBracketPairGuide.activeBackground1" = colors.red;
-          "editorBracketPairGuide.activeBackground2" = colors.red;
-          "editorBracketPairGuide.activeBackground3" = colors.red;
-          "editorBracketPairGuide.activeBackground4" = colors.red;
-          "editorBracketPairGuide.activeBackground5" = colors.red;
-          "editorBracketPairGuide.activeBackground6" = colors.red;
+          "editorBracketPairGuide.activeBackground1" = colors.transparent;
+          "editorBracketPairGuide.activeBackground2" = colors.transparent;
+          "editorBracketPairGuide.activeBackground3" = colors.transparent;
+          "editorBracketPairGuide.activeBackground4" = colors.transparent;
+          "editorBracketPairGuide.activeBackground5" = colors.transparent;
+          "editorBracketPairGuide.activeBackground6" = colors.transparent;
 
-          "editorBracketPairGuide.background1" = colors.orange;
-          "editorBracketPairGuide.background2" = colors.orange;
-          "editorBracketPairGuide.background3" = colors.orange;
-          "editorBracketPairGuide.background4" = colors.orange;
-          "editorBracketPairGuide.background5" = colors.orange;
-          "editorBracketPairGuide.background6" = colors.orange;
+          "editorBracketPairGuide.background1" = colors.transparent;
+          "editorBracketPairGuide.background2" = colors.transparent;
+          "editorBracketPairGuide.background3" = colors.transparent;
+          "editorBracketPairGuide.background4" = colors.transparent;
+          "editorBracketPairGuide.background5" = colors.transparent;
+          "editorBracketPairGuide.background6" = colors.transparent;
 
+          "editor.guides.bracketPairs" = colors.selection;
+          "editor.guides.bracketPairsActive" = colors.selection;
           # ----------------------------------------------------------
           # -- list renderer
           # ----------------------------------------------------------
@@ -535,6 +535,13 @@
 
           "symbolIcon.textForeground" = colors.foreground;
         };
+
+        # ============================================================
+        # -- editor behavior
+        # ============================================================
+
+        "editor.bracketPairColorization.enabled" = true;
+        "editor.guides.bracketPairs" = true;
 
         # ============================================================
         # -- syntax theming
