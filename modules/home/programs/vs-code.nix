@@ -382,8 +382,8 @@
           # -- hover and word highlight
           # ----------------------------------------------------------
 
-          "editor.wordHighlightBackground" = "${colors.green}b3";
-          "editor.wordHighlightStrongBackground" = "${colors.green}b3";
+          "editor.wordHighlightBackground" = "${colors.green}42";
+          "editor.wordHighlightStrongBackground" = "${colors.green}42";
 
           "editorHoverWidget.background" = colors.line;
           "editorHoverWidget.foreground" = colors.foreground;
@@ -687,7 +687,7 @@
             # -- fallback
             {
               scope = "meta";
-              settings.foreground = colors.red;
+              settings.foreground = colors.white;
             }
           ];
         };
