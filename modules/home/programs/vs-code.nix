@@ -473,13 +473,12 @@
           "editorBracketMatch.background" = colors.transparent;
           "editorBracketMatch.border" = colors.transparent;
 
-          "editorBracketHighlight.foreground1" = colors.aqua;
-          "editorBracketHighlight.foreground2" = colors.aqua;
-          "editorBracketHighlight.foreground3" = colors.aqua;
-          "editorBracketHighlight.foreground4" = colors.aqua;
-          "editorBracketHighlight.foreground5" = colors.aqua;
-          "editorBracketHighlight.foreground6" = colors.aqua;
-          "editorBracketHighlight.unexpectedBracket.foreground" = colors.red;
+          "editorBracketHighlight.foreground1" = colors.comment;
+          "editorBracketHighlight.foreground2" = colors.comment;
+          "editorBracketHighlight.foreground3" = colors.comment;
+          "editorBracketHighlight.foreground4" = colors.comment;
+          "editorBracketHighlight.foreground5" = colors.comment;
+          "editorBracketHighlight.foreground6" = colors.comment;
 
           "editorBracketPairGuide.activeBackground1" = colors.transparent;
           "editorBracketPairGuide.activeBackground2" = colors.transparent;
@@ -600,7 +599,7 @@
             # -- operators
             {
               scope = "keyword.operator";
-              settings.foreground = colors.aqua;
+              settings.foreground = colors.comment;
             }
 
             # -- namespaces
@@ -609,7 +608,7 @@
                 "entity.name.scope-resolution"
                 "entity.name.namespace"
               ];
-              settings.foreground = colors.yellow;
+              settings.foreground = colors.aqua;
             }
 
             # -- types
@@ -633,10 +632,11 @@
             # -- functions
             {
               scope = [
+                "meta.function"
                 "entity.name.function"
                 "support.function"
               ];
-              settings.foreground = colors.red;
+              settings.foreground = colors.orange;
             }
 
             # -- structures
@@ -645,7 +645,7 @@
                 "storage.type.struct"
                 "storage.type.class"
               ];
-              settings.foreground = colors.red;
+              settings.foreground = colors.orange;
             }
 
             # -- templates
@@ -653,7 +653,7 @@
               scope = [
                 "storage.type.template"
               ];
-              settings.foreground = colors.blue;
+              settings.foreground = colors.red;
             }
 
             # -- strings
@@ -667,38 +667,31 @@
               settings.foreground = colors.orange;
             }
 
-            # -- constants
+            # -- numeric values
             {
               scope = [
-                "constant.language"
-                "constant.numeric"
                 "constant.numeric.float.suffix"
+                "constant.numeric"
                 "keyword.other.unit.suffix.floating-point"
               ];
               settings.foreground = colors.purple;
             }
 
-            # -- constants (true)
+            # -- constants
             {
-              scope = "constant.language.true";
-              settings.foreground = colors.green;
-            }
-
-            # -- constants (false)
-            {
-              scope = "constant.language.false";
-              settings.foreground = colors.red;
-            }
-
-            # -- constants (null)
-            {
-              scope = "constant.language.null";
+              scope = [
+                "constant.language"
+              ];
               settings.foreground = colors.purple;
             }
 
             # -- fallback
             {
-              scope = "meta";
+              
+              scope = [
+                "meta" 
+                "source.cpp"
+              ];
               settings.foreground = colors.foreground;
             }
           ];
