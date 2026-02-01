@@ -665,7 +665,6 @@
 
             {
               scope = [
-                "source.nix"
                 "entity.other.attribute-name.multipart.nix"
                 "entity.name.attribute-name.nix"
                 "variable.other.constant.nix"
@@ -673,6 +672,12 @@
               ];
               settings.foreground = colors.foreground;
             }
+
+            {
+              scope = "source.nix";
+              settings.foreground = colors.red;
+            }
+
 
             # -- fallback
             {
