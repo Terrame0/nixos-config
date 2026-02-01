@@ -590,6 +590,8 @@
                 "keyword"
                 "keyword.control"
                 "keyword.other"
+                "keyword.other.operator"
+                "keyword.other.using"
               ];
               settings.foreground = colors.purple;
             }
@@ -606,7 +608,7 @@
                 "entity.name.scope-resolution"
                 "entity.name.namespace"
               ];
-              settings.foreground = colors.aqua;
+              settings.foreground = colors.selection;
             }
 
             # -- types
@@ -619,6 +621,14 @@
               settings.foreground = colors.blue;
             }
 
+            # -- references 
+            {
+              scope = [
+                "storage.modifier"
+              ];
+              settings.foreground = colors.aqua;
+            }
+
             # -- functions
             {
               scope = [
@@ -626,6 +636,23 @@
                 "support.function"
               ];
               settings.foreground = colors.yellow;
+            }
+
+            # -- structures
+            {
+              scope = [
+                "storage.type.struct"
+                "storage.type.class"
+              ];
+              settings.foreground = colors.yellow;
+            }
+
+            # -- templates
+            {
+              scope = [
+                "storage.type.template"
+              ];
+              settings.foreground = colors.red;
             }
 
             # -- strings
@@ -647,7 +674,7 @@
                 "constant.numeric.float.suffix"
                 "keyword.other.unit.suffix.floating-point"
               ];
-              settings.foreground = colors.orange;
+              settings.foreground = colors.purple;
             }
 
             # -- constants (true)
