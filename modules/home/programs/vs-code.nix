@@ -563,6 +563,71 @@
               settings.foreground = colors.comment;
             }
 
+            # -- variables
+            {
+              scope = [
+                "variable.other.object"
+                "variable"
+                "variable.parameter"
+                "variable.other.readwrite"
+              ];
+              settings.foreground = colors.foreground;
+            }
+
+            # -- attributes and properties
+            {
+              scope = [
+                "variable.other.object.property"
+                "entity.other.attribute-name"
+                "entity.name.tag"
+              ];
+              settings.foreground = colors.purple;
+            }
+
+            # -- keywords
+            {
+              scope = [
+                "keyword"
+                "keyword.control"
+                "keyword.other"
+              ];
+              settings.foreground = colors.purple;
+            }
+
+            # -- operators
+            {
+              scope = "keyword.operator";
+              settings.foreground = colors.aqua;
+            }
+
+            # -- namespaces
+            {
+              scope = [
+                "entity.name.scope-resolution"
+                "entity.name.namespace"
+              ];
+              settings.foreground = colors.aqua;
+            }
+
+            # -- types
+            {
+              scope = [
+                "entity.name.type"
+                "storage.type"
+                "support.type"
+              ];
+              settings.foreground = colors.blue;
+            }
+
+            # -- functions
+            {
+              scope = [
+                "entity.name.function"
+                "support.function"
+              ];
+              settings.foreground = colors.yellow;
+            }
+
             # -- strings
             {
               scope = [
@@ -585,85 +650,21 @@
               settings.foreground = colors.orange;
             }
 
-            {
-              scope = [
-                "constant.language.null"
-              ];
-              settings.foreground = colors.purple;
-            }
-
-            {
-              scope = "constant.language.false";
-              settings.foreground = colors.red;
-            }
-
+            # -- constants (true)
             {
               scope = "constant.language.true";
               settings.foreground = colors.green;
             }
 
-            # -- keywords
+            # -- constants (false)
             {
-              scope = [
-                "keyword"
-                "keyword.control"
-                "keyword.other"
-              ];
-              settings.foreground = colors.yellow;
+              scope = "constant.language.false";
+              settings.foreground = colors.red;
             }
 
-            # -- operators
+            # -- constants (null)
             {
-              scope = "keyword.operator";
-              settings.foreground = colors.aqua;
-            }
-
-            # -- functions
-            {
-              scope = [
-                "entity.name.function"
-                "support.function"
-              ];
-              settings.foreground = colors.yellow;
-            }
-
-            # -- types
-            {
-              scope = [
-                "entity.name.type"
-                "storage.type"
-                "support.type"
-              ];
-              settings.foreground = colors.purple;
-            }
-
-            # -- namespaces
-            {
-              scope = [
-                "entity.name.scope-resolution"
-                "entity.name.namespace"
-              ];
-              settings.foreground = colors.aqua;
-            }
-
-            # -- variables
-            {
-              scope = [
-                "variable.other.object"
-                "variable"
-                "variable.parameter"
-                "variable.other.readwrite"
-              ];
-              settings.foreground = colors.foreground;
-            }
-
-            # -- attributes and properties
-            {
-              scope = [
-                "variable.other.object.property"
-                "entity.other.attribute-name"
-                "entity.name.tag"
-              ];
+              scope = "constant.language.null";
               settings.foreground = colors.purple;
             }
 
