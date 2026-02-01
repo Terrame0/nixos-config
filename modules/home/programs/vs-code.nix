@@ -186,7 +186,7 @@
           "activityBar.background" = colors.background;
           "activityBar.foreground" = colors.foreground;
           "activityBar.inactiveForeground" = colors.comment;
-          "activityBar.border" = colors.transparent;
+          "activityBar.border" = colors.line;
           "activityBar.activeBorder" = colors.transparent;
           "activityBar.activeFocusBorder" = colors.transparent;
 
@@ -196,7 +196,7 @@
 
           "sideBar.background" = colors.background;
           "sideBar.foreground" = colors.foreground;
-          "sideBar.border" = colors.transparent;
+          "sideBar.border" = colors.line;
 
           # ----------------------------------------------------------
           # -- tabs
@@ -245,17 +245,17 @@
           # ----------------------------------------------------------
 
           "panel.background" = colors.background;
-          "panel.border" = colors.transparent;
+          "panel.border" = colors.line;
           "panelTitle.activeForeground" = colors.foreground;
           "panelTitle.inactiveForeground" = colors.comment;
 
           "input.background" = colors.line;
           "input.foreground" = colors.foreground;
-          "input.border" = colors.transparent;
+          "input.border" = colors.line;
 
           "dropdown.background" = colors.line;
           "dropdown.foreground" = colors.foreground;
-          "dropdown.border" = colors.transparent;
+          "dropdown.border" = colors.line;
 
           # ----------------------------------------------------------
           # -- scrollbar
@@ -315,17 +315,7 @@
           "editor.findMatchHighlightForeground" = colors.background;
           "editor.findMatchHighlightBackground" = colors.foreground;
           "editor.findMatchHighlightBorder" = colors.transparent;
-
-          # ----------------------------------------------------------
-          # -- welcome page
-          # ----------------------------------------------------------
-
-          "welcomePage.background" = colors.background;
-          "welcomePage.tileBackground" = colors.line;
-          "welcomePage.tileHoverBackground" = colors.selection;
-          "welcomePage.tileBorder" = colors.transparent;
-          "welcomePage.tileShadow" = colors.transparent;
-
+          
           # ----------------------------------------------------------
           # -- debug
           # ----------------------------------------------------------
@@ -439,13 +429,13 @@
           "menu.selectionBackground" = colors.selection;
           "menu.selectionForeground" = colors.foreground;
           "menu.separatorBackground" = colors.line;
-          "menu.border" = colors.transparent;
+          "menu.border" = colors.line;
 
           "menubar.background" = colors.background;
           "menubar.foreground" = colors.foreground;
           "menubar.selectionBackground" = colors.selection;
           "menubar.selectionForeground" = colors.foreground;
-          "menubar.selectionBorder" = colors.transparent;
+          "menubar.selectionBorder" = colors.line;
 
           # ----------------------------------------------------------
           # -- notifications
@@ -453,7 +443,7 @@
 
           "notifications.background" = colors.background;
           "notifications.foreground" = colors.foreground;
-          "notifications.border" = colors.transparent;
+          "notifications.border" = colors.line;
 
           "notificationLink.foreground" = colors.blue;
           "notificationsInfoIcon.foreground" = colors.blue;
@@ -687,7 +677,7 @@
             # -- fallback
             {
               scope = "meta";
-              settings.foreground = colors.white;
+              settings.foreground = colors.foreground;
             }
           ];
         };
