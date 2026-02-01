@@ -470,33 +470,14 @@
           # -- brackets and guides
           # ----------------------------------------------------------
 
+          "editor.bracketPairColorization.enabled" = true;
+          "editor.guides.bracketPairs" = true;
           "editorBracketMatch.background" = colors.transparent;
           "editorBracketMatch.border" = colors.transparent;
+          "editor.guides.bracketPairs.foreground" = colors.selection;
+          "editor.guides.bracketPairsActive.foreground" = colors.selection;
+          "editor.guides.bracketGuides.foreground" = colors.red;
 
-          "editorBracketHighlight.foreground1" = colors.aqua;
-          "editorBracketHighlight.foreground2" = colors.aqua;
-          "editorBracketHighlight.foreground3" = colors.aqua;
-          "editorBracketHighlight.foreground4" = colors.aqua;
-          "editorBracketHighlight.foreground5" = colors.aqua;
-          "editorBracketHighlight.foreground6" = colors.aqua;
-          "editorBracketHighlight.unexpectedBracket.foreground" = colors.red;
-
-          "editorBracketPairGuide.activeBackground1" = colors.transparent;
-          "editorBracketPairGuide.activeBackground2" = colors.transparent;
-          "editorBracketPairGuide.activeBackground3" = colors.transparent;
-          "editorBracketPairGuide.activeBackground4" = colors.transparent;
-          "editorBracketPairGuide.activeBackground5" = colors.transparent;
-          "editorBracketPairGuide.activeBackground6" = colors.transparent;
-
-          "editorBracketPairGuide.background1" = colors.transparent;
-          "editorBracketPairGuide.background2" = colors.transparent;
-          "editorBracketPairGuide.background3" = colors.transparent;
-          "editorBracketPairGuide.background4" = colors.transparent;
-          "editorBracketPairGuide.background5" = colors.transparent;
-          "editorBracketPairGuide.background6" = colors.transparent;
-
-          "editor.guides.bracketPairs" = colors.selection;
-          "editor.guides.bracketPairsActive" = colors.selection;
           # ----------------------------------------------------------
           # -- list renderer
           # ----------------------------------------------------------
@@ -537,13 +518,6 @@
         };
 
         # ============================================================
-        # -- editor behavior
-        # ============================================================
-
-        "editor.bracketPairColorization.enabled" = true;
-        "editor.guides.bracketPairs" = true;
-
-        # ============================================================
         # -- syntax theming
         # ============================================================
 
@@ -551,6 +525,13 @@
 
         "editor.tokenColorCustomizations" = {
           textMateRules = [
+            
+            # -- punctuation
+            {
+              scope = "punctuation";
+              settings.foreground = colors.comment;
+            }
+
             # -- comments
             {
               scope = "comment";
@@ -568,21 +549,31 @@
               settings.foreground = colors.orange;
             }
 
-            # -- numbers
-            {
-              scope = "constant.numeric";
-              settings.foreground = colors.purple;
-            }
-
-            # -- booleans and null
+            # -- constants
             {
               scope = [
-                "constant.language.boolean"
-                "constant.language.true"
-                "constant.language.false"
+                "constant.numeric"
+                "constant.numeric.float.suffix"
+                "punctuation.separator.decimal"
+              ];
+              settings.foreground = colors.green;
+            }
+
+            {
+              scope = [
                 "constant.language.null"
               ];
+              settings.foreground = colors.yellow;
+            }
+
+            {
+              scope = "constant.language.false";
               settings.foreground = colors.red;
+            }
+
+            {
+              scope = "constant.language.true";
+              settings.foreground = colors.green;
             }
 
             # -- keywords
@@ -603,7 +594,7 @@
                 "entity.name.function"
                 "support.function"
               ];
-              settings.foreground = colors.yellow;
+              settings.foreground = colors.green;
             }
 
             # -- types
@@ -619,11 +610,12 @@
             # -- variables
             {
               scope = [
+                "variable.other.object"
                 "variable"
                 "variable.parameter"
                 "variable.other.readwrite"
               ];
-              settings.foreground = colors.foreground;
+              settings.foreground = colors.blue;
             }
 
             # -- attributes and properties
@@ -636,18 +628,11 @@
               settings.foreground = colors.purple;
             }
 
-            # -- punctuation
-            {
-              scope = "punctuation";
-              settings.foreground = colors.comment;
-            }
-
-            # -- nix
 
             # -- fallback
             {
               scope = "meta";
-              settings.foreground = colors.red;
+              settings.foreground = colors.foreground;
             }
           ];
         };
