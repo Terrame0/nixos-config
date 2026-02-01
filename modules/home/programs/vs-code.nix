@@ -582,14 +582,14 @@
                 "constant.numeric.float.suffix"
                 "keyword.other.unit.suffix.floating-point"
               ];
-              settings.foreground = colors.purple;
+              settings.foreground = colors.orange;
             }
 
             {
               scope = [
                 "constant.language.null"
               ];
-              settings.foreground = colors.yellow;
+              settings.foreground = colors.purple;
             }
 
             {
@@ -604,8 +604,12 @@
 
             # -- keywords
             {
-              scope = "keyword";
-              settings.foreground = colors.purple;
+              scope = [
+                "keyword"
+                "keyword.control"
+                "keyword.other"
+              ];
+              settings.foreground = colors.yellow;
             }
 
             # -- operators
@@ -620,7 +624,7 @@
                 "entity.name.function"
                 "support.function"
               ];
-              settings.foreground = colors.green;
+              settings.foreground = colors.yellow;
             }
 
             # -- types
@@ -630,16 +634,16 @@
                 "storage.type"
                 "support.type"
               ];
-              settings.foreground = colors.blue;
+              settings.foreground = colors.purple;
             }
 
-            # -- scope resolution
-
+            # -- namespaces
             {
               scope = [
                 "entity.name.scope-resolution"
+                "entity.name.namespace"
               ];
-              settings.foreground = colors.blue;
+              settings.foreground = colors.aqua;
             }
 
             # -- variables
@@ -650,7 +654,7 @@
                 "variable.parameter"
                 "variable.other.readwrite"
               ];
-              settings.foreground = colors.blue;
+              settings.foreground = colors.foreground;
             }
 
             # -- attributes and properties
