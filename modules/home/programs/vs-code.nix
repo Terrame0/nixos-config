@@ -470,12 +470,12 @@
           # -- brackets and guides
           # ----------------------------------------------------------
 
-          "editor.bracketPairColorization.enabled" = true;
+          "editor.bracketPairColorization.enabled" = false;
           "editor.guides.bracketPairs" = true;
           "editorBracketMatch.background" = colors.transparent;
           "editorBracketMatch.border" = colors.transparent;
-          "editor.guides.bracketPairs.foreground" = colors.selection;
-          "editor.guides.bracketPairsActive.foreground" = colors.selection;
+          "editor.guides.bracketPairs.foreground" = colors.red;
+          "editor.guides.bracketPairsActive.foreground" = colors.red;
           "editor.guides.bracketGuides.foreground" = colors.red;
 
           # ----------------------------------------------------------
@@ -553,9 +553,9 @@
               scope = [
                 "constant.numeric"
                 "constant.numeric.float.suffix"
-                "punctuation.separator.decimal"
+                "keyword.other.unit.suffix.floating-point"
               ];
-              settings.foreground = colors.green;
+              settings.foreground = colors.purple;
             }
 
             {
@@ -602,6 +602,15 @@
                 "entity.name.type"
                 "storage.type"
                 "support.type"
+              ];
+              settings.foreground = colors.blue;
+            }
+
+            # -- scope resolution
+
+            {
+              scope = [
+                "entity.name.scope-resolution"
               ];
               settings.foreground = colors.blue;
             }
