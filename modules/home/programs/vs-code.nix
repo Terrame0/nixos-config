@@ -643,40 +643,7 @@
             }
 
             # -- nix
-            {
-              scope = [
-                "keyword.other.nix"
-                "keyword.control.nix"
-                "keyword.operator.nix"
-                "storage.type.nix"
-              ];
-              settings.foreground = colors.aqua;
-            }
-
-            {
-              scope = [
-                "entity.name.function.nix"
-                "support.function.builtin.nix"
-                "constant.language.nix"
-                "support.constant.nix"
-              ];
-              settings.foreground = colors.blue;
-            }
-
-            {
-              scope = [
-                "entity.other.attribute-name.multipart.nix"
-                "entity.name.attribute-name.nix"
-                "variable.other.constant.nix"
-                "meta.attribute-set.nix"
-              ];
-              settings.foreground = colors.foreground;
-            }
-
-            {
-              scope = "source.nix";
-              settings.foreground = colors.red;
-            }
+            
 
             # -- fallback
             {
