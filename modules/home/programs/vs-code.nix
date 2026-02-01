@@ -687,9 +687,8 @@
 
             # -- fallback
             {
-              
               scope = [
-                "meta" 
+                "meta"
                 "source.cpp"
               ];
               settings.foreground = colors.foreground;
