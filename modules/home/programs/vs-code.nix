@@ -471,7 +471,7 @@
           # ----------------------------------------------------------
 
           "editor.bracketPairColorization.enabled" = true;
-          "editor.guides.bracketPairs" = true;
+          "editor.guides.bracketPairs.enabled" = true;
           "editorBracketMatch.background" = colors.transparent;
           "editorBracketMatch.border" = colors.transparent;
 
@@ -481,11 +481,22 @@
           "editorBracketHighlight.foreground4" = colors.aqua;
           "editorBracketHighlight.foreground5" = colors.aqua;
           "editorBracketHighlight.foreground6" = colors.aqua;
+          "editorBracketHighlight.unexpectedBracket.foreground" = colors.red;
+          
+          "editorBracketPairGuide.activeBackground1" = colors.transparent;
+          "editorBracketPairGuide.activeBackground2" = colors.transparent;
+          "editorBracketPairGuide.activeBackground3" = colors.transparent;
+          "editorBracketPairGuide.activeBackground4" = colors.transparent;
+          "editorBracketPairGuide.activeBackground5" = colors.transparent;
+          "editorBracketPairGuide.activeBackground6" = colors.transparent;
+          
+          "editorBracketPairGuide.background1" = colors.transparent;
+          "editorBracketPairGuide.background2" = colors.transparent;
+          "editorBracketPairGuide.background3" = colors.transparent;
+          "editorBracketPairGuide.background4" = colors.transparent;
+          "editorBracketPairGuide.background5" = colors.transparent;
+          "editorBracketPairGuide.background6" = colors.transparent;
 
-          "editorBracketPairGuide.activeBackground1" = colors.aqua;
-          "editorBracketPairGuide.activeBackground2" = colors.aqua;
-          "editorBracketPairGuide.background1" = colors.aqua;
-          "editorBracketPairGuide.background2" = colors.aqua;
 
           # ----------------------------------------------------------
           # -- list renderer
