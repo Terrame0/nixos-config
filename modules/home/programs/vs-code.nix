@@ -475,17 +475,17 @@
           "editorBracketMatch.background" = colors.transparent;
           "editorBracketMatch.border" = colors.transparent;
 
-          "editorBracketHighlight.foreground1" = colors.comment;
-          "editorBracketHighlight.foreground2" = colors.comment;
-          "editorBracketHighlight.foreground3" = colors.comment;
-          "editorBracketHighlight.foreground4" = colors.comment;
-          "editorBracketHighlight.foreground5" = colors.comment;
-          "editorBracketHighlight.foreground6" = colors.comment;
+          "editorBracketHighlight.foreground1" = colors.aqua;
+          "editorBracketHighlight.foreground2" = colors.aqua;
+          "editorBracketHighlight.foreground3" = colors.aqua;
+          "editorBracketHighlight.foreground4" = colors.aqua;
+          "editorBracketHighlight.foreground5" = colors.aqua;
+          "editorBracketHighlight.foreground6" = colors.aqua;
 
-          "editorBracketPairGuide.activeBackground1" = colors.aqua;
-          "editorBracketPairGuide.activeBackground2" = colors.aqua;
-          "editorBracketPairGuide.background1" = colors.red;
-          "editorBracketPairGuide.background2" = colors.red;
+          "editorBracketPairGuide.activeBackground1" = colors.transparent;
+          "editorBracketPairGuide.activeBackground2" = colors.transparent;
+          "editorBracketPairGuide.background1" = colors.transparent;
+          "editorBracketPairGuide.background2" = colors.transparent;
 
           # ----------------------------------------------------------
           # -- list renderer
