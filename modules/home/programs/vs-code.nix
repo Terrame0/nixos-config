@@ -609,7 +609,7 @@
                 "entity.name.scope-resolution"
                 "entity.name.namespace"
               ];
-              settings.foreground = colors.comment;
+              settings.foreground = colors.yellow;
             }
 
             # -- types
@@ -619,7 +619,7 @@
                 "storage.type"
                 "support.type"
               ];
-              settings.foreground = colors.yellow;
+              settings.foreground = colors.blue;
             }
 
             # -- references
@@ -653,7 +653,7 @@
               scope = [
                 "storage.type.template"
               ];
-              settings.foreground = colors.purple;
+              settings.foreground = colors.blue;
             }
 
             # -- strings
