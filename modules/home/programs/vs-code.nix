@@ -315,7 +315,7 @@
           "editor.findMatchHighlightForeground" = colors.background;
           "editor.findMatchHighlightBackground" = colors.foreground;
           "editor.findMatchHighlightBorder" = colors.transparent;
-          
+
           # ----------------------------------------------------------
           # -- debug
           # ----------------------------------------------------------
