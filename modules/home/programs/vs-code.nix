@@ -578,10 +578,11 @@
             {
               scope = [
                 "variable.other.object.property"
+                "variable.other.property"
                 "entity.other.attribute-name"
                 "entity.name.tag"
               ];
-              settings.foreground = colors.purple;
+              settings.foreground = colors.comment;
             }
 
             # -- keywords
@@ -593,7 +594,7 @@
                 "keyword.other.operator"
                 "keyword.other.using"
               ];
-              settings.foreground = colors.purple;
+              settings.foreground = colors.green;
             }
 
             # -- operators
@@ -608,7 +609,7 @@
                 "entity.name.scope-resolution"
                 "entity.name.namespace"
               ];
-              settings.foreground = colors.selection;
+              settings.foreground = colors.comment;
             }
 
             # -- types
@@ -626,7 +627,7 @@
               scope = [
                 "storage.modifier"
               ];
-              settings.foreground = colors.aqua;
+              settings.foreground = colors.comment;
             }
 
             # -- functions
@@ -641,10 +642,11 @@
             # -- structures
             {
               scope = [
+                "variable.other.object"
                 "storage.type.struct"
                 "storage.type.class"
               ];
-              settings.foreground = colors.yellow;
+              settings.foreground = colors.red;
             }
 
             # -- templates
@@ -652,7 +654,7 @@
               scope = [
                 "storage.type.template"
               ];
-              settings.foreground = colors.red;
+              settings.foreground = colors.comment;
             }
 
             # -- strings
