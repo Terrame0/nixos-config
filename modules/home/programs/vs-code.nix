@@ -678,7 +678,6 @@
               settings.foreground = colors.red;
             }
 
-
             # -- fallback
             {
               scope = "meta";
