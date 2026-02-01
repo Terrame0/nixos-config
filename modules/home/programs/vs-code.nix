@@ -582,7 +582,7 @@
                 "entity.other.attribute-name"
                 "entity.name.tag"
               ];
-              settings.foreground = colors.comment;
+              settings.foreground = colors.foreground;
             }
 
             # -- keywords
@@ -594,7 +594,7 @@
                 "keyword.other.operator"
                 "keyword.other.using"
               ];
-              settings.foreground = colors.green;
+              settings.foreground = colors.blue;
             }
 
             # -- operators
@@ -619,7 +619,7 @@
                 "storage.type"
                 "support.type"
               ];
-              settings.foreground = colors.blue;
+              settings.foreground = colors.green;
             }
 
             # -- references
@@ -642,7 +642,6 @@
             # -- structures
             {
               scope = [
-                "variable.other.object"
                 "storage.type.struct"
                 "storage.type.class"
               ];
