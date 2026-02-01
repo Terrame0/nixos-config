@@ -474,9 +474,18 @@
           "editor.guides.bracketPairs" = true;
           "editorBracketMatch.background" = colors.transparent;
           "editorBracketMatch.border" = colors.transparent;
-          "editor.guides.bracketPairs.foreground" = colors.red;
-          "editor.guides.bracketPairsActive.foreground" = colors.red;
-          "editor.guides.bracketGuides.foreground" = colors.red;
+
+          "editorBracketHighlight.foreground1" = colors.comment;
+          "editorBracketHighlight.foreground2" = colors.comment;
+          "editorBracketHighlight.foreground3" = colors.comment;
+          "editorBracketHighlight.foreground4" = colors.comment;
+          "editorBracketHighlight.foreground5" = colors.comment;
+          "editorBracketHighlight.foreground6" = colors.comment;
+
+          "editorBracketPairGuide.activeBackground1" = colors.aqua;
+          "editorBracketPairGuide.activeBackground2" = colors.aqua;
+          "editorBracketPairGuide.background1" = colors.red;
+          "editorBracketPairGuide.background2" = colors.red;
 
           # ----------------------------------------------------------
           # -- list renderer
@@ -551,6 +560,7 @@
             # -- constants
             {
               scope = [
+                "constant.language"
                 "constant.numeric"
                 "constant.numeric.float.suffix"
                 "keyword.other.unit.suffix.floating-point"
