@@ -594,7 +594,7 @@
                 "keyword.other.operator"
                 "keyword.other.using"
               ];
-              settings.foreground = colors.blue;
+              settings.foreground = colors.purple;
             }
 
             # -- operators
@@ -619,7 +619,7 @@
                 "storage.type"
                 "support.type"
               ];
-              settings.foreground = colors.green;
+              settings.foreground = colors.yellow;
             }
 
             # -- references
@@ -630,13 +630,13 @@
               settings.foreground = colors.comment;
             }
 
-            # -- functions
+            # -- functions 
             {
               scope = [
                 "entity.name.function"
                 "support.function"
               ];
-              settings.foreground = colors.yellow;
+              settings.foreground = colors.red;
             }
 
             # -- structures
@@ -653,7 +653,7 @@
               scope = [
                 "storage.type.template"
               ];
-              settings.foreground = colors.comment;
+              settings.foreground = colors.purple;
             }
 
             # -- strings
