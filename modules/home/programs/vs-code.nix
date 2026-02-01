@@ -186,7 +186,7 @@
           "activityBar.background" = colors.background;
           "activityBar.foreground" = colors.foreground;
           "activityBar.inactiveForeground" = colors.comment;
-          "activityBar.border" = colors.line;
+          "activityBar.border" = colors.transparent;
           "activityBar.activeBorder" = colors.transparent;
           "activityBar.activeFocusBorder" = colors.transparent;
 
@@ -372,8 +372,8 @@
           # -- hover and word highlight
           # ----------------------------------------------------------
 
-          "editor.wordHighlightBackground" = "${colors.green}42";
-          "editor.wordHighlightStrongBackground" = "${colors.green}42";
+          "editor.wordHighlightBackground" = "${colors.green}1E";
+          "editor.wordHighlightStrongBackground" = "${colors.green}1E";
 
           "editorHoverWidget.background" = colors.line;
           "editorHoverWidget.foreground" = colors.foreground;
@@ -435,7 +435,7 @@
           "menubar.foreground" = colors.foreground;
           "menubar.selectionBackground" = colors.selection;
           "menubar.selectionForeground" = colors.foreground;
-          "menubar.selectionBorder" = colors.line;
+          "menubar.selectionBorder" = colors.transparent;
 
           # ----------------------------------------------------------
           # -- notifications
