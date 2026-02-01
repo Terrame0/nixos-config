@@ -497,7 +497,6 @@
           "editorBracketPairGuide.background5" = colors.orange;
           "editorBracketPairGuide.background6" = colors.orange;
 
-
           # ----------------------------------------------------------
           # -- list renderer
           # ----------------------------------------------------------
