@@ -1,22 +1,23 @@
 /* =========================================================
- * Color palette
+ * color palette
  * ======================================================= */
 
 /*@define-color bg #1d1f21;*/
-@define-color bg   rgba(29,31,33,0.7);
-@define-color fg   #c5c8c6;
-@define-color wnd  #4d5057;
-
-@define-color red  #d54e53;
-@define-color grn  #b9ca4a;
-@define-color ylw  #e7c547;
-@define-color blu  #7aa6da;
-@define-color mag  #c397d8;
-@define-color cyn  #70c0b1;
+@define-color bg    rgba(29,31,33,0.7);
+@define-color fg    #c5c8c6;
+@define-color wnd   #4d5057;
+@define-color sel   #373b41;
+@define-color red   #d54e53;
+@define-color org   #e78c45;
+@define-color ylw   #e7c547;
+@define-color grn   #b9ca4a;
+@define-color aqu   #70c0b1;
+@define-color blu   #7aa6da;
+@define-color mag   #c397d8;
 
 
 /* =========================================================
- * Global defaults
+ * global defaults
  * ========================================================= */
 
 * {
@@ -26,7 +27,7 @@
 
 
 /* =========================================================
- * Waybar window
+ * waybar window
  * ========================================================= */
 
 window#waybar {
@@ -37,7 +38,7 @@ window#waybar {
 
 
 /* =========================================================
- * Module containers
+ * module containers
  * ========================================================= */
 
 .modules-left,
@@ -45,7 +46,7 @@ window#waybar {
 .modules-right {
     background-color: transparent;
     border-radius: 10px;
-    padding: 0 10px;
+    padding: 0 0px;
     transition: ease-in-out 0.2s;
 }
 
@@ -55,7 +56,7 @@ window#waybar {
 
 .modules-left,
 .modules-right {
-    font-size: 16px;
+    font-size: 18px;
 }
 
 /* =========================================================
@@ -63,16 +64,16 @@ window#waybar {
  * ========================================================= */
 
 #workspaces button {
+    box-shadow: 0 0 2px transparent, 0 0 1px transparent, 0 0 2px transparent;
     margin: 5px;
     padding: 0 7px;
 
     background: transparent;
     border: 0;
-    border-radius: 10px;
+    border-radius: 5px;
 
     color: @fg;
     text-shadow: none;
-    box-shadow: none;
 
     transition: ease-in-out 0.1s;
 }
@@ -80,9 +81,10 @@ window#waybar {
 /* active workspace */
 #workspaces button.active,
 #workspaces button.empty.active {
+    padding: 0 14px;
     background-color: @grn;
-    box-shadow: 0 0 2px @grn, 0 0 3px @grn;
-    color: @bg;
+    box-shadow: 0 0 2px @grn, 0 0 1px @grn, 0 0 2px @grn;
+    color:@bg;
 }
 
 /* empty workspace */
@@ -93,7 +95,7 @@ window#waybar {
 /* urgent workspace */
 #workspaces button.urgent {
     background-color: @ylw;
-    box-shadow: 0 0 2px @ylw, 0 0 3px @ylw;
+    box-shadow: 0 0 2px @ylw, 0 0 1px @ylw, 0 0 2px @ylw;
     color: @bg;
 }
 
@@ -108,50 +110,67 @@ window#waybar {
 #memory,
 #disk,
 #network,
-#tray {
-    margin: 0 10px;
-    color: @fg;
+#tray,
+#window{
+    margin: 5px;
+    padding: 0 7px;
+    border-radius: 5px;
+    background-color:@bg;
 }
-
 
 /* =========================================================
  * individual modules
  * ========================================================= */
 
 #clock {
-    color: @cyn;
-    border-bottom: 4px solid @cyn;
+    border:2px solid @blu;
+    
+    box-shadow:0 0 2px @blu, 0 0 1px @blu, 0 0 2px @blu;
 }
 
 #battery {
-    color: @grn;
-    border-bottom: 4px solid @mag;
+    border:2px solid @grn;
+    box-shadow: 0 0 2px @grn, 0 0 1px @grn, 0 0 2px @grn;
 }
 
 #disk {
-    color: @ylw;
-    border-bottom: 4px solid @ylw;
+    border:2px solid @org;
+    box-shadow: 0 0 2px @ylw, 0 0 1px @ylw, 0 0 2px @ylw;
 }
 
 #memory {
-    color: @mag;
-    border-bottom: 4px solid @mag;
+    border:2px solid @org;
+    box-shadow: 0 0 2px @org, 0 0 1px @org, 0 0 2px @org;
 }
 
 #cpu {
-    color: @grn;
-    border-bottom: 4px solid @grn;
+    border:2px solid @aqu;
+    box-shadow: 0 0 2px @aqu, 0 0 1px @aqu, 0 0 2px @aqu;
 }
 
 #network {
-    color: @blu;
-    border-bottom: 4px solid @blu;
+    border:2px solid @grn;
+    box-shadow: 0 0 2px @grn, 0 0 1px @grn, 0 0 2px @grn;
 }
 
 #network.disconnected {
-    background-color: @red;
+    border:2px solid transparent;
+    box-shadow: 0 0 2px @red, 0 0 1px @red, 0 0 2px @red;
+    background-color:@red;
+    color:@bg;
 }
 
 #tray {
+    margin-left:0px;
     background-color: transparent;
+}
+
+#window{
+    background-color: transparent;
+    color:@fg;
+}
+
+window#waybar.empty #window {
+    margin:0;
+    padding:0;
 }
