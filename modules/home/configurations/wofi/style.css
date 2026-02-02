@@ -3,13 +3,12 @@
 @define-color wnd   #4d5057;
 @define-color sel   #373b41;
 @define-color red   #d54e53;
-@define-color orange #e78c45;
+@define-color org #e78c45;
 @define-color ylw   #e7c547;
 @define-color grn   #b9ca4a;
-@define-color aqua  #70c0b1;
+@define-color aqu  #70c0b1;
 @define-color blu   #7aa6da;
 @define-color mag   #c397d8;
-@define-color transparent #00000000;
 
 * {
     font-family: "JetBrainsMono Nerd Font", monospace;

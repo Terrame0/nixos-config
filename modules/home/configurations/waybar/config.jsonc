@@ -7,20 +7,28 @@
     
     // Choose the order of the modules
     "modules-left": [
-        "hyprland/window"
+        "clock",
+        "network",
+        "tray"
     ],
     "modules-center": [
         "hyprland/workspaces"
     ],
     
     "modules-right": [
-        "network",
         "cpu",
         "memory",
-        "disk",
-        "clock",
-        "tray"
+        "battery"
     ],
+
+    "group/hardware": {
+		"orientation": "vertical",
+		"modules": [
+			"cpu",
+			"memory",
+			"battery"
+		]
+	},
     
     "reload_style_on_change": true,
     "margin-bottom" : 0,
@@ -30,10 +38,6 @@
 
     // Modules configuration
     "hyprland/workspaces": {
-        "format-icons": {
-            "default": "●"
-	    },
-        
         "disable-scroll": true,
         "all-outputs": true,
         "warp-on-scroll": false,
@@ -41,11 +45,6 @@
         "persistent-workspaces": {
             "*" : 5
         },
-        "tooltip": false
-    },
-    "hyprland/window" : {
-        "expand": true,
-        "seperate-outputs": false,
         "tooltip": false
     },
     "tray": {
@@ -57,22 +56,25 @@
         },
         "tooltip": false
     },
+    
     "clock": {
-        "format-alt": "{:%Y-%m-%d}",
+    	"format": "{:%H:%M %B %d}",
+        "interval":60,
+    	"actions": {
+    		"on-click-right": "mode",
+    		"on-click-forward": "tz_up",
+    		"on-click-backward": "tz_down",
+    		"on-scroll-up": "shift_up",
+    		"on-scroll-down": "shift_down"
+    	},
         "tooltip": false
     },
     "cpu": {
-        "format": "CPU: {usage}%",
+        "format": " {usage}%",
         "tooltip": false
     },
     "memory": {
-        "format": "Mem: {avail}GiB",
-        "tooltip": false
-    },
-    "disk": {
-        "interval": 60,
-        "path": "/",
-        "format": "Disk: {free}",
+        "format": " {avail}GB",
         "tooltip": false
     },
     "battery": {
@@ -81,21 +83,16 @@
             "warning": 30,
             "critical": 15
         },
-        "format": "Bat: {capacity}% {icon} {time}",
-        "format-plugged": "{capacity}% ",
-        "format-alt": "Bat {capacity}%",
+        "format": " {capacity}% {icon} {time}",
+        "format-plugged": " {capacity}% ",
+        "format-alt": " {capacity}%",
         "format-time": "{H}:{M}",
-        "format-icons": ["", "", "", "", ""],
+        "format-icons": [" ", " ", " ", " ", " "],
         "tooltip": false
     },
     "network": {
-        "format": "Online",
-        "format-disconnected": "Disconnected ⚠",
-        "tooltip": false
-    },
-    "custom/sep": {
-        "format" : "|",
-        "interval" : 0,
+        "format": " Online",
+        "format-disconnected": " disconnected",
         "tooltip": false
     }
 }
