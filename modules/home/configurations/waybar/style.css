@@ -31,10 +31,12 @@
  * ========================================================= */
 
 window#waybar {
-    background-color: @bg;
+    background-color: transparent;
     color: @fg;
     border-radius: 10px;
 }
+
+
 
 
 /* =========================================================
@@ -44,7 +46,7 @@ window#waybar {
 .modules-left,
 .modules-center,
 .modules-right {
-    background-color: transparent;
+    background-color: @bg;
     border-radius: 10px;
     padding: 0 0px;
     transition: ease-in-out 0.2s;
@@ -170,7 +172,3 @@ window#waybar {
     color:@fg;
 }
 
-window#waybar.empty #window {
-    margin:0;
-    padding:0;
-}
