@@ -3,7 +3,7 @@
  * ======================================================= */
 
 /*@define-color bg #1d1f21;*/
-@define-color bg   #1d1f21b3;
+@define-color bg   rgba(29,31,33,0.7);
 @define-color fg   #c5c8c6;
 @define-color wnd  #4d5057;
 
