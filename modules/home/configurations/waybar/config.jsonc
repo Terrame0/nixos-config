@@ -7,8 +7,7 @@
     
     // Choose the order of the modules
     "modules-left": [
-        "clock",
-        "network",
+        "custom/clock",
         "tray"
     ],
     "modules-center": [
@@ -18,6 +17,7 @@
     "modules-right": [
         "cpu",
         "memory",
+        "network",
         "battery"
     ],
 
@@ -56,37 +56,30 @@
         },
         "tooltip": false
     },
-    
-    "clock": {
-    	"format": "{:%H:%M %B %d}",
-        "interval":60,
-    	"actions": {
-    		"on-click-right": "mode",
-    		"on-click-forward": "tz_up",
-    		"on-click-backward": "tz_down",
-    		"on-scroll-up": "shift_up",
-    		"on-scroll-down": "shift_down"
-    	},
-        "tooltip": false
+    "custom/clock": {
+      "exec": "bash ~/.config/waybar/clock.sh",
+      "interval": 1,
+      "format": "{}"
     },
     "cpu": {
         "format": " {usage}%",
+        "interval":1,
         "tooltip": false
     },
     "memory": {
         "format": " {avail}GB",
+        "interval":1,
         "tooltip": false
     },
     "battery": {
         "states": {
-            "good": 95,
-            "warning": 30,
-            "critical": 15
+            "good": 100,
+            "warning": 70,
+            "critical": 20
         },
-        "format": " {capacity}% {icon} {time}",
-        "format-plugged": " {capacity}% ",
-        "format-alt": " {capacity}%",
-        "format-time": "{H}:{M}",
+        "interval":1,
+        "format": "{icon}{capacity}%",
+        "format-charging": " {icon}{capacity}%",
         "format-icons": [" ", " ", " ", " ", " "],
         "tooltip": false
     },

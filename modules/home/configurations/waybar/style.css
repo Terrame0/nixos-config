@@ -3,6 +3,7 @@
  * ======================================================= */
 
 /*@define-color bg #1d1f21;*/
+@define-color bgs   #1d1f21;
 @define-color bg    rgba(29,31,33,0.7);
 @define-color fg    #c5c8c6;
 @define-color wnd   #4d5057;
@@ -35,9 +36,6 @@ window#waybar {
     color: @fg;
     border-radius: 10px;
 }
-
-
-
 
 /* =========================================================
  * module containers
@@ -86,7 +84,7 @@ window#waybar {
     padding: 0 14px;
     background-color: @grn;
     box-shadow: 0 0 2px @grn, 0 0 1px @grn, 0 0 2px @grn;
-    color:@bg;
+    color:@bgs;
 }
 
 /* empty workspace */
@@ -98,7 +96,7 @@ window#waybar {
 #workspaces button.urgent {
     background-color: @ylw;
     box-shadow: 0 0 2px @ylw, 0 0 1px @ylw, 0 0 2px @ylw;
-    color: @bg;
+    color: @bgs;
 }
 
 /* =========================================================
@@ -106,14 +104,15 @@ window#waybar {
  * ========================================================= */
 
 #clock,
-#custom-sep,
 #battery,
 #cpu,
 #memory,
 #disk,
 #network,
 #tray,
-#window{
+#window,
+#custom-clock
+{
     margin: 5px;
     padding: 0 7px;
     border-radius: 5px;
@@ -124,42 +123,62 @@ window#waybar {
  * individual modules
  * ========================================================= */
 
-#clock {
-    border:2px solid @blu;
-    
-    box-shadow:0 0 2px @blu, 0 0 1px @blu, 0 0 2px @blu;
+#custom-clock {
+    color:@mag;
+    border:2px solid @mag;    
+    box-shadow:0 0 2px @mag, 0 0 1px @mag, 0 0 2px @mag;
 }
 
-#battery {
+#battery.good {
+    color:@grn;
     border:2px solid @grn;
     box-shadow: 0 0 2px @grn, 0 0 1px @grn, 0 0 2px @grn;
 }
 
-#disk {
-    border:2px solid @org;
+#battery.warning {
+    color:@ylw;
+    border:2px solid @ylw;
     box-shadow: 0 0 2px @ylw, 0 0 1px @ylw, 0 0 2px @ylw;
 }
 
+#battery.critical {
+    background-color: @red;
+    color:@bgs;
+    border:2px solid transparent;
+    box-shadow: 0 0 2px @red, 0 0 1px @red, 0 0 2px @red;
+}
+
+#battery.charging {
+    background-color: @grn;
+    color:@bgs;
+    border:2px solid transparent;
+    box-shadow: 0 0 2px @grn, 0 0 1px @grn, 0 0 2px @grn;
+}
+
 #memory {
+    color:@org;
     border:2px solid @org;
     box-shadow: 0 0 2px @org, 0 0 1px @org, 0 0 2px @org;
 }
 
 #cpu {
+    color:@aqu;
     border:2px solid @aqu;
     box-shadow: 0 0 2px @aqu, 0 0 1px @aqu, 0 0 2px @aqu;
 }
 
 #network {
-    border:2px solid @grn;
-    box-shadow: 0 0 2px @grn, 0 0 1px @grn, 0 0 2px @grn;
+    color:@bgs;
+    background-color:@blu;
+    border:2px solid transparent;
+    box-shadow: 0 0 2px @blu, 0 0 1px @blu, 0 0 2px @blu;
 }
 
 #network.disconnected {
-    border:2px solid transparent;
+    border:2px solid @red;
     box-shadow: 0 0 2px @red, 0 0 1px @red, 0 0 2px @red;
-    background-color:@red;
-    color:@bg;
+    background-color:@bg;
+    color:@red;
 }
 
 #tray {
