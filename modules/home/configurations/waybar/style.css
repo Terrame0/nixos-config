@@ -168,8 +168,9 @@ window#waybar {
 }
 
 #network {
-    color:@blu;
-    border:2px solid @blu;
+    color:@bg;
+    background-color:@blu;
+    border:2px solid transparent;
     box-shadow: 0 0 2px @blu, 0 0 1px @blu, 0 0 2px @blu;
 }
 
