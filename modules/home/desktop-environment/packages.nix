@@ -5,5 +5,6 @@
     mako
     wofi
     hyprshot
+    nautilus
   ];
 }

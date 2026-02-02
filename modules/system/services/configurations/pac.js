@@ -66,6 +66,14 @@ function FindProxyForURL(url, host) {
     "ipinfo.io",
     "icanhazip.com",
 
+    // -- steam cdn (for cloud sync)
+    "steamcloud-tyo.s3.dualstack.ap-northeast-1.amazonaws.com",
+    "steamcloud-us-east.s3.dualstack.us-east-1.amazonaws.com",
+    "steamcloudsweden.blob.core.windows.net",
+    "steamcloudams2.blob.core.windows.net",
+    "steamcloudlrstyo.blob.core.windows.net",
+    "steamcloud-tokyo.storage.googleapis.com",
+
     // -- misc
     "mpv.io",
     "github.com",
@@ -79,15 +87,7 @@ function FindProxyForURL(url, host) {
     "rutracker.org",
     "itsfoss.com",
     "starship.rs",
-    // "cloudflareinsights.com",
-    // "cloudfront.net"
-
-    "steamcloud-tyo.s3.dualstack.ap-northeast-1.amazonaws.com",
-    "steamcloud-us-east.s3.dualstack.us-east-1.amazonaws.com",
-    "steamcloudsweden.blob.core.windows.net",
-    "steamcloudams2.blob.core.windows.net",
-    "steamcloudlrstyo.blob.core.windows.net",
-    "steamcloud-tokyo.storage.googleapis.com"
+    "dota2mapdrawing.com",
   ];
 
   // -- matches domain or subdomain
