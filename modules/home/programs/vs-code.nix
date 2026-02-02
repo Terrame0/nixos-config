@@ -29,6 +29,7 @@
       nixpkgs-extensions = with pkgs.vscode-extensions; [
       ];
       marketplace-extensions = pkgs.nix4vscode.forVscode [
+        "hoovercj.vscode-power-mode"
         "twxs.cmake"
         "ms-python.python"
         "jnoortheen.nix-ide"
@@ -99,6 +100,7 @@
         # -- misc behavior
         # ============================================================
 
+        "powermode.enabled" = true;
         "editor.smoothScrolling" = true;
         "explorer.confirmDelete" = false;
         "explorer.confirmDragAndDrop" = false;
