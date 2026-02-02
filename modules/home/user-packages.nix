@@ -11,6 +11,7 @@
     tree
     any-nix-shell
     brightnessctl
+    jq
 
     # -- desktop apps
     whatsapp-electron
