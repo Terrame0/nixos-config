@@ -84,7 +84,7 @@ window#waybar {
     padding: 0 14px;
     background-color: @grn;
     box-shadow: 0 0 2px @grn, 0 0 1px @grn, 0 0 2px @grn;
-    color:@bgs;
+    color:@bg;
 }
 
 /* empty workspace */
@@ -96,7 +96,7 @@ window#waybar {
 #workspaces button.urgent {
     background-color: @ylw;
     box-shadow: 0 0 2px @ylw, 0 0 1px @ylw, 0 0 2px @ylw;
-    color: @bgs;
+    color: @bg;
 }
 
 /* =========================================================
@@ -143,14 +143,14 @@ window#waybar {
 
 #battery.critical {
     background-color: @red;
-    color:@bgs;
+    color:@bg;
     border:2px solid transparent;
     box-shadow: 0 0 2px @red, 0 0 1px @red, 0 0 2px @red;
 }
 
 #battery.charging {
     background-color: @grn;
-    color:@bgs;
+    color:@bg;
     border:2px solid transparent;
     box-shadow: 0 0 2px @grn, 0 0 1px @grn, 0 0 2px @grn;
 }
@@ -177,7 +177,7 @@ window#waybar {
     border:2px solid transparent;
     box-shadow: 0 0 2px @red, 0 0 1px @red, 0 0 2px @red;
     background-color:@red;
-    color:@bgs;
+    color:@bg;
 }
 
 #tray {
