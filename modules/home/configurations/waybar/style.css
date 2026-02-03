@@ -168,17 +168,17 @@ window#waybar {
 }
 
 #network {
-    color:@bgs;
-    background-color:@blu;
-    border:2px solid transparent;
-    box-shadow: 0 0 2px @blu, 0 0 1px @blu, 0 0 2px @blu;
+    color:@grn;
+    background-color:@bgs;
+    border:2px solid @grn;
+    box-shadow: 0 0 2px @grn, 0 0 1px @grn, 0 0 2px @grn;
 }
 
 #network.disconnected {
-    border:2px solid @red;
+    border:2px solid transparent;
     box-shadow: 0 0 2px @red, 0 0 1px @red, 0 0 2px @red;
-    background-color:@bg;
-    color:@red;
+    background-color:@red;
+    color:@bgs;
 }
 
 #tray {
