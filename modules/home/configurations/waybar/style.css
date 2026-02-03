@@ -169,7 +169,6 @@ window#waybar {
 
 #network {
     color:@grn;
-    background-color:@bgs;
     border:2px solid @grn;
     box-shadow: 0 0 2px @grn, 0 0 1px @grn, 0 0 2px @grn;
 }
