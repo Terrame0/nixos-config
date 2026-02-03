@@ -49,7 +49,13 @@
 
       userSettings = {
         # ============================================================
-        # -- fixing inconsistencies in the integrated terminal
+        # -- disabling linting for some languages
+        # ============================================================
+
+        "css.validate" = false;
+
+        # ============================================================
+        # -- fixing inconsistent integrated terminal environment
         # ============================================================
 
         "terminal.integrated.inheritEnv" = false;

@@ -5,8 +5,8 @@
     "height": 40, 
     "spacing": 0,
     
-    // Choose the order of the modules
     "modules-left": [
+        "network",
         "custom/clock",
         "tray"
     ],
@@ -17,18 +17,8 @@
     "modules-right": [
         "cpu",
         "memory",
-        "network",
         "battery"
     ],
-
-    "group/hardware": {
-		"orientation": "vertical",
-		"modules": [
-			"cpu",
-			"memory",
-			"battery"
-		]
-	},
     
     "reload_style_on_change": true,
     "margin-bottom" : 0,
@@ -36,7 +26,6 @@
     "margin-left" : 10,
     "margin-right" : 10,
 
-    // Modules configuration
     "hyprland/workspaces": {
         "disable-scroll": true,
         "all-outputs": true,
