@@ -632,7 +632,7 @@
               scope = [
                 "storage.modifier"
               ];
-              settings.foreground = colors.purple;
+              settings.foreground = colors.blue;
             }
 
             # -- functions
