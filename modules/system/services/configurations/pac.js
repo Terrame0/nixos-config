@@ -88,6 +88,7 @@ function FindProxyForURL(url, host) {
     "itsfoss.com",
     "starship.rs",
     "dota2mapdrawing.com",
+    "onlinegdb.com"
   ];
 
   // -- matches domain or subdomain

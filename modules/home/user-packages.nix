@@ -12,6 +12,7 @@
     any-nix-shell
     brightnessctl
     jq
+    wireplumber
 
     # -- desktop apps
     whatsapp-electron
