@@ -627,12 +627,12 @@
               settings.foreground = colors.blue;
             }
 
-            # -- references
+            # -- storage modifiers
             {
               scope = [
                 "storage.modifier"
               ];
-              settings.foreground = colors.comment;
+              settings.foreground = colors.blue;
             }
 
             # -- functions

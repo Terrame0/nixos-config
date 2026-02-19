@@ -60,10 +60,10 @@
 
         search = {
           force = true;
-          default = "ddg";
+          default = "google";
           order = [
-            "ddg"
             "google"
+            "ddg"
             "yandex"
             "NixOS Packages"
             "NixOS Options"

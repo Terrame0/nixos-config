@@ -1,3 +1,3 @@
-{lib, ...}: {
-  # services.dbus.implementation = lib.mkForce "dbus";
+{...}: {
+  services.dbus.enable = true;
 }
