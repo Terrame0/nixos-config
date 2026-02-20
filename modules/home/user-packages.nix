@@ -19,13 +19,13 @@
     jq
 
     # -- windows compatibility layer
-    # wineWowPackages.full
-    # winetricks
-    # dxvk
+    wineWowPackages.full
+    winetricks
+    dxvk
 
     # -- basic desktop utilities
     nemo
-    celluloid
+    mpv
     eog
     gedit
 
