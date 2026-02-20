@@ -14,6 +14,7 @@
     brightnessctl
     wireplumber
     alejandra
+    xarchiver
     neofetch
     tree
     jq
@@ -23,8 +24,6 @@
     pcsx2
 
     # -- basic desktop utilities
-    mpv
-    yt-dlp
     eog
     gedit
 
