@@ -23,7 +23,6 @@
     pcsx2
 
     # -- basic desktop utilities
-    nemo
     mpv
     yt-dlp
     eog

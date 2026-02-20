@@ -4,7 +4,8 @@
     hyprpaper
     mako
     wofi
-    nautilus
+
+    # -- screenshots
     grim
     slurp
     wl-clipboard
