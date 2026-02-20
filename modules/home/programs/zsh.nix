@@ -7,7 +7,6 @@
   programs.zsh = {
     enable = true;
 
-    # -- autosuggestions
     enableCompletion = true;
     autosuggestion.enable = true;
     syntaxHighlighting.enable = true;
@@ -27,19 +26,26 @@
       git-log = "git log --oneline --graph --decorate";
     };
 
+    # -- configuration
     initContent = ''
       ${pkgs.any-nix-shell}/bin/any-nix-shell zsh | source /dev/stdin
+
       # -- use starship prompt theme
       eval "$(starship init zsh)"
-      # -- better key bindings
+
+      # -- emacs-like key bindings
       bindkey -e
+
       # -- history search with arrows
-      autoload -Uz up-line-or-beginning-search
-      autoload -Uz down-line-or-beginning-search
-      zle -N up-line-or-beginning-search
-      zle -N down-line-or-beginning-search
-      bindkey '^[[A' up-line-or-beginning-search
-      bindkey '^[[B' down-line-or-beginning-search
+      autoload -Uz history-substring-search-up
+      autoload -Uz history-substring-search-down+
+      zle -N history-substring-search-up
+      zle -N history-substring-search-down
+      bindkey '^[[A' history-substring-search-up
+      bindkey '^[[B' history-substring-search-down
+
+      # --
+
     '';
   };
 }

@@ -1,27 +1,42 @@
 {pkgs, ...}: {
   home.packages = with pkgs; [
-    # -- dev/cli tools
+    # -- dev tools
     python3
     nixd
-    neofetch
     git
-    alejandra
+
+    # -- encryption
     sops
     age
-    tree
+
+    # -- misc cli tools
     any-nix-shell
     brightnessctl
-    jq
     wireplumber
+    alejandra
+    neofetch
+    tree
+    jq
+
+    # -- windows compatibility layer
+    wineWowPackages.full
+    winetricks
+    dxvk
+
+    # -- basic desktop utilities
+    nemo
+    celluloid
+    eog
+    gedit
+
+    # -- messenger clients
+    whatsapp-electron
+    telegram-desktop
 
     # -- desktop apps
-    whatsapp-electron
     gparted
-    wireshark
     dconf-editor
     prismlauncher
-    kdePackages.kdenlive
-    telegram-desktop
     libreoffice-fresh
     qbittorrent
     blender

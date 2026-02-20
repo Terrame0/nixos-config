@@ -86,28 +86,28 @@ in {
         blur = true;
       };
 
-      keyboard.bindings = [
-        {
-          key = "C";
-          mods = "Control|Shift";
-          action = "Copy";
-        }
-        {
-          key = "V";
-          mods = "Control|Shift";
-          action = "Paste";
-        }
-        {
-          key = "С";
-          mods = "Control|Shift";
-          action = "Copy";
-        }
-        {
-          key = "М";
-          mods = "Control|Shift";
-          action = "Paste";
-        }
-      ];
+      #keyboard.bindings = [
+      #  {
+      #    key = "C";
+      #    mods = "Control|Shift";
+      #    action = "Copy";
+      #  }
+      #  {
+      #    key = "V";
+      #    mods = "Control|Shift";
+      #    action = "Paste";
+      #  }
+      #  {
+      #    key = "С";
+      #    mods = "Control|Shift";
+      #    action = "Copy";
+      #  }
+      #  {
+      #    key = "М";
+      #    mods = "Control|Shift";
+      #    action = "Paste";
+      #  }
+      #];
 
       font = {
         normal = {
