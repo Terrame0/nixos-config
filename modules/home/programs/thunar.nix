@@ -1,6 +1,4 @@
 {pkgs, ...}: {
-  # -- preview manager
-  services.tumbler.enable = true;
   home.packages = with pkgs; [
     xfce.thunar
 
@@ -10,11 +8,12 @@
     xfce.thunar-vcs-plugin
     xfce.thunar-media-tags-plugin
 
-    # -- preview providers
+    # -- needed for
+    # previews to work
+    xfce.tumbler
     gdk-pixbuf
     poppler
     ffmpegthumbnailer
-    
     librsvg
   ];
 }
