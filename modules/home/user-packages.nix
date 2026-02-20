@@ -18,12 +18,14 @@
     tree
     jq
 
-    # -- for running windows games
+    # -- games
     lutris
+    pcsx2
 
     # -- basic desktop utilities
     nemo
     mpv
+    yt-dlp
     eog
     gedit
 
