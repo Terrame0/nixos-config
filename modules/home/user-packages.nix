@@ -22,7 +22,7 @@
     wine
 
     # -- basic desktop utilities
-    totem 
+    totem
     xfce.thunar
     drawing
     eog
