@@ -18,22 +18,25 @@
     tree
     jq
 
-    # -- needs no introduction
-    wine
+    # -- windows compatibility layer
+    wineWowPackages.full
+    winetricks
+    dxvk
 
     # -- basic desktop utilities
-    totem
-    xfce.thunar
-    drawing
+    nemo
+    celluloid
     eog
     gedit
 
-    # -- desktop apps
+    # -- messenger clients
     whatsapp-electron
+    telegram-desktop
+
+    # -- desktop apps
     gparted
     dconf-editor
     prismlauncher
-    telegram-desktop
     libreoffice-fresh
     qbittorrent
     blender
