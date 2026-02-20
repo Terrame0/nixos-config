@@ -18,10 +18,8 @@
     tree
     jq
 
-    # -- windows compatibility layer
-    wineWowPackages.full
-    winetricks
-    dxvk
+    # -- for running windows games
+    lutris
 
     # -- basic desktop utilities
     nemo
