@@ -31,8 +31,8 @@
     pcsx2
 
     # -- just to be sure
-    #SDL2
-    #mesa.drivers
+    SDL2
+    mesa
 
     # -- basic desktop utilities
     eog
