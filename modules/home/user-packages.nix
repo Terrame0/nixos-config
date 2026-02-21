@@ -20,6 +20,12 @@
     jq
 
     # -- games
+    wineWowPackages.stable
+    vulkan-loader
+    vulkan-tools
+    dxvk
+    vkd3d
+    winetricks
     lutris
     pcsx2
 
