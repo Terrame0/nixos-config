@@ -32,17 +32,8 @@
 
     # -- just to be sure
     SDL2
-    pkgsi686Linux.SDL2
     libGL
     mesa.drivers
-
-    # -- libs for wine
-    lib32-glibc
-    lib32-libxcb
-    lib32-gnutls
-    lib32-libpulseaudio
-    lib32-alsa-lib
-    lib32-ocl-icd
 
     # -- basic desktop utilities
     eog
