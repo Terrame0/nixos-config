@@ -21,16 +21,10 @@
 
     # -- games
     lutris
-    wineWowPackages.stableFull
-    samba
-    vulkan-loader
-    vulkan-tools
+    wineWowPackages.staging
     mesa-demos
     dxvk
     vkd3d
-    winetricks
-    gamemode
-    gamescope
     pcsx2
 
     # -- basic desktop utilities
