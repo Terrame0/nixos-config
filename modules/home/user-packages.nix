@@ -23,9 +23,11 @@
     wineWowPackages.stable
     vulkan-loader
     vulkan-tools
+    glxinfo
     dxvk
     vkd3d
     winetricks
+    gamemode
     lutris
     pcsx2
 
