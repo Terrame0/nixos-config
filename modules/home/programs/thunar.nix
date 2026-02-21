@@ -14,6 +14,5 @@
     gdk-pixbuf
     poppler
     ffmpegthumbnailer
-    librsvg
   ];
 }
