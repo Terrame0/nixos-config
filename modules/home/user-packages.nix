@@ -22,9 +22,9 @@
     # -- games
     lutris
     wineWowPackages.stagingFull
-    winetricks
-    vulkan-loader
-    vulkan-tools
+    # winetricks
+    # vulkan-loader
+    # vulkan-tools
     mesa-demos
     dxvk
     vkd3d
