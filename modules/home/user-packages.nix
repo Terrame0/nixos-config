@@ -36,6 +36,7 @@
     sdl3
     sdl3-image
     sdl3-ttf
+    sdl2-compat
 
     # -- basic desktop utilities
     eog
