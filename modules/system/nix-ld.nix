@@ -81,12 +81,13 @@
       speex
 
       # -- SDL
-      pkgsi686Linux.sdl3
-      pkgsi686Linux.sdl2-compat
-      sdl3
-      sdl2-compat
-      sdl3-image
-      sdl3-ttf
+
+      #pkgsi686Linux.sdl3
+      #pkgsi686Linux.sdl2-compat
+      #sdl3
+      #sdl2-compat
+      #sdl3-image
+      #sdl3-ttf
 
       SDL2
       SDL2_image
