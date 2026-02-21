@@ -22,6 +22,7 @@
     # -- games
     lutris
     wineWowPackages.stableFull
+    samba
     vulkan-loader
     vulkan-tools
     mesa-demos
