@@ -23,7 +23,7 @@
     wineWowPackages.stable
     vulkan-loader
     vulkan-tools
-    glxinfo
+    mesa-demos
     dxvk
     vkd3d
     winetricks
