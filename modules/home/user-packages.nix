@@ -21,7 +21,7 @@
 
     # -- games
     lutris
-    wineWowPackages.stable
+    wineWowPackages.waylandFull
     vulkan-loader
     vulkan-tools
     mesa-demos
