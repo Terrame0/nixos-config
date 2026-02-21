@@ -32,7 +32,7 @@
 
     # -- just to be sure
     SDL2
-    lib32.SDL2
+    pkgsi686Linux.SDL2
     libGL
     mesa.drivers
 
