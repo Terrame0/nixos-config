@@ -85,7 +85,7 @@
       sdl2-compat
       sdl3-image
       sdl3-ttf
-      
+
       SDL2
       SDL2_image
       SDL2_ttf
