@@ -81,6 +81,8 @@
       speex
 
       # -- SDL
+      pkgsi686Linux.sdl3
+      pkgsi686Linux.sdl2-compat
       sdl3
       sdl2-compat
       sdl3-image
