@@ -33,6 +33,9 @@
 
     # -- just to be sure
     SDL2
+    sdl3
+    sdl3-image
+    sdl3-ttf
 
     # -- basic desktop utilities
     eog
