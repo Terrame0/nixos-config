@@ -29,10 +29,10 @@
     dxvk
     vkd3d
     pcsx2
+    mesa
 
     # -- just to be sure
     SDL2
-    mesa
 
     # -- basic desktop utilities
     eog
