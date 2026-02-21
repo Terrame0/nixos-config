@@ -20,6 +20,7 @@
     jq
 
     # -- games
+    lutris
     wineWowPackages.stable
     vulkan-loader
     vulkan-tools
@@ -28,7 +29,7 @@
     vkd3d
     winetricks
     gamemode
-    lutris
+    gamescope
     pcsx2
 
     # -- basic desktop utilities
