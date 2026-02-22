@@ -32,7 +32,7 @@
     winetricks
     mesa-demos
     pcsx2
-    
+
     # -- basic desktop utilities
     eog
     gedit

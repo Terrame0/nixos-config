@@ -67,7 +67,7 @@
           zle -N $name
         "
       }
-      
+
       for key base in \
         '^[OD' backward-char \
         '^[OC' forward-char \
@@ -107,7 +107,7 @@
         make-select-widget $name $base
         bindkey $key $name
       done
-      
+
       # -- char deletion
       bindkey '^H' backward-kill-word
       bindkey '^[^H' backward-kill-line
