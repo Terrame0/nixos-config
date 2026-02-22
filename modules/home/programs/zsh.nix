@@ -26,11 +26,6 @@
       git-log = "git log --oneline --graph --decorate";
     };
 
-    # -- makes the configuration work in login shells
-    loginExtra = ''
-      source ~/.zshrc
-    '';
-
     # -- configuration
     initContent = ''
       ${pkgs.any-nix-shell}/bin/any-nix-shell zsh | source /dev/stdin
