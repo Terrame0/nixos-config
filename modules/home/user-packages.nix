@@ -47,7 +47,7 @@
     prismlauncher
     libreoffice-fresh
     qbittorrent
-    transmission
+    transmission_4-gtk
     blender
     gimp
   ];
