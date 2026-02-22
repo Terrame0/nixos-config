@@ -1,6 +1,5 @@
 {pkgs, ...}: {
   home.packages = with pkgs; [
-    papirus-icon-theme
     gnome-themes-extra
   ];
 
