@@ -10,9 +10,10 @@
     # -- force apps to use wayland
     NIXOS_OZONE_WL = "1";
     GDK_BACKEND = "wayland,x11,*";
-    QT_QPA_PLATFORM = "wayland;xcb";
-    SDL_VIDEODRIVER = "wayland";
-    CLUTTER_BACKEND = "wayland";
+    # -- it appears that these are not needed as of now
+    #QT_QPA_PLATFORM = "wayland;xcb";
+    #SDL_VIDEODRIVER = "wayland";
+    #CLUTTER_BACKEND = "wayland";
   };
 
   # -- using an unstable version (overridden in an overlay)

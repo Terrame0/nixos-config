@@ -4,10 +4,5 @@
     hyprpaper
     mako
     wofi
-
-    # -- screenshots
-    grim
-    slurp
-    wl-clipboard
   ];
 }

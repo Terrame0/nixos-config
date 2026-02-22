@@ -15,13 +15,11 @@
     open = false;
   };
 
+  # -- it appears that these are not needed as of now
   environment.sessionVariables = {
     # -- force the use of nvidia drivers
-    LIBVA_DRIVER_NAME = "nvidia";
-    __GLX_VENDOR_LIBRARY_NAME = "nvidia";
-    # -- egl shits the bed without these
-    #__EGL_VENDOR_LIBRARY_FILENAMES = "/run/opengl-driver/share/glvnd/egl_vendor.d/10_nvidia.json";
-    #__EGL_EXTERNAL_PLATFORM_CONFIG_DIRS = "/run/opengl-driver/share/egl/egl_external_platform.d";
+    #LIBVA_DRIVER_NAME = "nvidia";
+    #__GLX_VENDOR_LIBRARY_NAME = "nvidia";
   };
   
 }

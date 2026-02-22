@@ -19,6 +19,13 @@
     tree
     jq
 
+    # -- screenshots
+    grim
+    slurp
+
+    # -- shell clipboard broker
+    wl-clipboard
+
     # -- games
     lutris
     wine-wayland
