@@ -26,9 +26,14 @@
       git-log = "git log --oneline --graph --decorate";
     };
 
+    # -- makes the configuration work in login shells 
+    loginShellInit = ''
+      source ~/.zshrc
+    '';
+
     # -- configuration
     initContent = ''
-      #${pkgs.any-nix-shell}/bin/any-nix-shell zsh | source /dev/stdin
+      ${pkgs.any-nix-shell}/bin/any-nix-shell zsh | source /dev/stdin
 
       # -- use starship prompt theme
       eval "$(starship init zsh)"
@@ -107,6 +112,7 @@
         make-select-widget $name $base
         bindkey $key $name
       done
+      
 
       # -- char deletion
       bindkey '^H' backward-kill-word
