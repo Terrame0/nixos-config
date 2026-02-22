@@ -26,8 +26,6 @@
         # -- utility
         transparent = "#00000000";
       };
-      nixpkgs-extensions = with pkgs.vscode-extensions; [
-      ];
       marketplace-extensions = pkgs.nix4vscode.forVscode [
         "twxs.cmake"
         "ms-python.python"
@@ -41,7 +39,7 @@
       # -- extensions
       # ============================================================
 
-      extensions = nixpkgs-extensions ++ marketplace-extensions;
+      extensions = marketplace-extensions;
 
       # ============================================================
       # -- user settings
