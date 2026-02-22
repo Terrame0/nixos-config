@@ -26,8 +26,8 @@
       git-log = "git log --oneline --graph --decorate";
     };
 
-    # -- makes the configuration work in login shells 
-    loginShellInit = ''
+    # -- makes the configuration work in login shells
+    loginExtra = ''
       source ~/.zshrc
     '';
 
@@ -112,7 +112,7 @@
         make-select-widget $name $base
         bindkey $key $name
       done
-      
+
 
       # -- char deletion
       bindkey '^H' backward-kill-word
