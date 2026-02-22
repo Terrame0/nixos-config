@@ -14,7 +14,7 @@
     iconTheme = {
       name = "Papirus-Dark";
       package = pkgs.papirus-icon-theme.override {
-        color = "black";
+        color = "brown";
       };
     };
   };
