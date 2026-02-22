@@ -1,6 +1,6 @@
-{pkgs, ...}: {
+{pkgs, ...}:{
   home.packages = with pkgs; [
-    papirus-icon-theme
+    # papirus-icon-theme
     gnome-themes-extra
   ];
 
@@ -10,12 +10,22 @@
     };
   };
 
-  xdg.configFile."gtk-3.0/settings.ini".text = ''
-    [Settings]
-    gtk-theme-name=Adwaita
-    gtk-icon-theme-name=Adwaita
-    gtk-application-prefer-dark-theme=true
-  '';
+  gtk = {
+    enable = true;
+    iconTheme = {
+      name = "Papirus-Dark";
+      package = pkgs.papirus-icon-theme.override {
+        color = "black";
+      };
+    };
+  };
+
+  # xdg.configFile."gtk-3.0/settings.ini".text = ''
+  #   [Settings]
+  #   gtk-theme-name=Adwaita
+  #   gtk-icon-theme-name=""
+  #   gtk-application-prefer-dark-theme=true
+  # '';
 
   home.sessionVariables = {
     XCURSOR_THEME = "Adwaita";
