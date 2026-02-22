@@ -1,7 +1,7 @@
 {pkgs, ...}: {
   home.packages = with pkgs; [
     papirus-icon-theme
-    # gnome-themes-extra
+    gnome-themes-extra
   ];
 
   dconf.settings = {
@@ -13,7 +13,7 @@
   xdg.configFile."gtk-3.0/settings.ini".text = ''
     [Settings]
     gtk-theme-name=Adwaita
-    gtk-icon-theme-name=Papirus
+    gtk-icon-theme-name=Adwaita
     gtk-application-prefer-dark-theme=true
   '';
 
