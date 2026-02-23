@@ -4,22 +4,16 @@
   ...
 }: let
   config-path = ./configurations;
-
   collect-files = base-path: rel: let
     dir = builtins.readDir (base-path + "/${rel}");
-
-    # -- compiles scss files to css
-    scss-compiler = {src-file}: let
-      name = builtins.basename src-file;
+    compile-scss = {src-file}: let
+      base = lib.basename src-file;
+      name = lib.replaceStrings [".scss"] [".css"] base;
     in
-      pkgs.runCommand
-      {buildInputs = with pkgs; [sassc];}
-      ''
-        basename="${name}"
-        sassc ${src-file} "${src-file}.css"
-      '';
+      pkgs.runCommand name {buildInputs = with pkgs; [sassc];} "sassc ${src-file} $out";
   in
-    lib.concatLists (lib.mapAttrsToList (
+    lib.concatLists (
+      lib.mapAttrsToList (
         name: type: let
           new-relative-path =
             if rel == ""
@@ -40,7 +34,8 @@
           then collect-files base-path new-relative-path
           else []
       )
-      dir);
+      dir
+    );
 in {
   xdg.configFile = lib.listToAttrs (collect-files config-path "");
 }

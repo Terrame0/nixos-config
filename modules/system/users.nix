@@ -3,7 +3,10 @@
   users.users.terrame = {
     isNormalUser = true;
     description = "Terrame";
-    extraGroups = ["networkmanager" "wheel"];
+    extraGroups = [
+      "networkmanager"
+      "wheel"
+    ];
     packages = [];
     shell = pkgs.zsh;
   };

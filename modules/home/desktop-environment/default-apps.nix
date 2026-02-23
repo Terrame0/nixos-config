@@ -28,9 +28,15 @@
       "audio/ogg" = ["mpv.desktop"];
 
       "application/pdf" = ["libreoffice-draw.desktop"];
-      "application/vnd.openxmlformats-officedocument.wordprocessingml.document" = ["libreoffice-writer.desktop"];
-      "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" = ["libreoffice-calc.desktop"];
-      "application/vnd.openxmlformats-officedocument.presentationml.presentation" = ["libreoffice-impress.desktop"];
+      "application/vnd.openxmlformats-officedocument.wordprocessingml.document" = [
+        "libreoffice-writer.desktop"
+      ];
+      "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" = [
+        "libreoffice-calc.desktop"
+      ];
+      "application/vnd.openxmlformats-officedocument.presentationml.presentation" = [
+        "libreoffice-impress.desktop"
+      ];
 
       "application/x-bittorrent" = ["qbittorrent.desktop"];
 
