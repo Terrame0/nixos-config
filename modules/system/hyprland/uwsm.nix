@@ -1,5 +1,4 @@
-{ lib, ... }:
-{
+{lib, ...}: {
   programs.uwsm = {
     enable = true;
     waylandCompositors = {

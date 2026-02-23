@@ -1,5 +1,4 @@
-{ ... }:
-{
+{...}: {
   services.zapret = {
     enable = true;
 

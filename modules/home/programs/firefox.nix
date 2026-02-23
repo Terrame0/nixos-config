@@ -1,5 +1,4 @@
-{ ... }:
-{
+{...}: {
   programs.firefox = {
     enable = true;
 
@@ -86,7 +85,7 @@
                 }
               ];
               icon = "https://nixos.org/favicon.ico";
-              definedAliases = [ "@np" ];
+              definedAliases = ["@np"];
             };
 
             "NixOS Options" = {
@@ -102,7 +101,7 @@
                 }
               ];
               icon = "https://nixos.org/favicon.ico";
-              definedAliases = [ "@no" ];
+              definedAliases = ["@no"];
             };
 
             "Nix Flakes" = {
@@ -118,7 +117,7 @@
                 }
               ];
               icon = "https://nixos.org/favicon.ico";
-              definedAliases = [ "@nf" ];
+              definedAliases = ["@nf"];
             };
 
             "Home Manager Options" = {
@@ -134,7 +133,7 @@
                 }
               ];
               icon = "https://nixos.org/favicon.ico";
-              definedAliases = [ "@hm" ];
+              definedAliases = ["@hm"];
             };
           };
         };

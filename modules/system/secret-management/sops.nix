@@ -1,5 +1,4 @@
-{ ... }:
-{
+{...}: {
   sops.age.keyFile = "/home/terrame/age/keys.txt";
   environment.sessionVariables = {
     SOPS_AGE_KEY_FILE = "/home/terrame/age/keys.txt";
