@@ -11,7 +11,7 @@
 
   gtk = {
     enable = true;
-    theme.name = "Adwaita";
+    theme.name = "Adwaita-dark";
     iconTheme = {
       name = "Papirus-Dark";
       package = pkgs.papirus-icon-theme.override {
