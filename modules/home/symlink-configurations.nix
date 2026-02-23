@@ -1,19 +1,23 @@
-{lib,pkgs,...}: let
+{
+  lib,
+  pkgs,
+  ...
+}: let
   config-path = ./configurations;
 
   collect-files = base-path: rel: let
     dir = builtins.readDir (base-path + "/${rel}");
-    
-  # -- compiles scss files to css
-  scss-compiler = {src-file}: let
-    name = builtins.basename src-file;
-  in
-    pkgs.runCommand
-    {buildInputs = with pkgs; [sassc];}
-    ''
-      basename="${name}"
-      sassc ${src-file} "${src-file}.css"
-    '';
+
+    # -- compiles scss files to css
+    scss-compiler = {src-file}: let
+      name = builtins.basename src-file;
+    in
+      pkgs.runCommand
+      {buildInputs = with pkgs; [sassc];}
+      ''
+        basename="${name}"
+        sassc ${src-file} "${src-file}.css"
+      '';
   in
     lib.concatLists (lib.mapAttrsToList (
         name: type: let
