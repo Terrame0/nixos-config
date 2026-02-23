@@ -1,4 +1,5 @@
-{...}: {
+{ ... }:
+{
   networking = {
     networkmanager.enable = true;
     # -- nix breaks if system proxy is enabled

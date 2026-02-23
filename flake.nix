@@ -21,46 +21,49 @@
     };
   };
 
-  outputs = {
-    nixpkgs,
-    home-manager,
-    nixos-update-script,
-    sops-nix,
-    nix4vscode,
-    ...
-  }: let
-    module-args = {
-      inherit nixos-update-script;
-      inherit nix4vscode;
+  outputs =
+    {
+      nixpkgs,
+      home-manager,
+      nixos-update-script,
+      sops-nix,
+      nix4vscode,
+      ...
+    }:
+    let
+      module-args = {
+        inherit nixos-update-script;
+        inherit nix4vscode;
+      };
+      username = "terrame";
+      hosts = [
+        "desktop"
+        "laptop"
+      ];
+      target-system = "x86_64-linux";
+      nixos-configuration-list = nixpkgs.lib.fold (acc: x: acc // x) { } (
+        nixpkgs.lib.forEach hosts (host: {
+          ${host} = nixpkgs.lib.nixosSystem {
+            system = target-system;
+            specialArgs = module-args;
+            modules = [
+              ./hosts/${host}/configuration.nix
+              ./hosts/${host}/hardware-configuration.nix
+              sops-nix.nixosModules.sops
+              home-manager.nixosModules.home-manager
+              {
+                home-manager.extraSpecialArgs = module-args;
+                home-manager.useGlobalPkgs = true;
+                home-manager.useUserPackages = true;
+                home-manager.backupFileExtension = "hm-backup";
+                home-manager.users.${username} = import ./home/${username}/home-configuration.nix;
+              }
+            ];
+          };
+        })
+      );
+    in
+    {
+      nixosConfigurations = nixos-configuration-list;
     };
-    username = "terrame";
-    hosts = [
-      "desktop"
-      "laptop"
-    ];
-    target-system = "x86_64-linux";
-    nixos-configuration-list = nixpkgs.lib.fold (acc: x: acc // x) {} (
-      nixpkgs.lib.forEach hosts (host: {
-        ${host} = nixpkgs.lib.nixosSystem {
-          system = target-system;
-          specialArgs = module-args;
-          modules = [
-            ./hosts/${host}/configuration.nix
-            ./hosts/${host}/hardware-configuration.nix
-            sops-nix.nixosModules.sops
-            home-manager.nixosModules.home-manager
-            {
-              home-manager.extraSpecialArgs = module-args;
-              home-manager.useGlobalPkgs = true;
-              home-manager.useUserPackages = true;
-              home-manager.backupFileExtension = "hm-backup";
-              home-manager.users.${username} = import ./home/${username}/home-configuration.nix;
-            }
-          ];
-        };
-      })
-    );
-  in {
-    nixosConfigurations = nixos-configuration-list;
-  };
 }

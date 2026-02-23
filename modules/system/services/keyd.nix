@@ -1,9 +1,10 @@
-{...}: {
+{ ... }:
+{
   # -- fix for touchpad toggle activating twice
   services.keyd = {
     enable = true;
     keyboards.default = {
-      ids = ["*"];
+      ids = [ "*" ];
       settings = {
         main = {
           # -- ignoring the ACPI toggle event
