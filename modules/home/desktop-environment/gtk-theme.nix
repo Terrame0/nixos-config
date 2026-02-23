@@ -1,4 +1,9 @@
-{pkgs, ...}: {
+{ pkgs, ... }:
+{
+  home.packages = with pkgs; [
+    gnome-themes-extra
+  ];
+
   dconf.settings = {
     "org/gnome/desktop/interface" = {
       color-scheme = "prefer-dark";
@@ -7,14 +12,12 @@
 
   gtk = {
     enable = true;
-    theme.name = "my-theme";
+    theme.name = "Adwaita";
     iconTheme = {
-      # name = "Papirus-Dark";
-      # package = pkgs.papirus-icon-theme.override {
-      #   color = "brown";
-      # };
-      name = "Adwaita";
-      package = pkgs.gnome-themes-extra;
+      name = "Papirus-Dark";
+      package = pkgs.papirus-icon-theme.override {
+        color = "brown";
+      };
     };
   };
 
