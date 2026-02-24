@@ -33,15 +33,13 @@ $background-clear: transparentize($background,0.7);
 // --- GLOBAL OVERRIDES ---
 
 * {
-    transition: ease-in-out 0.2s;
-    text-shadow: none;
     font-family: "JetBrainsMono Nerd Font", monospace;
     font-weight: bold;
-    //label{
-    //    text-shadow: none;
-    //    font-family: "JetBrainsMono Nerd Font", monospace;
-    //    font-weight: bold;
-    //}
+    font-size: 18px;
+    text-shadow: none;
+    background-color: transparent;
+    transition: ease-in-out 0.2s;
+    border: 0px;
 }
 window#waybar {
     background-color: $background-translucent;
@@ -52,19 +50,12 @@ window#waybar {
 
 .modules-left,
 .modules-center,
+
 .modules-right {
     background-color: transparent;
     border-radius: 10px;
     padding: 0px 3px;
 }
-
-.modules-left,
-.modules-right {
-    background-color: transparent;
-    border-radius: 10px;
-    font-size: 18px;
-}
-
 
 // --- WORKSPACE BUTTON STYLING ---
 
@@ -154,8 +145,8 @@ window#waybar {
 
 #tray {
     @extend %module-base;
-    margin: 6px 3px;
-    padding: 0px 6px;
+    margin: 6px;
+    padding: 0px 3px;
     background-color: $background-clear;
     @include style-module($light-gray);
     color: $foreground;
