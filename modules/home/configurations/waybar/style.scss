@@ -59,8 +59,8 @@ window#waybar {
 
 #workspaces {
     button {
-        margin: 5px;
-        padding: 0px 7px;
+        margin: 6px;
+        padding: 0px 6px;
         border-radius: 5px;
         background: transparent;
         @include glow-shadow(transparent);
@@ -81,13 +81,13 @@ window#waybar {
     button.active,
     button.empty.active {
         @include glow-shadow($green);
-        padding: 0px 14px;
+        padding: 0px 16px;
         background: $green;
     }
 
     button.urgent {
         @include glow-shadow($yellow);
-        padding: 0px 14px;
+        padding: 0px 16px;
         background: $yellow;
         label{
             color: $light-gray;
@@ -104,8 +104,8 @@ window#waybar {
 
 %module-base {
     @include style-module($foreground);
-    margin: 5px;
-    padding: 0 7px;
+    margin: 6px;
+    padding: 0 6px;
     border-radius: 5px;
     background-color:$background-translucent;
 }
@@ -143,8 +143,8 @@ window#waybar {
 
 #tray {
     @extend %module-base;
-    margin: 5px;
-    padding: 0px 7px;
+    margin: 6px;
+    padding: 0px 6px;
     background-color: $background-semi-transparent;
     @include style-module($light-gray);
     color: $foreground;
