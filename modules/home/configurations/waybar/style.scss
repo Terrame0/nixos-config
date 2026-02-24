@@ -34,12 +34,14 @@ $background-clear: transparentize($background,0.7);
 
 * {
     transition: ease-in-out 0.2s;
-    label{
-        text-shadow: none;
-        font-family: "JetBrainsMono Nerd Font", monospace;
-        font-weight: bold;
-        font-size: 18px;
-    }
+    text-shadow: none;
+    font-family: "JetBrainsMono Nerd Font", monospace;
+    font-weight: bold;
+    //label{
+    //    text-shadow: none;
+    //    font-family: "JetBrainsMono Nerd Font", monospace;
+    //    font-weight: bold;
+    //}
 }
 window#waybar {
     background-color: $background-translucent;
@@ -55,6 +57,14 @@ window#waybar {
     border-radius: 10px;
     padding: 0px 3px;
 }
+
+.modules-left,
+.modules-right {
+    background-color: transparent;
+    border-radius: 10px;
+    font-size: 18px;
+}
+
 
 // --- WORKSPACE BUTTON STYLING ---
 
