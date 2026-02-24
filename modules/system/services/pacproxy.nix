@@ -1,12 +1,14 @@
-{pkgs, ...}: let
+{ pkgs, ... }:
+let
   pac-file = builtins.path {
     path = ./configurations/pac.js;
   };
-in {
+in
+{
   systemd.services.pacproxy = {
     description = "pacproxy (system-wide)";
-    after = ["network.target"];
-    wantedBy = ["multi-user.target"];
+    after = [ "network.target" ];
+    wantedBy = [ "multi-user.target" ];
 
     serviceConfig = {
       ExecStart = "${pkgs.pacproxy}/bin/pacproxy -c ${pac-file} -l 127.0.0.1:8080";

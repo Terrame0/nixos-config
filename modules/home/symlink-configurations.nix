@@ -2,46 +2,84 @@
   lib,
   pkgs,
   ...
-}: let
-  config-path = ./configurations;
-  collect-files = base-path: rel: let
-    dir = builtins.readDir (base-path + "/${rel}");
-    compile-scss = {src-file}: let
-      base = lib.basename src-file;
-      name = lib.replaceStrings [".scss"] [".css"] base;
+}:
+let
+  # -- compiles scss files into css
+  compile-scss =
+    src-file-path:
+    let
+      out-file-name = lib.replaceStrings [ ".scss" ] [ ".css" ] (lib.basename src-file-path);
+      store-path = pkgs.runCommand out-file-name {
+        buildInputs = with pkgs; [ sassc ];
+      } "sassc ${src-file-path} $out";
     in
-      pkgs.runCommand name {buildInputs = with pkgs; [sassc];} "sassc ${src-file} $out";
-  in
+    {
+      inherit store-path;
+      file-name = out-file-name;
+    };
+
+  # -- path to the folder in the nix configuration
+  # that is being symlinked against
+  nix-config-path = ./configurations;
+
+  # -- a recursive function that walks the directory
+  # and mirrors the file structure of the
+  # nix-config-path directory into the ~/.config/ directory
+  # (by creating symlinks)
+  collect-files =
+    base-path: prev-relative-path:
+    let
+      dir = builtins.readDir (base-path + "/${prev-relative-path}");
+    in
+    # -- creates a big list from all the return values of the recursive function
     lib.concatLists (
+      # -- collapses the {dir=type;...} attrset into a list of files [file-path ...] that are symlinked
       lib.mapAttrsToList (
-        name: type: let
-          file-or-dir-path =
-            if rel == ""
-            then name
-            else "${rel}/${name}";
-          file-path = file-or-dir-path; # -- just for clarity --
-          dir-path = file-or-dir-path; # -----------------------
+        current-path: path-type:
+        let
+          relative-path = lib.concatStringsSep "/" [
+            prev-relative-path
+            current-path
+          ];
         in
-          if type == "regular"
-          then [
+        # -- if the path points to a file, we add it to the xdg.configFile
+        if path-type == "regular" then
+          [
             (
               let
-                a = 10;
-              in {
-                name = file-path;
+                file-data =
+                  if lib.hasSuffix ".scss" (lib.basename relative-path) then
+                    let
+                      compiled-css = compile-scss (base-path + "/${relative-path}");
+                    in
+                    {
+                      config-path = lib.concatStringsSep "/" [
+                        prev-relative-path
+                        compiled-css.file-name
+                      ];
+                      source-path = compiled-css.store-path;
+                    }
+                  else
+                    {
+                      config-path = relative-path;
+                      source-path = base-path + "/${relative-path}";
+                    };
+              in
+              {
+                name = file-data.config-path;
                 value = {
-                  source = base-path + "/${file-path}";
-                  recursive = false;
+                  source = file-data.source-path;
                 };
               }
             )
           ]
-          else if type == "directory"
-          then collect-files base-path dir-path
-          else []
-      )
-      dir
+        else if path-type == "directory" then
+          collect-files base-path relative-path
+        else
+          [ ]
+      ) dir
     );
-in {
-  xdg.configFile = lib.listToAttrs (collect-files config-path "");
+in
+{
+  xdg.configFile = lib.listToAttrs (collect-files nix-config-path "");
 }

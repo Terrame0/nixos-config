@@ -1,4 +1,5 @@
-{...}: let
+{ ... }:
+let
   colors = {
     foreground = "#c5c8c6";
     background = "#1d1f21";
@@ -13,7 +14,8 @@
     blue = "#7aa6da";
     purple = "#c397d8";
   };
-in {
+in
+{
   programs.alacritty = {
     enable = true;
     settings = {

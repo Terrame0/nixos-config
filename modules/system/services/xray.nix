@@ -1,4 +1,5 @@
-{config, ...}: {
+{ config, ... }:
+{
   sops.templates."xray-config".content = builtins.toJSON {
     log.loglevel = "warning";
     inbounds = [
@@ -68,13 +69,13 @@
       rules = [
         {
           type = "field";
-          ip = ["geoip:private"];
+          ip = [ "geoip:private" ];
           outboundTag = "direct";
         }
         {
           type = "field";
           outboundTag = "direct";
-          domain = ["geosite:private"];
+          domain = [ "geosite:private" ];
         }
         {
           type = "field";

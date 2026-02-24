@@ -2,8 +2,8 @@
  * color palette
  * ======================================================= */
 
-@define-color bgs   #1d1f21;
 @define-color bg    rgba(29,31,33,0.7);
+@define-color bgs   #1d1f21;
 @define-color fg    #c5c8c6;
 @define-color wnd   #4d5057;
 @define-color sel   #373b41;
@@ -14,6 +14,7 @@
 @define-color aqu   #70c0b1;
 @define-color blu   #7aa6da;
 @define-color mag   #c397d8;
+
 
 /* =========================================================
  * global defaults
@@ -31,7 +32,99 @@
 window#waybar {
     background-color: @bg;
     color: @fg;
-    border-radius: 10px;1px @mag, 0 0 2px @mag;
+    border-radius: 10px;
+}
+
+/* =========================================================
+ * module containers
+ * ========================================================= */
+
+.modules-left label,
+.modules-center label,
+.modules-right label {
+    background-color: transparent;
+    border-radius: 10px;
+    padding: 0 0px;
+    transition: ease-in-out 0.2s;
+}
+
+.modules-center label{
+    font-size: 22px;
+}
+
+.modules-left label,
+.modules-right label {
+    font-size: 18px;
+}
+
+/* =========================================================
+ * workspaces
+ * ========================================================= */
+
+#workspaces button {
+    box-shadow: 0 0 2px transparent, 0 0 1px transparent, 0 0 2px transparent;
+    margin: 5px;
+    padding: 0 7px;
+
+    background: transparent;
+    border: 0;
+    border-radius: 5px;
+
+    color: @fg;
+    text-shadow: none;
+
+    transition: ease-in-out 0.1s;
+}
+
+/* active workspace */
+#workspaces button.active,
+#workspaces button.empty.active {
+    padding: 0 14px;
+    background-color: @grn;
+    box-shadow: 0 0 2px @grn, 0 0 1px @grn, 0 0 2px @grn;
+    color:@bg;
+}
+
+/* empty workspace */
+#workspaces button.empty {
+    color: @wnd;
+}
+
+/* urgent workspace */
+#workspaces button.urgent {
+    background-color: @ylw;
+    box-shadow: 0 0 2px @ylw, 0 0 1px @ylw, 0 0 2px @ylw;
+    color: @bg;
+}
+
+/* =========================================================
+ * common module styling
+ * ========================================================= */
+
+#clock,
+#battery,
+#cpu,
+#memory,
+#disk,
+#network,
+#tray,
+#window,
+#custom-clock
+{
+    margin: 5px;
+    padding: 0 7px;
+    border-radius: 5px;
+    background-color:@bg;
+}
+
+/* =========================================================
+ * individual modules
+ * ========================================================= */
+
+#custom-clock {
+    color:@mag;
+    border:2px solid @mag;    
+    box-shadow:0 0 2px @mag, 0 0 1px @mag, 0 0 2px @mag;
 }
 
 #battery.good {

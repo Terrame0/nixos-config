@@ -1,4 +1,5 @@
-{pkgs, ...}: {
+{ pkgs, ... }:
+{
   # -- nix-ld (run unpatched binaries)
   programs.nix-ld = {
     enable = true;

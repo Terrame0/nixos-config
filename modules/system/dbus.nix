@@ -1,3 +1,4 @@
-{...}: {
+{ ... }:
+{
   services.dbus.enable = true;
 }

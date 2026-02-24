@@ -1,4 +1,5 @@
-{config, ...}: {
+{ config, ... }:
+{
   sops.templates."github-ssh-key" = {
     content = "${config.sops.placeholder."ssh-keys/github"}";
     owner = "terrame";

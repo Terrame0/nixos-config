@@ -1,4 +1,5 @@
-{config, ...}: {
+{ config, ... }:
+{
   sops.templates."authorized-keys" = {
     content = "${config.sops.placeholder."ssh/authorized-keys"}";
     owner = "terrame";
