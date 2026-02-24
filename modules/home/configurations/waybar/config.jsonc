@@ -59,7 +59,7 @@
     },
 
     "memory": {
-        "format": " {used:0.1f}G/{total:0.0f}G",
+        "format": " {used:0.1f}G/{total:0.1f}G",
         "interval":1,
         "tooltip": false
     },
@@ -85,8 +85,8 @@
     },
 
     "pulseaudio": {
-	    "format": "{volume}%·{icon} === {format_source}",
-	    "format-muted": "0%·  === {format_source}",
+	    "format": "{volume}%·{icon} | {format_source}",
+	    "format-muted": "0%·  | {format_source}",
 	    "format-icons": {
 	    	"default": [" "," "]
 	    },
