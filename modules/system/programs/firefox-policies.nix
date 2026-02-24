@@ -1,5 +1,4 @@
-{ ... }:
-let
+{...}: let
   lock-false = {
     Value = false;
     Status = "locked";
@@ -12,8 +11,7 @@ let
     Value = true;
     Status = "locked";
   };
-in
-{
+in {
   programs.firefox = {
     enable = true;
     policies = {

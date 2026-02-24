@@ -1,5 +1,4 @@
-{ pkgs, ... }:
-{
+{pkgs, ...}: {
   # -- zsh prompt theme
   programs.starship = {
     enable = true;

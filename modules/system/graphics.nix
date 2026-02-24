@@ -1,5 +1,4 @@
-{ ... }:
-{
+{...}: {
   # -- opengl configuration
   hardware.graphics = {
     enable = true;
@@ -7,7 +6,7 @@
   };
 
   # -- nvidia configuration
-  services.xserver.videoDrivers = [ "nvidia" ];
+  services.xserver.videoDrivers = ["nvidia"];
   hardware.nvidia = {
     modesetting.enable = true;
     powerManagement.enable = true;
