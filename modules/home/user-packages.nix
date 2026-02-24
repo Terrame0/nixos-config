@@ -16,6 +16,7 @@
     alejandra
     xarchiver
     neofetch
+    sassc
     tree
     jq
 
