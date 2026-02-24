@@ -1,4 +1,3 @@
-// -*- mode: jsonc -*-
 {
     "layer": "bottom", 
     "position": "top", 
@@ -8,15 +7,18 @@
     "modules-left": [
         "network",
         "custom/clock",
-        "tray"
+        "pulseaudio"
     ],
+
     "modules-center": [
         "hyprland/workspaces"
     ],
     
     "modules-right": [
+        "tray",
         "cpu",
         "memory",
+        "disk",
         "battery"
     ],
     
@@ -27,7 +29,7 @@
     "margin-right" : 10,
 
     "hyprland/workspaces": {
-        "disable-scroll": true,
+        "disable-scroll": false,
         "all-outputs": true,
         "warp-on-scroll": false,
         "format": "{name}",
@@ -36,45 +38,68 @@
         },
         "tooltip": false
     },
+
     "tray": {
         "icon-size": 20,
-        "spacing": 10,
-        "icons": {
-          "blueman": "bluetooth",
-          "TelegramDesktop": "$HOME/.local/share/icons/hicolor/16x16/apps/telegram.png"
-        },
+        "spacing": 7,
         "tooltip": false
     },
+
     "custom/clock": {
-      "exec": "bash ~/.config/waybar/clock.sh",
-      "interval": 1,
-      "format": "{}"
+        "exec": "bash ~/.config/waybar/clock.sh",
+        "interval": 1,
+        "format": "{}",
+        "tooltip": false
     },
+
     "cpu": {
         "format": " {usage}%",
         "interval":1,
         "tooltip": false
     },
+
     "memory": {
-        "format": " {avail}GB",
+        "format": " {avail:0.1f}Gb/{total:0.0f}Gb",
         "interval":1,
         "tooltip": false
     },
+
     "battery": {
         "states": {
             "good": 100,
             "warning": 70,
             "critical": 20
         },
-        "interval":1,
+        "interval":5,
         "format": "{icon}{capacity}%",
         "format-charging": " {icon}{capacity}%",
         "format-icons": [" ", " ", " ", " ", " "],
         "tooltip": false
     },
+
+    "disk": {
+	    "interval": 30,
+	    "format": " {specific_free:1.0f}Gb/{specific_total:1.0f}Gb",
+	    "unit": "GB",
+        "tooltip": false
+    },
+
+    "pulseaudio": {
+	    "format": "{volume}%·{icon} === {format_source}",
+	    "format-muted": "0%·  === {format_source}",
+	    "format-icons": {
+	    	"default": [" "," "]
+	    },
+        "format-source": " ",
+        "format-source-muted": " ",
+	    "scroll-step": 10,
+        "tooltip": false,
+        "on-click":"wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"
+    },
+
     "network": {
-        "format": " Online",
-        "format-disconnected": " disconnected",
+        "format": " |Online",
+        "format-disconnected": " |Disconnected",
         "tooltip": false
     }
 }

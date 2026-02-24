@@ -1,4 +1,12 @@
 sec=$(date +%S)
-fmt="%H %M === %d %b"
-(( 10#$sec % 2 == 0 )) && fmt="%H:%M === %d %b"
-date +"$fmt"
+day=$(date +"%d")
+mon=$(date +"%b")
+mon="${mon^}"
+
+if (( 10#$sec % 2 == 0 )); then
+    hm=$(date +"%H:%M")
+else
+    hm=$(date +"%H %M")
+fi
+
+echo "$hm === $day·$mon"
