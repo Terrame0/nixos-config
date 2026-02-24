@@ -144,7 +144,7 @@ window#waybar {
 
 #tray {
     @extend %module-base;
-    margin: 6px;
+    margin: 6px 3px;
     padding: 0px 6px;
     background-color: $background-clear;
     @include style-module($light-gray);
