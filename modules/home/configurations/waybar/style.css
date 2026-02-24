@@ -39,13 +39,13 @@ window#waybar {
  * module containers
  * ========================================================= */
 
-.modules-left label,
-.modules-center label,
-.modules-right label {
+.modules-left,
+.modules-center,
+.modules-right {
     background-color: transparent;
     border-radius: 10px;
     padding: 0 0px;
-    transition: ease-in-out 0.1s;
+    transition: ease-in-out 0.2s;
 }
 
 .modules-center label{
@@ -62,17 +62,18 @@ window#waybar {
  * ========================================================= */
 
 #workspaces button {
-    box-shadow: 0 0 2px transparent, 0 0 1px transparent, 0 0 2px transparent;
     margin: 5px;
     padding: 0 7px;
 
     background: transparent;
+
     border: 0;
     border-radius: 5px;
 
     color: @fg;
+    box-shadow: 0 0 2px transparent, 0 0 1px transparent, 0 0 2px transparent;
     text-shadow: none;
-
+    
     transition: ease-in-out 0.1s;
 }
 
