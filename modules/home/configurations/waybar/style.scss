@@ -14,7 +14,7 @@ $blue:          #7aa6da;
 $magenta:       #c397d8;
 
 $background-translucent: transparentize($background,0.3);
-$background-semi-transparent: transparentize($background,0.7);
+$background-clear: transparentize($background,0.7);
 
 // --- MIXINS ---
 
@@ -41,7 +41,6 @@ $background-semi-transparent: transparentize($background,0.7);
         font-size: 18px;
     }
 }
-
 window#waybar {
     background-color: $background-translucent;
     border-radius: 10px;
@@ -53,13 +52,15 @@ window#waybar {
 .modules-center,
 .modules-right {
     background-color: transparent;
+    border-radius: 10px;
+    padding: 0px 3px;
 }
 
 // --- WORKSPACE BUTTON STYLING ---
 
 #workspaces {
     button {
-        margin: 6px;
+        margin: 6px 3px;
         padding: 0px 6px;
         border-radius: 5px;
         background: transparent;
@@ -104,7 +105,7 @@ window#waybar {
 
 %module-base {
     @include style-module($foreground);
-    margin: 6px;
+    margin: 6px 3px;
     padding: 0 6px;
     border-radius: 5px;
     background-color:$background-translucent;
@@ -145,7 +146,7 @@ window#waybar {
     @extend %module-base;
     margin: 6px;
     padding: 0px 6px;
-    background-color: $background-semi-transparent;
+    background-color: $background-clear;
     @include style-module($light-gray);
     color: $foreground;
 }
