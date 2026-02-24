@@ -1,4 +1,3 @@
-{ ... }:
-{
+{...}: {
   services.getty.autologinUser = "terrame";
 }
