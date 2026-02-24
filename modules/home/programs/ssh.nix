@@ -2,7 +2,8 @@
   personal-ssh-key-path,
   github-ssh-key-path,
   ...
-}: {
+}:
+{
   programs.ssh = {
     enable = true;
     # -- do not auto-inject defaults in the future

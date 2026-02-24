@@ -6,7 +6,8 @@
   lib,
   modulesPath,
   ...
-}: {
+}:
+{
   imports = [
     (modulesPath + "/installer/scan/not-detected.nix")
   ];
@@ -19,9 +20,9 @@
     "usbhid"
     "sd_mod"
   ];
-  boot.initrd.kernelModules = [];
-  boot.kernelModules = [];
-  boot.extraModulePackages = [];
+  boot.initrd.kernelModules = [ ];
+  boot.kernelModules = [ ];
+  boot.extraModulePackages = [ ];
 
   fileSystems."/" = {
     device = "/dev/disk/by-uuid/77363a67-5593-4f32-a462-71b3510594a5";
@@ -38,7 +39,7 @@
   };
 
   swapDevices = [
-    {device = "/dev/disk/by-uuid/8c70ce0f-28e9-4b86-824e-0aaf10f4f01c";}
+    { device = "/dev/disk/by-uuid/8c70ce0f-28e9-4b86-824e-0aaf10f4f01c"; }
   ];
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
