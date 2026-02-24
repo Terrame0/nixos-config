@@ -86,7 +86,7 @@
 
     "pulseaudio": {
 	    "format": "{volume}%·{icon} | {format_source}",
-	    "format-muted": "0%·  | {format_source}",
+	    "format-muted": "0%· |{format_source}",
 	    "format-icons": {
 	    	"default": [" "," "]
 	    },
