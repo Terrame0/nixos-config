@@ -9,7 +9,10 @@
         protocol = "mixed";
         sniffing = {
           enabled = true;
-          destOverride = ["http" "tls"];
+          destOverride = [
+            "http"
+            "tls"
+          ];
         };
         settings = {
           auth = "noauth";

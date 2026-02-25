@@ -14,18 +14,27 @@
     brightnessctl
     wireplumber
     alejandra
+    xarchiver
     neofetch
+    sassc
     tree
     jq
 
-    # -- windows compatibility layer
-    wineWowPackages.full
+    # -- screenshots
+    grim
+    slurp
+
+    # -- shell clipboard broker
+    wl-clipboard
+
+    # -- games
+    lutris
+    wine-wayland
     winetricks
-    dxvk
+    mesa-demos
+    pcsx2
 
     # -- basic desktop utilities
-    nemo
-    celluloid
     eog
     gedit
 
@@ -39,6 +48,7 @@
     prismlauncher
     libreoffice-fresh
     qbittorrent
+    transmission_4-gtk
     blender
     gimp
   ];

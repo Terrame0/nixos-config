@@ -5,8 +5,7 @@
 
   xdg.enable = true;
 
-  imports =
-    lib.filter
-    (path: lib.hasSuffix ".nix" (toString path))
-    (lib.filesystem.listFilesRecursive ../../modules/home);
+  imports = lib.filter (path: lib.hasSuffix ".nix" (toString path)) (
+    lib.filesystem.listFilesRecursive ../../modules/home
+  );
 }

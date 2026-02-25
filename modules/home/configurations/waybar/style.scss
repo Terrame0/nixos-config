@@ -1,0 +1,193 @@
+
+// --- COLOR DEFINITIONS ---
+
+$background:    #1d1f21;
+$foreground:    #c5c8c6;
+$selection:     #373b41;
+$light-gray:    #4d5057;
+$red:           #d54e53;
+$orange:        #e78c45;
+$yellow:        #e7c547;
+$green:         #b9ca4a;
+$aqua:          #70c0b1;
+$blue:          #7aa6da;
+$magenta:       #c397d8;
+
+$background-translucent: transparentize($background,0.3);
+$background-clear: transparentize($background,0.7);
+
+// --- MIXINS ---
+
+@mixin glow-shadow($color: $foreground){
+    box-shadow:
+    0px 0px 2px $color, 
+    0px 0px 2px $color,
+    0px 0px 1px $color;
+}
+
+@mixin glow-outline($color: $foreground){
+    @include glow-shadow($color);
+    border: 2px solid $color;
+}
+
+// --- GLOBAL OVERRIDES ---
+
+* {
+    font-family: "JetBrainsMono Nerd Font", monospace;
+    font-weight: bold;
+    font-size: 18px;
+    text-shadow: none;
+    background-color: transparent;
+    transition: ease-in-out 0.2s;
+    border: 0px;
+}
+window#waybar {
+    background-color: $background-translucent;
+    border-radius: 10px;
+}
+
+// --- MODULE CONTAINER STYLING ---
+
+.modules-left,
+.modules-center,
+
+.modules-right {
+    background-color: transparent;
+    border-radius: 10px;
+    padding: 0px 3px;
+}
+
+// --- WORKSPACE BUTTON STYLING ---
+
+#workspaces {
+    button {
+        margin: 6px 3px;
+        padding: 0px 6px;
+        border-radius: 5px;
+        background: transparent;
+        @include glow-shadow(transparent);
+        label{
+            color: $foreground;
+            font-size: 22px;
+        }
+    }
+
+    button.empty,
+    button.active,
+    button.empty.active {
+        label{
+            color: $light-gray;
+        }
+    }
+
+    button.active,
+    button.empty.active {
+        @include glow-shadow($green);
+        padding: 0px 16px;
+        background: $green;
+    }
+
+    button.urgent {
+        @include glow-shadow($yellow);
+        padding: 0px 16px;
+        background: $yellow;
+        label{
+            color: $light-gray;
+        }
+    }
+}
+
+// --- MODULE STYLING ---
+
+@mixin style-module($color){
+    @include glow-outline($color);
+    color: $color;
+}
+
+%module-base {
+    @include style-module($foreground);
+    margin: 6px 3px;
+    padding: 0 6px;
+    border-radius: 5px;
+    background-color:$background-translucent;
+}
+
+// --- LEFT ---
+
+// -- time and date information
+
+#custom-clock {
+    @extend %module-base;
+    @include style-module($blue);
+}
+
+// -- network info
+
+#network {
+    @extend %module-base;
+    @include style-module($green);
+}
+
+#network.disconnected {
+    @include style-module($light-gray);
+}
+
+// -- sound
+
+#pulseaudio {
+    @extend %module-base;
+    @include style-module($magenta);
+}
+
+// --- RIGHT ---
+
+// -- app tray
+
+#tray {
+    @extend %module-base;
+    margin: 6px;
+    padding: 0px 3px;
+    background-color: $background-clear;
+    @include style-module($light-gray);
+    color: $foreground;
+}
+
+// -- cpu load
+
+#cpu {
+    @extend %module-base;
+    @include style-module($aqua);
+}
+
+// -- available ram
+
+#memory {
+    @extend %module-base;
+    @include style-module($orange);
+}
+
+// -- available storage space
+
+#disk {
+    @extend %module-base;
+    @include style-module($yellow);
+}
+
+// -- battery charge percentage
+
+#battery {
+    @extend %module-base;
+}
+
+#battery.good,
+#battery.charging {
+    @include style-module($green);
+}
+
+#battery.warning {
+    @include style-module($yellow);
+}
+
+#battery.critical {
+    @include style-module($green);
+}

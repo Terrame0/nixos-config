@@ -4,9 +4,5 @@
     hyprpaper
     mako
     wofi
-    nautilus
-    grim
-    slurp
-    wl-clipboard
   ];
 }

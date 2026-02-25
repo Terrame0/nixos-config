@@ -81,14 +81,23 @@
       speex
 
       # -- SDL
-      SDL
+
+      #pkgsi686Linux.sdl3
+      #pkgsi686Linux.sdl2-compat
+      #sdl3
+      #sdl2-compat
+      #sdl3-image
+      #sdl3-ttf
+
       SDL2
-      SDL_image
-      SDL_ttf
-      SDL_mixer
       SDL2_image
       SDL2_ttf
       SDL2_mixer
+
+      SDL
+      SDL_image
+      SDL_ttf
+      SDL_mixer
 
       # -- system / runtime
       coreutils
