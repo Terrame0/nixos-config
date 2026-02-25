@@ -1,4 +1,4 @@
-{...}: let
+{pkgs,...}: let
   lock-false = {
     Value = false;
     Status = "locked";
@@ -14,6 +14,10 @@
 in {
   programs.firefox = {
     enable = true;
+    nativeMessagingHosts = with pkgs; [
+      ff2mpv-rust
+    ];
+
     policies = {
       # -- app-level policies
       DisableTelemetry = true;

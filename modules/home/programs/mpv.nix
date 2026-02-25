@@ -1,8 +1,4 @@
 {pkgs, ...}: {
-  home.packages = with pkgs; [
-    ff2mpv
-  ];
-
   programs.mpv = {
     enable = true;
     scripts = with pkgs.mpvScripts; [
