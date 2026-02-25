@@ -11,8 +11,6 @@
       mpv-playlistmanager
       sponsorblock
 
-      autosave-state
-      file-browser
       mpris
       memo
       mpv-image-viewer
