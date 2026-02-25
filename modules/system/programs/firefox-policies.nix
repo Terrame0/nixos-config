@@ -1,4 +1,4 @@
-{pkgs,...}: let
+{pkgs, ...}: let
   lock-false = {
     Value = false;
     Status = "locked";
@@ -14,7 +14,7 @@
 in {
   programs.firefox = {
     enable = true;
-    nativeMessagingHosts = with pkgs; [
+    nativeMessagingHosts.packages = with pkgs; [
       ff2mpv-rust
     ];
 
