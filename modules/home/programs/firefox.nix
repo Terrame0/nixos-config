@@ -1,6 +1,10 @@
-{...}: {
+{pkgs,...}: {
   programs.firefox = {
     enable = true;
+    
+    nativeMessagingHosts = with pkgs; [
+      ff2mpv-rust
+    ];
 
     profiles = {
       default = {
