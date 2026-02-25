@@ -53,13 +53,13 @@
     },
 
     "cpu": {
-        "format": " {usage}%",
+        "format": "{usage}%| ",
         "interval":1,
         "tooltip": false
     },
 
     "memory": {
-        "format": " {used:0.1f}G/{total:0.1f}G",
+        "format": "{used:0.1f}G/{total:0.1f}G| ",
         "interval":1,
         "tooltip": false
     },
@@ -79,7 +79,7 @@
 
     "disk": {
 	    "interval": 30,
-	    "format": " {specific_free:1.0f}G/{specific_total:1.0f}G",
+	    "format": "{specific_free:1.0f}G/{specific_total:1.0f}G| ",
 	    "unit": "GB",
         "tooltip": false
     },
@@ -98,8 +98,8 @@
     },
 
     "network": {
-        "format": " |Online",
-        "format-disconnected": " |Disconnected",
+        "format": "Online| ",
+        "format-disconnected": "Disconnected| ",
         "tooltip": false
     }
 }

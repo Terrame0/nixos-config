@@ -5,10 +5,8 @@
       uosc
       thumbfast
       webtorrent-mpv-hook
-
       mpv-playlistmanager
       mpris
-
       evafast
     ];
 
