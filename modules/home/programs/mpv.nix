@@ -13,9 +13,15 @@
 
       mpris
       memo
-      mpv-image-viewer
+
+      mpv-image-viewer.image-positioning
+      mpv-image-viewer.status-line
+
       evafast
-      eisa01
+
+      eisa01.undoredo
+      eisa01.smartskip
+      eisa01.simplehistory
     ];
   };
 }
