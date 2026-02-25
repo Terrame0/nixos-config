@@ -1,4 +1,8 @@
 {pkgs, ...}: {
+  home.packages = with pkgs; [
+    ff2mpv
+  ];
+
   programs.mpv = {
     enable = true;
     scripts = with pkgs.mpvScripts; [
@@ -9,17 +13,12 @@
       webtorrent-mpv-hook
 
       mpv-playlistmanager
-
+      mpris
       sponsorblock
 
-      mpris
-      #memo
-
       evafast
-
-      #eisa01.undoredo
-      #eisa01.smartskip
-      #eisa01.simplehistory
+      eisa01.undoredo
+      eisa01.smartskip
     ];
   };
 }
