@@ -1,16 +1,25 @@
-{pkgs,...}: {
+{pkgs, ...}: {
   programs.mpv = {
     enable = true;
-    scripts = with pkgs.mpvScripts; [ 
+    scripts = with pkgs.mpvScripts; [
       uosc
-      thumbfast 
+      thumbfast
       youtube-upnext
+      youtube-chat
       webtorrent-mpv-hook
-      command_palette
       playlistmanager
       autosave-state
       sponsorblock
       file-browser
+      mpris
+      memo
+
+      mpv-image-viewer
+
+      evafast
+
+      eisa01
+
     ];
   };
 }
