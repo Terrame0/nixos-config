@@ -135,7 +135,7 @@
         # -- fonts and cursor
         # ============================================================
 
-        "editor.fontFamily" = "JetBrainsMono Nerd Font";
+        "editor.fontFamily" = "JetBrainsMono NFP";
         "editor.fontLigatures" = true;
         "editor.cursorStyle" = "line";
         "editor.cursorBlinking" = "solid";
