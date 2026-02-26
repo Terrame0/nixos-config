@@ -1,4 +1,4 @@
-{...}: let
+{lib,...}: let
   colors = {
     foreground = "#c5c8c6";
     background = "#1d1f21";
@@ -52,7 +52,7 @@ in {
         };
 
         normal = {
-          black = colors.background;
+          black = lib.palette.red;
           red = colors.red;
           green = colors.green;
           yellow = colors.yellow;
