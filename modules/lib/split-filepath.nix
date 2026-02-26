@@ -3,7 +3,7 @@
   config-add,
   ...
 }:
-config-add "helpers" {
+config-add "fns" {
   split-filepath = path: let
     path-str = lib.toString path;
     split-path = lib.splitString "/" path-str;
