@@ -1,19 +1,4 @@
-{config, ...}: let
-  colors = {
-    foreground = "#c5c8c6";
-    background = "#1d1f21";
-    selection = "#373b41";
-    line = "#282a2e";
-    comment = "#969896";
-    red = "#d54e53";
-    orange = "#e78c45";
-    yellow = "#e7c547";
-    green = "#b9ca4a";
-    aqua = "#70c0b1";
-    blue = "#7aa6da";
-    purple = "#c397d8";
-  };
-in {
+{config, ...}: {
   programs.alacritty = {
     enable = true;
     settings = {
@@ -21,56 +6,56 @@ in {
         transparent_background_colors = false;
 
         primary = {
-          foreground = colors.foreground;
-          background = colors.background;
+          foreground = config.palette.foreground;
+          background = config.palette.background;
         };
 
         search = {
           matches = {
-            foreground = colors.background;
-            background = colors.yellow;
+            foreground = config.palette.background;
+            background = config.palette.yellow;
           };
           focused_match = {
-            foreground = colors.background;
-            background = colors.green;
+            foreground = config.palette.background;
+            background = config.palette.green;
           };
         };
 
         line_indicator = {
           foreground = "None";
-          background = colors.selection;
+          background = config.palette.selection;
         };
 
         footer_bar = {
-          foreground = colors.blue;
-          background = colors.selection;
+          foreground = config.palette.blue;
+          background = config.palette.selection;
         };
 
         selection = {
           text = "CellForeground";
-          background = colors.selection;
+          background = config.palette.selection;
         };
 
         normal = {
-          black = colors.background;
-          red = colors.red;
-          green = colors.green;
-          yellow = colors.yellow;
-          blue = colors.blue;
-          magenta = colors.purple;
-          cyan = colors.aqua;
-          white = colors.foreground;
+          black = config.palette.background;
+          red = config.palette.red;
+          green = config.palette.green;
+          yellow = config.palette.yellow;
+          blue = config.palette.blue;
+          magenta = config.palette.purple;
+          cyan = config.palette.aqua;
+          white = config.palette.foreground;
         };
 
         bright = {
-          black = colors.comment;
-          red = colors.red;
-          green = colors.green;
-          yellow = colors.yellow;
-          blue = colors.blue;
-          magenta = colors.purple;
-          cyan = colors.aqua;
-          white = colors.foreground;
+          black = config.palette.comment;
+          red = config.palette.red;
+          green = config.palette.green;
+          yellow = config.palette.yellow;
+          blue = config.palette.blue;
+          magenta = config.palette.purple;
+          cyan = config.palette.aqua;
+          white = config.palette.foreground;
         };
       };
 
@@ -86,28 +71,28 @@ in {
         blur = true;
       };
 
-      #keyboard.bindings = [
-      #  {
-      #    key = "C";
-      #    mods = "Control|Shift";
-      #    action = "Copy";
-      #  }
-      #  {
-      #    key = "V";
-      #    mods = "Control|Shift";
-      #    action = "Paste";
-      #  }
-      #  {
-      #    key = "С";
-      #    mods = "Control|Shift";
-      #    action = "Copy";
-      #  }
-      #  {
-      #    key = "М";
-      #    mods = "Control|Shift";
-      #    action = "Paste";
-      #  }
-      #];
+      keyboard.bindings = [
+        {
+          key = "C";
+          mods = "Control";
+          action = "Copy";
+        }
+        {
+          key = "V";
+          mods = "Control";
+          action = "Paste";
+        }
+        {
+          key = "С";
+          mods = "Control";
+          action = "Copy";
+        }
+        {
+          key = "М";
+          mods = "Control";
+          action = "Paste";
+        }
+      ];
 
       font = {
         normal = {
