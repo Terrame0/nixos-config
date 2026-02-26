@@ -1,4 +1,4 @@
-{...}: let
+{lib,...}: let
   overlay = final: prev: {
     lib =
       prev.lib
@@ -21,5 +21,5 @@
       };
   };
 in {
-  overlays = [overlay];
+  nixpkgs.overlays = [overlay];
 }
