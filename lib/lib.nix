@@ -21,5 +21,5 @@
       };
   };
 in {
-  nixpkgs.overlays = [overlay];
+  overlays = [overlay];
 }
