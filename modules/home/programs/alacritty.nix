@@ -22,7 +22,7 @@ in {
 
         primary = {
           foreground = colors.foreground;
-          background = config.palette.red;
+          background = colors.background;
         };
 
         search = {
