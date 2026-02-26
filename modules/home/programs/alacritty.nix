@@ -1,4 +1,4 @@
-{pkgs,...}: let
+{pkgs, ...}: let
   colors = {
     foreground = "#c5c8c6";
     background = "#1d1f21";
