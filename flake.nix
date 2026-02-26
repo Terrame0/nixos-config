@@ -34,22 +34,23 @@
       "desktop"
       "laptop"
     ];
-    module-args = {
-      inherit nixos-update-script;
-      inherit nix4vscode;
-      inherit hosts;
-      inherit username;
-    };
     target-system = "x86_64-linux";
     nixos-configuration-list = nixpkgs.lib.fold (acc: x: acc // x) {} (
-      nixpkgs.lib.forEach hosts (host: {
-        ${host} = nixpkgs.lib.nixosSystem {
+      nixpkgs.lib.forEach hosts (current-host: let
+        module-args = {
+          inherit nixos-update-script;
+          inherit nix4vscode;
+          inherit current-host;
+          inherit username;
+        };
+      in {
+        ${current-host} = nixpkgs.lib.nixosSystem {
           system = target-system;
           specialArgs = module-args;
           modules = [
             #./lib/lib.nix
-            ./hosts/${host}/configuration.nix
-            ./hosts/${host}/hardware-configuration.nix
+            ./hosts/${current-host}/configuration.nix
+            ./hosts/${current-host}/hardware-configuration.nix
             sops-nix.nixosModules.sops
             home-manager.nixosModules.home-manager
             {
