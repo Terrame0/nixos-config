@@ -1,4 +1,4 @@
-{lib,...}: let
+{...}: let
   overlay = final: prev: {
     lib =
       prev.lib
