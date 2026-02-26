@@ -1,4 +1,4 @@
-{pkgs, ...}: let
+{config, ...}: let
   colors = {
     foreground = "#c5c8c6";
     background = "#1d1f21";
@@ -22,7 +22,7 @@ in {
 
         primary = {
           foreground = colors.foreground;
-          background = pkgs.palette.red;
+          background = config.palette.red;
         };
 
         search = {
