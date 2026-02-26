@@ -42,13 +42,6 @@
           inherit nix4vscode;
           inherit current-host;
           inherit username;
-          config-add = namespace: args: {
-            options.${namespace} = nixpkgs.lib.mkOption {
-              type = nixpkgs.lib.types.anything;
-              description = namespace;
-            };
-            config.${namespace} = args;
-          };
         };
       in {
         ${current-host} = nixpkgs.lib.nixosSystem {
