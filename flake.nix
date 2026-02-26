@@ -48,7 +48,6 @@
           system = target-system;
           specialArgs = module-args;
           modules = [
-            ./lib/lib.nix
             ./hosts/${current-host}/configuration.nix
             ./hosts/${current-host}/hardware-configuration.nix
             sops-nix.nixosModules.sops
