@@ -29,15 +29,17 @@
     nix4vscode,
     ...
   }: let
-    module-args = {
-      inherit nixos-update-script;
-      inherit nix4vscode;
-    };
     username = "terrame";
     hosts = [
       "desktop"
       "laptop"
     ];
+    module-args = {
+      inherit nixos-update-script;
+      inherit nix4vscode;
+      inherit hosts;
+      inherit username;
+    };
     target-system = "x86_64-linux";
     nixos-configuration-list = nixpkgs.lib.fold (acc: x: acc // x) {} (
       nixpkgs.lib.forEach hosts (host: {
@@ -45,6 +47,7 @@
           system = target-system;
           specialArgs = module-args;
           modules = [
+            #./lib/lib.nix
             ./hosts/${host}/configuration.nix
             ./hosts/${host}/hardware-configuration.nix
             sops-nix.nixosModules.sops

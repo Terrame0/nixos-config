@@ -1,8 +1,8 @@
-{pkgs, ...}: {
+{pkgs, username, ...}: {
   programs.zsh.enable = true;
-  users.users.terrame = {
+  users.users.${username} = {
     isNormalUser = true;
-    description = "Terrame";
+    description = "${username}";
     extraGroups = [
       "networkmanager"
       "wheel"
