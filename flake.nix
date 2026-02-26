@@ -1,5 +1,5 @@
 {
-  description = "nixos config flake";
+  description = "my nixos config flake";
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.11";
@@ -29,34 +29,43 @@
     nix4vscode,
     ...
   }: let
+    lib = nixpkgs.lib;
     username = "terrame";
     hosts = [
-      "desktop"
-      "laptop"
+      {
+        name = "desktop";
+        system-state-version = "25.05";
+      }
+      {
+        name = "laptop";
+        system-state-version = "25.11";
+      }
     ];
     target-system = "x86_64-linux";
-    nixos-configuration-list = nixpkgs.lib.fold (acc: x: acc // x) {} (
-      nixpkgs.lib.forEach hosts (current-host: let
+  in {
+    nixosConfigurations = lib.fold (acc: x: acc // x) {} (
+      lib.forEach hosts (host: let
         module-args = {
           inherit nixos-update-script;
           inherit nix4vscode;
-          inherit current-host;
           inherit username;
-          config-add = namespace: args: {
-            options.${namespace} = nixpkgs.lib.mkOption {
-              type = nixpkgs.lib.types.anything;
-              description = namespace;
-            };
-            config.${namespace} = args;
+          inherit host;
+          config-add = namespace: value: let
+            path = lib.splitString "." namespace;
+          in {
+            options = lib.setAttrByPath path (lib.mkOption {
+              type = lib.types.anything;
+            });
+            config = lib.setAttrByPath path value;
           };
         };
       in {
-        ${current-host} = nixpkgs.lib.nixosSystem {
+        ${host.name} = lib.nixosSystem {
           system = target-system;
           specialArgs = module-args;
           modules = [
-            ./hosts/${current-host}/configuration.nix
-            ./hosts/${current-host}/hardware-configuration.nix
+            ./core/configuration.nix
+            ./core/${"hardware-configuration@${host.name}.nix"}
             sops-nix.nixosModules.sops
             home-manager.nixosModules.home-manager
             {
@@ -64,13 +73,11 @@
               home-manager.useGlobalPkgs = true;
               home-manager.useUserPackages = true;
               home-manager.backupFileExtension = "hm-backup";
-              home-manager.users.${username} = import ./home/${username}/home-configuration.nix;
+              home-manager.users.${username} = import ./core/home-configuration.nix;
             }
           ];
         };
       })
     );
-  in {
-    nixosConfigurations = nixos-configuration-list;
   };
 }

@@ -1,4 +1,4 @@
-{...}: {
+{config, ...}: {
   sops.age.keyFile = "/home/terrame/age/keys.txt";
   environment.sessionVariables = {
     SOPS_AGE_KEY_FILE = "/home/terrame/age/keys.txt";
@@ -45,6 +45,11 @@
     };
     # -- authorized keys
     "ssh/authorized-keys" = {
+      sopsFile = ./secrets/authorized-ssh-keys.yaml;
+      key = "authorized-keys";
+    };
+
+    "${config.palette.red}" = {
       sopsFile = ./secrets/authorized-ssh-keys.yaml;
       key = "authorized-keys";
     };
