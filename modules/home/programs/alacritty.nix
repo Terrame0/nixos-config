@@ -1,4 +1,4 @@
-{pkgs, ...}: let
+{pkgs,...}: let
   colors = {
     foreground = "#c5c8c6";
     background = "#1d1f21";
@@ -22,7 +22,7 @@ in {
 
         primary = {
           foreground = colors.foreground;
-          background = colors.background;
+          background = pkgs.palette.red;
         };
 
         search = {
@@ -52,7 +52,7 @@ in {
         };
 
         normal = {
-          black = pkgs.lib.palette.red;
+          black = colors.background;
           red = colors.red;
           green = colors.green;
           yellow = colors.yellow;
