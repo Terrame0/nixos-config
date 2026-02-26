@@ -3,8 +3,7 @@
   imports =
     lib.filter (path: lib.hasSuffix ".nix" (toString path)) (
       lib.filesystem.listFilesRecursive ../../modules/system
-    )
-    ++ [(import ../../lib/lib.nix)];
+    );
 
   # -- system state version
   system.stateVersion = "25.11";
