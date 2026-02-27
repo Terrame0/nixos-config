@@ -13,7 +13,7 @@ $aqua:          #70c0b1;
 $blue:          #7aa6da;
 $magenta:       #c397d8;
 
-$test:       "#c397d8";
+$test: "@[substitution]";
 
 $background-translucent: transparentize($background,0.3);
 $background-clear: transparentize($background,0.7);
@@ -54,7 +54,7 @@ window#waybar {
 .modules-center,
 
 .modules-right {
-    background-color: $test;
+    background-color: transparent;
     border-radius: 10px;
     padding: 0px 3px;
 }
