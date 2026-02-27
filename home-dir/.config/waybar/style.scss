@@ -1,19 +1,17 @@
 
 // --- COLOR DEFINITIONS ---
 
-$background:    #1d1f21;
-$foreground:    #c5c8c6;
-$selection:     #373b41;
-$light-gray:    #4d5057;
-$red:           #d54e53;
-$orange:        #e78c45;
-$yellow:        #e7c547;
-$green:         #b9ca4a;
-$aqua:          #70c0b1;
-$blue:          #7aa6da;
-$magenta:       #c397d8;
-
-$test: "@[palette.red]";
+$background:    "@[palette.background]";
+$foreground:    "@[palette.foreground]";
+$selection:     "@[palette.selection]";
+$light-gray:    "@[palette.window]";
+$red:           "@[palette.red]";
+$orange:        "@[palette.orange]";
+$yellow:        "@[palette.yellow]";
+$green:         "@[palette.green]";
+$aqua:          "@[palette.aqua]";
+$blue:          "@[palette.blue]";
+$magenta:       "@[palette.magenta]";
 
 $background-translucent: transparentize($background,0.3);
 $background-clear: transparentize($background,0.7);
