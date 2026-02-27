@@ -1,4 +1,4 @@
-{...}:{
+{...}: {
   window = {
     border = "none";
     margin = 0;
