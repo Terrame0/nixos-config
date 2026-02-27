@@ -8,5 +8,5 @@ config-add "string" {
   substitute = string: let
     bruh = config.string.between "\"@[" "]\"" string;
   in
-    0;
+    bruh;
 }
