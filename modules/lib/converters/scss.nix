@@ -4,15 +4,15 @@
   config,
   ...
 }:
-config-add "fns"
+config-add "convert"
 {
-  bruh = file-data: let
-    file-path = config.path.join file-data;
+  scss = file-data-in: let
+    file-path = config.path.join file-data-in;
     store-path = pkgs.runCommand file-path {
       buildInputs = with pkgs; [sassc];
-    } "sassc ${file-data.store-path} $out";
+    } "sassc ${file-data-in.store-path} $out";
   in
-    file-data
+    file-data-in
     // {
       store-path = store-path;
       extension = "css";
