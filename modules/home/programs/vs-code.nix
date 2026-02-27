@@ -550,7 +550,6 @@
               settings.foreground = config.palette.comment;
             }
 
-            # -- variables
             {
               scope = [
                 "variable.other.object"

@@ -13,9 +13,18 @@ config-add "string" {
       lib.foldl (
         changing-string: substitution: let
           target = "${begin}${substitution}${end}";
-          source = config.attrset.access config substitution;
+          substitution-split = lib.splitString "|"; 
+          config-attribute = (config.attrset.access config substitution-split.head);
+
+          change = if (lib.length substitution-split) > 1 then 
+            lib.foldl (function: parameter: 
+              function parameter
+            ) 
+            config-attribute 
+            (lib.tail substitution-split)
+           else config-attribute;
         in
-          lib.replaceStrings [target] [source] changing-string
+          lib.replaceStrings [target] [change] changing-string
       )
       string
       substitutions;
