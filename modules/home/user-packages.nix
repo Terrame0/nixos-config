@@ -23,7 +23,6 @@
     # -- screenshots
     grim
     slurp
-    wl-copy
 
     # -- shell clipboard broker
     wl-clipboard
