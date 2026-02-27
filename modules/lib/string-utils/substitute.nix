@@ -14,8 +14,8 @@ config-add "string" {
         changing-string: substitution: let
           full-char-sequence = "${begin}${substitution}${end}";
         in
-          lib.traceValSeq substitution
-          lib.replaceStrings [full-char-sequence] [config.${substitution}] changing-string
+          lib.replaceStrings [full-char-sequence] [config.${substitution}]
+          changing-string
       )
       string
       substitutions;
