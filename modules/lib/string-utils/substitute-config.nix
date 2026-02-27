@@ -13,7 +13,7 @@ config-add "string" {
       lib.foldl (
         changing-string: substitution: let
           target = "${begin}${substitution}${end}";
-          substitution-split = lib.splitString "|";
+          substitution-split = lib.splitString "|" substitution;
           config-attribute = config.attrset.access config (lib.head substitution-split);
 
           change =
