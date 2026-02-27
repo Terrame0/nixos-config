@@ -13,6 +13,7 @@
         name = file-path;
         value = {
           source = file-data.store-path;
+          executable = true;
         };
       }
     )
