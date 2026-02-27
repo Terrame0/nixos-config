@@ -10,10 +10,10 @@ config-add "path" {
       ++ [
         (
           lib.concatStringsSep "." (
-            [file-data.name]
+            [file-data.stem]
             ++ (
               lib.optional
-              (file-data.extension != "")
+              (file-data.extension != null)
               file-data.extension
             )
           )

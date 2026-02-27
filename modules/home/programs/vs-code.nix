@@ -16,6 +16,7 @@
         "charliermarsh.ruff"
         "mads-hartmann.bash-ide-vscode"
         "llvm-vs-code-extensions.vscode-clangd"
+        "s-nlf-fh.glassit"
       ];
     in {
       # ============================================================
@@ -31,6 +32,7 @@
       userSettings = let
         invisible = "#ffffff00";
       in {
+
         # ============================================================
         # -- disabling linting for some languages
         # ============================================================

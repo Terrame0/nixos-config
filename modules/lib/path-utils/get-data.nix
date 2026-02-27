@@ -1,6 +1,7 @@
 {
   lib,
   config-add,
+  config,
   ...
 }:
 config-add "path" {
@@ -8,21 +9,19 @@ config-add "path" {
     path-str = toString store-path;
     full-path-split = lib.splitString "/" path-str;
     dir = lib.drop 4 (lib.init full-path-split);
-    split-name = lib.splitString "." (lib.last full-path-split);
-    split-name-length = lib.length split-name;
+    name-split = lib.splitString "." (lib.last full-path-split);
     name = lib.concatStringsSep "." (
-      if split-name-length != 1
-      then lib.init split-name
-      else split-name
+      config.lists.inclusive-init name-split
     );
-    extension =
-      if split-name-length != 1
-      then lib.last split-name
-      else "";
+    stem = lib.head (lib.splitString "{" name);
+    specs = lib.traceValSeq (config.strings.between "{" "}" name);
+    extension = config.lists.exclusive-last name-split;
   in {
     inherit store-path;
     inherit dir;
-    inherit name;
+    inherit stem;
+    inherit specs;
     inherit extension;
   };
 }
+
