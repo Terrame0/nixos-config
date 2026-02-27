@@ -14,7 +14,7 @@ config-add "path" {
       config.lists.inclusive-init name-split
     );
     stem = lib.head (lib.splitString "{" name);
-    specs = lib.traceValSeq (config.strings.between "{" "}" name);
+    specs = config.strings.between "{" "}" name;
     extension = config.lists.exclusive-last name-split;
   in {
     inherit store-path;
