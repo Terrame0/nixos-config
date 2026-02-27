@@ -1,5 +1,4 @@
 {
-  lib,
   config-add,
   config,
   pkgs,

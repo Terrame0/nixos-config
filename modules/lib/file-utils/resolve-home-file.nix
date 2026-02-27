@@ -4,14 +4,15 @@
   lib,
   ...
 }:
-config-add "resolve-home-file" (
-  file-data-in: let
-    file-data-out =
-      if file-data-in.extension == "scss"
-      then config.convert.scss file-data-in
-      else if file-data-in.extension == "nix"
-      then config.convert.nix file-data-in (lib.elemAt file-data-in.specs 0) (lib.elemAt file-data-in.specs 1)
-      else file-data-in;
+config-add "file" {
+  resolve-home-entry = original-file-data: let
+    file-data = config.file.substitute-config original-file-data;
+    new-file-data =
+      if file-data.extension == "scss"
+      then config.convert.scss file-data
+      else if file-data.extension == "nix"
+      then config.convert.nix file-data (lib.elemAt file-data.specs 0) (lib.elemAt file-data.specs 1)
+      else file-data;
   in
-    config.file.substitute-config file-data-out
-)
+    new-file-data;
+}
