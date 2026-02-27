@@ -9,7 +9,11 @@ config-add "fns" {
     full-path-split = lib.traceValSeq (lib.splitString "/" path-str);
     dir = lib.traceValSeq (lib.drop 4 (lib.init full-path-split));
     split-name = lib.traceValSeq (lib.splitString "." (lib.last full-path-split));
-    name =  lib.traceVal (lib.concatStringsSep "." (if (lib.length split-name) != 1 then lib.init split-name else split-name));
+    name = lib.traceVal (lib.concatStringsSep "." (
+      if (lib.length split-name) != 1
+      then lib.init split-name
+      else split-name
+    ));
   in
     {
       inherit store-path;
