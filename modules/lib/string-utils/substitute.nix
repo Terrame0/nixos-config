@@ -13,8 +13,9 @@ config-add "string" {
       lib.foldl (
         changing-string: substitution: let
           full-char-sequence = "${begin}${substitution}${end}";
+          a = lib.traceValSeq (config.attribute.access config substitution);
         in
-          lib.replaceStrings [full-char-sequence] [config.attribute.access config substitution]
+          lib.replaceStrings [full-char-sequence] [a]
           changing-string
       )
       string
