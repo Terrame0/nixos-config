@@ -3,8 +3,8 @@
   config-add,
   ...
 }:
-config-add "fns" {
-  join-file-path = file-data: let
+config-add "path" {
+  join = file-data: let
     joined-path = lib.concatStringsSep "/" (
       file-data.dir
       ++ [
@@ -13,7 +13,7 @@ config-add "fns" {
             [file-data.name]
             ++ (
               lib.optional
-              (file-data ? extension)
+              (file-data.extension != "")
               file-data.extension
             )
           )
@@ -21,5 +21,5 @@ config-add "fns" {
       ]
     );
   in
-    lib.traceVal joined-path;
+    joined-path;
 }

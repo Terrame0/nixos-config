@@ -6,7 +6,7 @@
 }:
 config-add "fns"
 {
-  compile-scss = file-data: let
+  bruh = file-data: let
     file-path = config.path.join file-data;
     store-path = pkgs.runCommand file-path {
       buildInputs = with pkgs; [sassc];

@@ -7,12 +7,12 @@
     lib.forEach (lib.filesystem.listFilesRecursive ../../home-dir)
     (
       path: let
-        file-data = config.fns.split-store-path path;
-        file-path-str = config.fns.join-file-path (file-data // {dir = lib.tail file-data.dir;});
+        file-data = config.fns.convert-home-file (config.path.get-data path);
+        file-path = config.path.join (file-data // {dir = lib.tail file-data.dir;});
       in {
-        name = file-path-str;
+        name = file-path;
         value = {
-          source = path;
+          source = file-data.store-path;
         };
       }
     )
