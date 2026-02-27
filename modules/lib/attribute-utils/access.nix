@@ -7,7 +7,7 @@ config-add "attribute" {
   access = attrset: keys: let
     result =
       lib.foldl (
-        level: key: level.${key}
+        level: key: lib.traceValSeq level.${key}
       )
       attrset
       keys;
