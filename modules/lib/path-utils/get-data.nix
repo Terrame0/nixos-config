@@ -24,4 +24,3 @@ config-add "path" {
     inherit extension;
   };
 }
-

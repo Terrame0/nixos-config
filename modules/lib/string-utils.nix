@@ -12,8 +12,12 @@ config-add "strings" {
         part-split = lib.splitString end part;
         inside = lib.head part-split;
       in
-        if inside != "" then inside else null
+        if inside != ""
+        then inside
+        else null
     );
   in
-    if parts-split != [] then parts-split else null;
+    if parts-split != []
+    then parts-split
+    else null;
 }
