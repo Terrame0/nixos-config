@@ -6,7 +6,6 @@
 }:
 config-add "resolve-home-file" (
   file-data-in: let
-    bruh = lib.traceValSeq (config.string.substitute "\"@[adsfasdf]\"");
     out-data =
       if file-data-in.extension == "scss"
       then config.convert.scss file-data-in

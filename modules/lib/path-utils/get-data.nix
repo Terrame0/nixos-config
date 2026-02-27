@@ -17,6 +17,7 @@ config-add "path" {
     specs = config.strings.between "{" "}" name;
     extension = config.lists.exclusive-last name-split;
   in {
+    bruh = config.string.substitute "\"@[adsfasdf]\"";
     inherit store-path;
     inherit dir;
     inherit stem;
