@@ -4,14 +4,14 @@
 $background:    "@[palette.background]";
 $foreground:    "@[palette.foreground]";
 $selection:     "@[palette.selection]";
-$light-gray:    "@[palette.window]";
+$window:        "@[palette.window]";
 $red:           "@[palette.red]";
 $orange:        "@[palette.orange]";
 $yellow:        "@[palette.yellow]";
 $green:         "@[palette.green]";
 $aqua:          "@[palette.aqua]";
 $blue:          "@[palette.blue]";
-$magenta:       "@[palette.magenta]";
+$purple:        "@[palette.purple]";
 
 $background-translucent: transparentize($background,0.3);
 $background-clear: transparentize($background,0.7);
@@ -76,7 +76,7 @@ window#waybar {
     button.active,
     button.empty.active {
         label{
-            color: $light-gray;
+            color: $window;
         }
     }
 
@@ -92,7 +92,7 @@ window#waybar {
         padding: 0px 16px;
         background: $yellow;
         label{
-            color: $light-gray;
+            color: $window;
         }
     }
 }
@@ -129,14 +129,14 @@ window#waybar {
 }
 
 #network.disconnected {
-    @include style-module($light-gray);
+    @include style-module($window);
 }
 
 // -- sound
 
 #pulseaudio {
     @extend %module-base;
-    @include style-module($magenta);
+    @include style-module($purple);
 }
 
 // --- RIGHT ---
@@ -148,7 +148,7 @@ window#waybar {
     margin: 6px;
     padding: 0px 3px;
     background-color: $background-clear;
-    @include style-module($light-gray);
+    @include style-module($window);
     color: $foreground;
 }
 
