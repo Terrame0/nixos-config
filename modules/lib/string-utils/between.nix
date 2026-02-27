@@ -17,9 +17,7 @@ config-add "string" {
         else null
     );
   in
-    lib.traceValSeq (
-      if parts-split != []
-      then parts-split
-      else null
-    );
+    if parts-split != []
+    then parts-split
+    else null;
 }
