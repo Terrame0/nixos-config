@@ -17,7 +17,5 @@ config-add "string" {
         else null
     );
   in
-    if parts-split != []
-    then parts-split
-    else null;
+    parts-split;
 }

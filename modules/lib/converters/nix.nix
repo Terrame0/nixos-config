@@ -7,18 +7,15 @@
 }:
 config-add "convert"
 {
-  nix = file-data-in: generator: extension: let
-    file-data = file-data-in // {extension = extension;};
-    file-path = config.path.join file-data;
+  nix = file-data: generator: extension: let
+    new-file-data = file-data // {extension = extension;};
+    file-path = config.path.join new-file-data;
     generator-function = lib.generators.${"to" + (lib.toUpper generator)} {};
-    store-path = pkgs.writeText file-path (generator-function (import file-data.store-path {
+    new-path-out = pkgs.writeText file-path (generator-function (import new-file-data.store-path {
       inherit config;
       inherit lib;
       inherit pkgs;
     }));
   in
-    file-data
-    // {
-      store-path = store-path;
-    };
+    new-file-data // {inherit new-path-out;};
 }

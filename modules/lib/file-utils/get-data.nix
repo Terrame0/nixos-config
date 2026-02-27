@@ -4,7 +4,7 @@
   config,
   ...
 }:
-config-add "path" {
+config-add "file" {
   get-data = store-path: let
     path-str = toString store-path;
     full-path-split = lib.splitString "/" path-str;
@@ -17,7 +17,6 @@ config-add "path" {
     specs = config.string.between "{" "}" name;
     extension = config.list.exclusive-last name-split;
   in {
-    bruh = lib.traceValSeq (config.string.substitute "\"@[palette.red]\"");
     inherit store-path;
     inherit dir;
     inherit stem;

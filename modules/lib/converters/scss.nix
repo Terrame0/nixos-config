@@ -6,15 +6,15 @@
 }:
 config-add "convert"
 {
-  scss = file-data-in: let
-    file-path = config.path.join file-data-in;
-    store-path = pkgs.runCommand file-path {
+  scss = file-data: let
+    file-path = config.path.join file-data;
+    new-store-path = pkgs.runCommand file-path {
       buildInputs = with pkgs; [sassc];
-    } "sassc ${file-data-in.store-path} $out";
+    } "sassc ${file-data.store-path} $out";
   in
-    file-data-in
+    file-data
     // {
-      store-path = store-path;
+      store-path = new-store-path;
       extension = "css";
     };
 }
