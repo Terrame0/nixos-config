@@ -1,4 +1,4 @@
-{...}:{
+{...}: {
   layer = "bottom";
   position = "top";
   height = 40;
@@ -74,7 +74,7 @@
     interval = 5;
     format = "{icon}{capacity}%";
     format-charging = " {icon} {capacity}%";
-    format-icons = [ "" "" "" "" "" ];
+    format-icons = ["" "" "" "" ""];
     tooltip = false;
   };
 
@@ -89,7 +89,7 @@
     format = "{volume}%·{icon}|{format_source}";
     format-muted = "0%·|{format_source}";
     format-icons = {
-      default = [ "" "" ];
+      default = ["" ""];
     };
     format-source = "";
     format-source-muted = "";
