@@ -4,5 +4,13 @@
   ...
 }:
 config-add "attribute" {
-  access = attrset: keys: lib.foldl (level: key: level.${key}) attrset keys;
+  access = attrset: keys: let
+    result =
+      lib.foldl (
+        level: key: level.${key}
+      )
+      attrset
+      keys;
+  in
+    result;
 }
