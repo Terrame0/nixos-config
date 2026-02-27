@@ -14,7 +14,7 @@ config-add "string" {
         changing-string: substitution: let
           full-char-sequence = "${begin}${substitution}${end}";
         in
-          lib.replaceStrings [full-char-sequence] [config.${lib.splitStringSep "." substitution}]
+          lib.replaceStrings [full-char-sequence] [config.${lib.splitString "." substitution}]
           changing-string
       )
       string
