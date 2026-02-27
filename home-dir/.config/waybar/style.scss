@@ -13,7 +13,7 @@ $aqua:          #70c0b1;
 $blue:          #7aa6da;
 $magenta:       #c397d8;
 
-$test: "@[substitution]";
+$test: "@[palette.red]";
 
 $background-translucent: transparentize($background,0.3);
 $background-clear: transparentize($background,0.7);
