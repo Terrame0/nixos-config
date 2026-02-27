@@ -11,10 +11,10 @@ config-add "string" {
     substitutions = config.string.between begin end string;
     modified-string =
       lib.foldl (
-        string: substitution: let
+        changing-string: substitution: let
           full-char-sequence = "${begin}${substitution}${end}";
         in
-          lib.replaceStrings [full-char-sequence] [config.${substitution}]
+          lib.replaceStrings [full-char-sequence] [config.${substitution}] changing-string
       )
       string
       substitutions;
