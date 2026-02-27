@@ -15,14 +15,14 @@ config-add "path" {
       then lib.init split-name
       else split-name
     );
-    extension = if split-name-length != 1
-    then lib.last split-name
-    else "";
-  in
-    {
-      inherit store-path;
-      inherit dir;
-      inherit name;
-      inherit extension;
-    };
+    extension =
+      if split-name-length != 1
+      then lib.last split-name
+      else "";
+  in {
+    inherit store-path;
+    inherit dir;
+    inherit name;
+    inherit extension;
+  };
 }

@@ -11,8 +11,10 @@ config-add "fns"
     store-path = pkgs.runCommand file-path {
       buildInputs = with pkgs; [sassc];
     } "sassc ${file-data.store-path} $out";
-  in file-data // {
-    store-path = store-path;
-    extension = "css";
-  };
+  in
+    file-data
+    // {
+      store-path = store-path;
+      extension = "css";
+    };
 }
