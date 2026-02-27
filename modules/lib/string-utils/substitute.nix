@@ -4,9 +4,9 @@
   config,
   ...
 }:
-config-add "strings" {
+config-add "string" {
   substitute = string: let
-    bruh = config.strings.between "\"@[" "]\"" string;
+    bruh = config.string.between "\"@[" "]\"" string;
   in
     0;
 }

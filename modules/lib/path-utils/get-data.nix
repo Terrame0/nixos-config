@@ -11,11 +11,11 @@ config-add "path" {
     dir = lib.drop 4 (lib.init full-path-split);
     name-split = lib.splitString "." (lib.last full-path-split);
     name = lib.concatStringsSep "." (
-      config.lists.inclusive-init name-split
+      config.list.inclusive-init name-split
     );
     stem = lib.head (lib.splitString "{" name);
-    specs = config.strings.between "{" "}" name;
-    extension = config.lists.exclusive-last name-split;
+    specs = config.string.between "{" "}" name;
+    extension = config.list.exclusive-last name-split;
   in {
     bruh = config.string.substitute "\"@[adsfasdf]\"";
     inherit store-path;

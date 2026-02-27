@@ -3,7 +3,7 @@
   config-add,
   ...
 }:
-config-add "strings" {
+config-add "string" {
   between = start: end: string: let
     string-split = lib.splitString start string;
 
