@@ -2,14 +2,7 @@
   {
     "key": "ctrl+r",
     "command": "workbench.action.tasks.runTask",
-    "args": "run-debug",
-    "when": "editorTextFocus",
-    "priority": 1000
-  },
-  {
-    "key": "ctrl+shift+r",
-    "command": "workbench.action.tasks.runTask",
-    "args": "run-release",
+    "args": "run",
     "when": "editorTextFocus",
     "priority": 1000
   },

@@ -2,6 +2,7 @@
   lib,
   config-add,
   config,
+  pkgs,
   ...
 }:
 config-add "string" {
@@ -15,19 +16,9 @@ config-add "string" {
           target = "${begin}${substitution}${end}";
           substitution-split = lib.splitString "|" substitution;
           config-attribute = config.attrset.access config (lib.head substitution-split);
-
-          change =
-            if (lib.length substitution-split) != 1
-            then
-              lib.foldl (
-                function: parameter:
-                  function parameter
-              )
-              config-attribute
-              (lib.tail substitution-split)
-            else config-attribute;
+          module = pkgs.makeFile substitution "{lib,config,pkgs}:${substitution}";
         in
-          lib.replaceStrings [target] [change] changing-string
+          lib.replaceStrings [target] [config-attribute] changing-string
       )
       string
       substitutions;
