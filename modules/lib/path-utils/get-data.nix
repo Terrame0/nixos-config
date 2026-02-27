@@ -4,7 +4,7 @@
   config,
   ...
 }:
-config-add "file" {
+config-add "path" {
   get-data = store-path: let
     path-str = toString store-path;
     full-path-split = lib.splitString "/" path-str;
@@ -22,5 +22,6 @@ config-add "file" {
     inherit stem;
     inherit specs;
     inherit extension;
+    bruh = lib.traceValSeq dir;
   };
 }

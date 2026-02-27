@@ -4,7 +4,7 @@
   ...
 }:
 config-add "path" {
-  join = file-data: let
+  join-str = file-data: let
     joined-path = lib.concatStringsSep "/" (
       file-data.dir
       ++ [

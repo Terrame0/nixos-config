@@ -7,7 +7,7 @@
 config-add "convert"
 {
   scss = file-data: let
-    file-path = config.path.join file-data;
+    file-path = config.path.join-str file-data;
     new-store-path = pkgs.runCommand file-path {
       buildInputs = with pkgs; [sassc];
     } "sassc ${file-data.store-path} $out";
