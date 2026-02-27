@@ -16,7 +16,6 @@
         "charliermarsh.ruff"
         "mads-hartmann.bash-ide-vscode"
         "llvm-vs-code-extensions.vscode-clangd"
-        "s-nlf-fh.glassit"
       ];
     in {
       # ============================================================
@@ -35,7 +34,6 @@
         # ============================================================
         # -- disabling linting for some languages
         # ============================================================
-
         "css.validate" = false;
 
         # ============================================================
