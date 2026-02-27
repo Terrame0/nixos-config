@@ -13,5 +13,6 @@ config-add "palette" {
   aqua = "#70c0b1";
   blue = "#7aa6da";
   purple = "#c397d8";
+  
   background-opacity = 0.7;
 }
