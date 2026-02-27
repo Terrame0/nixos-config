@@ -17,7 +17,7 @@ config-add "path" {
     specs = config.string.between "{" "}" name;
     extension = config.list.exclusive-last name-split;
   in {
-    bruh = config.string.substitute "\"@[palette.red]\"";
+    bruh = lib.traceValSeq (config.string.substitute "\"@[palette.red]\"");
     inherit store-path;
     inherit dir;
     inherit stem;
