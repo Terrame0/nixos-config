@@ -49,11 +49,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1769602724,
-        "narHash": "sha256-WmPqGgHzDhD+mkLiz2F9MlR/tXsKYIBEbkhaxkIfaAI=",
+        "lastModified": 1772212337,
+        "narHash": "sha256-GbIRL+4MLwozyu+i8rZCL/r+51Z4HlPuRjqJoPwEXnc=",
         "ref": "refs/heads/master",
-        "rev": "701817501037a766414fe1da3848cf314950496c",
-        "revCount": 1,
+        "rev": "2736064a407fd28f6564f9117ec4bf3e5017be85",
+        "revCount": 5,
         "type": "git",
         "url": "ssh://git@github.com/Terrame0/nixos-update-script.git"
       },

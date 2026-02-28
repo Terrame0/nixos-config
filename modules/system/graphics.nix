@@ -16,7 +16,7 @@
   };
 
   # -- it appears that these are not needed as of now
-  environment.sessionVariables = {
+  environment.variables = {
     # -- force the use of nvidia drivers
     #LIBVA_DRIVER_NAME = "nvidia";
     #__GLX_VENDOR_LIBRARY_NAME = "nvidia";

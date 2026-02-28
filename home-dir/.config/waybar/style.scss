@@ -1,0 +1,201 @@
+$background:    "#[config.palette.background]";
+$dark-gray:     "#[config.palette.selection]";
+$gray:          "#[config.palette.window]";
+$ligth-gray:    "#[config.palette.comment]";
+$foreground:    "#[config.palette.foreground]";
+$red:           "#[config.palette.red]";
+$orange:        "#[config.palette.orange]";
+$yellow:        "#[config.palette.yellow]";
+$green:         "#[config.palette.green]";
+$aqua:          "#[config.palette.aqua]";
+$blue:          "#[config.palette.blue]";
+$purple:        "#[config.palette.purple]";
+
+$font:          "#[str|config.style.font.propo]";
+
+$h1:            "#[suf(px)|config.style.font.h1]";
+$h2:            "#[suf(px)|config.style.font.h2]";
+$h3:            "#[suf(px)|config.style.font.h3]";
+
+$bg-opacity:    "#[config.style.background-opacity]";
+
+$offset:        "#[suf(px)|config.style.external-offset]";
+$border-radius: "#[suf(px)|config.style.border-radius]";
+
+$background-translucent: transparentize($background,1 - $bg-opacity);
+$background-clear: transparentize($background,0.7);
+
+// --- MIXINS ---
+
+@mixin glow-shadow($color: $foreground){
+    box-shadow:
+    0px 0px 2px $color,
+    0px 0px 2px $color,
+    0px 0px 1px $color;
+}
+
+@mixin glow-outline($color: $foreground){
+    @include glow-shadow($color);
+    border: 2px solid $color;
+}
+
+// --- GLOBAL OVERRIDES ---
+
+* {
+    font-family: $font, monospace;
+    font-weight: bold;
+    font-size: $h2;
+    text-shadow: none;
+    background-color: transparent;
+    transition: ease-in-out 0.2s;
+    border: 0px;
+}
+window#waybar {
+    background-color: $background-translucent;
+    border-radius: $border-radius;
+}
+
+// --- MODULE CONTAINER STYLING ---
+
+.modules-left,
+.modules-center,
+.modules-right {
+    background-color: transparent;
+    border-radius: $border-radius;
+    padding: 0px $offset/2;
+}
+
+// --- WORKSPACE BUTTON STYLING ---
+
+#workspaces {
+    button {
+        margin: $offset $offset/2;
+        padding: 0px $offset;
+        border-radius: 5px;
+        background: transparent;
+        @include glow-shadow(transparent);
+        label{
+            color: $foreground;
+            font-size: $h1;
+        }
+    }
+
+    button.empty,
+    button.active,
+    button.empty.active {
+        label{
+            color: $gray;
+        }
+    }
+
+    button.active,
+    button.empty.active {
+        @include glow-shadow($green);
+        padding: 0px 16px;
+        background: $green;
+    }
+
+    button.urgent {
+        @include glow-shadow($yellow);
+        padding: 0px 16px;
+        background: $yellow;
+        label{
+            color: $gray;
+        }
+    }
+}
+
+// --- MODULE STYLING ---
+
+@mixin style-module($color){
+    @include glow-outline($color);
+    color: $foreground;
+}
+
+%module-base {
+    @include style-module($foreground);
+    margin: $offset $offset/2;
+    padding: 0 $offset;
+    border-radius: $border-radius - $offset;
+    background-color:$background-translucent;
+}
+
+// --- LEFT ---
+
+// -- time and date information
+
+#custom-clock {
+    @extend %module-base;
+    @include style-module($blue);
+}
+
+// -- network info
+
+#network {
+    @extend %module-base;
+    @include style-module($green);
+}
+
+#network.disconnected {
+    @include style-module($gray);
+}
+
+// -- sound
+
+#pulseaudio {
+    @extend %module-base;
+    @include style-module($purple);
+}
+
+// --- RIGHT ---
+
+// -- app tray
+
+#tray {
+    @extend %module-base;
+    margin: $offset;
+    padding: 0px $offset/2;
+    background-color: $background-clear;
+    @include style-module($gray);
+    color: $foreground;
+}
+
+// -- cpu load
+
+#cpu {
+    @extend %module-base;
+    @include style-module($aqua);
+}
+
+// -- available ram
+
+#memory {
+    @extend %module-base;
+    @include style-module($orange);
+}
+
+// -- available storage space
+
+#disk {
+    @extend %module-base;
+    @include style-module($yellow);
+}
+
+// -- battery charge percentage
+
+#battery {
+    @extend %module-base;
+}
+
+#battery.good,
+#battery.charging {
+    @include style-module($green);
+}
+
+#battery.warning {
+    @include style-module($yellow);
+}
+
+#battery.critical {
+    @include style-module($green);
+}
