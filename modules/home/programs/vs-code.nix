@@ -119,7 +119,7 @@
         # -- fonts and cursor
         # ============================================================
 
-        "editor.fontFamily" = "JetBrainsMono NFP";
+        "editor.fontFamily" = config.style.font.propo;
         "editor.fontLigatures" = true;
         "editor.cursorStyle" = "line";
         "editor.cursorBlinking" = "solid";

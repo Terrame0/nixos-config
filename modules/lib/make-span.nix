@@ -1,2 +1,11 @@
-{config-add, ...}:
-config-add "make-span" (color: string: "<span color='${color}'>${string}</span>")
+{
+  config-add,
+  lib,
+  ...
+}:
+config-add "make-span" (
+  parameters: string: let
+    parameter-list = lib.mapAttrsToList (name: value: "${name}='${value}'") parameters;
+    parameter-string = lib.concatStringsSep " " parameter-list;
+  in "<span ${parameter-string}>${string}</span>"
+)

@@ -1,25 +1,31 @@
+$background:    "#[config.palette.background]";
+$dark-gray:     "#[config.palette.selection]";
+$gray:          "#[config.palette.window]";
+$ligth-gray:    "#[config.palette.comment]";
+$foreground:    "#[config.palette.foreground]";
+$red:           "#[config.palette.red]";
+$orange:        "#[config.palette.orange]";
+$yellow:        "#[config.palette.yellow]";
+$green:         "#[config.palette.green]";
+$aqua:          "#[config.palette.aqua]";
+$blue:          "#[config.palette.blue]";
+$purple:        "#[config.palette.purple]";
 
-// --- COLOR DEFINITIONS ---
+$font:          "#[str|config.style.font.propo]";
 
-$background:    "@[config.palette.background]";
-$dark-gray:     "@[config.palette.selection]";
-$gray:          "@[config.palette.window]";
-$ligth-gray:    "@[config.palette.comment]";
-$foreground:    "@[config.palette.foreground]";
-$red:           "@[config.palette.red]";
-$orange:        "@[config.palette.orange]";
-$yellow:        "@[config.palette.yellow]";
-$green:         "@[config.palette.green]";
-$aqua:          "@[config.palette.aqua]";
-$blue:          "@[config.palette.blue]";
-$purple:        "@[config.palette.purple]";
+$h1:            "#[suf(px)|config.style.font.h1]";
+$h2:            "#[suf(px)|config.style.font.h2]";
+$h3:            "#[suf(px)|config.style.font.h3]";
 
-$background-translucent: transparentize($background,1 - "@[config.palette.background-opacity]");
+$bg-opacity:    "#[config.style.background-opacity]";
+
+$offset:        "#[suf(px)|config.style.external-offset]";
+$border-radius: "#[suf(px)|config.style.border-radius]";
+
+$background-translucent: transparentize($background,1 - $bg-opacity);
 $background-clear: transparentize($background,0.7);
 
 // --- MIXINS ---
-
-//bruh asldjkfjasdlkjfhdfascoloradsffasd
 
 @mixin glow-shadow($color: $foreground){
     box-shadow:
@@ -36,9 +42,9 @@ $background-clear: transparentize($background,0.7);
 // --- GLOBAL OVERRIDES ---
 
 * {
-    font-family: "JetBrainsMono NFP", monospace;
+    font-family: $font, monospace;
     font-weight: bold;
-    font-size: 18px;
+    font-size: $h2;
     text-shadow: none;
     background-color: transparent;
     transition: ease-in-out 0.2s;
@@ -46,7 +52,7 @@ $background-clear: transparentize($background,0.7);
 }
 window#waybar {
     background-color: $background-translucent;
-    border-radius: 10px;
+    border-radius: $border-radius;
 }
 
 // --- MODULE CONTAINER STYLING ---
@@ -55,22 +61,22 @@ window#waybar {
 .modules-center,
 .modules-right {
     background-color: transparent;
-    border-radius: 10px;
-    padding: 0px 3px;
+    border-radius: $border-radius;
+    padding: 0px $offset/2;
 }
 
 // --- WORKSPACE BUTTON STYLING ---
 
 #workspaces {
     button {
-        margin: 6px 3px;
-        padding: 0px 6px;
+        margin: $offset $offset/2;
+        padding: 0px $offset;
         border-radius: 5px;
         background: transparent;
         @include glow-shadow(transparent);
         label{
             color: $foreground;
-            font-size: 22px;
+            font-size: $h1;
         }
     }
 
@@ -108,9 +114,9 @@ window#waybar {
 
 %module-base {
     @include style-module($foreground);
-    margin: 6px 3px;
-    padding: 0 6px;
-    border-radius: 5px;
+    margin: $offset $offset/2;
+    padding: 0 $offset;
+    border-radius: $border-radius - $offset;
     background-color:$background-translucent;
 }
 
@@ -147,8 +153,8 @@ window#waybar {
 
 #tray {
     @extend %module-base;
-    margin: 6px;
-    padding: 0px 3px;
+    margin: $offset;
+    padding: 0px $offset/2;
     background-color: $background-clear;
     @include style-module($gray);
     color: $foreground;

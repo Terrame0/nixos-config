@@ -1,50 +1,44 @@
 {config, ...}: let
   palette = config.palette;
-  make-span = config.make-span;
+  color-span = color: config.make-span {inherit color;};
   chr = let
-    span = make-span palette.comment;
+    span = color-span palette.comment;
   in {
     line = span "|";
-    interpoint = span "·";
+    point = span "·";
     triple-equal-sign = span "===";
-    percent = span " 󰏰";
+    percent = span "󰏰";
     gb = span "G";
     slash = span "/";
   };
   icon = {
-    cpu = make-span palette.aqua "";
-    ram = make-span palette.orange "";
-    disk = make-span palette.yellow "";
+    cpu = color-span palette.aqua "";
+    ram = color-span palette.orange "";
+    disk = color-span palette.yellow "";
     network = {
-      online = make-span palette.green "";
-      offline = make-span palette.red "";
+      online = color-span palette.green "";
+      offline = color-span palette.red "";
     };
     mic = {
-      on = make-span palette.purple "";
-      off = make-span palette.comment "";
+      on = color-span palette.purple "";
+      off = color-span palette.comment "";
     };
     volume = {
-      off = make-span palette.purple "";
-      low = make-span palette.purple "";
-      high = make-span palette.purple "";
-      muted = make-span palette.comment "";
+      levels = let
+        span = color-span palette.purple;
+      in [
+        (span "")
+        (span "")
+        (span "")
+      ];
+      muted = color-span palette.comment "";
     };
-    battery = [
-      make-span
-      palette.red
-      ""
-      make-span
-      palette.red
-      ""
-      make-span
-      palette.orange
-      ""
-      make-span
-      palette.yellow
-      ""
-      make-span
-      palette.green
-      ""
+    batteries = [
+      (color-span palette.red "")
+      (color-span palette.red "")
+      (color-span palette.orange "")
+      (color-span palette.yellow "")
+      (color-span palette.green "")
     ];
   };
 in {
@@ -103,13 +97,19 @@ in {
   };
 
   cpu = {
-    format = "{usage}${chr.percent}${chr.line}${icon.cpu}";
+    format = "{icon1}{usage}${chr.percent}${chr.line}${icon.cpu}";
+    format-icons = [
+      /*
+      "▁" "▂" "▃" "▄" "▅" "▆" "▇"
+      */
+      "<span size='10pt'>█</span>"
+    ];
     interval = 1;
     tooltip = false;
   };
 
   memory = {
-    format = "{used:0.1f}G/{total:0.1f}G|${make-span palette.orange ""}";
+    format = "{used:0.1f}${chr.gb}${chr.slash}{total:0.1f}${chr.gb}${chr.line}${icon.ram}";
     interval = 1;
     tooltip = false;
   };
@@ -121,35 +121,35 @@ in {
       critical = 20;
     };
     interval = 5;
-    format = "{icon}{capacity}%";
-    format-charging = " {icon} {capacity}%";
-    format-icons = icon.battery;
+    format = "{icon}{capacity}${chr.percent}";
+    format-charging = " {icon} {capacity}${chr.percent}";
+    format-icons = icon.batteries;
     tooltip = false;
   };
 
   disk = {
     interval = 30;
-    format = "{specific_free:1.0f}G/{specific_total:1.0f}G|";
+    format = "{specific_free:1.0f}${chr.gb}${chr.slash}{specific_total:1.0f}${chr.gb}${chr.line}${icon.disk}";
     unit = "GB";
     tooltip = false;
   };
 
   pulseaudio = {
-    format = "{volume}%·{icon}|{format_source}";
-    format-muted = "0%·|{format_source}";
+    format = "{volume}${chr.percent}${chr.point}{icon}${chr.line}{format_source}";
+    format-muted = "0${chr.percent}${chr.point}${icon.volume.muted}|{format_source}";
     format-icons = {
-      default = ["" ""];
+      default = icon.volume.levels;
     };
-    format-source = "";
-    format-source-muted = "";
+    format-source = icon.mic.on;
+    format-source-muted = icon.mic.off;
     scroll-step = 10;
     tooltip = false;
     on-click = "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle";
   };
 
   network = {
-    format = "Online|";
-    format-disconnected = "Disconnected|";
+    format = "Online${chr.line}${icon.network.online}";
+    format-disconnected = "Offline${chr.line}${icon.network.offline}";
     tooltip = false;
   };
 }

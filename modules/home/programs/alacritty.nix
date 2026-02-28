@@ -65,7 +65,7 @@
           y = 8;
         };
         dynamic_padding = true;
-        opacity = 0.7;
+        opacity = config.style.background-opacity;
         startup_mode = "Maximized";
         title = "Terminal";
         blur = true;
@@ -96,15 +96,15 @@
 
       font = {
         normal = {
-          family = "JetBrainsMono Nerd Font";
+          family = config.style.font.mono;
           style = "Regular";
         };
         bold = {
-          family = "JetBrainsMono Nerd Font";
+          family = config.style.font.mono;
           style = "Bold";
         };
         italic = {
-          family = "JetBrainsMono Nerd Font";
+          family = config.style.font.mono;
           style = "Italic";
         };
         size = 14.0;
