@@ -187,15 +187,15 @@ window#waybar {
     @extend %module-base;
 }
 
-#battery.good,
-#battery.charging {
-    @include style-module($green);
-}
-
-#battery.warning {
-    @include style-module($yellow);
-}
-
-#battery.critical {
-    @include style-module($green);
-}
+//#battery.good,
+//#battery.charging {
+//    @include style-module($green);
+//}
+//
+//#battery.warning {
+//    @include style-module($yellow);
+//}
+//
+//#battery.critical {
+//    @include style-module($green);
+//}

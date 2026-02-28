@@ -14,6 +14,9 @@
     percent = span "󰏰";
     gb = span "G";
     slash = span "/";
+    lbracket = span "[";
+    rbracket = span "]";
+    inv-rarrow = span ">-";
   };
   icon = {
     cpu = color-span palette.aqua "";
@@ -28,21 +31,31 @@
       off = color-span palette.comment "";
     };
     volume = {
-      levels = let
-        span = color-span palette.purple;
-      in [
-        (span "")
-        (span "")
-        (span "")
+      levels = [
+        (color-span palette.purple "")
+        (color-span palette.purple "")
+        (color-span palette.purple "")
       ];
       muted = color-span palette.comment "";
     };
+    bolt = color-span palette.aqua "";
     batteries = [
       (color-span palette.red "")
       (color-span palette.red "")
       (color-span palette.orange "")
       (color-span palette.yellow "")
       (color-span palette.green "")
+    ];
+    bars = [
+      (color-span palette.comment "▁")
+      (color-span palette.blue "▁")
+      (color-span palette.aqua "▂")
+      (color-span palette.aqua "▃")
+      (color-span palette.green "▄")
+      (color-span palette.yellow "▅")
+      (color-span palette.orange "▆")
+      (color-span palette.red "▇")
+      (color-span palette.red "█")
     ];
   };
 in {
@@ -52,6 +65,7 @@ in {
   spacing = 0;
 
   modules-left = [
+    "battery"
     "network"
     "custom/clock"
     "pulseaudio"
@@ -66,7 +80,6 @@ in {
     "cpu"
     "memory"
     "disk"
-    "battery"
   ];
 
   reload_style_on_change = true;
@@ -117,18 +130,8 @@ in {
             )
           )
         );
-    in "{usage}${chr.percent}${chr.line}${bars}${chr.line}${icon.cpu}";
-    format-icons = [
-      (color-span palette.comment "▁")
-      (color-span palette.blue "▁")
-      (color-span palette.aqua "▂")
-      (color-span palette.aqua "▃")
-      (color-span palette.green "▄")
-      (color-span palette.yellow "▅")
-      (color-span palette.orange "▆")
-      (color-span palette.red "▇")
-      (color-span palette.red "█")
-    ];
+    in "{usage}${chr.percent}${chr.lbracket}${bars}${chr.rbracket}${icon.cpu}";
+    format-icons = icon.bars;
     interval = 1;
     tooltip = false;
   };
@@ -146,8 +149,8 @@ in {
       critical = 20;
     };
     interval = 5;
-    format = "{icon}{capacity}${chr.percent}";
-    format-charging = " {icon} {capacity}${chr.percent}";
+    format = "{capacity}${chr.percent}${chr.line}{icon}";
+    format-charging = "{capacity}${chr.percent}${chr.line}${icon.bolt}${chr.inv-rarrow}{icon}";
     format-icons = icon.batteries;
     tooltip = false;
   };
