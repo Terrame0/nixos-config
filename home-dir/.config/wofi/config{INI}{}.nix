@@ -20,6 +20,6 @@
   behavior = {
     no_actions = true;
     single_click = true;
-    matching = "multi-contains";
+    matching = "contains";
   };
 }

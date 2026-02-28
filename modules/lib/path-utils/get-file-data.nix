@@ -2,7 +2,6 @@
   lib,
   config-add,
   config,
-  pkgs,
   ...
 }:
 config-add "store-path" {

@@ -1,4 +1,8 @@
-{config, ...}: let
+{
+  config,
+  lib,
+  ...
+}: let
   palette = config.palette;
   color-span = color: config.make-span {inherit color;};
   chr = let
@@ -97,12 +101,33 @@ in {
   };
 
   cpu = {
-    format = "{icon1}{usage}${chr.percent}${chr.line}${icon.cpu}";
+    format = let
+      bars =
+        config.make-span {
+          size = "9pt";
+          rise = "2.25pt";
+        }
+        (
+          lib.concatStringsSep "" (
+            lib.forEach (
+              builtins.genList (i: i) (builtins.fromJSON (config.run-command "nproc"))
+            )
+            (
+              id: "{icon${toString id}}"
+            )
+          )
+        );
+    in "{usage}${chr.percent}${chr.line}${bars}${chr.line}${icon.cpu}";
     format-icons = [
-      /*
-      "▁" "▂" "▃" "▄" "▅" "▆" "▇"
-      */
-      "<span size='10pt'>█</span>"
+      (color-span palette.comment "▁")
+      (color-span palette.blue "▁")
+      (color-span palette.aqua "▂")
+      (color-span palette.aqua "▃")
+      (color-span palette.green "▄")
+      (color-span palette.yellow "▅")
+      (color-span palette.orange "▆")
+      (color-span palette.red "▇")
+      (color-span palette.red "█")
     ];
     interval = 1;
     tooltip = false;

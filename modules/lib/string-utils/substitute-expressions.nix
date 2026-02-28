@@ -44,32 +44,13 @@ config-add "string" {
             else "";
           expression = lib.last matched-string-parts;
 
-          evaluated-expression = config.debug (config.string.evaluate-nix "{config,lib,pkgs}:${expression}");
+          evaluated-expression = config.string.evaluate-nix "{config,lib,pkgs}:${expression}";
         in
           assert can-interpolate evaluated-expression;
             lib.replaceStrings [substitution-target] [(apply-flags flag-str (builtins.toString evaluated-expression))] changing-text
       )
       text
       matched-strings;
-    #lib.foldl (
-    #  accumulated-string-changes: flag: let
-    #    begin = "\"#${flag.string}[";
-    #    end = "]\"";
-    #    expressions = config.string.between begin end string;
-    #  in
-    #    lib.foldl (
-    #      changing-string: expression: let
-    #        evaluated-expression = config.debug (config.string.evaluate-nix "{config,lib,pkgs}:${expression}");
-    #        can-interpolate = val: (builtins.tryEval (builtins.toString val)).success;
-    #      in
-    #        assert can-interpolate evaluated-expression;
-    #          lib.replaceStrings ["${begin}${expression}${end}"] [(flag.lambda (builtins.toString evaluated-expression))] changing-string
-    #    )
-    #    accumulated-string-changes
-    #    expressions
-    #)
-    #string
-    #interpolation-flags;
   in
     modified-string;
 }

@@ -1,7 +1,6 @@
 {
   config,
   config-add,
-  lib,
   ...
 }:
 config-add "file" {
