@@ -1,24 +1,25 @@
 
 // --- COLOR DEFINITIONS ---
 
-$background:    "@[palette.background]";
-$foreground:    "@[palette.foreground]";
-$selection:     "@[palette.selection]";
-$window:        "@[palette.window]";
-$red:           "@[palette.red]";
-$orange:        "@[palette.orange]";
-$yellow:        "@[palette.yellow]";
-$green:         "@[palette.green]";
-$aqua:          "@[palette.aqua]";
-$blue:          "@[palette.blue]";
-$purple:        "@[palette.purple]";
+$background:    "@[config.palette.background]";
+$dark-gray:     "@[config.palette.selection]";
+$gray:          "@[config.palette.window]";
+$ligth-gray:    "@[config.palette.comment]";
+$foreground:    "@[config.palette.foreground]";
+$red:           "@[config.palette.red]";
+$orange:        "@[config.palette.orange]";
+$yellow:        "@[config.palette.yellow]";
+$green:         "@[config.palette.green]";
+$aqua:          "@[config.palette.aqua]";
+$blue:          "@[config.palette.blue]";
+$purple:        "@[config.palette.purple]";
 
-$background-translucent: transparentize($background,0.3);
+$background-translucent: transparentize($background,1 - "@[config.palette.background-opacity]");
 $background-clear: transparentize($background,0.7);
 
 // --- MIXINS ---
 
-//bruh asldjkfjasdlkjfhdfasadsffasd
+//bruh asldjkfjasdlkjfhdfascoloradsffasd
 
 @mixin glow-shadow($color: $foreground){
     box-shadow:
@@ -77,7 +78,7 @@ window#waybar {
     button.active,
     button.empty.active {
         label{
-            color: $window;
+            color: $gray;
         }
     }
 
@@ -93,7 +94,7 @@ window#waybar {
         padding: 0px 16px;
         background: $yellow;
         label{
-            color: $window;
+            color: $gray;
         }
     }
 }
@@ -102,7 +103,7 @@ window#waybar {
 
 @mixin style-module($color){
     @include glow-outline($color);
-    color: $color;
+    color: $foreground;
 }
 
 %module-base {
@@ -130,7 +131,7 @@ window#waybar {
 }
 
 #network.disconnected {
-    @include style-module($window);
+    @include style-module($gray);
 }
 
 // -- sound
@@ -149,7 +150,7 @@ window#waybar {
     margin: 6px;
     padding: 0px 3px;
     background-color: $background-clear;
-    @include style-module($window);
+    @include style-module($gray);
     color: $foreground;
 }
 

@@ -2,14 +2,15 @@
   lib,
   config-add,
   config,
+  pkgs,
   ...
 }:
-config-add "path" {
-  get-data = store-path: let
+config-add "store-path" {
+  get-file-data = store-path: let
     path-str = toString store-path;
-    full-path-split = lib.splitString "/" path-str;
-    dir = lib.drop 4 (lib.init full-path-split);
-    name-split = lib.splitString "." (lib.last full-path-split);
+    path-split = lib.splitString "/" (lib.removePrefix (toString builtins.storeDir) path-str);
+    dir = lib.drop 2 (lib.init path-split);
+    name-split = lib.splitString "." (lib.last path-split);
     name = lib.concatStringsSep "." (
       config.list.inclusive-init name-split
     );
@@ -22,6 +23,5 @@ config-add "path" {
     inherit stem;
     inherit specs;
     inherit extension;
-    bruh = lib.traceValSeq dir;
   };
 }

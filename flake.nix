@@ -22,6 +22,7 @@
   };
 
   outputs = {
+    self,
     nixpkgs,
     home-manager,
     nixos-update-script,
@@ -50,6 +51,7 @@
           inherit nix4vscode;
           inherit username;
           inherit host;
+          flake-root = self.outPath;
           config-add = namespace: value: let
             path = lib.splitString "." namespace;
           in {

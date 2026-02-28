@@ -3,9 +3,9 @@
   config-add,
   ...
 }:
-config-add "path" {
-  join-str = file-data: let
-    joined-path = lib.concatStringsSep "/" (
+config-add "file" {
+  path-str = file-data:
+    lib.concatStringsSep "/" (
       file-data.dir
       ++ [
         (
@@ -20,6 +20,4 @@ config-add "path" {
         )
       ]
     );
-  in
-    joined-path;
 }

@@ -7,14 +7,13 @@
 config-add "convert"
 {
   scss = file-data: let
-    file-path = config.path.join-str file-data;
-    new-store-path = pkgs.runCommand file-path {
-      buildInputs = with pkgs; [sassc];
+    store-path = pkgs.runCommand (config.file.path-str file-data) {
+      buildInputs = [pkgs.sassc];
     } "sassc ${file-data.store-path} $out";
   in
     file-data
     // {
-      store-path = new-store-path;
+      inherit store-path;
       extension = "css";
     };
 }

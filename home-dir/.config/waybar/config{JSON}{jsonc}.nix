@@ -1,4 +1,53 @@
-{...}: {
+{config, ...}: let
+  palette = config.palette;
+  make-span = config.make-span;
+  chr = let
+    span = make-span palette.comment;
+  in {
+    line = span "|";
+    interpoint = span "·";
+    triple-equal-sign = span "===";
+    percent = span " 󰏰";
+    gb = span "G";
+    slash = span "/";
+  };
+  icon = {
+    cpu = make-span palette.aqua "";
+    ram = make-span palette.orange "";
+    disk = make-span palette.yellow "";
+    network = {
+      online = make-span palette.green "";
+      offline = make-span palette.red "";
+    };
+    mic = {
+      on = make-span palette.purple "";
+      off = make-span palette.comment "";
+    };
+    volume = {
+      off = make-span palette.purple "";
+      low = make-span palette.purple "";
+      high = make-span palette.purple "";
+      muted = make-span palette.comment "";
+    };
+    battery = [
+      make-span
+      palette.red
+      ""
+      make-span
+      palette.red
+      ""
+      make-span
+      palette.orange
+      ""
+      make-span
+      palette.yellow
+      ""
+      make-span
+      palette.green
+      ""
+    ];
+  };
+in {
   layer = "bottom";
   position = "top";
   height = 40;
@@ -54,13 +103,13 @@
   };
 
   cpu = {
-    format = "{usage}%|";
+    format = "{usage}${chr.percent}${chr.line}${icon.cpu}";
     interval = 1;
     tooltip = false;
   };
 
   memory = {
-    format = "{used:0.1f}G/{total:0.1f}G|";
+    format = "{used:0.1f}G/{total:0.1f}G|${make-span palette.orange ""}";
     interval = 1;
     tooltip = false;
   };
@@ -74,7 +123,7 @@
     interval = 5;
     format = "{icon}{capacity}%";
     format-charging = " {icon} {capacity}%";
-    format-icons = ["" "" "" "" ""];
+    format-icons = icon.battery;
     tooltip = false;
   };
 

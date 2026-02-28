@@ -4,7 +4,7 @@ mon=$(date +"%b")
 mon="${mon^}"
 
 if (( 10#$sec % 2 == 0 )); then
-    hm=$(date +"%H:%M")
+    hm=$(date +"%H"@[config.make-span config.palette.comment ":"]"%M")
 else
     hm=$(date +"%H %M")
 fi
