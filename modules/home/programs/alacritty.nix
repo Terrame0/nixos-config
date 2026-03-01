@@ -1,68 +1,61 @@
-{...}: {
-  # foreground = "#c5c8c6"
-  # background = "#1d1f21"
-  # selection = "#373b41"
-  # line = "#282a2e"
-  # comment = "#969896"
-  # red = "#d54e53"
-  # orange = "#e78c45"
-  # yellow = "#e7c547"
-  # green = "#b9ca4a"
-  # aqua = "#70c0b1"
-  # blue = "#7aa6da"
-  # purple = "#c397d8"
-  # window = "#4d5057"
-
+{config, ...}: {
   programs.alacritty = {
     enable = true;
     settings = {
       colors = {
-        transparent_background_colors = true;
+        transparent_background_colors = false;
+
         primary = {
-          foreground = "#c5c8c6";
-          background = "#1d1f21";
+          foreground = config.palette.foreground;
+          background = config.palette.background;
         };
+
         search = {
           matches = {
-            foreground = "#f0c674";
-            background = "#1d1f21";
+            foreground = config.palette.background;
+            background = config.palette.yellow;
           };
           focused_match = {
-            foreground = "#f0c674";
-            background = "#373b41";
+            foreground = config.palette.background;
+            background = config.palette.green;
           };
         };
+
         line_indicator = {
           foreground = "None";
-          background = "#373b41";
+          background = config.palette.selection;
         };
+
         footer_bar = {
-          foreground = "#7aa6da";
-          background = "#373b41";
+          foreground = config.palette.blue;
+          background = config.palette.selection;
         };
+
         selection = {
           text = "CellForeground";
-          background = "#373b41";
+          background = config.palette.selection;
         };
-        bright = {
-          black = "#4d5057";
-          red = "#d54e53";
-          green = "#b9ca4a";
-          yellow = "#e7c547";
-          blue = "#7aa6da";
-          magenta = "#c397d8";
-          cyan = "#70c0b1";
-          white = "#eaeaea";
-        };
+
         normal = {
-          black = "#4d5057";
-          red = "#d54e53";
-          green = "#b9ca4a";
-          yellow = "#e7c547";
-          blue = "#7aa6da";
-          magenta = "#c397d8";
-          cyan = "#70c0b1";
-          white = "#eaeaea";
+          black = config.palette.background;
+          red = config.palette.red;
+          green = config.palette.green;
+          yellow = config.palette.yellow;
+          blue = config.palette.blue;
+          magenta = config.palette.purple;
+          cyan = config.palette.aqua;
+          white = config.palette.foreground;
+        };
+
+        bright = {
+          black = config.palette.comment;
+          red = config.palette.red;
+          green = config.palette.green;
+          yellow = config.palette.yellow;
+          blue = config.palette.blue;
+          magenta = config.palette.purple;
+          cyan = config.palette.aqua;
+          white = config.palette.foreground;
         };
       };
 
@@ -72,48 +65,46 @@
           y = 8;
         };
         dynamic_padding = true;
-        opacity = 0.85;
+        opacity = config.style.background-opacity;
         startup_mode = "Maximized";
         title = "Terminal";
         blur = true;
       };
 
       keyboard.bindings = [
-        # -- latin keybinds
         {
           key = "C";
-          mods = "Control|Shift";
+          mods = "Control";
           action = "Copy";
         }
         {
           key = "V";
-          mods = "Control|Shift";
+          mods = "Control";
           action = "Paste";
         }
-        # -- cyrillic keybinds
         {
           key = "С";
-          mods = "Control|Shift";
+          mods = "Control";
           action = "Copy";
         }
         {
           key = "М";
-          mods = "Control|Shift";
+          mods = "Control";
           action = "Paste";
         }
       ];
 
       font = {
         normal = {
-          family = "JetBrainsMono Nerd Font";
+          family = config.style.font.mono;
           style = "Regular";
         };
         bold = {
-          family = "JetBrainsMono Nerd Font";
+          family = config.style.font.mono;
           style = "Bold";
         };
         italic = {
-          family = "JetBrainsMono Nerd Font";
+          family = config.style.font.mono;
           style = "Italic";
         };
         size = 14.0;

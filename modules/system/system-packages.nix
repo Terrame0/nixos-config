@@ -9,4 +9,8 @@
     pacproxy
     nixos-update-script.packages.${pkgs.system}.default
   ];
+
+  # -- remove preinstalled apps
+  documentation.nixos.enable = false;
+  services.xserver.excludePackages = [pkgs.xterm];
 }
