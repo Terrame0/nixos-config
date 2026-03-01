@@ -3,7 +3,7 @@
     import
     (fetchTarball {
       url = "https://github.com/NixOS/nixpkgs/archive/nixos-unstable.tar.gz";
-      sha256 = "04lns5xspj7nd99ygwf8js5syabbrc9zbgsnalgibc2n9r4vrhcs";
+      sha256 = "00a3mfk96r00j26mnblm6rlimrfl35sjrq4zy94mpc5c2jqmx3i3";
     })
     {
       system = pkgs.stdenv.hostPlatform.system;
