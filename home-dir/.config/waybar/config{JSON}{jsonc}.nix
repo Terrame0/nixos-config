@@ -16,7 +16,6 @@
     slash = span "/";
     lbracket = span "[";
     rbracket = span "]";
-    inv-rarrow = span ">-";
   };
   icon = {
     cpu = color-span palette.aqua "";
@@ -38,7 +37,7 @@
       ];
       muted = color-span palette.comment "";
     };
-    bolt = color-span palette.aqua "";
+    plug = color-span palette.green "";
     batteries = [
       (color-span palette.red "")
       (color-span palette.red "")
@@ -150,7 +149,7 @@ in {
     };
     interval = 5;
     format = "{capacity}${chr.percent}${chr.line}{icon}";
-    format-charging = "{capacity}${chr.percent}${chr.line}${icon.bolt}${chr.inv-rarrow}{icon}";
+    format-charging = "{capacity}${chr.percent}${chr.line}${icon.plug}";
     format-icons = icon.batteries;
     tooltip = false;
   };
