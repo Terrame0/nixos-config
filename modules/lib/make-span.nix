@@ -1,7 +1,6 @@
 {
   config-add,
   lib,
-  config,
   ...
 }:
 config-add "make-span" (

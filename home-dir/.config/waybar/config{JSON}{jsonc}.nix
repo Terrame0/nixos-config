@@ -16,29 +16,35 @@
     slash = span "/";
     lbracket = span "[";
     rbracket = span "]";
-    inv-rarrow = span ">-";
   };
   icon = {
     cpu = color-span palette.aqua "";
     ram = color-span palette.orange "";
     disk = color-span palette.yellow "";
     network = {
+      wifi = [
+        (color-span palette.green "󰤨")
+        (color-span palette.green "󰤥")
+        (color-span palette.yellow "󰤢")
+        (color-span palette.orange "󰤟")
+        (color-span palette.red "󰤯")
+      ];
       online = color-span palette.green "";
       offline = color-span palette.red "";
     };
     mic = {
-      on = color-span palette.purple "";
+      on = color-span palette.blue "";
       off = color-span palette.comment "";
     };
     volume = {
       levels = [
-        (color-span palette.purple "")
-        (color-span palette.purple "")
-        (color-span palette.purple "")
+        (color-span palette.blue "")
+        (color-span palette.blue "")
+        (color-span palette.blue "")
       ];
       muted = color-span palette.comment "";
     };
-    bolt = color-span palette.aqua "";
+    plug = color-span palette.green "";
     batteries = [
       (color-span palette.red "")
       (color-span palette.red "")
@@ -69,6 +75,7 @@ in {
     "network"
     "custom/clock"
     "pulseaudio"
+    "tray"
   ];
 
   modules-center = [
@@ -76,7 +83,7 @@ in {
   ];
 
   modules-right = [
-    "tray"
+    "hyprland/window"
     "cpu"
     "memory"
     "disk"
@@ -85,9 +92,9 @@ in {
   reload_style_on_change = true;
 
   margin-bottom = 0;
-  margin-top = 6;
-  margin-left = 6;
-  margin-right = 6;
+  margin-top = config.style.external-offset;
+  margin-left = config.style.external-offset;
+  margin-right = config.style.external-offset;
 
   "hyprland/workspaces" = {
     disable-scroll = false;
@@ -101,8 +108,14 @@ in {
   };
 
   tray = {
+    show-passive-items = true;
     icon-size = 20;
     spacing = 7;
+    tooltip = false;
+  };
+
+  "hyprland/window" = {
+    format = "";
     tooltip = false;
   };
 
@@ -114,6 +127,12 @@ in {
   };
 
   cpu = {
+    states = {
+      critical = 100;
+      alert = 90;
+      warning = 75;
+      good = 60;
+    };
     format = let
       bars =
         config.make-span {
@@ -137,6 +156,12 @@ in {
   };
 
   memory = {
+    states = {
+      critical = 100;
+      alert = 90;
+      warning = 80;
+      good = 70;
+    };
     format = "{used:0.1f}${chr.gb}${chr.slash}{total:0.1f}${chr.gb}${chr.line}${icon.ram}";
     interval = 1;
     tooltip = false;
@@ -145,17 +170,24 @@ in {
   battery = {
     states = {
       good = 100;
-      warning = 70;
+      warning = 50;
+      alert = 30;
       critical = 20;
     };
     interval = 5;
     format = "{capacity}${chr.percent}${chr.line}{icon}";
-    format-charging = "{capacity}${chr.percent}${chr.line}${icon.bolt}${chr.inv-rarrow}{icon}";
+    format-charging = "{capacity}${chr.percent}${chr.line}${icon.plug}";
     format-icons = icon.batteries;
     tooltip = false;
   };
 
   disk = {
+    states = {
+      critical = 100;
+      alert = 95;
+      warning = 90;
+      good = 80;
+    };
     interval = 30;
     format = "{specific_free:1.0f}${chr.gb}${chr.slash}{specific_total:1.0f}${chr.gb}${chr.line}${icon.disk}";
     unit = "GB";
@@ -163,8 +195,8 @@ in {
   };
 
   pulseaudio = {
-    format = "{volume}${chr.percent}${chr.point}{icon}${chr.line}{format_source}";
-    format-muted = "0${chr.percent}${chr.point}${icon.volume.muted}|{format_source}";
+    format = "{volume}${chr.percent}${chr.point}{icon}${chr.point}{format_source}";
+    format-muted = "0${chr.percent}${chr.point}${icon.volume.muted}${chr.point}{format_source}";
     format-icons = {
       default = icon.volume.levels;
     };
@@ -176,8 +208,13 @@ in {
   };
 
   network = {
+    format-icons = {
+      wifi = icon.network.wifi;
+    };
     format = "Online${chr.line}${icon.network.online}";
+    format-wifi = "Online${chr.line}{icon}";
     format-disconnected = "Offline${chr.line}${icon.network.offline}";
+    max-length = 50;
     tooltip = false;
   };
 }

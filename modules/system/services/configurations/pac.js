@@ -81,6 +81,7 @@ function FindProxyForURL(url, host) {
     "extranix.com",
     "nixos.org",
     "nix.dev",
+    "desmos.com",
     "wikipedia.org",
     "wikimedia.org",
     "archive.org",
