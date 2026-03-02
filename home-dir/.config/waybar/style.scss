@@ -1,3 +1,6 @@
+@use "sass:math";
+@use "sass:color";
+
 $background:    "#[config.palette.background]";
 $dark-gray:     "#[config.palette.selection]";
 $gray:          "#[config.palette.window]";
@@ -22,16 +25,29 @@ $bg-opacity:    "#[config.style.background-opacity]";
 $offset:        "#[suf(px)|config.style.external-offset]";
 $border-radius: "#[suf(px)|config.style.border-radius]";
 
-$background-translucent: transparentize($background,1 - $bg-opacity);
-$background-clear: transparentize($background,0.7);
+$bg-translucent: transparentize($background,1 - $bg-opacity);
+$bg-clear: transparentize($background,0.7);
+$bg-transparent: transparentize($background,1);
+
 
 // --- MIXINS ---
 
-@mixin glow-shadow($color: $foreground){
+@function compensate-alpha-layering($color, $n) {
+  $a: color.alpha($color);
+  @if $a <= 0 { @return $color; }
+  @if $n <= 0 { @error "n must be > 0"; }
+  $a-new: 1 - math.pow(1 - $a, math.div(1, $n));
+  @return color.change($color, $alpha: $a-new);
+}
+
+@mixin glow-shadow($color) {
+    $compensated: compensate-alpha-layering($color, 5);
     box-shadow:
-    0px 0px 2px $color,
-    0px 0px 2px $color,
-    0px 0px 1px $color;
+    0px 0px 3px $compensated,
+    0px 0px 2px $compensated,
+    0px 0px 2px $compensated,
+    0px 0px 1px $compensated,
+    0px 0px 1px $compensated;
 }
 
 @mixin glow-outline($color: $foreground){
@@ -46,23 +62,54 @@ $background-clear: transparentize($background,0.7);
     font-weight: bold;
     font-size: $h2;
     text-shadow: none;
-    background-color: transparent;
     transition: ease-in-out 0.2s;
     border: 0px;
 }
-window#waybar {
-    background-color: $background-translucent;
-    border-radius: $border-radius;
-}
 
-// --- MODULE CONTAINER STYLING ---
+// --- BAR STYLING ---
+
+// top 0.7 -> 0; bottom 0 -> 0.7
+// p1 (0.555,0.641)
+// p2 (0.536,0.855)
+
+// $transition-to-islands: cubic-bezier(0.493,0.516,0.480,0.840);
+// $transition-to-islands: cubic-bezier(0.926,1.199,0,1);
+
+$fade-in: cubic-bezier(0.413,0.404,0.487,0.855);
+$fade-out: cubic-bezier(0.513,0.145,0.587,0.596);
 
 .modules-left,
 .modules-center,
 .modules-right {
-    background-color: transparent;
     border-radius: $border-radius;
     padding: 0px $offset/2;
+}
+
+.modules-left,
+.modules-center,
+.modules-right {
+    transition: background-color 0.2s $fade-out;
+    background-color: $bg-transparent; // -- transparent
+}
+
+window#waybar {
+    transition: background-color 0.2s $fade-in;
+    background-color: $bg-translucent; // -- opaque
+}
+
+window#waybar {
+    border-radius: $border-radius;
+    &.empty,
+    &.floating {
+        transition: background-color 0.2s $fade-out;
+        background-color: $bg-transparent; // -- transparent
+        .modules-left,
+        .modules-center,
+        .modules-right {
+            transition: background-color 0.2s $fade-in;
+            background-color: $bg-translucent; // -- opaque
+        }
+    }
 }
 
 // --- WORKSPACE BUTTON STYLING ---
@@ -78,124 +125,81 @@ window#waybar {
             color: $foreground;
             font-size: $h1;
         }
-    }
-
-    button.empty,
-    button.active,
-    button.empty.active {
-        label{
-            color: $gray;
+        &.empty,
+        &.active,
+        &.empty.active,
+        &.urgent {
+            label{
+                color: $gray;
+            }
         }
-    }
-
-    button.active,
-    button.empty.active {
-        @include glow-shadow($green);
-        padding: 0px 16px;
-        background: $green;
-    }
-
-    button.urgent {
-        @include glow-shadow($yellow);
-        padding: 0px 16px;
-        background: $yellow;
-        label{
-            color: $gray;
+        &.active,
+        &.empty.active {
+            @include glow-shadow($green);
+            padding: 0px 16px;
+            background: $green;
+        }
+        &.urgent {
+            @include glow-shadow($yellow);
+            padding: 0px 16px;
+            background: $yellow;
         }
     }
 }
 
 // --- MODULE STYLING ---
 
-@mixin style-module($color){
-    @include glow-outline($color);
-    color: $foreground;
-}
-
 %module-base {
-    @include style-module($foreground);
+    color: $foreground;
     margin: $offset $offset/2;
     padding: 0 $offset;
     border-radius: $border-radius - $offset;
-    background-color:$background-translucent;
+    background-color:$bg-translucent;
+    &.good { color: $foreground; }
+    &.warning { color: $yellow; }
+    &.alert { color: $orange; }
+    &.critical { color: $red; @include glow-outline($red); }
 }
 
-// --- LEFT ---
-
-// -- time and date information
-
-#custom-clock {
-    @extend %module-base;
-    @include style-module($blue);
-}
-
-// -- network info
-
-#network {
-    @extend %module-base;
-    @include style-module($green);
-}
-
-#network.disconnected {
-    @include style-module($gray);
-}
-
-// -- sound
-
-#pulseaudio {
-    @extend %module-base;
-    @include style-module($purple);
-}
-
-// --- RIGHT ---
-
-// -- app tray
-
-#tray {
-    @extend %module-base;
-    margin: $offset;
-    padding: 0px $offset/2;
-    background-color: $background-clear;
-    @include style-module($gray);
-    color: $foreground;
-}
-
-// -- cpu load
-
-#cpu {
-    @extend %module-base;
-    @include style-module($aqua);
-}
-
-// -- available ram
-
-#memory {
-    @extend %module-base;
-    @include style-module($orange);
-}
-
-// -- available storage space
-
+#battery,
+#network,
+#custom-clock,
+#pulseaudio,
+#tray,
+#cpu,
+#memory,
 #disk {
     @extend %module-base;
-    @include style-module($yellow);
 }
 
-// -- battery charge percentage
-
-#battery {
-    @extend %module-base;
+#network {
+    @include glow-outline($green);
+    &.disconnected {
+        @include glow-outline($gray);
+        color:$ligth-gray;
+    }
 }
 
-#battery.good,
-#battery.charging {
-    @include style-module($green);
+#tray {
+    &.passive {
+        color:$ligth-gray;
+    }
+    border: 0px;
+    @include glow-shadow($bg-clear);
+    background: $bg-clear;
+    margin: $offset;
+    padding: 0px $offset;
 }
 
-#battery.warning {
-    @include style-module($yellow);
+#window{
+    background-color: $bg-transparent;
+    color: $bg-transparent;
 }
 
-#battery.critical {
-    @include style-module($green);
-}
+
+#disk { @include glow-outline($yellow); }
+#memory { @include glow-outline($orange); }
+#cpu { @include glow-outline($aqua); }
+#battery { @include glow-outline($green); }
+#pulseaudio { @include glow-outline($blue); }
+#custom-clock { @include glow-outline($purple); }

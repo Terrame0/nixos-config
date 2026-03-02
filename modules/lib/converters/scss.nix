@@ -8,8 +8,8 @@ config-add "convert"
 {
   scss = file-data: let
     store-path = pkgs.runCommand (config.file.path-str file-data) {
-      buildInputs = [pkgs.sassc];
-    } "sassc ${file-data.store-path} $out";
+      buildInputs = [pkgs.dart-sass];
+    } "sass ${file-data.store-path} $out";
   in
     file-data
     // {
