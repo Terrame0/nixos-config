@@ -71,7 +71,6 @@ in {
   spacing = 0;
 
   modules-left = [
-    "battery"
     "network"
     "custom/clock"
     "pulseaudio"
@@ -87,6 +86,7 @@ in {
     "cpu"
     "memory"
     "disk"
+    "battery"
   ];
 
   reload_style_on_change = true;
@@ -188,7 +188,7 @@ in {
       warning = 90;
       good = 80;
     };
-    interval = 30;
+    interval = 10;
     format = "{specific_free:1.0f}${chr.gb}${chr.slash}{specific_total:1.0f}${chr.gb}${chr.line}${icon.disk}";
     unit = "GB";
     tooltip = false;
@@ -215,6 +215,7 @@ in {
     format-wifi = "Online${chr.line}{icon}";
     format-disconnected = "Offline${chr.line}${icon.network.offline}";
     max-length = 50;
+    interval = 5;
     tooltip = false;
   };
 }
