@@ -16,9 +16,12 @@
     alejandra
     xarchiver
     neofetch
-    sassc
+    dart-sass
     tree
     jq
+
+    # -- gtk development
+    gtk3.dev
 
     # -- screenshots
     grim
