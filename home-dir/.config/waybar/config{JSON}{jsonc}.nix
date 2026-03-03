@@ -157,10 +157,10 @@ in {
 
   memory = {
     states = {
-      critical = 100;
-      alert = 90;
-      warning = 80;
-      good = 70;
+      critical = 90;
+      alert = 80;
+      warning = 70;
+      good = 60;
     };
     format = "{used:0.1f}${chr.gb}${chr.slash}{total:0.1f}${chr.gb}${chr.line}${icon.ram}";
     interval = 1;
@@ -183,10 +183,10 @@ in {
 
   disk = {
     states = {
-      critical = 100;
-      alert = 95;
-      warning = 90;
-      good = 80;
+      critical = 90;
+      alert = 80;
+      warning = 75;
+      good = 70;
     };
     interval = 10;
     format = "{specific_free:1.0f}${chr.gb}${chr.slash}{specific_total:1.0f}${chr.gb}${chr.line}${icon.disk}";
