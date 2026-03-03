@@ -3,9 +3,9 @@ config-add "style" {
   font = {
     mono = "JetBrainsMono NF";
     propo = "JetBrainsMono NFP";
-    h1 = 22;
-    h2 = 18;
-    h3 = 14;
+    h1 = 17;
+    h2 = 14;
+    h3 = 11;
   };
   external-offset = 6;
   border-radius = 12;

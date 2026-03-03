@@ -16,9 +16,9 @@ $purple:        "#[config.palette.purple]";
 
 $font:          "#[str|config.style.font.propo]";
 
-$h1:            "#[suf(px)|config.style.font.h1]";
-$h2:            "#[suf(px)|config.style.font.h2]";
-$h3:            "#[suf(px)|config.style.font.h3]";
+$h1:            "#[suf(pt)|config.style.font.h1]";
+$h2:            "#[suf(pt)|config.style.font.h2]";
+$h3:            "#[suf(pt)|config.style.font.h3]";
 
 $bg-opacity:    "#[config.style.background-opacity]";
 
@@ -145,7 +145,7 @@ window#waybar {
 %module-base {
     color: $foreground;
     margin: $offset $offset/2;
-    padding: 0 $offset;
+    padding: 0px $offset;
     border-radius: $border-radius - $offset;
     background-color:$bg-translucent;
     &.good { color: $foreground; }
