@@ -148,6 +148,7 @@ window#waybar {
     padding: 0px $offset;
     border-radius: $border-radius - $offset;
     background-color:$bg-translucent;
+    border: solid 2px $bg-transparent;
     &.good { color: $foreground; }
     &.warning { color: $yellow; }
     &.alert { color: $orange; }
