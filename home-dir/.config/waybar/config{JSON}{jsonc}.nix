@@ -67,7 +67,7 @@
 in {
   layer = "bottom";
   position = "top";
-  height = 40;
+  height = 42;
   spacing = 0;
 
   modules-left = [
@@ -128,9 +128,9 @@ in {
 
   cpu = {
     states = {
-      critical = 100;
-      alert = 90;
-      warning = 75;
+      critical = 90;
+      alert = 80;
+      warning = 70;
       good = 60;
     };
     format = let
@@ -169,10 +169,10 @@ in {
 
   battery = {
     states = {
-      good = 100;
-      warning = 50;
-      alert = 30;
       critical = 20;
+      alert = 30;
+      warning = 50;
+      good = 100;
     };
     interval = 5;
     format = "{capacity}${chr.percent}${chr.line}{icon}";
