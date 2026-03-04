@@ -67,7 +67,7 @@
 in {
   layer = "bottom";
   position = "top";
-  height = 42;
+  height = 43;
   spacing = 0;
 
   modules-left = [
