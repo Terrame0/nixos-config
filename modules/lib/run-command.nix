@@ -1,10 +1,10 @@
 {
-  config-add,
+  extend-config,
   config,
   pkgs,
   ...
 }:
-config-add "run-command" (
+extend-config "run-command" (
   command:
     config.file.read (config.store-path.get-file-data (pkgs.runCommand "my-command" {} "${command} > $out"))
 )

@@ -1,9 +1,9 @@
 {
   lib,
-  config-add,
+  extend-config,
   ...
 }:
-config-add "list" {
+extend-config "list" {
   inclusive-init = list:
     if lib.length list != 1
     then lib.init list

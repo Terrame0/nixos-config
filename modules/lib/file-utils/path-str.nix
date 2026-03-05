@@ -1,9 +1,9 @@
 {
   lib,
-  config-add,
+  extend-config,
   ...
 }:
-config-add "file" {
+extend-config "file" {
   path-str = file-data:
     lib.concatStringsSep "/" (
       file-data.dir

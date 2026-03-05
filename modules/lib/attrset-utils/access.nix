@@ -1,9 +1,9 @@
 {
   lib,
-  config-add,
+  extend-config,
   ...
 }:
-config-add "attrset" {
+extend-config "attrset" {
   access = attrset: key-string: let
     result =
       lib.foldl (

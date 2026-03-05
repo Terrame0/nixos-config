@@ -52,7 +52,7 @@
           inherit username;
           inherit host;
           flake-root = self.outPath;
-          config-add = namespace: value: let
+          extend-config = namespace: value: let
             path = lib.splitString "." namespace;
           in {
             options = lib.setAttrByPath path (lib.mkOption {

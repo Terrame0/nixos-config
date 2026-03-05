@@ -1,9 +1,9 @@
 {
-  config-add,
+  extend-config,
   config,
   ...
 }:
-config-add "file" {
+extend-config "file" {
   modify = file-data: lambda: let
     contents = config.file.read file-data;
     file-data-new = config.file.make-new ((config.file.path-str file-data) + "-transformed") (lambda contents);

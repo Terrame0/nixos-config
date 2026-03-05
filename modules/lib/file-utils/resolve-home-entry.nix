@@ -1,9 +1,9 @@
 {
   config,
-  config-add,
+  extend-config,
   ...
 }:
-config-add "file" {
+extend-config "file" {
   resolve-home-entry = file-data: let
     file-resolved = config.file.modify file-data config.string.substitute-expressions;
     file-converted =

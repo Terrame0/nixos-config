@@ -1,5 +1,5 @@
-{config-add, ...}:
-config-add "palette" {
+{extend-config, ...}:
+extend-config "palette" {
   background = "#1d1f21";
   line = "#282a2e";
   selection = "#373b41";

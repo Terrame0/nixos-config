@@ -1,9 +1,9 @@
 {
-  config-add,
+  extend-config,
   lib,
   ...
 }:
-config-add "make-span" (
+extend-config "make-span" (
   parameters: string: let
     parameter-list = lib.mapAttrsToList (name: value: "${name}='${value}'") parameters;
     parameter-string = lib.concatStringsSep " " parameter-list;

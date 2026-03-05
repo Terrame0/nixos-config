@@ -1,10 +1,10 @@
 {
-  config-add,
+  extend-config,
   config,
   lib,
   ...
 }:
-config-add "convert"
+extend-config "convert"
 {
   nix = file-data: let
     generator = lib.elemAt file-data.specs 0;

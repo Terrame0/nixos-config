@@ -1,10 +1,10 @@
 {
   lib,
-  config-add,
+  extend-config,
   config,
   ...
 }:
-config-add "string" {
+extend-config "string" {
   substitute-expressions = text: let
     interpolation-flags = {
       "" = string: args: string;

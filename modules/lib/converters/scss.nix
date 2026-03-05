@@ -1,10 +1,10 @@
 {
   pkgs,
-  config-add,
+  extend-config,
   config,
   ...
 }:
-config-add "convert"
+extend-config "convert"
 {
   scss = file-data: let
     store-path = pkgs.runCommand (config.file.path-str file-data) {

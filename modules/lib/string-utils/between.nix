@@ -1,9 +1,9 @@
 {
   lib,
-  config-add,
+  extend-config,
   ...
 }:
-config-add "string" {
+extend-config "string" {
   between = start: end: string: let
     string-split = lib.splitString start string;
 
