@@ -1,9 +1,9 @@
 {
-  config-add,
+  extend-config,
   config,
   ...
 }:
-config-add "file" {
+extend-config "file" {
   emplace = file-data: contents:
     config.file.modify file-data (_: contents);
 }

@@ -1,6 +1,6 @@
 {
-  config-add,
+  extend-config,
   lib,
   ...
 }:
-config-add "debug" (value: lib.traceValSeq value)
+extend-config "debug" (value: lib.traceValSeq value)

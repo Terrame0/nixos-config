@@ -1,11 +1,11 @@
 {
   lib,
-  config-add,
+  extend-config,
   config,
   pkgs,
   ...
 }:
-config-add "string" {
+extend-config "string" {
   evaluate-nix = expression: let
     store-path = pkgs.writeText "nix-expression.nix" expression;
   in

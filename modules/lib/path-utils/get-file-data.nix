@@ -1,10 +1,10 @@
 {
   lib,
-  config-add,
+  extend-config,
   config,
   ...
 }:
-config-add "store-path" {
+extend-config "store-path" {
   get-file-data = store-path: let
     path-str = toString store-path;
     path-split = lib.splitString "/" (lib.removePrefix (toString builtins.storeDir) path-str);

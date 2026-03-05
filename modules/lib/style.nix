@@ -1,5 +1,5 @@
-{config-add, ...}:
-config-add "style" {
+{extend-config, ...}:
+extend-config "style" {
   font = {
     mono = "JetBrainsMono NF";
     propo = "JetBrainsMono NFP";

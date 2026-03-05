@@ -1,5 +1,5 @@
-{config-add, ...}:
-config-add "math"
+{extend-config, ...}:
+extend-config "math"
 (let
   pow = x: depth:
     if depth == 1

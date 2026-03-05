@@ -1,10 +1,10 @@
 {
-  config-add,
+  extend-config,
   lib,
   config,
   ...
 }:
-config-add "compensate-alpha-layering" (
+extend-config "compensate-alpha-layering" (
   alpha: layer-count: let
   in
     10
