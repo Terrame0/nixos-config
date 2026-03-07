@@ -147,7 +147,6 @@ window#waybar {
     padding: 0px $offset;
     border-radius: $border-radius - $offset;
     background-color:$bg-translucent;
-    border: solid 2px $bg-transparent;
     &.good { color: $foreground; }
     &.warning { color: $yellow; }
     &.alert { color: $orange; }
@@ -178,7 +177,6 @@ window#waybar {
         color:$light-gray;
     }
     border: 0px;
-    @include glow-shadow($bg-clear);
     background: $bg-clear;
     margin: $offset;
     padding: 0px $offset;
