@@ -150,19 +150,19 @@
           # -- editor core
           # ----------------------------------------------------------
 
-          "editor.background" = config.palette.background;
-          "editor.foreground" = config.palette.foreground;
+          "editor.background" = config.style.palette.black;
+          "editor.foreground" = config.style.palette.white;
 
-          "editor.selectionBackground" = config.palette.selection;
-          "editor.selectionForeground" = config.palette.foreground;
-          "editor.selectionHighlightBackground" = config.palette.selection;
+          "editor.selectionBackground" = config.style.palette.dim-gray;
+          "editor.selectionForeground" = config.style.palette.white;
+          "editor.selectionHighlightBackground" = config.style.palette.dim-gray;
           "editor.selectionHighlightBorder" = invisible;
 
-          "editor.lineHighlightBackground" = config.palette.line;
+          "editor.lineHighlightBackground" = config.style.palette.dark-gray;
 
-          "editorCursor.foreground" = config.palette.foreground;
-          "editorLineNumber.foreground" = config.palette.window;
-          "editorLineNumber.activeForeground" = config.palette.foreground;
+          "editorCursor.foreground" = config.style.palette.white;
+          "editorLineNumber.foreground" = config.style.palette.gray;
+          "editorLineNumber.activeForeground" = config.style.palette.white;
 
           "focusBorder" = invisible;
           "contrastBorder" = invisible;
@@ -171,9 +171,9 @@
           # -- activity bar
           # ----------------------------------------------------------
 
-          "activityBar.background" = config.palette.background;
-          "activityBar.foreground" = config.palette.foreground;
-          "activityBar.inactiveForeground" = config.palette.comment;
+          "activityBar.background" = config.style.palette.black;
+          "activityBar.foreground" = config.style.palette.white;
+          "activityBar.inactiveForeground" = config.style.palette.light-gray;
           "activityBar.border" = invisible;
           "activityBar.activeBorder" = invisible;
           "activityBar.activeFocusBorder" = invisible;
@@ -182,19 +182,19 @@
           # -- sidebar and explorer
           # ----------------------------------------------------------
 
-          "sideBar.background" = config.palette.background;
-          "sideBar.foreground" = config.palette.foreground;
-          "sideBar.border" = config.palette.line;
+          "sideBar.background" = config.style.palette.black;
+          "sideBar.foreground" = config.style.palette.white;
+          "sideBar.border" = config.style.palette.dark-gray;
 
           # ----------------------------------------------------------
           # -- tabs
           # ----------------------------------------------------------
 
-          "tab.activeBackground" = config.palette.line;
-          "tab.activeForeground" = config.palette.foreground;
+          "tab.activeBackground" = config.style.palette.dark-gray;
+          "tab.activeForeground" = config.style.palette.white;
 
-          "tab.inactiveBackground" = config.palette.background;
-          "tab.inactiveForeground" = config.palette.comment;
+          "tab.inactiveBackground" = config.style.palette.black;
+          "tab.inactiveForeground" = config.style.palette.light-gray;
 
           "tab.inactiveBorder" = invisible;
           "tab.unfocusedInactiveBorder" = invisible;
@@ -206,8 +206,8 @@
           "tab.unfocusedActiveBorder" = invisible;
           "tab.activeModifiedBorder" = invisible;
 
-          "tab.activeModifiedForeground" = config.palette.background;
-          "tab.inactiveModifiedForeground" = config.palette.comment;
+          "tab.activeModifiedForeground" = config.style.palette.black;
+          "tab.inactiveModifiedForeground" = config.style.palette.light-gray;
 
           "problems.decorations.enabled" = false;
           "scm.diffDecorations" = "none";
@@ -216,77 +216,77 @@
           # -- title bar and command center
           # ----------------------------------------------------------
 
-          "titleBar.activeBackground" = config.palette.background;
-          "titleBar.activeForeground" = config.palette.foreground;
-          "titleBar.inactiveBackground" = config.palette.background;
-          "titleBar.inactiveForeground" = config.palette.comment;
+          "titleBar.activeBackground" = config.style.palette.black;
+          "titleBar.activeForeground" = config.style.palette.white;
+          "titleBar.inactiveBackground" = config.style.palette.black;
+          "titleBar.inactiveForeground" = config.style.palette.light-gray;
           "titleBar.border" = invisible;
 
-          "commandCenter.background" = config.palette.line;
-          "commandCenter.foreground" = config.palette.foreground;
+          "commandCenter.background" = config.style.palette.dark-gray;
+          "commandCenter.foreground" = config.style.palette.white;
           "commandCenter.border" = invisible;
-          "commandCenter.activeBackground" = config.palette.selection;
-          "commandCenter.activeForeground" = config.palette.foreground;
+          "commandCenter.activeBackground" = config.style.palette.dim-gray;
+          "commandCenter.activeForeground" = config.style.palette.white;
 
           # ----------------------------------------------------------
           # -- panels and inputs
           # ----------------------------------------------------------
 
-          "panel.background" = config.palette.background;
-          "panel.border" = config.palette.line;
-          "panelTitle.activeForeground" = config.palette.foreground;
-          "panelTitle.inactiveForeground" = config.palette.comment;
+          "panel.background" = config.style.palette.black;
+          "panel.border" = config.style.palette.dark-gray;
+          "panelTitle.activeForeground" = config.style.palette.white;
+          "panelTitle.inactiveForeground" = config.style.palette.light-gray;
 
-          "input.background" = config.palette.line;
-          "input.foreground" = config.palette.foreground;
-          "input.border" = config.palette.line;
+          "input.background" = config.style.palette.dark-gray;
+          "input.foreground" = config.style.palette.white;
+          "input.border" = config.style.palette.dark-gray;
 
-          "dropdown.background" = config.palette.line;
-          "dropdown.foreground" = config.palette.foreground;
-          "dropdown.border" = config.palette.line;
+          "dropdown.background" = config.style.palette.dark-gray;
+          "dropdown.foreground" = config.style.palette.white;
+          "dropdown.border" = config.style.palette.dark-gray;
 
           # ----------------------------------------------------------
           # -- scrollbar
           # ----------------------------------------------------------
 
           "scrollbar.shadow" = invisible;
-          "scrollbarSlider.background" = "${config.palette.window}99";
-          "scrollbarSlider.hoverBackground" = "${config.palette.comment}cc";
-          "scrollbarSlider.activeBackground" = config.palette.foreground;
+          "scrollbarSlider.background" = "${config.style.palette.gray}99";
+          "scrollbarSlider.hoverBackground" = "${config.style.palette.light-gray}cc";
+          "scrollbarSlider.activeBackground" = config.style.palette.white;
 
           # ----------------------------------------------------------
           # -- git decorations
           # ----------------------------------------------------------
 
-          "gitDecoration.modifiedResourceForeground" = config.palette.yellow;
-          "gitDecoration.addedResourceForeground" = config.palette.green;
-          "gitDecoration.deletedResourceForeground" = config.palette.red;
-          "gitDecoration.untrackedResourceForeground" = config.palette.aqua;
-          "gitDecoration.ignoredResourceForeground" = config.palette.comment;
-          "gitDecoration.renamedResourceForeground" = config.palette.aqua;
+          "gitDecoration.modifiedResourceForeground" = config.style.palette.yellow;
+          "gitDecoration.addedResourceForeground" = config.style.palette.green;
+          "gitDecoration.deletedResourceForeground" = config.style.palette.red;
+          "gitDecoration.untrackedResourceForeground" = config.style.palette.aqua;
+          "gitDecoration.ignoredResourceForeground" = config.style.palette.light-gray;
+          "gitDecoration.renamedResourceForeground" = config.style.palette.aqua;
 
           # ----------------------------------------------------------
           # -- gutter and overview ruler
           # ----------------------------------------------------------
 
-          "editorGutter.addedBackground" = config.palette.green;
-          "editorGutter.modifiedBackground" = config.palette.yellow;
-          "editorGutter.deletedBackground" = config.palette.red;
+          "editorGutter.addedBackground" = config.style.palette.green;
+          "editorGutter.modifiedBackground" = config.style.palette.yellow;
+          "editorGutter.deletedBackground" = config.style.palette.red;
 
-          "editorOverviewRuler.addedForeground" = "${config.palette.green}99";
-          "editorOverviewRuler.modifiedForeground" = "${config.palette.yellow}99";
-          "editorOverviewRuler.deletedForeground" = "${config.palette.red}99";
-          "editorOverviewRuler.commonContentForeground" = "${config.palette.window}99";
-          "editorOverviewRuler.warningForeground" = config.palette.orange;
+          "editorOverviewRuler.addedForeground" = "${config.style.palette.green}99";
+          "editorOverviewRuler.modifiedForeground" = "${config.style.palette.yellow}99";
+          "editorOverviewRuler.deletedForeground" = "${config.style.palette.red}99";
+          "editorOverviewRuler.commonContentForeground" = "${config.style.palette.gray}99";
+          "editorOverviewRuler.warningForeground" = config.style.palette.orange;
 
           # ----------------------------------------------------------
           # -- diagnostics
           # ----------------------------------------------------------
 
-          "editorError.foreground" = config.palette.red;
-          "editorWarning.foreground" = config.palette.orange;
-          "editorInfo.foreground" = config.palette.foreground;
-          "editorHint.foreground" = config.palette.comment;
+          "editorError.foreground" = config.style.palette.red;
+          "editorWarning.foreground" = config.style.palette.orange;
+          "editorInfo.foreground" = config.style.palette.white;
+          "editorHint.foreground" = config.style.palette.light-gray;
 
           "editor.errorDecoration" = "underline";
           "editor.warningDecoration" = "underline";
@@ -296,163 +296,163 @@
           # -- search and find
           # ----------------------------------------------------------
 
-          "editor.findMatchForeground" = config.palette.background;
-          "editor.findMatchBackground" = config.palette.green;
+          "editor.findMatchForeground" = config.style.palette.black;
+          "editor.findMatchBackground" = config.style.palette.green;
           "editor.findMatchBorder" = invisible;
 
-          "editor.findMatchHighlightForeground" = config.palette.background;
-          "editor.findMatchHighlightBackground" = config.palette.foreground;
+          "editor.findMatchHighlightForeground" = config.style.palette.black;
+          "editor.findMatchHighlightBackground" = config.style.palette.white;
           "editor.findMatchHighlightBorder" = invisible;
 
           # ----------------------------------------------------------
           # -- debug
           # ----------------------------------------------------------
 
-          "debugToolBar.background" = config.palette.line;
+          "debugToolBar.background" = config.style.palette.dark-gray;
           "debugToolBar.border" = invisible;
 
-          "textLink.foreground" = config.palette.blue;
-          "textLink.activeForeground" = config.palette.blue;
+          "textLink.foreground" = config.style.palette.blue;
+          "textLink.activeForeground" = config.style.palette.blue;
           "textLink.border" = invisible;
 
-          "debugConsole.infoForeground" = config.palette.blue;
-          "debugConsole.warningForeground" = config.palette.yellow;
-          "debugConsole.errorForeground" = config.palette.red;
-          "debugConsoleLink.foreground" = config.palette.blue;
+          "debugConsole.infoForeground" = config.style.palette.blue;
+          "debugConsole.warningForeground" = config.style.palette.yellow;
+          "debugConsole.errorForeground" = config.style.palette.red;
+          "debugConsoleLink.foreground" = config.style.palette.blue;
 
           # ----------------------------------------------------------
           # -- terminal
           # ----------------------------------------------------------
 
-          "terminal.background" = config.palette.background;
-          "terminal.foreground" = config.palette.foreground;
-          "terminal.border" = config.palette.line;
-          "terminal.selectionBackground" = config.palette.selection;
+          "terminal.background" = config.style.palette.black;
+          "terminal.foreground" = config.style.palette.white;
+          "terminal.border" = config.style.palette.dark-gray;
+          "terminal.selectionBackground" = config.style.palette.dim-gray;
 
-          "terminal.tab.activeBackground" = config.palette.line;
-          "terminal.tab.activeForeground" = config.palette.foreground;
-          "terminal.tab.inactiveBackground" = config.palette.background;
-          "terminal.tab.inactiveForeground" = config.palette.comment;
-          "terminal.tab.activeBorder" = config.palette.line;
-          "terminal.tab.activeBorderTop" = config.palette.line;
+          "terminal.tab.activeBackground" = config.style.palette.dark-gray;
+          "terminal.tab.activeForeground" = config.style.palette.white;
+          "terminal.tab.inactiveBackground" = config.style.palette.black;
+          "terminal.tab.inactiveForeground" = config.style.palette.light-gray;
+          "terminal.tab.activeBorder" = config.style.palette.dark-gray;
+          "terminal.tab.activeBorderTop" = config.style.palette.dark-gray;
           "terminal.tab.activeIconForeground" = invisible;
           "terminal.tab.inactiveIconForeground" = invisible;
 
-          "terminal.ansiBlack" = config.palette.background;
-          "terminal.ansiRed" = config.palette.red;
-          "terminal.ansiGreen" = config.palette.green;
-          "terminal.ansiYellow" = config.palette.yellow;
-          "terminal.ansiBlue" = config.palette.blue;
-          "terminal.ansiMagenta" = config.palette.purple;
-          "terminal.ansiCyan" = config.palette.aqua;
-          "terminal.ansiWhite" = config.palette.foreground;
+          "terminal.ansiBlack" = config.style.palette.black;
+          "terminal.ansiRed" = config.style.palette.red;
+          "terminal.ansiGreen" = config.style.palette.green;
+          "terminal.ansiYellow" = config.style.palette.yellow;
+          "terminal.ansiBlue" = config.style.palette.blue;
+          "terminal.ansiMagenta" = config.style.palette.purple;
+          "terminal.ansiCyan" = config.style.palette.aqua;
+          "terminal.ansiWhite" = config.style.palette.white;
 
-          "terminal.ansiBrightBlack" = config.palette.window;
-          "terminal.ansiBrightRed" = config.palette.red;
-          "terminal.ansiBrightGreen" = config.palette.green;
-          "terminal.ansiBrightYellow" = config.palette.yellow;
-          "terminal.ansiBrightBlue" = config.palette.blue;
-          "terminal.ansiBrightMagenta" = config.palette.purple;
-          "terminal.ansiBrightCyan" = config.palette.aqua;
-          "terminal.ansiBrightWhite" = config.palette.foreground;
+          "terminal.ansiBrightBlack" = config.style.palette.gray;
+          "terminal.ansiBrightRed" = config.style.palette.red;
+          "terminal.ansiBrightGreen" = config.style.palette.green;
+          "terminal.ansiBrightYellow" = config.style.palette.yellow;
+          "terminal.ansiBrightBlue" = config.style.palette.blue;
+          "terminal.ansiBrightMagenta" = config.style.palette.purple;
+          "terminal.ansiBrightCyan" = config.style.palette.aqua;
+          "terminal.ansiBrightWhite" = config.style.palette.white;
 
           # ----------------------------------------------------------
           # -- hover and word highlight
           # ----------------------------------------------------------
 
-          "editor.wordHighlightBackground" = "${config.palette.blue}2E";
-          "editor.wordHighlightStrongBackground" = "${config.palette.blue}2E";
+          "editor.wordHighlightBackground" = "${config.style.palette.blue}2E";
+          "editor.wordHighlightStrongBackground" = "${config.style.palette.blue}2E";
 
-          "editorHoverWidget.background" = config.palette.line;
-          "editorHoverWidget.foreground" = config.palette.foreground;
+          "editorHoverWidget.background" = config.style.palette.dark-gray;
+          "editorHoverWidget.foreground" = config.style.palette.white;
           "editorHoverWidget.border" = invisible;
 
           # ----------------------------------------------------------
           # -- suggest widget
           # ----------------------------------------------------------
 
-          "suggestWidget.background" = config.palette.background;
-          "suggestWidget.foreground" = config.palette.foreground;
-          "suggestWidget.border" = config.palette.line;
+          "suggestWidget.background" = config.style.palette.black;
+          "suggestWidget.foreground" = config.style.palette.white;
+          "suggestWidget.border" = config.style.palette.dark-gray;
 
-          "suggestWidget.selectedBackground" = config.palette.selection;
-          "suggestWidget.selectedForeground" = config.palette.foreground;
+          "suggestWidget.selectedBackground" = config.style.palette.dim-gray;
+          "suggestWidget.selectedForeground" = config.style.palette.white;
 
-          "suggestWidget.highlightForeground" = config.palette.green;
-          "suggestWidget.detailForeground" = config.palette.foreground;
+          "suggestWidget.highlightForeground" = config.style.palette.green;
+          "suggestWidget.detailForeground" = config.style.palette.white;
           "suggestWidget.documentationFontSize" = 12;
 
-          "suggestWidgetScrollbarSlider.background" = config.palette.window;
-          "suggestWidgetScrollbarSlider.hoverBackground" = config.palette.comment;
-          "suggestWidgetScrollbarSlider.activeBackground" = config.palette.foreground;
+          "suggestWidgetScrollbarSlider.background" = config.style.palette.gray;
+          "suggestWidgetScrollbarSlider.hoverBackground" = config.style.palette.light-gray;
+          "suggestWidgetScrollbarSlider.activeBackground" = config.style.palette.white;
 
           # ----------------------------------------------------------
           # -- buttons and badges
           # ----------------------------------------------------------
 
-          "button.background" = config.palette.line;
-          "button.foreground" = config.palette.foreground;
-          "button.hoverBackground" = config.palette.selection;
+          "button.background" = config.style.palette.dark-gray;
+          "button.foreground" = config.style.palette.white;
+          "button.hoverBackground" = config.style.palette.dim-gray;
           "button.border" = invisible;
 
           "button.secondaryBackground" = invisible;
-          "button.secondaryForeground" = config.palette.foreground;
+          "button.secondaryForeground" = config.style.palette.white;
 
-          "badge.background" = config.palette.line;
-          "badge.foreground" = config.palette.foreground;
+          "badge.background" = config.style.palette.dark-gray;
+          "badge.foreground" = config.style.palette.white;
 
-          "extensionButton.background" = config.palette.line;
-          "extensionButton.foreground" = config.palette.foreground;
-          "extensionButton.hoverBackground" = config.palette.selection;
-          "extensionButton.prominentBackground" = config.palette.line;
-          "extensionButton.prominentForeground" = config.palette.foreground;
-          "extensionButton.separator" = config.palette.window;
+          "extensionButton.background" = config.style.palette.dark-gray;
+          "extensionButton.foreground" = config.style.palette.white;
+          "extensionButton.hoverBackground" = config.style.palette.dim-gray;
+          "extensionButton.prominentBackground" = config.style.palette.dark-gray;
+          "extensionButton.prominentForeground" = config.style.palette.white;
+          "extensionButton.separator" = config.style.palette.gray;
 
           # ----------------------------------------------------------
           # -- menus
           # ----------------------------------------------------------
 
-          "menu.background" = config.palette.background;
-          "menu.foreground" = config.palette.foreground;
-          "menu.selectionBackground" = config.palette.selection;
-          "menu.selectionForeground" = config.palette.foreground;
-          "menu.separatorBackground" = config.palette.line;
-          "menu.border" = config.palette.line;
+          "menu.background" = config.style.palette.black;
+          "menu.foreground" = config.style.palette.white;
+          "menu.selectionBackground" = config.style.palette.dim-gray;
+          "menu.selectionForeground" = config.style.palette.white;
+          "menu.separatorBackground" = config.style.palette.dark-gray;
+          "menu.border" = config.style.palette.dark-gray;
 
-          "menubar.background" = config.palette.background;
-          "menubar.foreground" = config.palette.foreground;
-          "menubar.selectionBackground" = config.palette.selection;
-          "menubar.selectionForeground" = config.palette.foreground;
+          "menubar.background" = config.style.palette.black;
+          "menubar.foreground" = config.style.palette.white;
+          "menubar.selectionBackground" = config.style.palette.dim-gray;
+          "menubar.selectionForeground" = config.style.palette.white;
           "menubar.selectionBorder" = invisible;
 
           # ----------------------------------------------------------
           # -- notifications
           # ----------------------------------------------------------
 
-          "notifications.background" = config.palette.background;
-          "notifications.foreground" = config.palette.foreground;
-          "notifications.border" = config.palette.line;
+          "notifications.background" = config.style.palette.black;
+          "notifications.foreground" = config.style.palette.white;
+          "notifications.border" = config.style.palette.dark-gray;
 
-          "notificationLink.foreground" = config.palette.blue;
-          "notificationsInfoIcon.foreground" = config.palette.blue;
-          "notificationsErrorIcon.foreground" = config.palette.red;
-          "notificationsWarningIcon.foreground" = config.palette.orange;
+          "notificationLink.foreground" = config.style.palette.blue;
+          "notificationsInfoIcon.foreground" = config.style.palette.blue;
+          "notificationsErrorIcon.foreground" = config.style.palette.red;
+          "notificationsWarningIcon.foreground" = config.style.palette.orange;
 
           # ----------------------------------------------------------
           # -- breadcrumbs
           # ----------------------------------------------------------
 
-          "breadcrumb.background" = config.palette.background;
-          "breadcrumb.foreground" = config.palette.comment;
-          "breadcrumb.focusForeground" = config.palette.foreground;
-          "breadcrumb.activeSelectionForeground" = config.palette.foreground;
+          "breadcrumb.background" = config.style.palette.black;
+          "breadcrumb.foreground" = config.style.palette.light-gray;
+          "breadcrumb.focusForeground" = config.style.palette.white;
+          "breadcrumb.activeSelectionForeground" = config.style.palette.white;
 
           # ----------------------------------------------------------
           # -- diff editor
           # ----------------------------------------------------------
 
-          "diffEditor.insertedTextBackground" = "${config.palette.green}33";
-          "diffEditor.removedTextBackground" = "${config.palette.red}33";
+          "diffEditor.insertedTextBackground" = "${config.style.palette.green}33";
+          "diffEditor.removedTextBackground" = "${config.style.palette.red}33";
 
           # ----------------------------------------------------------
           # -- brackets and guides
@@ -461,12 +461,12 @@
           "editorBracketMatch.background" = invisible;
           "editorBracketMatch.border" = invisible;
 
-          "editorBracketHighlight.foreground1" = config.palette.comment;
-          "editorBracketHighlight.foreground2" = config.palette.comment;
-          "editorBracketHighlight.foreground3" = config.palette.comment;
-          "editorBracketHighlight.foreground4" = config.palette.comment;
-          "editorBracketHighlight.foreground5" = config.palette.comment;
-          "editorBracketHighlight.foreground6" = config.palette.comment;
+          "editorBracketHighlight.foreground1" = config.style.palette.light-gray;
+          "editorBracketHighlight.foreground2" = config.style.palette.light-gray;
+          "editorBracketHighlight.foreground3" = config.style.palette.light-gray;
+          "editorBracketHighlight.foreground4" = config.style.palette.light-gray;
+          "editorBracketHighlight.foreground5" = config.style.palette.light-gray;
+          "editorBracketHighlight.foreground6" = config.style.palette.light-gray;
 
           "editorBracketPairGuide.activeBackground1" = invisible;
           "editorBracketPairGuide.activeBackground2" = invisible;
@@ -482,45 +482,45 @@
           "editorBracketPairGuide.background5" = invisible;
           "editorBracketPairGuide.background6" = invisible;
 
-          "editor.guides.bracketPairs" = config.palette.selection;
-          "editor.guides.bracketPairsActive" = config.palette.selection;
+          "editor.guides.bracketPairs" = config.style.palette.dim-gray;
+          "editor.guides.bracketPairsActive" = config.style.palette.dim-gray;
           # ----------------------------------------------------------
           # -- list renderer
           # ----------------------------------------------------------
 
-          "list.activeSelectionBackground" = config.palette.selection;
-          "list.activeSelectionForeground" = config.palette.foreground;
-          "list.activeSelectionIconForeground" = config.palette.green;
+          "list.activeSelectionBackground" = config.style.palette.dim-gray;
+          "list.activeSelectionForeground" = config.style.palette.white;
+          "list.activeSelectionIconForeground" = config.style.palette.green;
 
-          "list.inactiveSelectionBackground" = config.palette.line;
-          "list.inactiveSelectionForeground" = config.palette.foreground;
+          "list.inactiveSelectionBackground" = config.style.palette.dark-gray;
+          "list.inactiveSelectionForeground" = config.style.palette.white;
 
-          "list.hoverBackground" = config.palette.line;
+          "list.hoverBackground" = config.style.palette.dark-gray;
 
-          "list.foreground" = config.palette.foreground;
-          "list.focusForeground" = config.palette.foreground;
+          "list.foreground" = config.style.palette.white;
+          "list.focusForeground" = config.style.palette.white;
 
           "list.focusOutline" = invisible;
 
-          "tree.indentGuidesStroke" = config.palette.foreground;
+          "tree.indentGuidesStroke" = config.style.palette.white;
 
           # ----------------------------------------------------------
           # -- suggestion widget internals
           # ----------------------------------------------------------
 
-          "list.highlightForeground" = config.palette.foreground;
-          "list.focusHighlightForeground" = config.palette.green;
+          "list.highlightForeground" = config.style.palette.white;
+          "list.focusHighlightForeground" = config.style.palette.green;
 
-          "editorSuggestWidget.background" = config.palette.background;
-          "editorSuggestWidget.foreground" = config.palette.foreground;
-          "editorSuggestWidget.border" = config.palette.line;
+          "editorSuggestWidget.background" = config.style.palette.black;
+          "editorSuggestWidget.foreground" = config.style.palette.white;
+          "editorSuggestWidget.border" = config.style.palette.dark-gray;
 
-          "editorSuggestWidget.highlightForeground" = config.palette.foreground;
+          "editorSuggestWidget.highlightForeground" = config.style.palette.white;
 
-          "editorSuggestWidget.selectedBackground" = config.palette.line;
-          "editorSuggestWidget.selectedForeground" = config.palette.green;
+          "editorSuggestWidget.selectedBackground" = config.style.palette.dark-gray;
+          "editorSuggestWidget.selectedForeground" = config.style.palette.green;
 
-          "symbolIcon.textForeground" = config.palette.foreground;
+          "symbolIcon.textForeground" = config.style.palette.white;
         };
 
         # ============================================================
@@ -541,13 +541,13 @@
             # -- punctuation
             {
               scope = "punctuation";
-              settings.foreground = config.palette.comment;
+              settings.foreground = config.style.palette.light-gray;
             }
 
             # -- comments
             {
               scope = "comment";
-              settings.foreground = config.palette.comment;
+              settings.foreground = config.style.palette.light-gray;
             }
 
             {
@@ -557,7 +557,7 @@
                 "variable.parameter"
                 "variable.other.readwrite"
               ];
-              settings.foreground = config.palette.foreground;
+              settings.foreground = config.style.palette.white;
             }
 
             # -- attributes and properties
@@ -568,7 +568,7 @@
                 "entity.other.attribute-name"
                 "entity.name.tag"
               ];
-              settings.foreground = config.palette.foreground;
+              settings.foreground = config.style.palette.white;
             }
 
             # -- keywords
@@ -580,13 +580,13 @@
                 "keyword.other.operator"
                 "keyword.other.using"
               ];
-              settings.foreground = config.palette.purple;
+              settings.foreground = config.style.palette.purple;
             }
 
             # -- operators
             {
               scope = "keyword.operator";
-              settings.foreground = config.palette.comment;
+              settings.foreground = config.style.palette.light-gray;
             }
 
             # -- namespaces
@@ -595,7 +595,7 @@
                 "entity.name.scope-resolution"
                 "entity.name.namespace"
               ];
-              settings.foreground = config.palette.aqua;
+              settings.foreground = config.style.palette.aqua;
             }
 
             # -- types
@@ -605,7 +605,7 @@
                 "storage.type"
                 "support.type"
               ];
-              settings.foreground = config.palette.blue;
+              settings.foreground = config.style.palette.blue;
             }
 
             # -- storage modifiers
@@ -613,7 +613,7 @@
               scope = [
                 "storage.modifier"
               ];
-              settings.foreground = config.palette.blue;
+              settings.foreground = config.style.palette.blue;
             }
 
             # -- functions
@@ -623,7 +623,7 @@
                 "entity.name.function"
                 "support.function"
               ];
-              settings.foreground = config.palette.orange;
+              settings.foreground = config.style.palette.orange;
             }
 
             # -- structures
@@ -632,7 +632,7 @@
                 "storage.type.struct"
                 "storage.type.class"
               ];
-              settings.foreground = config.palette.orange;
+              settings.foreground = config.style.palette.orange;
             }
 
             # -- templates
@@ -640,7 +640,7 @@
               scope = [
                 "storage.type.template"
               ];
-              settings.foreground = config.palette.red;
+              settings.foreground = config.style.palette.red;
             }
 
             # -- strings
@@ -651,7 +651,7 @@
                 "string.template"
                 "string.interpolated"
               ];
-              settings.foreground = config.palette.orange;
+              settings.foreground = config.style.palette.orange;
             }
 
             # -- numeric values
@@ -661,7 +661,7 @@
                 "constant.numeric"
                 "keyword.other.unit.suffix.floating-point"
               ];
-              settings.foreground = config.palette.purple;
+              settings.foreground = config.style.palette.purple;
             }
 
             # -- constants
@@ -669,7 +669,7 @@
               scope = [
                 "constant.language"
               ];
-              settings.foreground = config.palette.purple;
+              settings.foreground = config.style.palette.purple;
             }
 
             # -- fallback
@@ -678,7 +678,7 @@
                 "meta"
                 "source.cpp"
               ];
-              settings.foreground = config.palette.foreground;
+              settings.foreground = config.style.palette.white;
             }
           ];
         };
