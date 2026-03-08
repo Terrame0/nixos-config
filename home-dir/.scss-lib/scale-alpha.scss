@@ -1,0 +1,5 @@
+@use "sass:color";
+
+@function scale-alpha($color-in, $alpha-in) {
+    @return color.scale($color-in, $alpha: ($alpha-in - 1) * 100%);
+}

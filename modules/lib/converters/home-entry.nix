@@ -3,8 +3,8 @@
   extend-config,
   ...
 }:
-extend-config "file" {
-  resolve-home-entry = file-data: let
+extend-config "convert" {
+  home-entry = file-data: let
     file-resolved = config.file.modify file-data config.string.substitute-expressions;
     conversion-spec = config.file.get-spec "to" file-resolved;
     extension-spec = config.file.get-spec "ext" file-resolved;

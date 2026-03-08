@@ -41,7 +41,7 @@ extend-config "string" {
             then config.list.exclusive-head matched-string-parts
             else "";
           expression = lib.last matched-string-parts;
-          evaluated-expression = config.string.evaluate-nix "{config,lib,pkgs}:${expression}";
+          evaluated-expression = config.string.evaluate-nix "{config,lib,pkgs,home-root}:${expression}";
         in
           assert can-interpolate evaluated-expression;
             lib.replaceStrings [substitution-target] [(apply-flags flag-str (builtins.toString evaluated-expression))] changing-text
