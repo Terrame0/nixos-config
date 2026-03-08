@@ -7,10 +7,9 @@
 extend-config "convert"
 {
   nix = file-data: let
-    generator = lib.elemAt file-data.specs 0;
-    extension = lib.elemAt file-data.specs 1;
+    file-specs = file-data.new-specs;
+    generator = (lib.findFirst (x: x.name == "to") null file-specs).value;
     generator-function = lib.generators.${"to" + (lib.toUpper generator)} {};
     contents = config.string.evaluate-nix (config.file.read file-data);
-  in
-    (config.file.emplace file-data (generator-function contents)) // {inherit extension;};
+  in (config.file.emplace file-data (generator-function contents));
 }
