@@ -5,16 +5,16 @@
   ...
 }:
 extend-config "store-path" {
-  get-file-data = store-path: let
-    path-str = toString store-path;
+  get-file = store-path: let
+    path-str = builtins.unsafeDiscardStringContext (toString store-path);
     path-parts = lib.splitString "/" (lib.removePrefix (toString builtins.storeDir) path-str);
     dir = lib.drop 2 (lib.init path-parts);
     name-parts = lib.splitString "." (lib.last path-parts);
     name = lib.concatStringsSep "." (
       config.list.inclusive-init name-parts
     );
-    stem = config.string.before "[" name;
-    spec-list = config.debug (config.string.between "[" "]" name);
+    stem = config.string.outside "[" "]" name;
+    spec-list = config.string.between "[" "]" name;
     specs =
       lib.foldl (
         spec-attrs-list: spec:
@@ -26,8 +26,7 @@ extend-config "store-path" {
     inherit store-path;
     inherit dir;
     inherit stem;
-    specs = config.debug spec-list;
-    new-specs = config.debug specs;
+    inherit specs;
     inherit extension;
   };
 }
