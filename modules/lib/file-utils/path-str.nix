@@ -13,7 +13,7 @@ extend-config "file" {
             [file-data.stem]
             ++ (
               lib.optional
-              (file-data.extension != null)
+              (file-data.extension != "")
               file-data.extension
             )
           )

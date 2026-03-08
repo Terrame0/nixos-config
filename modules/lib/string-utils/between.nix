@@ -5,16 +5,12 @@
 }:
 extend-config "string" {
   between = start: end: string: let
-    string-split = lib.splitString start string;
-
-    parts-split = lib.forEach (lib.tail string-split) (
+    string-parts = lib.splitString start string;
+    parts-split = lib.forEach (lib.tail string-parts) (
       part: let
         part-split = lib.splitString end part;
-        inside = lib.head part-split;
       in
-        if inside != ""
-        then inside
-        else null
+        lib.head part-split
     );
   in
     parts-split;

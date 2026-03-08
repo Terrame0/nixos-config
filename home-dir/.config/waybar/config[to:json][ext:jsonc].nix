@@ -139,7 +139,7 @@ in {
           rise = "2.25pt";
         }
         (
-          lib.concatStringsSep "" (
+          lib.concatStrings (
             lib.forEach (
               builtins.genList (i: i) (builtins.fromJSON (config.run-command "nproc"))
             )

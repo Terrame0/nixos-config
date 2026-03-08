@@ -146,7 +146,7 @@ window#waybar {
     margin: $offset $offset/2;
     padding: 0px $offset;
     border-radius: $border-radius - $offset;
-    background-color:$primary-bg;
+    background-color:$secondary-bg;
     &.good { color: $white; }
     &.warning { color: $yellow; }
     &.alert { color: $orange; }
@@ -186,7 +186,6 @@ window#waybar {
     background-color: transparent;
     color: transparent;
 }
-
 
 #disk { @include glow-outline($yellow); }
 #memory { @include glow-outline($orange); }

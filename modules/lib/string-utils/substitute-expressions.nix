@@ -17,7 +17,7 @@ extend-config "string" {
     in
       lib.foldl (
         changing-string: flag: let
-          flag-body = lib.head (lib.splitString "(" flag);
+          flag-body = config.string.before "(" flag;
           flag-args = config.string.between "(" ")" flag;
         in
           interpolation-flags.${flag-body} changing-string flag-args
@@ -34,16 +34,13 @@ extend-config "string" {
         changing-text: matched-string: let
           can-interpolate = value: (builtins.tryEval (builtins.toString value)).success;
           substitution-target = "${begin}${matched-string}${end}";
-
           matched-string-parts = lib.splitString "|" matched-string;
-
           head = config.list.exclusive-head matched-string-parts;
           flag-str =
             if head != null
             then config.list.exclusive-head matched-string-parts
             else "";
           expression = lib.last matched-string-parts;
-
           evaluated-expression = config.string.evaluate-nix "{config,lib,pkgs}:${expression}";
         in
           assert can-interpolate evaluated-expression;
