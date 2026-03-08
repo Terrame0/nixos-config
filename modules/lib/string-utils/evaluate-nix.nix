@@ -3,6 +3,7 @@
   extend-config,
   config,
   pkgs,
+  flake-root,
   ...
 }:
 extend-config "string" {
@@ -10,6 +11,7 @@ extend-config "string" {
     store-path = pkgs.writeText "nix-expression.nix" expression;
   in
     import store-path {
+      home-root = flake-root + "/home-dir";
       inherit config;
       inherit pkgs;
       inherit lib;
