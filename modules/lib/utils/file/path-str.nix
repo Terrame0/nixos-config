@@ -4,17 +4,17 @@
   ...
 }:
 extend-config "file" {
-  path-str = file-data:
+  path-str = file:
     lib.concatStringsSep "/" (
-      file-data.dir
+      file.dir
       ++ [
         (
           lib.concatStringsSep "." (
-            [file-data.stem]
+            [file.stem]
             ++ (
               lib.optional
-              (file-data.extension != "")
-              file-data.extension
+              (file.extension != "")
+              file.extension
             )
           )
         )
