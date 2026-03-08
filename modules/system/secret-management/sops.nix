@@ -49,7 +49,7 @@
       key = "authorized-keys";
     };
 
-    "${config.palette.red}" = {
+    "${config.style.palette.red}" = {
       sopsFile = ./secrets/authorized-ssh-keys.yaml;
       key = "authorized-keys";
     };

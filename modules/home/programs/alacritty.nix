@@ -6,56 +6,56 @@
         transparent_background_colors = false;
 
         primary = {
-          foreground = config.palette.foreground;
-          background = config.palette.background;
+          foreground = config.style.palette.white;
+          background = config.style.palette.black;
         };
 
         search = {
           matches = {
-            foreground = config.palette.background;
-            background = config.palette.yellow;
+            foreground = config.style.palette.black;
+            background = config.style.palette.yellow;
           };
           focused_match = {
-            foreground = config.palette.background;
-            background = config.palette.green;
+            foreground = config.style.palette.black;
+            background = config.style.palette.green;
           };
         };
 
         line_indicator = {
           foreground = "None";
-          background = config.palette.selection;
+          background = config.style.palette.dim-gray;
         };
 
         footer_bar = {
-          foreground = config.palette.blue;
-          background = config.palette.selection;
+          foreground = config.style.palette.blue;
+          background = config.style.palette.dim-gray;
         };
 
         selection = {
           text = "CellForeground";
-          background = config.palette.selection;
+          background = config.style.palette.dim-gray;
         };
 
         normal = {
-          black = config.palette.background;
-          red = config.palette.red;
-          green = config.palette.green;
-          yellow = config.palette.yellow;
-          blue = config.palette.blue;
-          magenta = config.palette.purple;
-          cyan = config.palette.aqua;
-          white = config.palette.foreground;
+          black = config.style.palette.black;
+          red = config.style.palette.red;
+          green = config.style.palette.green;
+          yellow = config.style.palette.yellow;
+          blue = config.style.palette.blue;
+          magenta = config.style.palette.purple;
+          cyan = config.style.palette.aqua;
+          white = config.style.palette.white;
         };
 
         bright = {
-          black = config.palette.comment;
-          red = config.palette.red;
-          green = config.palette.green;
-          yellow = config.palette.yellow;
-          blue = config.palette.blue;
-          magenta = config.palette.purple;
-          cyan = config.palette.aqua;
-          white = config.palette.foreground;
+          black = config.style.palette.light-gray;
+          red = config.style.palette.red;
+          green = config.style.palette.green;
+          yellow = config.style.palette.yellow;
+          blue = config.style.palette.blue;
+          magenta = config.style.palette.purple;
+          cyan = config.style.palette.aqua;
+          white = config.style.palette.white;
         };
       };
 
@@ -65,7 +65,7 @@
           y = 8;
         };
         dynamic_padding = true;
-        opacity = config.style.background-opacity;
+        opacity = config.style.constants.primary-bg-opacity;
         startup_mode = "Maximized";
         title = "Terminal";
         blur = true;

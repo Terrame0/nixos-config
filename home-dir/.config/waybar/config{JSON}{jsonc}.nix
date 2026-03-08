@@ -3,10 +3,10 @@
   lib,
   ...
 }: let
-  palette = config.palette;
+  palette = config.style.palette;
   color-span = color: config.make-span {inherit color;};
   chr = let
-    span = color-span palette.comment;
+    span = color-span palette.light-gray;
   in {
     line = span "|";
     point = span "·";
@@ -34,7 +34,7 @@
     };
     mic = {
       on = color-span palette.blue "";
-      off = color-span palette.comment "";
+      off = color-span palette.light-gray "";
     };
     volume = {
       levels = [
@@ -42,7 +42,7 @@
         (color-span palette.blue "")
         (color-span palette.blue "")
       ];
-      muted = color-span palette.comment "";
+      muted = color-span palette.light-gray "";
     };
     plug = color-span palette.green "";
     batteries = [
@@ -53,7 +53,7 @@
       (color-span palette.green "")
     ];
     bars = [
-      (color-span palette.comment "▁")
+      (color-span palette.light-gray "▁")
       (color-span palette.blue "▁")
       (color-span palette.aqua "▂")
       (color-span palette.aqua "▃")
@@ -91,9 +91,9 @@ in {
   reload_style_on_change = true;
 
   margin-bottom = 0;
-  margin-top = config.style.external-offset;
-  margin-left = config.style.external-offset;
-  margin-right = config.style.external-offset;
+  margin-top = config.style.constants.offset;
+  margin-left = config.style.constants.offset;
+  margin-right = config.style.constants.offset;
 
   "hyprland/workspaces" = {
     disable-scroll = false;
