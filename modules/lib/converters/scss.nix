@@ -1,17 +1,19 @@
 {
   pkgs,
-  config-add,
+  extend-config,
   config,
+  flake-root,
   ...
 }:
-config-add "convert"
+extend-config "convert"
 {
-  scss = file-data: let
-    store-path = pkgs.runCommand (config.file.path-str file-data) {
+  scss = file: let
+    store-path = pkgs.runCommand (config.file.path-str file) {
       buildInputs = [pkgs.dart-sass];
-    } "sass ${file-data.store-path} $out";
+      root = flake-root + "/home-dir";
+    } "sass ${file.store-path} $out --no-source-map --load-path $root --quiet";
   in
-    file-data
+    file
     // {
       inherit store-path;
       extension = "css";
