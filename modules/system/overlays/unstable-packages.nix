@@ -9,7 +9,7 @@
       system = pkgs.stdenv.hostPlatform.system;
       config = {};
     };
-  overlay = self: super: {
+  overlay = final: prev: {
     hyprland = unstable.hyprland;
   };
 in {
