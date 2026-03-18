@@ -37,7 +37,7 @@
         };
 
         normal = {
-          black = config.style.palette.black;
+          black = config.style.palette.light-gray;
           red = config.style.palette.red;
           green = config.style.palette.green;
           yellow = config.style.palette.yellow;
