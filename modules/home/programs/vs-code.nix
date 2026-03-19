@@ -48,11 +48,13 @@
         # ============================================================
 
         "clangd.path" = "clangd";
+        "clangd.trace" = "/tmp/clangd-log.txt";
         "clangd.arguments" = [
           "--background-index"
           "--clang-tidy"
           "--header-insertion=iwyu"
           "--completion-style=detailed"
+          "--log=verbose"
         ];
 
         # ============================================================
@@ -338,7 +340,7 @@
           "terminal.tab.activeIconForeground" = invisible;
           "terminal.tab.inactiveIconForeground" = invisible;
 
-          "terminal.ansiBlack" = config.style.palette.black;
+          "terminal.ansiBlack" = config.style.palette.light-gray;
           "terminal.ansiRed" = config.style.palette.red;
           "terminal.ansiGreen" = config.style.palette.green;
           "terminal.ansiYellow" = config.style.palette.yellow;
@@ -347,7 +349,7 @@
           "terminal.ansiCyan" = config.style.palette.aqua;
           "terminal.ansiWhite" = config.style.palette.white;
 
-          "terminal.ansiBrightBlack" = config.style.palette.gray;
+          "terminal.ansiBrightBlack" = config.style.palette.light-gray;
           "terminal.ansiBrightRed" = config.style.palette.red;
           "terminal.ansiBrightGreen" = config.style.palette.green;
           "terminal.ansiBrightYellow" = config.style.palette.yellow;
