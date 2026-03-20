@@ -47,9 +47,9 @@
     plug = color-span palette.green "";
     batteries = [
       (color-span palette.red "")
-      (color-span palette.red "")
-      (color-span palette.orange "")
-      (color-span palette.yellow "")
+      (color-span palette.orange "")
+      (color-span palette.yellow "")
+      (color-span palette.green "")
       (color-span palette.green "")
     ];
     bars = [
@@ -71,8 +71,11 @@ in {
 
   modules-left = [
     "network"
+    "custom/separator"
     "custom/clock"
+    "custom/separator"
     "pulseaudio"
+    "custom/separator"
     "tray"
   ];
 
@@ -82,9 +85,13 @@ in {
 
   modules-right = [
     "hyprland/window"
+    "custom/separator"
     "cpu"
+    "custom/separator"
     "memory"
+    "custom/separator"
     "disk"
+    "custom/separator"
     "battery"
   ];
 
@@ -94,6 +101,7 @@ in {
   margin-top = config.style.constants.offset;
   margin-left = config.style.constants.offset;
   margin-right = config.style.constants.offset;
+  height = 10;
 
   "hyprland/workspaces" = {
     disable-scroll = false;
@@ -111,6 +119,10 @@ in {
     icon-size = 20;
     spacing = 7;
     tooltip = false;
+  };
+
+  "custom/separator" = {
+    format = chr.line;
   };
 
   "hyprland/window" = {
@@ -161,21 +173,21 @@ in {
       warning = 70;
       good = 60;
     };
-    format = "{used:0.1f}${chr.gb}${chr.slash}{total:0.1f}${chr.gb}${chr.line}${icon.ram}";
+    format = "{used:0.1f}${chr.gb}${chr.slash}{total:0.1f}${chr.gb}${chr.point}${icon.ram}";
     interval = 1;
     tooltip = false;
   };
 
   battery = {
     states = {
-      critical = 20;
-      alert = 30;
-      warning = 50;
+      critical = 21;
+      alert = 41;
+      warning = 61;
       good = 100;
     };
     interval = 5;
-    format = "{capacity}${chr.percent}${chr.line}{icon}";
-    format-charging = "{capacity}${chr.percent}${chr.line}${icon.plug}";
+    format = "{capacity}${chr.percent}${chr.point}{icon}";
+    format-charging = "{capacity}${chr.percent}${chr.point}${icon.plug}";
     format-icons = icon.batteries;
     tooltip = false;
   };
@@ -188,7 +200,7 @@ in {
       good = 70;
     };
     interval = 10;
-    format = "{specific_free:1.0f}${chr.gb}${chr.slash}{specific_total:1.0f}${chr.gb}${chr.line}${icon.disk}";
+    format = "{specific_free:1.0f}${chr.gb}${chr.slash}{specific_total:1.0f}${chr.gb}${chr.point}${icon.disk}";
     unit = "GB";
     tooltip = false;
   };
@@ -210,9 +222,9 @@ in {
     format-icons = {
       wifi = icon.network.wifi;
     };
-    format = "Online${chr.line}${icon.network.online}";
-    format-wifi = "Online${chr.line}{icon}";
-    format-disconnected = "Offline${chr.line}${icon.network.offline}";
+    format = "Online${chr.point}${icon.network.online}";
+    format-wifi = "Online${chr.point}{icon}";
+    format-disconnected = "Offline${chr.point}${icon.network.offline}";
     max-length = 50;
     interval = 5;
     tooltip = false;
