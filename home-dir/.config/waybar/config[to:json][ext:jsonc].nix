@@ -71,12 +71,9 @@ in {
 
   modules-left = [
     "network"
-    "custom/separator"
+    "battery"
     "custom/clock"
-    "custom/separator"
     "pulseaudio"
-    "custom/separator"
-    "tray"
   ];
 
   modules-center = [
@@ -84,15 +81,11 @@ in {
   ];
 
   modules-right = [
+    "tray"
     "hyprland/window"
-    "custom/separator"
     "cpu"
-    "custom/separator"
     "memory"
-    "custom/separator"
     "disk"
-    "custom/separator"
-    "battery"
   ];
 
   reload_style_on_change = true;
@@ -102,6 +95,62 @@ in {
   margin-left = config.style.constants.offset;
   margin-right = config.style.constants.offset;
   height = 10;
+
+  # --- MODULES LEFT ---
+
+  network = {
+    format-icons = {
+      wifi = icon.network.wifi;
+    };
+    format = "Online${chr.point}${icon.network.online}";
+    format-wifi = "Online${chr.point}{icon}";
+    format-disconnected = "Offline${chr.point}${icon.network.offline}";
+    interval = 5;
+    tooltip = false;
+  };
+
+  battery = {
+    states = {
+      critical = 21;
+      alert = 41;
+      warning = 61;
+      good = 100;
+    };
+    interval = 5;
+    format = "{capacity}${chr.percent}${chr.point}{icon}";
+    format-charging = "{capacity}${chr.percent}${chr.point}${icon.plug}";
+    format-icons = icon.batteries;
+    tooltip = false;
+  };
+
+  tray = {
+    show-passive-items = true;
+    icon-size = 20;
+    spacing = 7;
+    tooltip = false;
+  };
+
+  "custom/clock" = {
+    exec = "bash ~/.config/waybar/clock.sh";
+    interval = 1;
+    format = "{}";
+    tooltip = false;
+  };
+
+  pulseaudio = {
+    format = "{volume}${chr.percent}${chr.point}{icon}${chr.point}{format_source}";
+    format-muted = "0${chr.percent}${chr.point}${icon.volume.muted}${chr.point}{format_source}";
+    format-icons = {
+      default = icon.volume.levels;
+    };
+    format-source = icon.mic.on;
+    format-source-muted = icon.mic.off;
+    scroll-step = 10;
+    tooltip = false;
+    on-click = "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle";
+  };
+
+  # --- MODULES CENTER ---
 
   "hyprland/workspaces" = {
     disable-scroll = false;
@@ -114,26 +163,10 @@ in {
     tooltip = false;
   };
 
-  tray = {
-    show-passive-items = true;
-    icon-size = 20;
-    spacing = 7;
-    tooltip = false;
-  };
-
-  "custom/separator" = {
-    format = chr.line;
-  };
+  # --- MODULES RIGHT ---
 
   "hyprland/window" = {
     format = "";
-    tooltip = false;
-  };
-
-  "custom/clock" = {
-    exec = "bash ~/.config/waybar/clock.sh";
-    interval = 1;
-    format = "{}";
     tooltip = false;
   };
 
@@ -178,20 +211,6 @@ in {
     tooltip = false;
   };
 
-  battery = {
-    states = {
-      critical = 21;
-      alert = 41;
-      warning = 61;
-      good = 100;
-    };
-    interval = 5;
-    format = "{capacity}${chr.percent}${chr.point}{icon}";
-    format-charging = "{capacity}${chr.percent}${chr.point}${icon.plug}";
-    format-icons = icon.batteries;
-    tooltip = false;
-  };
-
   disk = {
     states = {
       critical = 90;
@@ -202,31 +221,6 @@ in {
     interval = 10;
     format = "{specific_free:1.0f}${chr.gb}${chr.slash}{specific_total:1.0f}${chr.gb}${chr.point}${icon.disk}";
     unit = "GB";
-    tooltip = false;
-  };
-
-  pulseaudio = {
-    format = "{volume}${chr.percent}${chr.point}{icon}${chr.point}{format_source}";
-    format-muted = "0${chr.percent}${chr.point}${icon.volume.muted}${chr.point}{format_source}";
-    format-icons = {
-      default = icon.volume.levels;
-    };
-    format-source = icon.mic.on;
-    format-source-muted = icon.mic.off;
-    scroll-step = 10;
-    tooltip = false;
-    on-click = "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle";
-  };
-
-  network = {
-    format-icons = {
-      wifi = icon.network.wifi;
-    };
-    format = "Online${chr.point}${icon.network.online}";
-    format-wifi = "Online${chr.point}{icon}";
-    format-disconnected = "Offline${chr.point}${icon.network.offline}";
-    max-length = 50;
-    interval = 5;
     tooltip = false;
   };
 }
