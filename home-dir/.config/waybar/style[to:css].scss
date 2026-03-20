@@ -33,6 +33,9 @@ $primary-bg: scale-alpha($black,0.9);
 $secondary-bg: transparentize($dark-gray,0.5);
 $tertiary-bg: transparentize($black,0.7);
 
+$contrast-border-color: scale-alpha($gray,0.2);
+
+
 // --- MIXINS ---
 
 //@function compensate-alpha-layering($color, $n) {
@@ -43,29 +46,27 @@ $tertiary-bg: transparentize($black,0.7);
 //  @return color.change($color, $alpha: $a-new);
 //}
 
-@mixin glow-shadow($color) {
-    box-shadow:
-    0px 0px 3px $color,
-    0px 0px 2px $color,
-    0px 0px 2px $color,
-    0px 0px 1px $color,
-    0px 0px 1px $color;
+@mixin border($color) {
+    border-width: 2px;
+    border-color: $color;
 }
 
-@mixin glow-outline($color: $white){
-    @include glow-shadow($color);
-    border: 2px solid $color;
+@mixin highlight($color) {
+    @include border($contrast-border-color);
+    background: scale-alpha($secondary-bg,0.3);
 }
+
 
 // --- GLOBAL OVERRIDES ---
 
 * {
+    border-style: solid;
     font-family: $font, monospace;
     font-weight: bold;
     font-size: $h2;
     text-shadow: none;
-    transition: ease-in-out 0.2s;
-    border: 0px;
+    transition: ease-in-out 0.1s;
+    border: solid 0px transparent;
 }
 
 // --- BAR STYLING ---
@@ -73,7 +74,7 @@ $tertiary-bg: transparentize($black,0.7);
 $fade-in: cubic-bezier(0.413,0.404,0.487,0.855);
 $fade-out: cubic-bezier(0.513,0.145,0.587,0.596);
 
-.modules-left,
+.modules-left, 
 .modules-center,
 .modules-right {
     border-radius: $border-radius;
@@ -83,16 +84,23 @@ $fade-out: cubic-bezier(0.513,0.145,0.587,0.596);
 .modules-left,
 .modules-center,
 .modules-right {
+    margin:0px;
+    padding: 0px 6px;
     transition: background-color 0.2s $fade-out;
     background-color: transparent; // -- transparent
 }
 
 window#waybar {
+    padding:0px;
     transition: background-color 0.2s $fade-in;
     background-color: $primary-bg; // -- opaque
 }
 
 window#waybar {
+    > box.horizontal {
+        padding: 0px;
+        margin: 0px;
+    }
     border-radius: $border-radius;
     &.empty,
     &.floating {
@@ -111,32 +119,29 @@ window#waybar {
 
 #workspaces {
     button {
-        margin: $offset $offset/2;
-        padding: 0px $offset;
-        border-radius: 5px;
-        background: transparent;
-        @include glow-shadow(transparent);
+        margin: 0px $offset/2;
+        padding: 0px;
+        border-radius: $border-radius/2;
         label{
-            color: $white;
+            color: transparent;
             font-size: $h1;
         }
-        &.empty,
-        &.active,
-        &.empty.active,
-        &.urgent {
-            label{
-                color: $gray;
-            }
-        }
+
+        &:not(.empty) label { color: $white; }
+        
+        &.empty label{ color: $gray; }
+
+        &:not(.persistent).empty label { color: transparent; }
+        
         &.active,
         &.empty.active {
-            @include glow-shadow($green);
-            padding: 0px 16px;
+            padding: 0px 6px;
+            label { color: $primary-bg; }
             background: $green;
         }
         &.urgent {
-            @include glow-shadow($yellow);
-            padding: 0px 16px;
+            padding: 0px 6px;
+            label { color: $primary-bg; }
             background: $yellow;
         }
     }
@@ -146,14 +151,16 @@ window#waybar {
 
 %module-base {
     color: $white;
-    margin: $offset $offset/2;
-    padding: 0px $offset;
-    border-radius: $border-radius - $offset;
+    margin: 0px;
+    padding: 0px $offset/2;
+    //margin: $offset $offset/2;
+    //padding: 0px $offset + 3px;
+    border-radius: $border-radius/2;
     background-color:$secondary-bg;
     &.good { color: $white; }
     &.warning { color: $yellow; }
     &.alert { color: $orange; }
-    &.critical { color: $red; @include glow-outline($red); }
+    &.critical { color: $red; }
 }
 
 #battery,
@@ -168,21 +175,15 @@ window#waybar {
 }
 
 #network {
-    @include glow-outline($green);
     &.disconnected {
-        @include glow-outline($gray);
         color:$light-gray;
     }
 }
 
 #tray {
     &.passive {
-        color:$light-gray;
+       color:$light-gray;
     }
-    border: 0px;
-    background: $tertiary-bg;
-    margin: $offset;
-    padding: 0px $offset;
 }
 
 #window{
@@ -190,9 +191,9 @@ window#waybar {
     color: transparent;
 }
 
-#disk { @include glow-outline($yellow); }
-#memory { @include glow-outline($orange); }
-#cpu { @include glow-outline($aqua); }
-#battery { @include glow-outline($green); }
-#pulseaudio { @include glow-outline($blue); }
-#custom-clock { @include glow-outline($purple); }
+// #disk { @include highlight($yellow); }
+// #memory { @include highlight($orange); }
+// #cpu { @include highlight($aqua); }
+// #battery { @include highlight($green); }
+// #pulseaudio { @include highlight($blue); }
+// #custom-clock { @include highlight($purple); }
