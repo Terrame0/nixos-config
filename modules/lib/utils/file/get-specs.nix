@@ -1,7 +1,6 @@
 {
   extend-config,
   lib,
-  config,
   ...
 }:
 extend-config "file" {
