@@ -16,6 +16,7 @@
         "charliermarsh.ruff"
         "mads-hartmann.bash-ide-vscode"
         "llvm-vs-code-extensions.vscode-clangd"
+        "mesonbuild.mesonbuild"
       ];
     in {
       # ============================================================
