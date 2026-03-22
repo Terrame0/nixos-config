@@ -32,6 +32,10 @@
       userSettings = let
         invisible = "#ffffff00";
       in {
+        "mesonbuild.configureOnOpen" = true;
+        "mesonbuild.buildFolder" = "build";
+        "mesonbuild.downloadLanguageServer" = false;
+
         # ============================================================
         # -- disabling linting for some languages
         # ============================================================
