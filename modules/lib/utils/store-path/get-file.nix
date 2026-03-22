@@ -14,14 +14,17 @@ extend-config "store-path" {
       config.list.inclusive-init name-parts
     );
     stem = config.string.outside "[" "]" name;
-    spec-list = config.string.between "[" "]" name;
+    spec-list = config.string.between "[" "]" (lib.concatStrings path-parts);
     specs =
       lib.foldl (
         spec-attrs-list: spec:
           spec-attrs-list ++ [(config.string.split-to-attrs ":" spec)]
       ) []
       spec-list;
-    extension = config.list.exclusive-last name-parts;
+    extension =
+      if lib.length name-parts != 1
+      then lib.last name-parts
+      else "";
   in {
     inherit store-path;
     inherit dir;
