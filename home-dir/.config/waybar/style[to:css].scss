@@ -33,7 +33,7 @@ $primary-bg: scale-alpha($black,0.9);
 $secondary-bg: transparentize($dark-gray,0.5);
 $tertiary-bg: transparentize($black,0.7);
 
-$window-border-color: scale-alpha($light-gray,0.2);
+$window-border-color: $dim-gray;
 
 // --- MIXINS --- 
 
