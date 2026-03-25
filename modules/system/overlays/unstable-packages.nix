@@ -1,4 +1,8 @@
-{pkgs, ...}: let
+{
+  pkgs,
+  config,
+  ...
+}: let
   unstable =
     import
     (fetchTarball {
@@ -7,10 +11,12 @@
     })
     {
       system = pkgs.stdenv.hostPlatform.system;
-      config = {};
+      config = config.nixpkgs.config;
     };
   overlay = final: prev: {
     hyprland = unstable.hyprland;
+    mpvScripts = unstable.mpvScripts;
+    mpv = unstable.mpv;
   };
 in {
   nixpkgs.overlays = [overlay];
