@@ -9,12 +9,11 @@
     sops
     age
 
-    # -- misc cli tools
+    # -- cli tools
     any-nix-shell
     brightnessctl
     wireplumber
     alejandra
-    xarchiver
     neofetch
     dart-sass
     tree
@@ -34,10 +33,10 @@
     lutris
     wine-wayland
     winetricks
-    mesa-demos
     pcsx2
 
     # -- basic desktop utilities
+    xarchiver
     eog
     gedit
 

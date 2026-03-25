@@ -2,7 +2,7 @@
 @use "sass:color";
 
 
-@import ".scss-lib/scale-alpha.scss";
+// @import "[!]scss-lib/scale-alpha.scss";
 
 $black:         "#[config.style.palette.black]";
 $dark-gray:     "#[config.style.palette.dark-gray]";
@@ -29,7 +29,7 @@ $bg-opacity:    "#[config.style.constants.primary-bg-opacity]";
 $offset:        "#[suf(px)|config.style.constants.offset]";
 $border-radius: "#[suf(px)|config.style.constants.border-radius]";
 
-$primary-bg: scale-alpha($black,0.9);
+$primary-bg: transparentize($black,0.1);
 $secondary-bg: transparentize($dark-gray,0.5);
 $tertiary-bg: transparentize($black,0.7);
 
@@ -44,7 +44,7 @@ $window-border-color: $dim-gray;
 
 @mixin highlight($color) {
     @include border($contrast-border-color);
-    background: scale-alpha($secondary-bg,0.3);
+    background: transparentize($secondary-bg,0.7);
 }
 
 $edge-map: (
@@ -71,7 +71,7 @@ $fade-in: cubic-bezier(0.582,0.631,0.343,0.947);
 $fade-out: cubic-bezier(0.657,0.053,0.418,0.369);
 
 @mixin highlight($color){
-    background: scale-alpha($color,0.1);
+    background: transparentize($color,0.9);
     border-color: $color;
     border-style: solid;
     border-top-width: 3px;

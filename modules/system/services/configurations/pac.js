@@ -74,6 +74,11 @@ function FindProxyForURL(url, host) {
     "steamcloudlrstyo.blob.core.windows.net",
     "steamcloud-tokyo.storage.googleapis.com",
 
+    // -- torrents
+    "rutracker.org",
+    "bt4g.org",
+    "bt4gprx.com",
+
     // -- misc
     "mpv.io",
     "github.com",
@@ -85,7 +90,6 @@ function FindProxyForURL(url, host) {
     "wikipedia.org",
     "wikimedia.org",
     "archive.org",
-    "rutracker.org",
     "itsfoss.com",
     "starship.rs",
     "dota2mapdrawing.com",
