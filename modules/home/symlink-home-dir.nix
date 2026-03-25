@@ -8,7 +8,7 @@
     file-paths = lib.filesystem.listFilesRecursive (flake-root + "/home-dir");
     files =
       lib.filter
-      (file: config.file.get-specs "!" file == [])
+      (file: config.file.get-specs "-" file == [])
       (lib.forEach file-paths (path: config.store-path.get-file path));
   in
     lib.listToAttrs (

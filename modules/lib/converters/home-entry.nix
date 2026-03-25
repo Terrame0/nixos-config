@@ -35,8 +35,5 @@ extend-config "convert" {
         ]
       ];
   in
-    file-converted
-    // {
-      asdf = config.debug (config.file.get-specs "to" file);
-    };
+    file-converted;
 }

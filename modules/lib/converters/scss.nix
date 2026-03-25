@@ -3,6 +3,7 @@
   extend-config,
   config,
   flake-root,
+  lib,
   ...
 }:
 extend-config "convert"
@@ -11,7 +12,7 @@ extend-config "convert"
     modifications = {
       store-path = pkgs.runCommand (config.file.path-str file) {
         buildInputs = [pkgs.dart-sass];
-        root = flake-root + "/home-dir";
+        root = flake-root + "/" + lib.head file.dir;
       } "sass ${file.store-path} $out --no-source-map --load-path $root --quiet";
       extension = "css";
     };
