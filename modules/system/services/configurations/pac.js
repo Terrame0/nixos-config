@@ -25,10 +25,10 @@ function FindProxyForURL(url, host) {
     "twttr.com",
 
     // -- communication
-    // "telegram.org",
-    // "t.me",
-    // "telegram.me",
-    // "cdn.telesco.pe",
+    "telegram.org",
+    "t.me",
+    "telegram.me",
+    "cdn.telesco.pe",
     "zoom.us",
     "zoom.com",
 
