@@ -10,7 +10,7 @@ extend-config "glob-includes" (
       lib.foldl (
         path-attrset-acc: file: let
           include-specs =
-            lib.filter (spec: spec.name == "I")
+            lib.filter (spec: spec.name == "i")
             file.specs;
           spec-attrset =
             lib.foldl (
