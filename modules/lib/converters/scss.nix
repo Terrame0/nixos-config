@@ -10,7 +10,7 @@ extend-config "convert"
 {
   scss = file: include-paths: let
     modifications = let
-      include-flags = lib.forEach include-paths.scss (path: "--load-path=" + flake-root + "/" + path);
+      include-flags = lib.forEach (include-paths.sass or []) (path: "--load-path='${flake-root}/${path}'");
     in {
       store-path = pkgs.runCommand (config.file.path-str file) {
         buildInputs = [pkgs.dart-sass];

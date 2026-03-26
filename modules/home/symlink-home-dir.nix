@@ -10,7 +10,7 @@
     include-paths = config.glob-includes unfiltered-files;
     files =
       lib.filter
-      (file: config.file.get-spec-values "-" file == [])
+      (file: config.file.get-spec-values "x" file == [])
       unfiltered-files;
   in
     lib.listToAttrs (
