@@ -1,4 +1,4 @@
-@use "[-]lib" as lib;
+// @use "[-]lib" as lib;
 
 $black:         "#[config.style.palette.black]";
 $dark-gray:     "#[config.style.palette.dark-gray]";
@@ -25,7 +25,7 @@ $bg-opacity:    "#[config.style.constants.primary-bg-opacity]";
 $offset:        "#[suf(px)|config.style.constants.offset]";
 $border-radius: "#[suf(px)|config.style.constants.border-radius]";
 
-$primary-bg: lib.scale-alpha($black,0.9);
+$primary-bg: transparentize($black,0.1);
 $secondary-bg: transparentize($dark-gray,0.5);
 $tertiary-bg: transparentize($black,0.7);
 
