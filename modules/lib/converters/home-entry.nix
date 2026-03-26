@@ -1,31 +1,37 @@
 {
   config,
   extend-config,
+  lib,
   ...
 }:
 extend-config "convert" {
   home-entry = file: let
     file-resolved = config.file.modify file config.string.substitute-expressions;
-    conversion-spec = config.file.get-spec "to" file-resolved;
-    extension-spec = config.file.get-spec "ext" file-resolved;
+    conversion-specs = config.file.get-specs "to" file-resolved;
+    extension-specs = config.file.get-specs "ext" file-resolved;
     file-converted =
       config.chain-operations
       file-resolved
       [
         [
-          (conversion-spec != null)
+          (conversion-specs != null)
           (
             file-changing:
-              if conversion-spec == "css"
+              if
+                builtins.elem "css" conversion-specs
+                && file-changing.extension == "scss"
               then config.convert.scss file-changing
-              else if conversion-spec == "json" || conversion-spec == "ini"
+              else if
+                builtins.elem "json" conversion-specs
+                || builtins.elem "ini" conversion-specs
+                && file-changing.extension == "nix"
               then config.convert.nix file-resolved
               else file-changing
           )
         ]
         [
-          (extension-spec != null)
-          (file-changing: file-changing // {extension = extension-spec;})
+          (extension-specs != [])
+          (file-changing: file-changing // {extension = lib.head extension-specs;})
         ]
       ];
   in

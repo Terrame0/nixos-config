@@ -16,6 +16,7 @@
         "charliermarsh.ruff"
         "mads-hartmann.bash-ide-vscode"
         "llvm-vs-code-extensions.vscode-clangd"
+        "mesonbuild.mesonbuild"
       ];
     in {
       # ============================================================
@@ -31,6 +32,10 @@
       userSettings = let
         invisible = "#ffffff00";
       in {
+        "mesonbuild.configureOnOpen" = true;
+        "mesonbuild.buildFolder" = "build";
+        "mesonbuild.downloadLanguageServer" = false;
+
         # ============================================================
         # -- disabling linting for some languages
         # ============================================================
