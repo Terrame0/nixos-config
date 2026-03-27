@@ -547,7 +547,12 @@
           textMateRules = [
             # -- punctuation
             {
-              scope = "punctuation";
+              scope = [
+                "punctuation"
+                "meta.property-list.scss"
+                "punctuation.definition.entity.css"
+                "meta.at-rule.include.scss"
+              ];
               settings.foreground = config.style.palette.light-gray;
             }
 
@@ -557,8 +562,10 @@
               settings.foreground = config.style.palette.light-gray;
             }
 
+            # -- variables
             {
               scope = [
+                "support.type.property-name.css"
                 "variable.other.object"
                 "variable"
                 "variable.parameter"
@@ -611,6 +618,7 @@
                 "entity.name.type"
                 "storage.type"
                 "support.type"
+                "variable.scss"
               ];
               settings.foreground = config.style.palette.blue;
             }
@@ -642,7 +650,7 @@
               settings.foreground = config.style.palette.orange;
             }
 
-            # -- templates
+            # -- important
             {
               scope = [
                 "storage.type.template"
@@ -664,6 +672,7 @@
             # -- numeric values
             {
               scope = [
+                "keyword.other.unit"
                 "constant.numeric.float.suffix"
                 "constant.numeric"
                 "keyword.other.unit.suffix.floating-point"
@@ -675,8 +684,29 @@
             {
               scope = [
                 "constant.language"
+                "support.constant.property-value.css"
               ];
               settings.foreground = config.style.palette.purple;
+            }
+
+            {
+              scope = [
+                "entity.name.tag.wildcard.scss"
+                "entity.name.tag.reference.scss"
+                "meta.property-name.scss"
+                "entity.name.tag.css"
+                "source.css.scss"
+                "entity.name.tag.css"
+              ];
+              settings.foreground = config.style.palette.red;
+            }
+
+            {
+              scope = [
+                "entity.other.attribute-name.pseudo-class.css"
+                "entity.other.attribute-name.class.css"
+              ];
+              settings.foreground = config.style.palette.aqua;
             }
 
             # -- fallback
@@ -684,6 +714,8 @@
               scope = [
                 "meta"
                 "source.cpp"
+                "source.css"
+                "source.css.scss"
               ];
               settings.foreground = config.style.palette.white;
             }
