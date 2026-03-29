@@ -8,12 +8,14 @@
 }:
 extend-config "convert"
 {
-  scss = file: let
-    modifications = {
+  scss = file: include-paths: let
+    modifications = let
+      include-flags = lib.forEach (include-paths.sass or []) (path: "--load-path='${flake-root}/${path}'");
+    in {
       store-path = pkgs.runCommand (config.file.path-str file) {
         buildInputs = [pkgs.dart-sass];
         root = flake-root + "/" + lib.head file.dir;
-      } "sass ${file.store-path} $out --no-source-map --load-path $root --quiet";
+      } (config.debug "sass ${file.store-path} $out --no-source-map --load-path=$root ${lib.concatStringsSep " " include-flags} --quiet");
       extension = "css";
     };
   in
