@@ -15,7 +15,7 @@ extend-config "convert"
       store-path = pkgs.runCommand (config.file.path-str file) {
         buildInputs = [pkgs.dart-sass];
         root = flake-root + "/" + lib.head file.dir;
-      } (config.debug "sass ${file.store-path} $out --no-source-map --load-path=$root ${lib.concatStringsSep " " include-flags} --quiet");
+      } "sass ${file.store-path} $out --no-source-map --load-path=$root ${lib.concatStringsSep " " include-flags} --quiet";
       extension = "css";
     };
   in
