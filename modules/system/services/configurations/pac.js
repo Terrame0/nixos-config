@@ -78,6 +78,7 @@ function FindProxyForURL(url, host) {
     "rutracker.org",
     "bt4g.org",
     "bt4gprx.com",
+    "downloadtorrentfile.com",
 
     // -- misc
     "mpv.io",
