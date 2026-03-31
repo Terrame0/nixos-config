@@ -44,7 +44,7 @@
     ];
     target-system = "x86_64-linux";
   in {
-    nixosConfigurations = lib.fold (acc: x: acc // x) {} (
+    nixosConfigurations = lib.foldl (acc: x: acc // x) {} (
       lib.forEach hosts (host: let
         module-args = {
           inherit nixos-update-script;

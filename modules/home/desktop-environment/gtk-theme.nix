@@ -11,6 +11,7 @@
 
   gtk = {
     enable = true;
+    gtk4.theme = null;
     theme.name = "my-theme";
     iconTheme = {
       name = "Papirus-Dark";

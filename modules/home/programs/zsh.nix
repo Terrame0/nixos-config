@@ -1,4 +1,8 @@
-{pkgs, ...}: {
+{
+  pkgs,
+  config,
+  ...
+}: {
   # -- zsh prompt theme
   programs.starship = {
     enable = true;
@@ -6,6 +10,7 @@
 
   programs.zsh = {
     enable = true;
+    dotDir = "${config.xdg.configHome}/zsh";
 
     enableCompletion = true;
     autosuggestion.enable = true;

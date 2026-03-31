@@ -20,25 +20,25 @@
       systemd
 
       # -- X11 / graphics stack
-      xorg.libX11
-      xorg.libXcomposite
-      xorg.libXtst
-      xorg.libXrandr
-      xorg.libXext
-      xorg.libXfixes
-      xorg.libXdamage
-      xorg.libxshmfence
-      xorg.libXxf86vm
-      xorg.libXinerama
-      xorg.libXcursor
-      xorg.libXrender
-      xorg.libXScrnSaver
-      xorg.libXi
-      xorg.libSM
-      xorg.libICE
-      xorg.libXt
-      xorg.libXmu
-      xorg.libXft
+      libX11
+      libXcomposite
+      libXtst
+      libXrandr
+      libXext
+      libXfixes
+      libXdamage
+      libxshmfence
+      libXxf86vm
+      libXinerama
+      libXcursor
+      libXrender
+      libXScrnSaver
+      libXi
+      libSM
+      libICE
+      libXt
+      libXmu
+      libXft
 
       libxcb
 

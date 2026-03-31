@@ -14,7 +14,7 @@
     brightnessctl
     wireplumber
     alejandra
-    neofetch
+    fastfetch
     dart-sass
     tree
     jq
