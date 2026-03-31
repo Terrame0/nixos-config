@@ -565,11 +565,11 @@
             # -- variables
             {
               scope = [
-                "support.type.property-name.css"
                 "variable.other.object"
                 "variable"
                 "variable.parameter"
                 "variable.other.readwrite"
+                "variable.scss"
               ];
               settings.foreground = config.style.palette.white;
             }
@@ -615,10 +615,10 @@
             # -- types
             {
               scope = [
+                "support.type.property-name.css"
                 "entity.name.type"
                 "storage.type"
                 "support.type"
-                "variable.scss"
               ];
               settings.foreground = config.style.palette.blue;
             }
