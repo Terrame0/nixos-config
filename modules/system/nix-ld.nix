@@ -50,7 +50,7 @@
       libvdpau
       libva
       libelf
-      glew110
+      glew_1_10
       freeglut
 
       # -- GTK / GLib
