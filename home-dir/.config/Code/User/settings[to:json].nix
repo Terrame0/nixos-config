@@ -3,19 +3,19 @@
   file-dir,
   ...
 }: let
+  parts-dir = "${file-dir}/[x]settings-parts";
   invisible = "#ffffff00";
-  tool-settings = import "${file-dir}/[x]settings-parts/tool-settings.nix" {};
-  behaviour = import "${file-dir}/[x]settings-parts/behaviour.nix" {};
-  appearance = import "${file-dir}/[x]settings-parts/appearance.nix" {inherit config;};
+  tool-settings = import "${parts-dir}/tool-settings.nix" {};
+  behaviour = import "${parts-dir}/behaviour.nix" {};
+  appearance = import "${parts-dir}/appearance.nix" {
+    inherit config;
+    inherit parts-dir;
+  };
 in
   behaviour
   // tool-settings
   // appearance
   // {
-    # ============================================================
-    # -- ui theming
-    # ============================================================
-
     "workbench.colorCustomizations" = {
       # ----------------------------------------------------------
       # -- editor core
@@ -393,18 +393,4 @@ in
 
       "symbolIcon.textForeground" = config.style.palette.white;
     };
-
-    # ============================================================
-    # -- editor behavior
-    # ============================================================
-
-    "editor.bracketPairColorization.enabled" = true;
-    "editor.guides.bracketPairs" = true;
-
-    # ============================================================
-    # -- syntax theming
-    # ============================================================
-
-    "editor.semanticHighlighting.enabled" = false;
-    "editor.tokenColorCustomizations" = import "${file-dir}/[x]settings-parts/textmate.nix" {inherit config;};
   }
