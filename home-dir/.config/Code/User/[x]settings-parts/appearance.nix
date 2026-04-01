@@ -26,5 +26,5 @@
 
   # -- syntax theming
   "editor.semanticHighlighting.enabled" = false;
-  "editor.tokenColorCustomizations" = import "${parts-dir}/textmate.nix" {inherit config;};
+  "editor.tokenColorCustomizations" = import "${parts-dir}/theme/textmate.nix" {inherit config;};
 }
