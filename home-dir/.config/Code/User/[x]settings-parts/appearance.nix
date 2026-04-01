@@ -1,4 +1,8 @@
-{config, ...}: {
+{
+  config,
+  parts-dir,
+  ...
+}: {
   # -- appearance
   "editor.fontFamily" = config.style.font.propo;
   "editor.fontLigatures" = true;
@@ -13,8 +17,14 @@
   # -- layout
   "editor.minimap.enabled" = false;
   "workbench.tree.indent" = 20;
+  "editor.bracketPairColorization.enabled" = true;
+  "editor.guides.bracketPairs" = true;
 
   # -- window
   "window.titleBarStyle" = "custom";
   "window.menuBarVisibility" = "classic";
+
+  # -- syntax theming
+  "editor.semanticHighlighting.enabled" = false;
+  "editor.tokenColorCustomizations" = import "${parts-dir}/textmate.nix" {inherit config;};
 }
