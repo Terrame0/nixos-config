@@ -1,33 +1,25 @@
 {...}: {
+  # -- build / meson
   "mesonbuild.configureOnOpen" = true;
   "mesonbuild.buildFolder" = "build";
   "mesonbuild.downloadLanguageServer" = false;
 
-  # ============================================================
-  # -- fixing inconsistent integrated terminal environment
-  # ============================================================
-
+  # -- environment
   "terminal.integrated.inheritEnv" = false;
   "C_Cpp.default.includePath" = [];
 
-  # ============================================================
-  # -- clangd settings
-  # ============================================================
-
+  # -- lsp / clangd
   "clangd.path" = "clangd";
   "clangd.trace" = "/tmp/clangd-log.txt";
   "clangd.arguments" = [
-    "--background-index"
-    "--clang-tidy"
-    "--header-insertion=iwyu"
-    "--completion-style=detailed"
-    "--log=verbose"
+    "--background-index" # indexing
+    "--clang-tidy" # linting
+    "--header-insertion=iwyu" # include-what-you-use
+    "--completion-style=detailed" # completion verbosity
+    "--log=verbose" # debug logging
   ];
 
-  # ============================================================
-  # -- nix language server integration
-  # ============================================================
-
+  # -- lsp / nix
   "nix.enableLanguageServer" = true;
   "nix.serverPath" = "nixd";
   "nix.hiddenLanguageServerErrors" = ["textDocument/definition"];

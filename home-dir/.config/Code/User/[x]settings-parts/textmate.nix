@@ -1,178 +1,106 @@
 {config, ...}: {
   textMateRules = [
-    # -- punctuation
+    # -- light-gray
     {
       scope = [
-        "punctuation"
-        "meta.property-list.scss"
-        "punctuation.definition.entity.css"
-        "meta.at-rule.include.scss"
+        "punctuation" # punctuation
+        "meta.property-list.scss" # scss property lists
+        "punctuation.definition.entity.css" # css entity punctuation
+        "meta.at-rule.include.scss" # scss include
+        "keyword.operator" # operators
+        "comment" # comments
       ];
       settings.foreground = config.style.palette.light-gray;
     }
 
-    # -- comments
-    {
-      scope = "comment";
-      settings.foreground = config.style.palette.light-gray;
-    }
-
-    # -- variables
+    # -- white
     {
       scope = [
-        "variable.other.object"
-        "variable"
-        "variable.parameter"
-        "variable.other.readwrite"
-        "variable.scss"
+        "variable.other.object" # object vars
+        "variable" # general vars
+        "variable.parameter" # function params
+        "variable.other.readwrite" # mutable vars
+        "variable.scss" # scss vars
+        "variable.other.object.property" # object properties
+        "variable.other.property" # properties
+        "entity.other.attribute-name" # attributes
+        "entity.name.tag" # html tags
+        "meta" # fallback meta
+        "source.cpp" # cpp fallback
+        "source.css" # css fallback
+        "source.css.scss" # scss fallback
       ];
       settings.foreground = config.style.palette.white;
     }
 
-    # -- attributes and properties
+    # -- purple
     {
       scope = [
-        "variable.other.object.property"
-        "variable.other.property"
-        "entity.other.attribute-name"
-        "entity.name.tag"
-      ];
-      settings.foreground = config.style.palette.white;
-    }
-
-    # -- keywords
-    {
-      scope = [
-        "keyword"
-        "keyword.control"
-        "keyword.other"
-        "keyword.other.operator"
-        "keyword.other.using"
+        "keyword" # keywords
+        "keyword.control" # control flow
+        "keyword.other" # misc keywords
+        "keyword.other.operator" # operator keywords
+        "keyword.other.using" # using/import
+        "keyword.other.unit" # units
+        "constant.numeric.float.suffix" # float suffix
+        "constant.numeric" # numbers
+        "keyword.other.unit.suffix.floating-point" # float units
+        "constant.language" # true/false/null
+        "support.constant.property-value.css" # css constants
       ];
       settings.foreground = config.style.palette.purple;
     }
 
-    # -- operators
-    {
-      scope = "keyword.operator";
-      settings.foreground = config.style.palette.light-gray;
-    }
-
-    # -- namespaces
+    # -- blue
     {
       scope = [
-        "entity.name.scope-resolution"
-        "entity.name.namespace"
-      ];
-      settings.foreground = config.style.palette.aqua;
-    }
-
-    # -- types
-    {
-      scope = [
-        "support.type.property-name.css"
-        "entity.name.type"
-        "storage.type"
-        "support.type"
+        "support.type.property-name.css" # css property names
+        "entity.name.type" # types
+        "storage.type" # type keywords
+        "support.type" # built-in types
+        "storage.modifier" # modifiers (const, static)
       ];
       settings.foreground = config.style.palette.blue;
     }
 
-    # -- storage modifiers
+    # -- orange
     {
       scope = [
-        "storage.modifier"
-      ];
-      settings.foreground = config.style.palette.blue;
-    }
-
-    # -- functions
-    {
-      scope = [
-        "meta.function"
-        "entity.name.function"
-        "support.function"
+        "meta.function" # function meta
+        "entity.name.function" # function names
+        "support.function" # built-in functions
+        "storage.type.struct" # struct
+        "storage.type.class" # class
+        "string" # strings
+        "string.quoted" # quoted strings
+        "string.template" # template strings
+        "string.interpolated" # interpolated strings
       ];
       settings.foreground = config.style.palette.orange;
     }
 
-    # -- structures
+    # -- aqua
     {
       scope = [
-        "storage.type.struct"
-        "storage.type.class"
-      ];
-      settings.foreground = config.style.palette.orange;
-    }
-
-    # -- important
-    {
-      scope = [
-        "storage.type.template"
-      ];
-      settings.foreground = config.style.palette.red;
-    }
-
-    # -- strings
-    {
-      scope = [
-        "string"
-        "string.quoted"
-        "string.template"
-        "string.interpolated"
-      ];
-      settings.foreground = config.style.palette.orange;
-    }
-
-    # -- numeric values
-    {
-      scope = [
-        "keyword.other.unit"
-        "constant.numeric.float.suffix"
-        "constant.numeric"
-        "keyword.other.unit.suffix.floating-point"
-      ];
-      settings.foreground = config.style.palette.purple;
-    }
-
-    # -- constants
-    {
-      scope = [
-        "constant.language"
-        "support.constant.property-value.css"
-      ];
-      settings.foreground = config.style.palette.purple;
-    }
-
-    {
-      scope = [
-        "entity.name.tag.wildcard.scss"
-        "entity.name.tag.reference.scss"
-        "meta.property-name.scss"
-        "entity.name.tag.css"
-        "source.css.scss"
-        "entity.name.tag.css"
-      ];
-      settings.foreground = config.style.palette.red;
-    }
-
-    {
-      scope = [
-        "entity.other.attribute-name.pseudo-class.css"
-        "entity.other.attribute-name.class.css"
+        "entity.name.scope-resolution" # ::
+        "entity.name.namespace" # namespaces
+        "entity.other.attribute-name.pseudo-class.css" # :hover
+        "entity.other.attribute-name.class.css" # .class
       ];
       settings.foreground = config.style.palette.aqua;
     }
 
-    # -- fallback
+    # -- red
     {
       scope = [
-        "meta"
-        "source.cpp"
-        "source.css"
-        "source.css.scss"
+        "storage.type.template" # templates / generics
+        "entity.name.tag.wildcard.scss" # *
+        "entity.name.tag.reference.scss" # references
+        "meta.property-name.scss" # scss props
+        "entity.name.tag.css" # css tags
+        "source.css.scss" # scss root
       ];
-      settings.foreground = config.style.palette.white;
+      settings.foreground = config.style.palette.red;
     }
   ];
 }
