@@ -5,6 +5,7 @@
 }: let
   parts-dir = "${file-dir}/[x]settings-parts";
   invisible = "#ffffff00";
+
   tool-settings = import "${parts-dir}/tool-settings.nix" {};
   behaviour = import "${parts-dir}/behaviour.nix" {};
   appearance = import "${parts-dir}/appearance.nix" {
@@ -17,10 +18,7 @@ in
   // appearance
   // {
     "workbench.colorCustomizations" = {
-      # ----------------------------------------------------------
-      # -- editor core
-      # ----------------------------------------------------------
-
+      # -- editor
       "editor.background" = config.style.palette.black;
       "editor.foreground" = config.style.palette.white;
 
@@ -38,10 +36,7 @@ in
       "focusBorder" = invisible;
       "contrastBorder" = invisible;
 
-      # ----------------------------------------------------------
-      # -- activity bar
-      # ----------------------------------------------------------
-
+      # -- activity-bar
       "activityBar.background" = config.style.palette.black;
       "activityBar.foreground" = config.style.palette.white;
       "activityBar.inactiveForeground" = config.style.palette.light-gray;
@@ -49,18 +44,12 @@ in
       "activityBar.activeBorder" = invisible;
       "activityBar.activeFocusBorder" = invisible;
 
-      # ----------------------------------------------------------
-      # -- sidebar and explorer
-      # ----------------------------------------------------------
-
+      # -- sidebar
       "sideBar.background" = config.style.palette.black;
       "sideBar.foreground" = config.style.palette.white;
       "sideBar.border" = config.style.palette.dark-gray;
 
-      # ----------------------------------------------------------
       # -- tabs
-      # ----------------------------------------------------------
-
       "tab.activeBackground" = config.style.palette.dark-gray;
       "tab.activeForeground" = config.style.palette.white;
 
@@ -83,10 +72,7 @@ in
       "problems.decorations.enabled" = false;
       "scm.diffDecorations" = "none";
 
-      # ----------------------------------------------------------
-      # -- title bar and command center
-      # ----------------------------------------------------------
-
+      # -- titlebar / command-center
       "titleBar.activeBackground" = config.style.palette.black;
       "titleBar.activeForeground" = config.style.palette.white;
       "titleBar.inactiveBackground" = config.style.palette.black;
@@ -99,10 +85,7 @@ in
       "commandCenter.activeBackground" = config.style.palette.dim-gray;
       "commandCenter.activeForeground" = config.style.palette.white;
 
-      # ----------------------------------------------------------
-      # -- panels and inputs
-      # ----------------------------------------------------------
-
+      # -- panels / inputs
       "panel.background" = config.style.palette.black;
       "panel.border" = config.style.palette.dark-gray;
       "panelTitle.activeForeground" = config.style.palette.white;
@@ -116,19 +99,13 @@ in
       "dropdown.foreground" = config.style.palette.white;
       "dropdown.border" = config.style.palette.dark-gray;
 
-      # ----------------------------------------------------------
       # -- scrollbar
-      # ----------------------------------------------------------
-
       "scrollbar.shadow" = invisible;
       "scrollbarSlider.background" = "${config.style.palette.gray}99";
       "scrollbarSlider.hoverBackground" = "${config.style.palette.light-gray}cc";
       "scrollbarSlider.activeBackground" = config.style.palette.white;
 
-      # ----------------------------------------------------------
-      # -- git decorations
-      # ----------------------------------------------------------
-
+      # -- git
       "gitDecoration.modifiedResourceForeground" = config.style.palette.yellow;
       "gitDecoration.addedResourceForeground" = config.style.palette.green;
       "gitDecoration.deletedResourceForeground" = config.style.palette.red;
@@ -136,10 +113,7 @@ in
       "gitDecoration.ignoredResourceForeground" = config.style.palette.light-gray;
       "gitDecoration.renamedResourceForeground" = config.style.palette.aqua;
 
-      # ----------------------------------------------------------
-      # -- gutter and overview ruler
-      # ----------------------------------------------------------
-
+      # -- gutter / overview
       "editorGutter.addedBackground" = config.style.palette.green;
       "editorGutter.modifiedBackground" = config.style.palette.yellow;
       "editorGutter.deletedBackground" = config.style.palette.red;
@@ -150,10 +124,7 @@ in
       "editorOverviewRuler.commonContentForeground" = "${config.style.palette.gray}99";
       "editorOverviewRuler.warningForeground" = config.style.palette.orange;
 
-      # ----------------------------------------------------------
       # -- diagnostics
-      # ----------------------------------------------------------
-
       "editorError.foreground" = config.style.palette.red;
       "editorWarning.foreground" = config.style.palette.orange;
       "editorInfo.foreground" = config.style.palette.white;
@@ -163,10 +134,7 @@ in
       "editor.warningDecoration" = "underline";
       "editor.infoDecoration" = "underline";
 
-      # ----------------------------------------------------------
-      # -- search and find
-      # ----------------------------------------------------------
-
+      # -- search
       "editor.findMatchForeground" = config.style.palette.black;
       "editor.findMatchBackground" = config.style.palette.green;
       "editor.findMatchBorder" = invisible;
@@ -175,10 +143,7 @@ in
       "editor.findMatchHighlightBackground" = config.style.palette.white;
       "editor.findMatchHighlightBorder" = invisible;
 
-      # ----------------------------------------------------------
       # -- debug
-      # ----------------------------------------------------------
-
       "debugToolBar.background" = config.style.palette.dark-gray;
       "debugToolBar.border" = invisible;
 
@@ -191,10 +156,7 @@ in
       "debugConsole.errorForeground" = config.style.palette.red;
       "debugConsoleLink.foreground" = config.style.palette.blue;
 
-      # ----------------------------------------------------------
       # -- terminal
-      # ----------------------------------------------------------
-
       "terminal.background" = config.style.palette.black;
       "terminal.foreground" = config.style.palette.white;
       "terminal.border" = config.style.palette.dark-gray;
@@ -227,10 +189,7 @@ in
       "terminal.ansiBrightCyan" = config.style.palette.aqua;
       "terminal.ansiBrightWhite" = config.style.palette.white;
 
-      # ----------------------------------------------------------
-      # -- hover and word highlight
-      # ----------------------------------------------------------
-
+      # -- hover
       "editor.wordHighlightBackground" = "${config.style.palette.blue}2E";
       "editor.wordHighlightStrongBackground" = "${config.style.palette.blue}2E";
 
@@ -238,10 +197,7 @@ in
       "editorHoverWidget.foreground" = config.style.palette.white;
       "editorHoverWidget.border" = invisible;
 
-      # ----------------------------------------------------------
-      # -- suggest widget
-      # ----------------------------------------------------------
-
+      # -- suggest
       "suggestWidget.background" = config.style.palette.black;
       "suggestWidget.foreground" = config.style.palette.white;
       "suggestWidget.border" = config.style.palette.dark-gray;
@@ -257,10 +213,7 @@ in
       "suggestWidgetScrollbarSlider.hoverBackground" = config.style.palette.light-gray;
       "suggestWidgetScrollbarSlider.activeBackground" = config.style.palette.white;
 
-      # ----------------------------------------------------------
-      # -- buttons and badges
-      # ----------------------------------------------------------
-
+      # -- buttons
       "button.background" = config.style.palette.dark-gray;
       "button.foreground" = config.style.palette.white;
       "button.hoverBackground" = config.style.palette.dim-gray;
@@ -279,10 +232,7 @@ in
       "extensionButton.prominentForeground" = config.style.palette.white;
       "extensionButton.separator" = config.style.palette.gray;
 
-      # ----------------------------------------------------------
       # -- menus
-      # ----------------------------------------------------------
-
       "menu.background" = config.style.palette.black;
       "menu.foreground" = config.style.palette.white;
       "menu.selectionBackground" = config.style.palette.dim-gray;
@@ -296,10 +246,7 @@ in
       "menubar.selectionForeground" = config.style.palette.white;
       "menubar.selectionBorder" = invisible;
 
-      # ----------------------------------------------------------
       # -- notifications
-      # ----------------------------------------------------------
-
       "notifications.background" = config.style.palette.black;
       "notifications.foreground" = config.style.palette.white;
       "notifications.border" = config.style.palette.dark-gray;
@@ -309,26 +256,17 @@ in
       "notificationsErrorIcon.foreground" = config.style.palette.red;
       "notificationsWarningIcon.foreground" = config.style.palette.orange;
 
-      # ----------------------------------------------------------
       # -- breadcrumbs
-      # ----------------------------------------------------------
-
       "breadcrumb.background" = config.style.palette.black;
       "breadcrumb.foreground" = config.style.palette.light-gray;
       "breadcrumb.focusForeground" = config.style.palette.white;
       "breadcrumb.activeSelectionForeground" = config.style.palette.white;
 
-      # ----------------------------------------------------------
-      # -- diff editor
-      # ----------------------------------------------------------
-
+      # -- diff
       "diffEditor.insertedTextBackground" = "${config.style.palette.green}33";
       "diffEditor.removedTextBackground" = "${config.style.palette.red}33";
 
-      # ----------------------------------------------------------
-      # -- brackets and guides
-      # ----------------------------------------------------------
-
+      # -- brackets
       "editorBracketMatch.background" = invisible;
       "editorBracketMatch.border" = invisible;
 
@@ -355,10 +293,8 @@ in
 
       "editor.guides.bracketPairs" = config.style.palette.dim-gray;
       "editor.guides.bracketPairsActive" = config.style.palette.dim-gray;
-      # ----------------------------------------------------------
-      # -- list renderer
-      # ----------------------------------------------------------
 
+      # -- lists
       "list.activeSelectionBackground" = config.style.palette.dim-gray;
       "list.activeSelectionForeground" = config.style.palette.white;
       "list.activeSelectionIconForeground" = config.style.palette.green;
@@ -375,10 +311,7 @@ in
 
       "tree.indentGuidesStroke" = config.style.palette.white;
 
-      # ----------------------------------------------------------
-      # -- suggestion widget internals
-      # ----------------------------------------------------------
-
+      # -- suggest-internal
       "list.highlightForeground" = config.style.palette.white;
       "list.focusHighlightForeground" = config.style.palette.green;
 
