@@ -32,7 +32,7 @@ extend-config "string" {
     in
       lib.foldl (
         changing-text: matched-string: let
-          can-interpolate = value: (builtins.tryEval (builtins.toString value)).success;
+          can-interpolate = value: (builtins.tryEval (toString value)).success;
           substitution-target = "${begin}${matched-string}${end}";
           matched-string-parts = lib.splitString "|" matched-string;
           head = config.list.exclusive-head matched-string-parts;
@@ -41,10 +41,12 @@ extend-config "string" {
             then config.list.exclusive-head matched-string-parts
             else "";
           expression = lib.last matched-string-parts;
-          evaluated-expression = config.string.evaluate-nix "{config,lib,pkgs,home-root,host,username}:${expression}";
+          evaluated-expression =
+            config.string.evaluate-nix
+            "{config,lib,pkgs,flake-root,host,username}: ${expression}" {};
         in
           assert can-interpolate evaluated-expression;
-            lib.replaceStrings [substitution-target] [(apply-flags flag-str (builtins.toString evaluated-expression))] changing-text
+            lib.replaceStrings [substitution-target] [(apply-flags flag-str (toString evaluated-expression))] changing-text
       )
       text
       matched-strings;

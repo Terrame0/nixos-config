@@ -9,15 +9,16 @@
   ...
 }:
 extend-config "string" {
-  evaluate-nix = expression: let
+  evaluate-nix = expression: args: let
     store-path = pkgs.writeText "nix-expression.nix" expression;
   in
-    import store-path {
-      inherit config;
-      inherit lib;
-      inherit pkgs;
-      home-root = flake-root + "/home-dir";
-      inherit username;
-      inherit host;
-    };
+    import store-path ({
+        inherit config;
+        inherit lib;
+        inherit pkgs;
+        inherit flake-root;
+        inherit username;
+        inherit host;
+      }
+      // args);
 }
