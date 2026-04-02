@@ -1,0 +1,16 @@
+@mixin glow-shadow($color, $type: outset) {
+    box-shadow:
+    $type 0px 0px 2px $color,
+    $type 0px 0px 1px $color,
+    $type 0px 0px 1px $color;
+}
+
+@mixin border($color) {
+    border-width: 2px;
+    border-color: $color;
+}
+
+@mixin glow-border($color, $type: outset) {
+    @include glow-shadow($color,$type);
+    @include border($color);
+}

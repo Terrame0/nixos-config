@@ -1,4 +1,4 @@
-{...}: {
+{username, ...}: {
   # -- ui
   "editor.smoothScrolling" = true;
   "workbench.startupEditor" = "none";

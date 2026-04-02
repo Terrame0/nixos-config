@@ -1,0 +1,24 @@
+@use "common/colors";
+@use "common/properties";
+@use "common/bases/textbox-base";
+
+@mixin button-base(
+  $style: none,
+  $on-color: colors.$success-color,
+  $off-color: none,
+  $hover-color: colors.$selection-color
+) {
+  @include textbox-base.textbox-base($style);
+  @include properties.clickable($hover-color: $hover-color);
+  @include properties.toggleable(
+    $on-color: $on-color, 
+    $off-color: $off-color, 
+  );
+  &.toggle:hover {
+    @include properties.toggleable(
+      $on-color: $on-color, 
+      $off-color: $off-color, 
+      $hover-alpha: colors.$primary-alpha
+    );
+  }
+}

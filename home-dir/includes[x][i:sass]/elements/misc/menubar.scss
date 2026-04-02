@@ -1,0 +1,29 @@
+@use "common/bases";
+@use "common/colors";
+@use "common/parameters";
+@use "lib";
+
+menuitem {
+  @include bases.button-base(flat);
+}
+
+window.popup {
+  > menu {
+    > menuitem {
+      margin: 0px;
+    }
+    @include lib.link(
+      $directions: ("":vertical),
+      $targets: (menuitem)
+    );
+  }
+  background: colors.$dark-gray;
+  transition: parameters.$regular-duration ease-out;
+  @include lib.border(colors.$contrast-border-color);
+  border-radius: 6px;
+}
+
+infobar {
+  @include bases.textbox-base(colors.$yellow);
+  @include lib.highlight(lib.scale-alpha(colors.$yellow,colors.$tertiary-alpha));
+}

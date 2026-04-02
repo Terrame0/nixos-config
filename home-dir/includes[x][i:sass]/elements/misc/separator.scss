@@ -1,0 +1,12 @@
+@use "common/colors";
+@use "common/parameters";
+
+separator {
+  min-width: 2px;
+  min-height: 2px;
+  border-radius: parameters.$round-corner;
+  -gtk-icon-source: none;
+  border-style: none;
+  background-color: colors.$separator-color;
+  margin: 6px;
+}

@@ -1,0 +1,42 @@
+@use "sass:list";
+@use "common/bases";
+@use "common/properties";
+@use "lib";
+
+notebook {
+    @include bases.textbox-base;
+    header {
+        @include bases.textbox-base;
+        > tabs {
+            > arrow {
+                @include bases.button-base;
+                &.down { -gtk-icon-source: -gtk-icontheme("pan-start-symbolic"); }
+                &.up { -gtk-icon-source: -gtk-icontheme("pan-end-symbolic"); }
+            }
+            > tab {
+                @include bases.button-base;
+                @include properties.focusable;
+                > box > button {
+                    @include bases.button-base();
+                }
+            }
+        }
+        @include lib.link(
+            $directions: (
+                ".top":horizontal,
+                ".bottom":horizontal,
+                ".left":vertical,
+                ".right":vertical
+            ),
+            $targets: (
+                "tabs > *"
+            )
+        );
+    }
+    @each $direction in top bottom left right {
+        header.#{$direction} {
+            @include bases.pane-base($direction);
+        }
+    }
+}
+
