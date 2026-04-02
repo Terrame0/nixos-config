@@ -1,0 +1,86 @@
+window.thunar {
+     > grid {
+        padding: 0px;
+        > menubar {
+            @include pane-base(top,$primary-bg);
+            padding: 3px;
+        }
+        > toolbar {
+            @include hide;
+            margin: 6px;
+            margin-bottom: 0px;
+        }
+        > paned {
+            > box > scrolledwindow.sidebar {
+                -gtk-icon-style: regular;
+                margin: 6px;
+                margin-right: 0px;
+            }
+            > separator {
+                margin: 0px;
+                min-width: 6px;
+                margin: 0px;
+                background: transparent;
+            }
+            > paned > grid {
+                > widget > statusbar {
+                    margin-bottom: 6px;
+                    label {
+                        color: $disabled-fg;
+                    }
+                }
+                > paned {
+                    padding: 3px 6px;
+                    padding-left: 0px;
+                    > notebook {
+                        background: transparent;
+                        background-image: linear-gradient(
+                            to bottom,
+                            $tertiary-bg 0%,
+                            transparent calc(0% + 30px),
+                            transparent calc(100% - 30px),
+                            $tertiary-bg 100%
+                        );
+                        border-width: 2px;
+                        border-left: none;
+                        border-right: none;
+                        border-radius: 6px;
+                        > stack > scrolledwindow {
+                            @include hide;
+                            > undershoot {
+                                background-image: none;
+                            }
+                            &.standard-view widget.view {
+                                &:hover {
+                                    border-radius: 3px;
+                                    @include highlight(scale-alpha($selection-color,$primary-alpha));
+                                    $line-bg: scale-alpha($selection-color,$secondary-alpha);
+                                    background-image: linear-gradient(to right, $line-bg, $line-bg);
+                                }
+                                &:selected {
+                                    @include highlight(scale-alpha($success-color,$primary-alpha));
+                                    border-radius: 3px;
+                                    $line-bg: scale-alpha($success-color,$secondary-alpha);
+                                    background-image: linear-gradient(to right, $line-bg, $line-bg);
+                                }
+                            }
+                        }
+                        &.split-view-inactive-pane {
+                            color: $disabled-fg;
+                        }
+                    }  
+                }
+            }
+        }
+    }
+    treeview.view {
+        &:selected {
+            $line-bg: scale-alpha($success-color,$tertiary-alpha);
+            background-image: linear-gradient(to right, $line-bg, $line-bg);
+        }
+    }
+}
+
+
+
+

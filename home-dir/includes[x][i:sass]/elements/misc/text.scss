@@ -1,0 +1,36 @@
+@use "common/bases";
+@use "common/properties";
+@use "common/colors";
+@use "common/parameters";
+@use "lib";
+
+entry {
+  @include bases.textbox-base;
+  @include properties.focusable;
+  padding: 3px 6px;
+  > progress {
+    margin-top: 25px;
+    margin-bottom: -7px;
+    min-height:2px;
+    @include lib.highlight(colors.$success-color);
+  }
+}
+
+* {
+  font-family: parameters.$font;
+  font-size: parameters.$h3;
+  font-weight: bold;
+}
+
+selection {
+  background: colors.$blue;
+  color: colors.$dark-gray;
+}
+
+text, value {
+  @include properties.disabled(flat);
+}
+
+image {
+  @include properties.disabled(flat);
+}

@@ -1,0 +1,59 @@
+@use "sass:list";
+@use "lib";
+@use "common/parameters";
+@use "common/colors";
+@use "common/bases";
+
+scale {
+    margin: 6px;
+    @each $direction in vertical horizontal {
+        &.#{$direction}{
+            lib.highlight {
+                border-radius: parameters.$round-corner;
+                background: colors.$primary-accent-color;
+                $edge-pair:none;
+                @if $direction == vertical 
+                { $edge-pair: (bottom, top); }
+                @else { $edge-pair: (right, left); }
+                @each $value-pair in 
+                (top,list.nth($edge-pair,1)) 
+                (bottom,list.nth($edge-pair,2)) {
+                    $highlight-dir: list.nth($value-pair,1);
+                    $edge: list.nth($value-pair,2);
+                    &.#{$highlight-dir} { 
+                        margin-#{$edge}: 11px; 
+                        @include lib.edge-radius($edge,0px);
+                    }
+                }
+                &:disabled {
+                    background: lib.scale-alpha(colors.$primary-accent-color,colors.$secondary-alpha);
+                }
+            }
+            slider {
+                @include bases.button-base(
+                    $hover-color:lib.scale-alpha(colors.$primary-accent-color,colors.$primary-alpha),
+                );
+                @include lib.highlight(colors.$primary-accent-color);
+                padding: 0px;
+                margin: -11px;
+                &:active {
+                    transition: parameters.$short-duration ease-in-out;
+                    @if $direction == vertical { margin: -11px -9px; } 
+                    @else { margin: -9px -11px; }
+                    @include lib.highlight(lib.scale-alpha(colors.$primary-accent-color,colors.$primary-alpha));
+                }
+                &:disabled {
+                    @include lib.highlight(lib.scale-alpha(colors.$primary-accent-color,colors.$secondary-alpha))
+                }
+            }
+            &.marks-after {
+                mark:not(:first-child):not(:last-child) {
+                    @if $direction == horizontal {margin-bottom: 11px; margin-top: 11px;}
+                    @else {margin-top: -11px; margin-right: -11px;}
+                    @include lib.border(lib.scale-alpha(colors.$contrast-border-color,calc(1/colors.$primary-alpha)));
+                    border-radius: parameters.$round-corner;
+                }
+            }
+        }
+    }
+}

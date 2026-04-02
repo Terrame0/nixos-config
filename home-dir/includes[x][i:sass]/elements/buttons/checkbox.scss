@@ -1,0 +1,45 @@
+@use "common/bases";
+@use "common/properties";
+@use "common/parameters";
+@use "common/colors";
+@use "lib";
+
+checkbutton,
+radiobutton {
+  &.text-button {@include bases.textbox-base;}
+  &:not(.text-button) {@include bases.textbox-base(flat);}
+  @include properties.clickable;
+}
+
+check,
+radio {
+  @include lib.border(transparent);
+  margin: 3px;
+  &:not(:indeterminate) { 
+    @include properties.toggleable;
+    box-shadow: inset 0 0 0 8px colors.$tertiary-bg;
+  }
+  &:indeterminate, 
+  &:indeterminate:hover {
+    @include lib.highlight(colors.$warning-color);
+    &:disabled {
+      @include lib.highlight(lib.scale-alpha(colors.$warning-color,colors.$secondary-alpha));
+    }
+    border-style:dashed;
+  }
+  -gtk-icon-source: none;
+  border-radius: parameters.$border-radius;
+  background: transparent;
+  min-width: 16px;
+  min-height: 16px;
+  &:checked {
+    box-shadow: inset 0 0 0 0 transparent;
+  }
+  &:not(:only-child) {
+    margin-right: 0px;
+  }
+}
+
+radio {
+  border-radius: parameters.$round-corner;
+}

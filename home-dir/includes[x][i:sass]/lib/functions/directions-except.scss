@@ -1,0 +1,3 @@
+@function directions-except($direction) {
+    @return remove-item((top,bottom,left,right),$direction);
+}
