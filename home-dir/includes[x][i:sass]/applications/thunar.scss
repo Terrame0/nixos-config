@@ -1,12 +1,18 @@
+@use "common/colors";
+@use "common/parameters";
+@use "lib";
+@use "common/properties";
+@use "common/bases";
+
 window.thunar {
      > grid {
         padding: 0px;
         > menubar {
-            @include pane-base(top,$primary-bg);
+            @include bases.pane-base(top,colors.$primary-bg);
             padding: 3px;
         }
         > toolbar {
-            @include hide;
+            @include lib.hide;
             margin: 6px;
             margin-bottom: 0px;
         }
@@ -26,7 +32,7 @@ window.thunar {
                 > widget > statusbar {
                     margin-bottom: 6px;
                     label {
-                        color: $disabled-fg;
+                        color: colors.$disabled-fg;
                     }
                 }
                 > paned {
@@ -36,37 +42,37 @@ window.thunar {
                         background: transparent;
                         background-image: linear-gradient(
                             to bottom,
-                            $tertiary-bg 0%,
+                            colors.$tertiary-bg 0%,
                             transparent calc(0% + 30px),
                             transparent calc(100% - 30px),
-                            $tertiary-bg 100%
+                            colors.$tertiary-bg 100%
                         );
                         border-width: 2px;
                         border-left: none;
                         border-right: none;
                         border-radius: 6px;
                         > stack > scrolledwindow {
-                            @include hide;
+                            @include lib.hide;
                             > undershoot {
                                 background-image: none;
                             }
                             &.standard-view widget.view {
                                 &:hover {
                                     border-radius: 3px;
-                                    @include highlight(scale-alpha($selection-color,$primary-alpha));
-                                    $line-bg: scale-alpha($selection-color,$secondary-alpha);
+                                    @include lib.highlight(lib.scale-alpha(colors.$selection-color,colors.$primary-alpha));
+                                    $line-bg: lib.scale-alpha(colors.$selection-color,colors.$secondary-alpha);
                                     background-image: linear-gradient(to right, $line-bg, $line-bg);
                                 }
                                 &:selected {
-                                    @include highlight(scale-alpha($success-color,$primary-alpha));
+                                    @include lib.highlight(lib.scale-alpha(colors.$success-color,colors.$primary-alpha));
                                     border-radius: 3px;
-                                    $line-bg: scale-alpha($success-color,$secondary-alpha);
+                                    $line-bg: lib.scale-alpha(colors.$success-color,colors.$secondary-alpha);
                                     background-image: linear-gradient(to right, $line-bg, $line-bg);
                                 }
                             }
                         }
                         &.split-view-inactive-pane {
-                            color: $disabled-fg;
+                            color: colors.$disabled-fg;
                         }
                     }  
                 }
@@ -75,7 +81,7 @@ window.thunar {
     }
     treeview.view {
         &:selected {
-            $line-bg: scale-alpha($success-color,$tertiary-alpha);
+            $line-bg: lib.scale-alpha(colors.$success-color,colors.$tertiary-alpha);
             background-image: linear-gradient(to right, $line-bg, $line-bg);
         }
     }
