@@ -5,7 +5,7 @@
 frame {
     > border {
         @include bases.textbox-base;
-        padding: parameters.$offset;
+        padding: parameters.$base-offset;
     }
 }
 

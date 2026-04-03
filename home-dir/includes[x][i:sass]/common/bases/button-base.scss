@@ -8,6 +8,8 @@
   $off-color: none,
   $hover-color: colors.$selection-color
 ) {
+  min-height: 20px;
+  min-width: 20px;
   @include textbox-base.textbox-base($style);
   @include properties.clickable($hover-color: $hover-color);
   @include properties.toggleable(

@@ -4,11 +4,11 @@
 @use "sass:math";
 
 scrolledwindow {
-    padding: parameters.$offset;
+    padding: parameters.$base-offset;
     @each $direction in top bottom left right {
         overshoot.#{$direction} {
-            @each $orthogonal in lib.orthogonal($direction) {margin-#{$orthogonal}:parameters.$offset;}
-            @include lib.edge-radius($direction, math.div(parameters.$border-radius,2));
+            @each $orthogonal in lib.orthogonal($direction) {margin-#{$orthogonal}:parameters.$base-offset;}
+            @include lib.edge-radius($direction, math.div(parameters.$base-border-radius,2));
             background-image: linear-gradient(
                 to $direction, 
                 transparent, 

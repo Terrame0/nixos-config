@@ -18,7 +18,7 @@ colorswatch {
 
 window {
   > box, > grid{
-    padding: 12px;
+    padding: parameters.$base-offset * 4;
   }
 }
 
@@ -53,21 +53,7 @@ rubberband {
     box-shadow: none;
 }
 
-//actionbar, toolbar, menubar {
-//  @include textbox-base;
-//}
-
-
-
-//revealer {
-//  @include textbox-base;
-//}
-
-headerbar {
-  button {
-    min-height: 26px;
-    min-width: 26px;
-  }
+headerbar, .titlebar {
   @include bases.textbox-base;
   @include bases.pane-base(top);
   padding: 3px;
@@ -76,7 +62,6 @@ headerbar {
     background-color: colors.$primary-bg;
   }
 }
-
 
 
 

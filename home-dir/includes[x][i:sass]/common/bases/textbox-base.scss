@@ -7,8 +7,8 @@
 @mixin textbox-base($style: none) {
   @include properties.disabled($style);
   &, label { transition: parameters.$regular-duration ease-in-out; }
-  border-radius: math.div(parameters.$border-radius,2);
-  margin: math.div(parameters.$offset,2);
+  border-radius: math.div(parameters.$base-border-radius,2);
+  margin: parameters.$base-offset;
   @include lib.border(transparent);
   @if $style != flat {
     background: colors.$secondary-bg;

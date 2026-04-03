@@ -1,0 +1,46 @@
+@use "common/bases";
+@use "common/colors";
+@use "common/parameters";
+@use "lib";
+@use "sass:math";
+
+menuitem {
+    @include bases.button-base(flat);
+}
+
+@mixin popup-window(){
+    border-radius: math.div(parameters.$base-border-radius,2) + parameters.$base-border-thickness + parameters.$base-offset;
+    @include lib.border(colors.$contrast-border-color);
+    background: colors.$dark-gray;
+}
+
+window.popup {
+    > menu {
+        @include lib.link(
+            $directions: ("":vertical),
+            $targets: (menuitem)
+        );
+        > menuitem {
+            margin: parameters.$base-offset + parameters.$base-border-thickness;
+        }
+    }
+    @include popup-window;
+}
+
+
+popover {
+    &.background {
+        @include popup-window;
+    }
+    > box {
+        @include lib.link(
+            $directions: ("":vertical),
+            $targets: (modelbutton)
+        );
+        > modelbutton {
+            margin: parameters.$base-offset;
+        }
+        margin: -10px;
+    }
+
+}

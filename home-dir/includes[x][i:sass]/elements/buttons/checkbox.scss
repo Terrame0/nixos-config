@@ -28,7 +28,7 @@ radio {
     border-style:dashed;
   }
   -gtk-icon-source: none;
-  border-radius: parameters.$border-radius;
+  border-radius: parameters.$base-border-radius;
   background: transparent;
   min-width: 16px;
   min-height: 16px;
@@ -41,5 +41,5 @@ radio {
 }
 
 radio {
-  border-radius: parameters.$round-corner;
+  border-radius: parameters.$round-corner-radius;
 }

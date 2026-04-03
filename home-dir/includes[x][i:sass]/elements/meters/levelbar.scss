@@ -5,7 +5,7 @@
 levelbar {
     @each $type in continuous discrete {
         &.#{$type} > trough > block {
-            border-radius: parameters.$round-corner;
+            border-radius: parameters.$round-corner-radius;
             @include lib.border(colors.$contrast-border-color);
             @if $type == discrete {
                 &:last-child { margin-right: -3px; }

@@ -1,0 +1,6 @@
+@use "common/colors";
+
+selection {
+  background: colors.$blue;
+  color: colors.$dark-gray;
+}

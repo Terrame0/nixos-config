@@ -2,15 +2,16 @@
 @use "common/properties";
 @use "common/parameters";
 @use "common/colors";
+@use "sass:math";
 
 switch {
   @include bases.textbox-base;
   @include properties.clickable;
-  border-radius: parameters.$offset + 2 + parameters.$border-radius;
+  border-radius: parameters.$base-offset + 2 + math.div(parameters.$base-border-radius,2);
   > image, &:disabled > image {
     color:transparent;
   }
-  padding: parameters.$offset;
+  padding: parameters.$base-offset;
   > slider {
     @include bases.button-base;
     @include properties.toggleable($off-color: colors.$red, $on-color: colors.$success-color);

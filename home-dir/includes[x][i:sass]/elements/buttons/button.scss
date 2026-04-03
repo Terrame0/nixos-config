@@ -1,13 +1,5 @@
 @use "common";
 
-button {
+button, modelbutton{
   @include common.button-base;
 }
-
-image {
-  margin: 3px;
-}
-
-//.titlebutton {
-//  margin: 6px;
-//}
