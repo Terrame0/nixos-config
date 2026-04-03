@@ -1,13 +1,17 @@
 @use "lib/mixins/edge-radius" as mixins;
+@use "common/parameters";
 @use "sass:map";
+@use "sass:list";
+@use "sass:math";
 
-$link-map: (
+$-link-map: (
   first: (
     horizontal: right,
     vertical: bottom
   ),
   middle: (
-    horizontal: (right,left),
+    // -- the order matters
+    horizontal: (left,right),
     vertical: (top,bottom)
   ),
   last: (
@@ -17,9 +21,13 @@ $link-map: (
 );
 
 @mixin -style-linked($position,$direction) {
-  @each $dir in map.get(map.get($link-map, $position), $direction) {
-    margin-#{$dir}: 2px;
-    @include mixins.edge-radius($dir,3px);
+  $dir-list: map.get(map.get($-link-map,$position),$direction);
+  @each $dir in $dir-list {
+    margin-#{$dir}: 0px;
+    @include mixins.edge-radius($dir,math.div(parameters.$base-border-radius,4));
+  }
+  @if $position != first {
+    margin-#{list.nth($dir-list,1)}: parameters.$base-offset;
   }
 }
 

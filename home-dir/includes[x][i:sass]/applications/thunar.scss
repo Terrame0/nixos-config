@@ -47,7 +47,7 @@ window.thunar {
                             transparent calc(100% - 30px),
                             colors.$tertiary-bg 100%
                         );
-                        border-width: 2px;
+                        border-width: parameters.$base-border-thickness;
                         border-left: none;
                         border-right: none;
                         border-radius: 6px;

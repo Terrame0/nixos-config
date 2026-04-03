@@ -9,7 +9,7 @@ scale {
     @each $direction in vertical horizontal {
         &.#{$direction}{
             lib.highlight {
-                border-radius: parameters.$round-corner;
+                border-radius: parameters.$round-corner-radius;
                 background: colors.$primary-accent-color;
                 $edge-pair:none;
                 @if $direction == vertical 
@@ -34,6 +34,8 @@ scale {
                     $hover-color:lib.scale-alpha(colors.$primary-accent-color,colors.$primary-alpha),
                 );
                 @include lib.highlight(colors.$primary-accent-color);
+                min-height: 0px;
+                min-width: 0px;
                 padding: 0px;
                 margin: -11px;
                 &:active {
@@ -48,10 +50,10 @@ scale {
             }
             &.marks-after {
                 mark:not(:first-child):not(:last-child) {
-                    @if $direction == horizontal {margin-bottom: 11px; margin-top: 11px;}
-                    @else {margin-top: -11px; margin-right: -11px;}
+                    @if $direction == horizontal {margin-bottom: 11px; margin-top: -11px;}
+                    @else {margin-left: 11px; margin-right: -11px;}
                     @include lib.border(lib.scale-alpha(colors.$contrast-border-color,calc(1/colors.$primary-alpha)));
-                    border-radius: parameters.$round-corner;
+                    border-radius: parameters.$round-corner-radius;
                 }
             }
         }

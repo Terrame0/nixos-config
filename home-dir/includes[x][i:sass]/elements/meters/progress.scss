@@ -3,7 +3,7 @@
 @use "common/colors";
 
 progress {
-    border-radius: parameters.$round-corner;
+    border-radius: parameters.$round-corner-radius;
     background: colors.$success-color;
     &:disabled {
         background: lib.scale-alpha(colors.$success-color,colors.$secondary-alpha);

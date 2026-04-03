@@ -1,7 +1,7 @@
 @use "sass:list";
 @use "sass:map";
 
-$edge-map: (
+$-edge-map: (
     top: ((top,left),(top,right)),
     bottom: ((bottom,left),(bottom,right)),
     left: ((top,left),(bottom,left)),
@@ -9,7 +9,7 @@ $edge-map: (
 );
 
 @mixin edge-radius($direction, $r){
-    @each $spec in map.get($edge-map, $direction) {
+    @each $spec in map.get($-edge-map, $direction) {
         border-#{list.nth($spec,1)}-#{list.nth($spec,2)}-radius: $r;
     }
 }

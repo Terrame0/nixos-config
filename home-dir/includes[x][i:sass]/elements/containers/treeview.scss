@@ -8,7 +8,7 @@ treeview.view {
     border: none;
     @include properties.clickable;
     @include properties.selectable;
-    padding: 2px parameters.$offset * 2;
+    padding: 2px parameters.$base-offset * 2;
     header {
         button {
             @include bases.pane-base(top);

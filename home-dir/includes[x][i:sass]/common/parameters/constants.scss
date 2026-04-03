@@ -3,9 +3,11 @@ $h1:            17pt;
 $h2:            14pt;
 $h3:            11pt;
 
-$offset:        3px;
-$border-radius: 12px;
-$round-corner: 9999px;
+$base-offset: 3px;
+$base-border-radius: 12px;
+$round-corner-radius: 9999px;
+$bold-border-thickness: 3px;
+$base-border-thickness: 2px;
 
 $short-duration: 0.05s;
 $regular-duration: 0.1s;
