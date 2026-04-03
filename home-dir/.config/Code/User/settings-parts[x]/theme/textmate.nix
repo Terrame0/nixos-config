@@ -93,6 +93,8 @@
     # -- red
     {
       scope = [
+        "keyword.operator.delete" # delete
+        "keyword.operator.new" # new
         "storage.type.template" # templates / generics
         "entity.name.tag.wildcard.scss" # *
         "entity.name.tag.reference.scss" # references
