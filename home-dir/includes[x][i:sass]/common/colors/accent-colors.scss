@@ -1,12 +1,13 @@
 @use "lib";
 @use "common/colors/palette";
+@use "common/colors/alphas";
 
-$selection-color: lib.scale-alpha(palette.$blue,0.7);
+$selection-color: lib.scale-alpha(palette.$blue,alphas.$primary-alpha);
 $info-color: palette.$aqua;
 $success-color: palette.$green;
 $warning-color: palette.$yellow;
 $critical-color: palette.$red;
 
-$primary-accent-color: palette.$blue;
-$secondary-accent-color: palette.$aqua;
+$primary-accent-color: palette.$aqua;
+$secondary-accent-color: palette.$orange;
 $tertiary-accent-color: palette.$purple;
