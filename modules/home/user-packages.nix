@@ -45,6 +45,7 @@
     telegram-desktop
 
     # -- desktop apps
+    freecad
     gparted
     dconf-editor
     prismlauncher
