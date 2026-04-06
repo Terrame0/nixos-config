@@ -4,7 +4,7 @@
   ...
 }: {
   home.file = let
-    files-unfiltered = config.home-dir.phases.build config.home-dir.phases.staging;
+    files-unfiltered = config.home-dir.phases.build config.home-dir.phases.stage;
     files =
       lib.filter
       (file: config.file.get-spec-values "x" file == [])
