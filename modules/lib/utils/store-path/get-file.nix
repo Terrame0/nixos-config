@@ -40,6 +40,16 @@ extend-config "store-path" {
         inherit stem;
         inherit specs;
         inherit extension;
+        bruh = config.file.make-tree "test" [
+          {
+            path = "/a/b/c/bruh.txt";
+            contents = "something written in text";
+          }
+          {
+            path = "/a/b/c/asdbruh.txt";
+            contents = "something written in text";
+          }
+        ];
       }
       else {};
   in
