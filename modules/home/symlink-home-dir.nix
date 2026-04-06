@@ -12,6 +12,11 @@
       lib.filter
       (file: config.file.get-spec-values "x" file == [])
       unfiltered-files;
+    staging-dir = config.directory.mk-staging "home-dir-staging" (
+      lib.forEach files (
+        file: let in 10
+      )
+    );
   in
     lib.listToAttrs (
       lib.forEach files

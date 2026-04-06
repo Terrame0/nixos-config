@@ -40,10 +40,10 @@ extend-config "store-path" {
         inherit stem;
         inherit specs;
         inherit extension;
-        bruh = config.file.make-tree "test" [
+        bruh = config.directory.mk-staging "test" [
           {
             path = "/a/b/c/bruh.txt";
-            contents = "something written in text";
+            contents = "something wasasdritten in text";
           }
           {
             path = "/a/b/c/asdbruh.txt";
