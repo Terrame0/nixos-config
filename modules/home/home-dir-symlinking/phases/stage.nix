@@ -5,7 +5,7 @@
   ...
 }:
 extend-config "home-dir.phases" {
-  staging = let
+  stage = let
     # -- raw files from the in-store home directory
     files-raw = config.home-dir.files.glob "home-dir";
 
