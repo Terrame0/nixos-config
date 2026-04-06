@@ -4,8 +4,8 @@
   lib,
   ...
 }:
-extend-config "glob-includes" (
-  files: let
+extend-config "home-dir.files" {
+  glob-includes = files: let
     path-attrset =
       lib.foldl (
         path-attrset-acc: file: let
@@ -33,5 +33,5 @@ extend-config "glob-includes" (
       ) {}
       (lib.filter (file: file.specs != []) files);
   in
-    path-attrset
-)
+    path-attrset;
+}
