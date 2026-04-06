@@ -56,7 +56,7 @@ extend-config "home-dir.phases" {
     ));
 
     # -- include paths for the build phase
-    include-paths = config.debug (config.home-dir.files.glob-includes files-raw);
+    include-paths = config.home-dir.files.glob-includes files-raw;
   in
     staging-dir-attrs // {inherit include-paths;};
 }
