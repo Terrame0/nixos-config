@@ -12,11 +12,11 @@ extend-config "convert"
     modifications = let
       include-flags = lib.forEach (include-paths.sass or []) (path: "--load-path='${flake-root}/${path}'");
     in {
-      store-path = pkgs.runCommand (config.file.path-str file) {
+      extension = "css";
+      store-path = pkgs.runCommand (file.stem + ".css") {
         buildInputs = [pkgs.dart-sass];
         root = flake-root + "/" + lib.head file.dir;
       } "sass ${file.store-path} $out --no-source-map --load-path=$root ${lib.concatStringsSep " " include-flags} --quiet";
-      extension = "css";
     };
   in
     file // modifications;
