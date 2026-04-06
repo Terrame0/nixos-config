@@ -6,7 +6,7 @@
   ...
 }:
 extend-config "directory" {
-  mk-staging = file-args: let
+  mk-staging-dir = file-args: let
     cmd =
       lib.foldl (
         cmd-acc: {

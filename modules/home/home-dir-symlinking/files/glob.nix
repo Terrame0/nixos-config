@@ -5,8 +5,8 @@
   lib,
   ...
 }:
-extend-config "directory" {
-  glob-local-files = local-path: let
+extend-config "home-dir.files" {
+  glob = local-path: let
     file-paths =
       lib.filesystem.listFilesRecursive
       (config.string.join-paths [flake-root local-path]);
