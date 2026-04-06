@@ -27,9 +27,10 @@ extend-config "store-path" {
           raw-path-parts;
         dir = lib.init path-parts;
         dir-raw = lib.init raw-path-parts;
-        name-parts = lib.splitString "." (lib.last path-parts);
-        name = lib.concatStringsSep "." (config.list.inclusive-init name-parts);
-        stem = config.string.outside "[" "]" name;
+        name = lib.last path-parts;
+        name-parts = lib.splitString "." name;
+        stem-raw = lib.concatStringsSep "." (config.list.inclusive-init name-parts);
+        stem = config.string.outside "[" "]" stem-raw;
         extension =
           if lib.length name-parts != 1
           then lib.last name-parts
@@ -38,18 +39,8 @@ extend-config "store-path" {
         inherit dir;
         inherit dir-raw;
         inherit stem;
-        inherit specs;
+        specs = config.debug specs;
         inherit extension;
-        bruh = config.directory.mk-staging "test" [
-          {
-            path = "/a/b/c/bruh.txt";
-            contents = "something wasasdritten in text";
-          }
-          {
-            path = "/a/b/c/asdbruh.txt";
-            contents = "something written in text";
-          }
-        ];
       }
       else {};
   in

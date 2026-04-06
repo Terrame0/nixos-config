@@ -6,12 +6,11 @@
 }:
 extend-config "convert" {
   home-entry = file: include-paths: let
-    file-resolved = config.file.modify file config.string.substitute-expressions;
-    conversion-specs = config.file.get-spec-values "to" file-resolved;
-    extension-specs = config.file.get-spec-values "ext" file-resolved;
+    conversion-specs = config.file.get-spec-values "to" file;
+    extension-specs = config.file.get-spec-values "ext" file;
     file-converted =
       config.chain-operations
-      file-resolved
+      file
       [
         [
           (conversion-specs != null)
@@ -25,7 +24,7 @@ extend-config "convert" {
                 builtins.elem "json" conversion-specs
                 || builtins.elem "ini" conversion-specs
                 && file-changing.extension == "nix"
-              then config.convert.nix file-resolved
+              then config.convert.nix file
               else file-changing
           )
         ]
