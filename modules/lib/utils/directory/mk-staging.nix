@@ -21,16 +21,16 @@ extend-config "directory" {
           cmd-acc + mk-dir-cmd + cp-file-cmd
       ) ""
       file-args;
-    drv-path = pkgs.runCommand "staging-directory" {} (config.debug cmd);
+    staging-dir = pkgs.runCommand "staging-directory" {} cmd;
     files = lib.forEach file-args (
       {
         path,
         src,
       }:
-        src // {store-path = config.string.join-paths [drv-path path];}
+        src // {store-path = config.string.join-paths [staging-dir path];}
     );
   in {
-    inherit drv-path;
     inherit files;
+    inherit staging-dir;
   };
 }

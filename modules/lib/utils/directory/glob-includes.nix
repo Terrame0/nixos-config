@@ -15,7 +15,7 @@ extend-config "glob-includes" (
           spec-attrset =
             lib.foldl (
               spec-attrset-acc: spec: let
-                dir = lib.take (spec.index + 1) file.dir-raw;
+                dir = lib.take (spec.index + 1) file.dir;
               in
                 spec-attrset-acc
                 // {
