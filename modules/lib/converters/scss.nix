@@ -1,16 +1,15 @@
 {
   pkgs,
   extend-config,
-  config,
   flake-root,
   lib,
   ...
 }:
 extend-config "convert"
 {
-  scss = file: include-paths: let
+  scss = file: include-paths: staging-dir: let
     modifications = let
-      include-flags = lib.forEach (include-paths.sass or []) (path: "--load-path='${flake-root}/${path}'");
+      include-flags = lib.forEach (include-paths.sass or []) (path: "--load-path='${staging-dir}/${path}'");
     in {
       extension = "css";
       store-path = pkgs.runCommand (file.stem + ".css") {
