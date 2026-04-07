@@ -1,4 +1,4 @@
-@use "lib/mixins/edge-radius" as mixins;
+@use "edge-radius" as i1;
 @use "common/parameters";
 @use "sass:map";
 @use "sass:list";
@@ -24,7 +24,7 @@ $-link-map: (
   $dir-list: map.get(map.get($-link-map,$position),$direction);
   @each $dir in $dir-list {
     margin-#{$dir}: 0px;
-    @include mixins.edge-radius($dir,math.div(parameters.$base-border-radius,4));
+    @include i1.edge-radius($dir,math.div(parameters.$base-border-radius,4));
   }
   @if $position != first {
     margin-#{list.nth($dir-list,1)}: parameters.$base-offset;

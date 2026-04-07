@@ -1,0 +1,11 @@
+@use "common/colors";
+@use "common/parameters";
+@use "mixins";
+
+@mixin module-base($color){
+    transition: parameters.$regular-duration ease-in-out;
+    padding: 0px parameters.$base-offset * 4;
+    margin: 0px;
+    color: colors.$white;
+    @include mixins.module-highlight($color);
+}
