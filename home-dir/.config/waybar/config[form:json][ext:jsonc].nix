@@ -45,13 +45,13 @@
       muted = color-span palette.light-gray "";
     };
     plug = color-span palette.green "";
-    batteries = [
-      (color-span palette.red "")
-      (color-span palette.orange "")
-      (color-span palette.yellow "")
-      (color-span palette.green "")
-      (color-span palette.green "")
-    ];
+    batteries = {
+      critical = color-span palette.red "";
+      alert = color-span palette.orange "";
+      warning = color-span palette.yellow "";
+      good = color-span palette.green "";
+      full = color-span palette.green "";
+    };
     bars = [
       (color-span palette.light-gray "▁")
       (color-span palette.blue "▁")
@@ -110,18 +110,19 @@ in
       format = "Online${chr.point}${icon.network.online}";
       format-wifi = "Online${chr.point}{icon}";
       format-disconnected = "Offline${chr.point}${icon.network.offline}";
-      interval = 5;
+      interval = 1;
       tooltip = false;
     };
 
     battery = {
       states = {
-        critical = 21;
-        alert = 41;
-        warning = 61;
-        good = 100;
+        critical = 20;
+        alert = 40;
+        warning = 60;
+        good = 95;
+        full = 100;
       };
-      interval = 5;
+      interval = 1;
       format = "{capacity}${chr.percent}${chr.point}{icon}";
       format-charging = "{capacity}${chr.percent}${chr.point}${icon.plug}";
       format-icons = icon.batteries;

@@ -4,7 +4,7 @@
 @use "meter-base" as i1;
 
 @mixin module-base($color:transparent){
-    transition: parameters.$regular-duration ease-in-out;
+    transition: parameters.$long-duration ease-in-out;
     padding: 0px;
     margin: 0px;
     color: colors.$white;

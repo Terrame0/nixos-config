@@ -78,24 +78,28 @@ window#waybar {
                 @include waybar.module-highlight(transparent);
                 @include waybar.module-edge-type(left,round);
                 @include waybar.module-edge-type(right,round);
-                label { font-weight: 900; }
-                padding: 0px;
-                margin: 0px;
-                &.empty label{
+                label { 
+                    font-weight: 900; 
                     color: colors.$gray;
                 }
-                &.active,
-                &.empty.active {
+                padding: 0px;
+                margin: 0px;
+                margin-right: parameters.$base-offset;
+                &:not(.empty) {
+                    label{ color: colors.$fg; }
+                }
+                &.active {
                     label{ color: colors.$green; }
                     @include waybar.module-highlight(colors.$green);
-                    padding: 0px 6px;
+                    padding: 0px 4px 0px 5px;
                 }
                 &.urgent {
                     label{ color: colors.$yellow; }
                     @include waybar.module-highlight(colors.$yellow);
-                    padding: 0px 6px;
+                    padding: 0px 4px 0px 5px;
                 }
             }
+            margin-right: - parameters.$base-offset;
         }
     }
     
