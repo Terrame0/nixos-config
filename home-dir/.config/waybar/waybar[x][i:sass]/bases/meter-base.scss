@@ -1,14 +1,9 @@
-@use "module-base" as i1;
 @use "mixins";
 @use "common/colors";
 
-@mixin meter-base($color){
-    @include i1.module-base($color);
+@mixin meter-base {
     &.good { color: colors.$white; }
-    &.warning { color: colors.$yellow; }
-    &.alert { color: colors.$orange; }
-    &.critical { 
-        color: colors.$red;
-        @include mixins.module-highlight(colors.$red);
-    }
+    &.warning { color: colors.$warning-color; }
+    &.alert { color: colors.$alert-color; }
+    &.critical { color: colors.$critical-color; }
 }

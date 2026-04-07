@@ -1,11 +1,13 @@
 @use "common/colors";
 @use "common/parameters";
 @use "mixins";
+@use "meter-base" as i1;
 
-@mixin module-base($color){
+@mixin module-base($color:transparent){
     transition: parameters.$regular-duration ease-in-out;
-    padding: 0px parameters.$base-offset * 4;
+    padding: 0px;
     margin: 0px;
     color: colors.$white;
     @include mixins.module-highlight($color);
+    @include i1.meter-base;
 }
