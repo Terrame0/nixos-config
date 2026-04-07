@@ -1,6 +1,6 @@
 @use "common/colors";
 @use "common/properties";
-@use "common/bases/textbox-base";
+@use "textbox-base" as i1;
 
 @mixin button-base(
   $style: none,
@@ -10,7 +10,7 @@
 ) {
   min-height: 20px;
   min-width: 20px;
-  @include textbox-base.textbox-base($style);
+  @include i1.textbox-base($style);
   @include properties.clickable($hover-color: $hover-color);
   @include properties.toggleable(
     $on-color: $on-color, 
