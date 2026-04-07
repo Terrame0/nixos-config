@@ -5,37 +5,7 @@
 @use "lib";
 @use "waybar";
 
-// --- MIXINS --- 
-
-@mixin container-state($state){
-    $bool: $state == active;
-    border: if(
-        $state == active,
-        3px solid colors.$contrast-border-color, 
-        3px solid transparent
-    );
-    background: if(
-        $state == active, 
-        colors.$primary-bg, 
-        transparent
-    );
-
-    $transition: if(
-        $state == active,
-        $fade-in,
-        $fade-out,
-    );
-
-    transition:
-        background-color 0.2s $transition,
-        border-color 0.2s $transition;
-}
-
 // --- ELEMENTS ---
-
-// -- 0.9 opacity crossfade curves
-$fade-in: cubic-bezier(0.582,0.631,0.343,0.947);
-$fade-out: cubic-bezier(0.657,0.053,0.418,0.369);
 
 window#waybar {
     * {
@@ -51,7 +21,7 @@ window#waybar {
     // --- SOLID BAR ---
 
     // -- bar active (fullscreen)
-    @include container-state(active);
+    @include waybar.container-state(active);
 
     .modules-left,
     .modules-center,
@@ -60,38 +30,44 @@ window#waybar {
         padding: 0px;
         margin: 0px;
         // --  islands inactive (fullscreen)
-        @include container-state(inactive);
+        @include waybar.container-state(inactive);
     }
 
     // --- ISLANDS ---
 
     &.empty, &.floating {
         // -- bar inactive (split)
-        @include container-state(inactive);
+        @include waybar.container-state(inactive);
         .modules-left,
         .modules-center,
         .modules-right {
             // -- islands active (split)
-            @include container-state(active);
+            @include waybar.container-state(active);
         }
     }
 
     // --- MODULES ---
 
     .modules-left {
+        #custom-spacer-1 { @include waybar.spacer-base(colors.$green, colors.$purple); }
+        #custom-spacer-2 { @include waybar.spacer-base(colors.$purple, colors.$blue); }
+
         #network {
-            @include waybar.meter-base(colors.$green);
-            @include waybar.edge-type(left,round);
+            @include waybar.module-base(colors.$green);
+            @include waybar.module-edge-type(left,round);
             &.disconnected {
                 color:colors.$light-gray;
-                @include waybar.meter-base(colors.$gray);
+                @include waybar.module-base(colors.$gray);
             }
         }
-        #battery { @include waybar.meter-base(colors.$green); }
-        #custom-clock { @include waybar.meter-base(colors.$purple); }
+        #battery {
+            @include waybar.module-base(colors.$green);
+            padding-left: parameters.$base-offset * 4;
+        }
+        #custom-clock { @include waybar.module-base(colors.$purple); }
         #pulseaudio {
-            @include waybar.meter-base(colors.$blue);
-            @include waybar.edge-type(right,round);
+            @include waybar.module-base(colors.$blue);
+            @include waybar.module-edge-type(right,round);
         }
     }
 
@@ -100,8 +76,8 @@ window#waybar {
             button {
                 transition: 0.1s ease-in-out;
                 @include waybar.module-highlight(transparent);
-                @include waybar.edge-type(left,round);
-                @include waybar.edge-type(right,round);
+                @include waybar.module-edge-type(left,round);
+                @include waybar.module-edge-type(right,round);
                 label { font-weight: 900; }
                 padding: 0px;
                 margin: 0px;
@@ -124,20 +100,23 @@ window#waybar {
     }
     
     .modules-right {
+        #custom-spacer-3 { @include waybar.spacer-base(colors.$aqua, colors.$orange); }
+        #custom-spacer-4 { @include waybar.spacer-base(colors.$orange, colors.$yellow); }
+
         #tray {
-            margin: 7px;
+            margin: 0px parameters.$base-offset * 2;
             &.passive { color:colors.$light-gray; } 
         }
         #cpu { 
-            @include waybar.meter-base(colors.$aqua); 
-            @include waybar.edge-type(left,round)
+            @include waybar.module-base(colors.$aqua); 
+            @include waybar.module-edge-type(left,round)
         }
         #memory { 
-            @include waybar.meter-base(colors.$orange); 
+            @include waybar.module-base(colors.$orange); 
         }
         #disk {
-            @include waybar.meter-base(colors.$yellow);
-            @include waybar.edge-type(right,round);
+            @include waybar.module-base(colors.$yellow);
+            @include waybar.module-edge-type(right,round);
         }
     }
 }

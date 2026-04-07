@@ -64,163 +64,178 @@
       (color-span palette.red "█")
     ];
   };
-in {
-  layer = "bottom";
-  position = "top";
-  spacing = 0;
+in
+  {
+    layer = "bottom";
+    position = "top";
+    spacing = 0;
 
-  modules-left = [
-    "network"
-    "battery"
-    "custom/clock"
-    "pulseaudio"
-  ];
+    modules-left = [
+      "network"
+      "battery"
+      "custom/spacer-1"
+      "custom/clock"
+      "custom/spacer-2"
+      "pulseaudio"
+    ];
 
-  modules-center = [
-    "hyprland/workspaces"
-  ];
+    modules-center = [
+      "hyprland/workspaces"
+    ];
 
-  modules-right = [
-    "tray"
-    "hyprland/window"
-    "cpu"
-    "memory"
-    "disk"
-  ];
+    modules-right = [
+      "tray"
+      "hyprland/window"
+      "cpu"
+      "custom/spacer-3"
+      "memory"
+      "custom/spacer-4"
+      "disk"
+    ];
 
-  reload_style_on_change = true;
+    reload_style_on_change = true;
 
-  margin-bottom = 0;
-  margin-top = config.style.constants.offset;
-  margin-left = config.style.constants.offset;
-  margin-right = config.style.constants.offset;
-  height = 10;
+    margin-bottom = 0;
+    margin-top = config.style.constants.offset;
+    margin-left = config.style.constants.offset;
+    margin-right = config.style.constants.offset;
+    height = 44;
 
-  # --- MODULES LEFT ---
+    # --- MODULES LEFT ---
 
-  network = {
-    format-icons = {
-      wifi = icon.network.wifi;
+    network = {
+      format-icons = {
+        wifi = icon.network.wifi;
+      };
+      format = "Online${chr.point}${icon.network.online}";
+      format-wifi = "Online${chr.point}{icon}";
+      format-disconnected = "Offline${chr.point}${icon.network.offline}";
+      interval = 5;
+      tooltip = false;
     };
-    format = "Online${chr.point}${icon.network.online}";
-    format-wifi = "Online${chr.point}{icon}";
-    format-disconnected = "Offline${chr.point}${icon.network.offline}";
-    interval = 5;
-    tooltip = false;
-  };
 
-  battery = {
-    states = {
-      critical = 21;
-      alert = 41;
-      warning = 61;
-      good = 100;
+    battery = {
+      states = {
+        critical = 21;
+        alert = 41;
+        warning = 61;
+        good = 100;
+      };
+      interval = 5;
+      format = "{capacity}${chr.percent}${chr.point}{icon}";
+      format-charging = "{capacity}${chr.percent}${chr.point}${icon.plug}";
+      format-icons = icon.batteries;
+      tooltip = false;
     };
-    interval = 5;
-    format = "{capacity}${chr.percent}${chr.point}{icon}";
-    format-charging = "{capacity}${chr.percent}${chr.point}${icon.plug}";
-    format-icons = icon.batteries;
-    tooltip = false;
-  };
 
-  tray = {
-    show-passive-items = true;
-    icon-size = 20;
-    spacing = 7;
-    tooltip = false;
-  };
-
-  "custom/clock" = {
-    exec = "bash ~/.config/waybar/clock.sh";
-    interval = 1;
-    format = "{}";
-    tooltip = false;
-  };
-
-  pulseaudio = {
-    format = "{volume}${chr.percent}${chr.point}{icon}${chr.point}{format_source}";
-    format-muted = "0${chr.percent}${chr.point}${icon.volume.muted}${chr.point}{format_source}";
-    format-icons = {
-      default = icon.volume.levels;
+    tray = {
+      show-passive-items = true;
+      icon-size = 20;
+      spacing = 7;
+      tooltip = false;
     };
-    format-source = icon.mic.on;
-    format-source-muted = icon.mic.off;
-    scroll-step = 10;
-    tooltip = false;
-    on-click = "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle";
-  };
-
-  # --- MODULES CENTER ---
-
-  "hyprland/workspaces" = {
-    disable-scroll = false;
-    all-outputs = true;
-    warp-on-scroll = false;
-    format = "{name}";
-    persistent-workspaces = {
-      "*" = 5;
+  }
+  // lib.foldl (
+    spacers: i:
+      spacers
+      // {
+        "custom/spacer-${toString i}" = {
+          format = chr.line;
+        };
+      }
+  ) {} (lib.genList (i: i + 1) 4)
+  // {
+    "custom/clock" = {
+      exec = "bash ~/.config/waybar/clock.sh";
+      interval = 1;
+      format = "{}";
+      tooltip = false;
     };
-    tooltip = false;
-  };
 
-  # --- MODULES RIGHT ---
-
-  "hyprland/window" = {
-    format = "";
-    tooltip = false;
-  };
-
-  cpu = {
-    states = {
-      critical = 90;
-      alert = 80;
-      warning = 70;
-      good = 60;
+    pulseaudio = {
+      format = "{volume}${chr.percent}${chr.point}{icon}${chr.point}{format_source}";
+      format-muted = "0${chr.percent}${chr.point}${icon.volume.muted}${chr.point}{format_source}";
+      format-icons = {
+        default = icon.volume.levels;
+      };
+      format-source = icon.mic.on;
+      format-source-muted = icon.mic.off;
+      scroll-step = 10;
+      tooltip = false;
+      on-click = "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle";
     };
-    format = let
-      bars =
-        config.make-span {
-          size = "9pt";
-          rise = "2.25pt";
-        }
-        (
-          lib.concatStrings (
-            lib.forEach (
-              builtins.genList (i: i) (builtins.fromJSON (config.run-command "nproc"))
+
+    # --- MODULES CENTER ---
+
+    "hyprland/workspaces" = {
+      disable-scroll = false;
+      all-outputs = true;
+      warp-on-scroll = false;
+      format = "{name}";
+      persistent-workspaces = {
+        "*" = 5;
+      };
+      tooltip = false;
+    };
+
+    # --- MODULES RIGHT ---
+
+    "hyprland/window" = {
+      format = "";
+      tooltip = false;
+    };
+
+    cpu = {
+      states = {
+        critical = 90;
+        alert = 80;
+        warning = 70;
+        good = 60;
+      };
+      format = let
+        bars =
+          config.make-span {
+            size = "9pt";
+            rise = "2.25pt";
+          }
+          (
+            lib.concatStrings (
+              lib.forEach (
+                builtins.genList (i: i) (builtins.fromJSON (config.run-command "nproc"))
+              )
+              (
+                id: "{icon${toString id}}"
+              )
             )
-            (
-              id: "{icon${toString id}}"
-            )
-          )
-        );
-    in "{usage}${chr.percent}${chr.lbracket}${bars}${chr.rbracket}${icon.cpu}";
-    format-icons = icon.bars;
-    interval = 1;
-    tooltip = false;
-  };
-
-  memory = {
-    states = {
-      critical = 90;
-      alert = 80;
-      warning = 70;
-      good = 60;
+          );
+      in "{usage}${chr.percent}${chr.lbracket}${bars}${chr.rbracket}${icon.cpu}";
+      format-icons = icon.bars;
+      interval = 1;
+      tooltip = false;
     };
-    format = "{used:0.1f}${chr.gb}${chr.slash}{total:0.1f}${chr.gb}${chr.point}${icon.ram}";
-    interval = 1;
-    tooltip = false;
-  };
 
-  disk = {
-    states = {
-      critical = 90;
-      alert = 80;
-      warning = 75;
-      good = 70;
+    memory = {
+      states = {
+        critical = 90;
+        alert = 80;
+        warning = 70;
+        good = 60;
+      };
+      format = "{used:0.1f}${chr.gb}${chr.slash}{total:0.1f}${chr.gb}${chr.point}${icon.ram}";
+      interval = 1;
+      tooltip = false;
     };
-    interval = 10;
-    format = "{specific_free:1.0f}${chr.gb}${chr.slash}{specific_total:1.0f}${chr.gb}${chr.point}${icon.disk}";
-    unit = "GB";
-    tooltip = false;
-  };
-}
+
+    disk = {
+      states = {
+        critical = 90;
+        alert = 80;
+        warning = 75;
+        good = 70;
+      };
+      interval = 10;
+      format = "{specific_free:1.0f}${chr.gb}${chr.slash}{specific_total:1.0f}${chr.gb}${chr.point}${icon.disk}";
+      unit = "GB";
+      tooltip = false;
+    };
+  }

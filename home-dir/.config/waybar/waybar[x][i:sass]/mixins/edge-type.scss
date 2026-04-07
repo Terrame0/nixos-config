@@ -1,8 +1,0 @@
-@use "lib";
-@use "common/parameters";
-
-@mixin edge-type($direction,$type:sharp){
-    border-#{$direction}-width: parameters.$bold-border-thickness;
-    @if $type == sharp { @include lib.edge-radius($direction,0px); }
-    @if $type == round { @include lib.edge-radius($direction,9px); }
-}
