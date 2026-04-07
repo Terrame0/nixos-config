@@ -116,8 +116,8 @@ in
 
     battery = {
       states = {
-        critical = 20;
-        alert = 40;
+        critical = 10;
+        alert = 30;
         warning = 60;
         good = 95;
         full = 100;
