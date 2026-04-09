@@ -57,7 +57,6 @@ window#waybar {
             @include waybar.module-edge-type(left,round);
             &.disconnected {
                 color:colors.$light-gray;
-                @include waybar.module-base(colors.$gray);
             }
         }
         #battery {
