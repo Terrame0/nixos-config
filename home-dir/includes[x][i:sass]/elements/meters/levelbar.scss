@@ -8,7 +8,7 @@ levelbar {
             border-radius: parameters.$round-corner-radius;
             @include lib.border(colors.$contrast-border-color);
             @if $type == discrete {
-                &:last-child { margin-right: -3px; }
+                &:last-child { margin-right: 0px; }
                 &:not(:first-child) { margin-left: 4px; }
             }
             &.filled{

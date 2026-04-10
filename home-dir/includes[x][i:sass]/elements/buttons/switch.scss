@@ -14,7 +14,7 @@ switch {
   padding: parameters.$base-offset;
   > slider {
     @include bases.button-base;
-    @include properties.toggleable($off-color: colors.$red, $on-color: colors.$success-color);
+    @include properties.toggleable($off-color: colors.$secondary-bg, $on-color: colors.$success-color);
     transition: parameters.$regular-duration ease-out;
     margin: 0px;
     min-width: 16px;
