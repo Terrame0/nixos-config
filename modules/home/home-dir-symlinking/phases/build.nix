@@ -18,7 +18,7 @@ extend-config "home-dir.phases" {
         file
         [
           [
-            (build-specs != null)
+            (build-specs != [])
             (
               file-changing:
                 if
