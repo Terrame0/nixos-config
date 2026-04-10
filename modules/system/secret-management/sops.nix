@@ -1,4 +1,4 @@
-{config, ...}: {
+{...}: {
   sops.age.keyFile = "/home/terrame/age/keys.txt";
   environment.variables = {
     SOPS_AGE_KEY_FILE = "/home/terrame/age/keys.txt";
