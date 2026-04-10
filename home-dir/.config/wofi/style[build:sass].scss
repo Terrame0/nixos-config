@@ -29,7 +29,8 @@ $primary-bg: transparentize($black,0.1);
 $secondary-bg: transparentize($dark-gray,0.5);
 $tertiary-bg: transparentize($black,0.7);
 
-$window-border-color: transparentize($light-gray,0.8);
+@use "common/colors";
+
 
 * {
     font-family: "JetBrainsMono Nerd Font", monospace;
@@ -47,7 +48,7 @@ $window-border-color: transparentize($light-gray,0.8);
 
 #outer-box {
     background: transparent;
-    border: 3px solid $dim-gray;
+    border: 3px solid colors.$window-border-color;
     border-radius: $border-radius;
 }
 
