@@ -4,9 +4,9 @@
 
 progress {
     border-radius: parameters.$round-corner-radius;
-    background: colors.$success-color;
+    background: colors.$primary-accent-color;
     &:disabled {
-        background: lib.scale-alpha(colors.$success-color,colors.$secondary-alpha);
+        background: lib.scale-alpha(colors.$primary-accent-color,colors.$secondary-alpha);
     }
     min-width: 4px;
     min-height: 4px;
