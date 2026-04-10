@@ -21,9 +21,9 @@ radio {
   }
   &:indeterminate, 
   &:indeterminate:hover {
-    @include lib.highlight(colors.$warning-color);
+    @include lib.highlight(colors.$disabled-fg);
     &:disabled {
-      @include lib.highlight(lib.scale-alpha(colors.$warning-color,colors.$secondary-alpha));
+      @include lib.highlight(lib.scale-alpha(colors.$disabled-fg,colors.$secondary-alpha));
     }
     border-style:dashed;
   }
