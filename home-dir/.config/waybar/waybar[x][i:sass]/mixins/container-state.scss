@@ -10,7 +10,7 @@ $fade-out: cubic-bezier(0.657,0.053,0.418,0.369);
     // TODO change to @if
     border: if(
         $state == active,
-        parameters.$bold-border-thickness solid colors.$contrast-border-color, 
+        parameters.$bold-border-thickness solid colors.$window-border-color, 
         parameters.$bold-border-thickness solid transparent
     );
     background: if(
