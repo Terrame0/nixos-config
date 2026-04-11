@@ -18,9 +18,9 @@
     rbracket = span "]";
   };
   icon = {
-    cpu = color-span palette.blue "";
+    cpu = color-span palette.green "";
     ram = color-span palette.aqua "";
-    disk = color-span palette.green "";
+    disk = color-span palette.blue "";
     network = {
       wifi = [
         (color-span palette.green "󰤨")
@@ -71,12 +71,12 @@ in
     spacing = 0;
 
     modules-left = [
-      "network"
-      "battery"
+      "pulseaudio"
       "custom/spacer-1"
       "custom/clock"
       "custom/spacer-2"
-      "pulseaudio"
+      "battery"
+      "network"
     ];
 
     modules-center = [
