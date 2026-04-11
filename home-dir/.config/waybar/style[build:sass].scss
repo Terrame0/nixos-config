@@ -109,13 +109,13 @@ window#waybar {
             @include waybar.module-base(colors.$green); 
             @include waybar.module-edge-type(left,round)
         }
-        #custom-spacer-3 { @include waybar.spacer-base(colors.$green, colors.$aqua); }
+        #custom-spacer-3 { @include waybar.spacer-base(colors.$green, colors.$yellow); }
         #memory { 
-            @include waybar.module-base(colors.$aqua); 
+            @include waybar.module-base(colors.$yellow); 
         }
-        #custom-spacer-4 { @include waybar.spacer-base(colors.$aqua, colors.$blue); }
+        #custom-spacer-4 { @include waybar.spacer-base(colors.$yellow, colors.$orange); }
         #disk {
-            @include waybar.module-base(colors.$blue);
+            @include waybar.module-base(colors.$orange);
             @include waybar.module-edge-type(right,round);
         }
     }

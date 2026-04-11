@@ -19,8 +19,8 @@
   };
   icon = {
     cpu = color-span palette.green "";
-    ram = color-span palette.aqua "";
-    disk = color-span palette.blue "";
+    ram = color-span palette.yellow "";
+    disk = color-span palette.orange "";
     network = {
       wifi = [
         (color-span palette.green "󰤨")
