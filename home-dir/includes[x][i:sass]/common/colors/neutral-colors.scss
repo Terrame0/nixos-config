@@ -15,6 +15,4 @@ $separator-color: lib.scale-alpha(palette.$gray,0.1);
 $contrast-border-color: lib.scale-alpha(palette.$gray,0.2);
 $window-border-color: lib.scale-alpha(palette.$white,0.1);
 
-
-
-$solid-window-border-color: lib.scale-alpha(#323436,0.91);
+$solid-window-border-color: mix($primary-bg,$window-border-color);

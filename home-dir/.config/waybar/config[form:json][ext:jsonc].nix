@@ -18,9 +18,9 @@
     rbracket = span "]";
   };
   icon = {
-    cpu = color-span palette.aqua "";
-    ram = color-span palette.orange "";
-    disk = color-span palette.yellow "";
+    cpu = color-span palette.blue "";
+    ram = color-span palette.aqua "";
+    disk = color-span palette.green "";
     network = {
       wifi = [
         (color-span palette.green "󰤨")
@@ -30,7 +30,7 @@
         (color-span palette.red "󰤯")
       ];
       online = color-span palette.green "";
-      offline = color-span palette.red "";
+      offline = color-span palette.light-gray "";
     };
     mic = {
       on = color-span palette.blue "";
@@ -44,7 +44,7 @@
       ];
       muted = color-span palette.light-gray "";
     };
-    plug = color-span palette.green "";
+    plug = color-span palette.blue "";
     batteries = {
       critical = color-span palette.red "";
       alert = color-span palette.orange "";
