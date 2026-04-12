@@ -48,23 +48,23 @@ window#waybar {
     // --- MODULES ---
 
     .modules-left {
+        #custom-clock { 
+            @include waybar.module-base(colors.$purple); 
+            @include waybar.module-edge-type(left,round);
+        }
+        #custom-spacer-1 { @include waybar.spacer-base(colors.$purple, colors.$blue); }
+        #pulseaudio { @include waybar.module-base(colors.$blue); }
+        #custom-spacer-2 { @include waybar.spacer-base(colors.$blue, colors.$green); }
+        #battery {
+            @include waybar.module-base(colors.$green);
+            padding-right: parameters.$base-offset * 4;
+        }
         #network {
             @include waybar.module-base(colors.$green);
             @include waybar.module-edge-type(right,round);
             &.disconnected {
                 color:colors.$disabled-fg;
             }
-        }
-        #battery {
-            @include waybar.module-base(colors.$green);
-            padding-right: parameters.$base-offset * 4;
-        }
-        #custom-spacer-1 { @include waybar.spacer-base(colors.$blue, colors.$aqua); }
-        #custom-clock { @include waybar.module-base(colors.$aqua); }
-        #custom-spacer-2 { @include waybar.spacer-base(colors.$aqua, colors.$green); }
-        #pulseaudio {
-            @include waybar.module-base(colors.$blue);
-            @include waybar.module-edge-type(left,round);
         }
     }
 
@@ -106,16 +106,16 @@ window#waybar {
             &.passive { color:colors.$disabled-fg; } 
         }
         #cpu { 
-            @include waybar.module-base(colors.$green); 
+            @include waybar.module-base(colors.$aqua); 
             @include waybar.module-edge-type(left,round)
         }
-        #custom-spacer-3 { @include waybar.spacer-base(colors.$green, colors.$yellow); }
+        #custom-spacer-3 { @include waybar.spacer-base(colors.$aqua, colors.$orange); }
         #memory { 
-            @include waybar.module-base(colors.$yellow); 
+            @include waybar.module-base(colors.$orange); 
         }
-        #custom-spacer-4 { @include waybar.spacer-base(colors.$yellow, colors.$orange); }
+        #custom-spacer-4 { @include waybar.spacer-base(colors.$orange, colors.$yellow); }
         #disk {
-            @include waybar.module-base(colors.$orange);
+            @include waybar.module-base(colors.$yellow);
             @include waybar.module-edge-type(right,round);
         }
     }
