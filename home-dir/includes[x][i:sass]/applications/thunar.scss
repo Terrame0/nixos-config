@@ -43,8 +43,8 @@ window.thunar {
                         background-image: linear-gradient(
                             to bottom,
                             colors.$tertiary-bg 0%,
-                            transparent calc(0% + 30px),
-                            transparent calc(100% - 30px),
+                            transparent calc(0% + 40px),
+                            transparent calc(100% - 40px),
                             colors.$tertiary-bg 100%
                         );
                         border-width: parameters.$base-border-thickness;
