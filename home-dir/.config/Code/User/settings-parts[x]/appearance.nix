@@ -6,7 +6,7 @@
   # -- appearance
   "editor.fontFamily" = config.style.font.propo;
   "editor.fontLigatures" = true;
-  "workbench.colorTheme" = "Default Dark Modern";
+  "workbench.colorTheme" = "Dark Modern";
   "workbench.iconTheme" = "vs-seti";
 
   # -- cursor
