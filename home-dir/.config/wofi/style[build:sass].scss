@@ -1,58 +1,88 @@
+@use "sass:math";
 @use "common/colors";
 @use "common/parameters";
 @use "lib";
 
 @mixin scrollable-area($offset) {
     background: transparent;
+    $edge-color: colors.$tertiary-bg;
+    $middle-color: lib.scale-alpha(colors.$tertiary-bg,colors.$tertiary-alpha);
     background-image: linear-gradient(
         to bottom,
-        colors.$tertiary-bg 0%,
-        transparent calc(0% + $offset),
-        transparent calc(100% - $offset),
-        colors.$tertiary-bg 100%
+        $edge-color 0%,
+        $middle-color calc(0% + $offset),
+        $middle-color calc(100% - $offset),
+        $edge-color 100%
     );
 }
 
-@function overlay($lhs,$rhs) {
-    @return mix($lhs,$rhs,50%);
-}
 
-* {
-    font-family: "JetBrainsMono Nerd Font", monospace;
-    font-size: parameters.$h3;
-    font-weight: 900;
+@function composite-over($bg, $fg) {
+  $bg-r: math.div(red($bg), 255);
+  $bg-g: math.div(green($bg), 255);
+  $bg-b: math.div(blue($bg), 255);
+  $bg-a: alpha($bg);
+
+  $fg-r: math.div(red($fg), 255);
+  $fg-g: math.div(green($fg), 255);
+  $fg-b: math.div(blue($fg), 255);
+  $fg-a: alpha($fg);
+
+  $res-a: $fg-a + $bg-a * (1 - $fg-a);
+
+  @if $res-a == 0 {
+    @return rgba(0, 0, 0, 0);
+  }
+
+  $res-r: math.div($fg-r * $fg-a + $bg-r * $bg-a * (1 - $fg-a), $res-a);
+  $res-g: math.div($fg-g * $fg-a + $bg-g * $bg-a * (1 - $fg-a), $res-a);
+  $res-b: math.div($fg-b * $fg-a + $bg-b * $bg-a * (1 - $fg-a), $res-a);
+
+  $res-r: math.round($res-r * 255);
+  $res-g: math.round($res-g * 255);
+  $res-b: math.round($res-b * 255);
+
+  @return rgba($res-r, $res-g, $res-b, $res-a);
 }
 
 #window {
-    background: transparent;
+    background: none;
     > box {
+        background: colors.$primary-bg;
+        border: parameters.$bold-border-width solid colors.$window-border-color;
+        border-radius: parameters.$base-border-radius;
         padding: 0px;
         > entry {
-            padding: 6px;
-            background: colors.$primary-bg;
-            border: 3px solid colors.$window-border-color;
-            border-radius: parameters.$base-border-radius;
-            > image {
-                margin-right: parameters.$base-offset * 2;
-            }
+            border-width: parameters.$bold-border-width;
+            margin-bottom: 0px;
         }
         > scrolledwindow {
-            padding: 0px;
-            margin: 3px;
-            border-radius: parameters.$base-border-radius;
-            border: 3px solid colors.$window-border-color;
-            background: colors.$primary-bg;
-            > viewport{
+            > viewport {
                 margin: 0px;
                 border: none;
-                border-radius: 9px;
                 @include scrollable-area(40px);
-                flowboxchild {
-                    border: none;
-                    background: none;
+                > box > flowbox {
+                    > flowboxchild {
+                        border: none;
+                        background: none;
+                        margin: 0px;
+                        label {
+                            transition: none;
+                            color: colors.$disabled-fg;
+                            &:selected {
+                                color: colors.$fg;
+                            }
+                        }
+                        image {
+                            transition: none;
+                            opacity: colors.$secondary-alpha;
+                            &:selected {
+                                opacity: 1.0;
+                            }
+                        }
+                    }
                 }
             }
         }
     }
 }
-

@@ -9,7 +9,7 @@
 
   tool-settings = import "${parts-dir}/tool-settings.nix" {};
   behaviour = import "${parts-dir}/behaviour.nix" {inherit username;};
-  appearance = import "${parts-dir}/appearance.nix" {
+  appearance = import "${parts-dir}/theme/appearance.nix" {
     inherit config;
     inherit parts-dir;
   };

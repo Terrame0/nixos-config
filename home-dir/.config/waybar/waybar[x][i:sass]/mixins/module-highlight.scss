@@ -5,6 +5,6 @@
     background: lib.scale-alpha($color,0.1);
     border-color: $color;
     border-style: solid;
-    border-top-width: parameters.$bold-border-thickness;
-    border-bottom-width: parameters.$bold-border-thickness;
+    border-top-width: parameters.$bold-border-width;
+    border-bottom-width: parameters.$bold-border-width;
 }
