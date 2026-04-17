@@ -13,6 +13,4 @@ $disabled-bg: lib.scale-alpha(palette.$gray,0.3);
 
 $separator-color: lib.scale-alpha(palette.$gray,0.1);
 $contrast-border-color: lib.scale-alpha(palette.$gray,0.2);
-$window-border-color: lib.scale-alpha(palette.$white,0.1);
-
-$solid-window-border-color: mix($primary-bg,$window-border-color);
+$window-border-color: lib.scale-alpha(palette.$light-gray,0.1);

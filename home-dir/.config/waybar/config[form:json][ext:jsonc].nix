@@ -29,8 +29,8 @@
         (color-span palette.orange "󰤟")
         (color-span palette.red "󰤯")
       ];
-      online = color-span palette.green "";
-      offline = color-span palette.light-gray "";
+      connected = color-span palette.green "";
+      disconnected = color-span palette.light-gray "";
     };
     mic = {
       on = color-span palette.blue "";
@@ -44,7 +44,6 @@
       ];
       muted = color-span palette.light-gray "";
     };
-    plug = color-span palette.blue "";
     batteries = {
       critical = color-span palette.red "";
       alert = color-span palette.orange "";
@@ -107,9 +106,9 @@ in
       format-icons = {
         wifi = icon.network.wifi;
       };
-      format = "Online${chr.point}${icon.network.online}";
-      format-wifi = "Online${chr.point}{icon}";
-      format-disconnected = "Offline${chr.point}${icon.network.offline}";
+      format = "Connected${chr.point}${icon.network.connected}";
+      format-wifi = "Connected${chr.point}{icon}";
+      format-disconnected = "Disconnected${chr.point}${icon.network.disconnected}";
       interval = 1;
       tooltip = false;
     };
@@ -124,7 +123,7 @@ in
       };
       interval = 1;
       format = "{capacity}${chr.percent}${chr.point}{icon}";
-      format-charging = "{capacity}${chr.percent}${chr.point}${icon.plug}";
+      format-charging = "{capacity}${chr.percent}${chr.point}";
       format-icons = icon.batteries;
       tooltip = false;
     };
@@ -142,6 +141,7 @@ in
       // {
         "custom/spacer-${toString i}" = {
           format = chr.line;
+          tooltip = false;
         };
       }
   ) {} (lib.genList (i: i + 1) 4)

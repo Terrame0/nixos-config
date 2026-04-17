@@ -6,7 +6,7 @@
   };
 
   dimensions = {
-    width = 400;
+    width = 300;
     lines = 3;
   };
 

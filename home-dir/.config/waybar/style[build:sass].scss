@@ -62,9 +62,6 @@ window#waybar {
         #network {
             @include waybar.module-base(colors.$green);
             @include waybar.module-edge-type(right,round);
-            &.disconnected {
-                color:colors.$disabled-fg;
-            }
         }
     }
 
