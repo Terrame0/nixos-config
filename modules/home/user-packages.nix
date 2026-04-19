@@ -49,7 +49,7 @@
     gparted
     dconf-editor
     prismlauncher
-    libreoffice-fresh
+    onlyoffice-desktopeditors
     qbittorrent
     transmission_4-gtk
     blender
