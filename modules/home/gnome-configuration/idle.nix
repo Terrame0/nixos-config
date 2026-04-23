@@ -1,8 +1,0 @@
-{...}: {
-  dconf.settings = {
-    "org/gnome/desktop/screensaver" = {
-      idle-activation-enabled = false;
-      lock-enabled = false;
-    };
-  };
-}

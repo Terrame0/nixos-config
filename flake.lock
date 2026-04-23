@@ -7,17 +7,38 @@
         ]
       },
       "locked": {
-        "lastModified": 1768603898,
-        "narHash": "sha256-vRV1dWJOCpCal3PRr86wE2WTOMfAhTu6G7bSvOsryUo=",
+        "lastModified": 1770260404,
+        "narHash": "sha256-3iVX1+7YUIt23hBx1WZsUllhbmP2EnXrV8tCRbLxHc8=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "2a63d0e9d2c72ac4d4150ebb242cf8d86f488c8c",
+        "rev": "0d782ee42c86b196acff08acfbf41bb7d13eed5b",
         "type": "github"
       },
       "original": {
         "owner": "nix-community",
         "ref": "release-25.11",
         "repo": "home-manager",
+        "type": "github"
+      }
+    },
+    "nix4vscode": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ],
+        "systems": "systems"
+      },
+      "locked": {
+        "lastModified": 1770778674,
+        "narHash": "sha256-H7wcc9QNt7dzyI5N1Ewhy3FKsX+D8mKQ5Ds3QyqXRoY=",
+        "owner": "nix-community",
+        "repo": "nix4vscode",
+        "rev": "b08d095f0f86733cd5ba2c4cb9d4763483da8afb",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nix-community",
+        "repo": "nix4vscode",
         "type": "github"
       }
     },
@@ -28,22 +49,26 @@
         ]
       },
       "locked": {
-        "path": "./tools/nixos-update",
-        "type": "path"
+        "lastModified": 1772212337,
+        "narHash": "sha256-GbIRL+4MLwozyu+i8rZCL/r+51Z4HlPuRjqJoPwEXnc=",
+        "ref": "refs/heads/master",
+        "rev": "2736064a407fd28f6564f9117ec4bf3e5017be85",
+        "revCount": 5,
+        "type": "git",
+        "url": "ssh://git@github.com/Terrame0/nixos-update-script.git"
       },
       "original": {
-        "path": "./tools/nixos-update",
-        "type": "path"
-      },
-      "parent": []
+        "type": "git",
+        "url": "ssh://git@github.com/Terrame0/nixos-update-script.git"
+      }
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1768621446,
-        "narHash": "sha256-6YwHV1cjv6arXdF/PQc365h1j+Qje3Pydk501Rm4Q+4=",
+        "lastModified": 1770617025,
+        "narHash": "sha256-1jZvgZoAagZZB6NwGRv2T2ezPy+X6EFDsJm+YSlsvEs=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "72ac591e737060deab2b86d6952babd1f896d7c5",
+        "rev": "2db38e08fdadcc0ce3232f7279bab59a15b94482",
         "type": "github"
       },
       "original": {
@@ -56,6 +81,7 @@
     "root": {
       "inputs": {
         "home-manager": "home-manager",
+        "nix4vscode": "nix4vscode",
         "nixos-update-script": "nixos-update-script",
         "nixpkgs": "nixpkgs",
         "sops-nix": "sops-nix"
@@ -68,16 +94,32 @@
         ]
       },
       "locked": {
-        "lastModified": 1768709255,
-        "narHash": "sha256-aigyBfxI20FRtqajVMYXHtj5gHXENY2gLAXEhfJ8/WM=",
+        "lastModified": 1770683991,
+        "narHash": "sha256-xVfPvXDf9QN3Eh9dV+Lw6IkWG42KSuQ1u2260HKvpnc=",
         "owner": "Mic92",
         "repo": "sops-nix",
-        "rev": "5e8fae80726b66e9fec023d21cd3b3e638597aa9",
+        "rev": "8b89f44c2cc4581e402111d928869fe7ba9f7033",
         "type": "github"
       },
       "original": {
         "owner": "Mic92",
         "repo": "sops-nix",
+        "type": "github"
+      }
+    },
+    "systems": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1681028828,
+        "narHash": "sha256-Vy1rq5AaRuLzOxct8nz4T6wlgyUR7zLU309k9mBC768=",
+        "owner": "nix-systems",
+        "repo": "default",
+        "rev": "da67096a3b9bf56a91d16901293e51ba5b49a27e",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nix-systems",
+        "repo": "default",
         "type": "github"
       }
     }

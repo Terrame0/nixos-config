@@ -1,27 +1,54 @@
 {pkgs, ...}: {
   home.packages = with pkgs; [
-    # -- dev/cli tools
+    # -- dev tools
     python3
-    clang
     nixd
-    clang-tools
-    neofetch
     git
-    alejandra
-    libinput
+
+    # -- encryption
     sops
     age
+
+    # -- misc cli tools
+    any-nix-shell
+    brightnessctl
+    wireplumber
+    alejandra
+    xarchiver
+    neofetch
+    sassc
     tree
+    jq
+
+    # -- screenshots
+    grim
+    slurp
+
+    # -- shell clipboard broker
+    wl-clipboard
+
+    # -- games
+    lutris
+    wine-wayland
+    winetricks
+    mesa-demos
+    pcsx2
+
+    # -- basic desktop utilities
+    eog
+    gedit
+
+    # -- messenger clients
+    whatsapp-electron
+    telegram-desktop
 
     # -- desktop apps
     gparted
-    wireshark
     dconf-editor
     prismlauncher
-    kdePackages.kdenlive
-    telegram-desktop
     libreoffice-fresh
     qbittorrent
+    transmission_4-gtk
     blender
     gimp
   ];

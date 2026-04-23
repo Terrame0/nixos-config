@@ -1,9 +1,16 @@
-{pkgs, ...}: {
+{
+  pkgs,
+  username,
+  ...
+}: {
   programs.zsh.enable = true;
-  users.users.terrame = {
+  users.users.${username} = {
     isNormalUser = true;
-    description = "Terrame";
-    extraGroups = ["networkmanager" "wheel"];
+    description = "${username}";
+    extraGroups = [
+      "networkmanager"
+      "wheel"
+    ];
     packages = [];
     shell = pkgs.zsh;
   };
