@@ -11,7 +11,7 @@
     {
       "label": "build",
       "type": "shell",
-      "command": "alejandra . && nixos-update",
+      "command": "alejandra . && nixos-update --branch new-ui",
       "group": "none",
     },
   ]
