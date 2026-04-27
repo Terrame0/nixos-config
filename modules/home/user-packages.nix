@@ -54,5 +54,7 @@
     transmission_4-gtk
     blender
     gimp
+    darktable
+    inkscape
   ];
 }

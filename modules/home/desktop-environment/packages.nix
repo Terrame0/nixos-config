@@ -3,6 +3,6 @@
     waybar
     mako
     wofi
-    nwg-drawer
+    nwg-launchers
   ];
 }
