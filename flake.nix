@@ -3,6 +3,7 @@
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+    nixpkgs-stable.url = "github:NixOS/nixpkgs/nixos-25.11";
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -24,6 +25,7 @@
   outputs = {
     self,
     nixpkgs,
+    nixpkgs-stable,
     home-manager,
     nixos-update-script,
     sops-nix,
@@ -47,6 +49,7 @@
     nixosConfigurations = lib.foldl (acc: x: acc // x) {} (
       lib.forEach hosts (host: let
         module-args = {
+          inherit nixpkgs-stable;
           inherit nixos-update-script;
           inherit nix4vscode;
           inherit username;

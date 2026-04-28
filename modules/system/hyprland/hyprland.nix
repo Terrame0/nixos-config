@@ -11,7 +11,6 @@
     GDK_BACKEND = "wayland,x11";
   };
 
-  # -- using an unstable version (overridden in an overlay)
   programs.hyprland = {
     withUWSM = true;
     package = pkgs.hyprland;
