@@ -11,6 +11,7 @@ in {
   nixpkgs.overlays = [
     (final: prev: {
       lutris = pkgs-stable.lutris;
+      inkscape = pkgs-stable.inkscape;
     })
   ];
 }
