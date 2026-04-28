@@ -18,11 +18,11 @@
           "network.trr.uri" = "https://dns.cloudflare.com/dns-query";
 
           # -- routing through pacproxy
-          "network.proxy.type" = 1;
-          "network.proxy.http" = "127.0.0.1";
-          "network.proxy.http_port" = 8080;
-          "network.proxy.ssl" = "127.0.0.1";
-          "network.proxy.ssl_port" = 8080;
+          "network.proxy.type" = 0;
+          # "network.proxy.http" = "127.0.0.1";
+          # "network.proxy.http_port" = 8080;
+          # "network.proxy.ssl" = "127.0.0.1";
+          # "network.proxy.ssl_port" = 8080;
 
           # -- all traffix goes through pacproxy
           "network.proxy.no_proxies_on" = "";
