@@ -10,6 +10,7 @@
 window#waybar {
     * {
         font-size: parameters.$h2;
+        font-family: parameters.$font;
     }
 
     border-radius: parameters.$base-border-radius;
