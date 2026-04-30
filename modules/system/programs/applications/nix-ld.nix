@@ -20,7 +20,7 @@
       systemd
 
       # -- X11 / graphics stack
-      libX11
+      libx11
       libXcomposite
       libXtst
       libXrandr
