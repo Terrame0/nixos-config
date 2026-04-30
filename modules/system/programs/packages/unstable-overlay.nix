@@ -10,6 +10,7 @@
 in {
   nixpkgs.overlays = [
     (final: prev: {
+      hyprland = pkgs-stable.hyprland;
       # lutris = pkgs-stable.lutris;
       # inkscape = pkgs-stable.inkscape;
     })

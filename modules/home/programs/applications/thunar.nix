@@ -1,16 +1,16 @@
 {pkgs, ...}: {
-  home.packages = with pkgs.xfce; [
-    thunar
+  home.packages = with pkgs; [
+    xfce.thunar
 
     # -- thunar plugins
-    thunar-archive-plugin
-    thunar-volman
-    thunar-vcs-plugin
-    thunar-media-tags-plugin
+    xfce.thunar-archive-plugin
+    xfce.thunar-volman
+    xfce.thunar-vcs-plugin
+    xfce.thunar-media-tags-plugin
 
     # -- needed for
     # previews to work
-    tumbler
+    xfce.tumbler
     gdk-pixbuf
     poppler
     ffmpegthumbnailer
