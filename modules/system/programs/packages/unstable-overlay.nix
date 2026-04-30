@@ -1,9 +1,9 @@
 {
-  nixpkgs-stable,
+  nixpkgs-unstable,
   pkgs,
   ...
 }: let
-  pkgs-stable = import nixpkgs-stable {
+  pkgs-stable = import nixpkgs-unstable {
     inherit (pkgs) system;
     config.allowUnfree = true;
   };
