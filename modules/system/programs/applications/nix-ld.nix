@@ -34,8 +34,8 @@
       libxrender
       libxscrnsaver
       libxi
-      libSM
-      libICE
+      libsm
+      libice
       libxt
       libxmu
       libxft
