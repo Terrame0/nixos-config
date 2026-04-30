@@ -15,7 +15,7 @@
     wireplumber
     alejandra
     fastfetch
-    dart-sass
+    # dart-sass
     tree
     jq
 
@@ -36,7 +36,7 @@
     pcsx2
 
     # -- basic desktop utilities
-    xarchiver
+    # xarchiver
     eog
     gedit
 
@@ -45,15 +45,15 @@
     telegram-desktop
 
     # -- desktop apps
-    freecad
-    gparted
-    dconf-editor
+    # freecad
+    # gparted
+    # dconf-editor
     prismlauncher
     onlyoffice-desktopeditors
     qbittorrent
-    transmission_4-gtk
-    blender
-    gimp
+    # transmission_4-gtk
+    # blender
+    # gimp
     inkscape
     rawtherapee
   ];
