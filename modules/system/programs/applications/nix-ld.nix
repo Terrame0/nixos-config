@@ -21,24 +21,24 @@
 
       # -- X11 / graphics stack
       libx11
-      libXcomposite
-      libXtst
-      libXrandr
-      libXext
-      libXfixes
-      libXdamage
+      libxcomposite
+      libxtst
+      libxrandr
+      libxext
+      libxfixes
+      libxdamage
       libxshmfence
-      libXxf86vm
-      libXinerama
-      libXcursor
-      libXrender
-      libXScrnSaver
-      libXi
+      libxxf86vm
+      libxinerama
+      libxcursor
+      libxrender
+      libxScrnSaver
+      libxi
       libSM
       libICE
-      libXt
-      libXmu
-      libXft
+      libxt
+      libxmu
+      libxft
 
       libxcb
 
