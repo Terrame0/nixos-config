@@ -32,7 +32,7 @@
       libxinerama
       libxcursor
       libxrender
-      libxScrnSaver
+      libxscrnsaver
       libxi
       libSM
       libICE
