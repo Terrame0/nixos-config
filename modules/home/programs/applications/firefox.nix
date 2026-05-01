@@ -17,11 +17,11 @@
           "network.trr.uri" = "https://dns.cloudflare.com/dns-query";
 
           # -- routing through proxy
-          "network.proxy.type" = 1;
-          "network.proxy.http" = "127.0.0.1";
-          "network.proxy.http_port" = 10808;
-          "network.proxy.ssl" = "127.0.0.1";
-          "network.proxy.ssl_port" = 10808;
+          # "network.proxy.type" = 1;
+          # "network.proxy.http" = "127.0.0.1";
+          # "network.proxy.http_port" = 10808;
+          # "network.proxy.ssl" = "127.0.0.1";
+          # "network.proxy.ssl_port" = 10808;
 
           # -- all traffix goes through pacproxy
           "network.proxy.no_proxies_on" = "";
