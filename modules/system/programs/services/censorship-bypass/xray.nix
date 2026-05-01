@@ -85,8 +85,8 @@
     };
   };
 
-  services.xray = {
-    enable = true;
-    settingsFile = config.sops.templates."xray-config".path;
-  };
+  # services.xray = {
+  #   enable = true;
+  #   settingsFile = config.sops.templates."xray-config".path;
+  # };
 }
