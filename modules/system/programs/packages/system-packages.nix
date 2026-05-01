@@ -8,6 +8,7 @@
     nix-ld
     pacproxy
     nixos-update-script.packages.${pkgs.system}.default
+    throne
   ];
 
   # -- remove preinstalled apps

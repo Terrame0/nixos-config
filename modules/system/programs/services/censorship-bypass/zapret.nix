@@ -37,13 +37,13 @@
       "youtube-nocookie.com"
 
       # -- steam
-      # "store.steampowered.com"
-      # "steamcommunity.com"
-      # "steamusercontent.com"
-      # "steamcdn-a.akamaihd.net"
-      # "steamstatic.com"
-      # "steampowered.com"
-      # "api.steampowered.com"
+      "store.steampowered.com"
+      "steamcommunity.com"
+      "steamusercontent.com"
+      "steamcdn-a.akamaihd.net"
+      "steamstatic.com"
+      "steampowered.com"
+      "api.steampowered.com"
 
       # -- modrinth
       "modrinth.com"
