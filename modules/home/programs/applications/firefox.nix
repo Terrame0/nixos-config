@@ -11,7 +11,6 @@
       default = {
         name = "default";
         isDefault = true;
-
         settings = {
           # -- dns over https
           "network.trr.mode" = 2;
