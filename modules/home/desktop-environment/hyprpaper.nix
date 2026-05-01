@@ -6,14 +6,10 @@
 in {
   services.hyprpaper = {
     enable = true;
-
-    ipc = "on";
     splash = false;
-
     preload = [
       "${wallpaper}"
     ];
-
     wallpaper = [
       ",${wallpaper}"
     ];
