@@ -2,7 +2,6 @@
   # -- nix-ld (run unpatched binaries)
   programs.nix-ld = {
     enable = true;
-
     libraries = with pkgs; [
       # -- default libraries
       zlib
@@ -39,7 +38,6 @@
       libxt
       libxmu
       libxft
-
       libxcb
 
       # -- OpenGL / Mesa
@@ -85,7 +83,6 @@
       SDL2_image
       SDL2_ttf
       SDL2_mixer
-
       SDL
       SDL_image
       SDL_ttf
