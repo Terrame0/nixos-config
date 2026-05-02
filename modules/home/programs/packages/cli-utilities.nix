@@ -1,7 +1,7 @@
 {pkgs, ...}: {
   home.packages = with pkgs; [
     # -- dev tools
-    python3
+    (python3.withPackages (pkg-set: [pkg-set.tkinter]))
     git
     nixd
     gtk3.dev
