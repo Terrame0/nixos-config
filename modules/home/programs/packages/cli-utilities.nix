@@ -7,6 +7,7 @@
     gtk3.dev
 
     # -- utilities
+    treefmt
     brightnessctl
     wireplumber
     alejandra

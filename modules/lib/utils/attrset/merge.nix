@@ -4,7 +4,7 @@
   ...
 }:
 extend-config "attrset" {
-  list-merge = f: lhs: rhs: let
+  merge = f: lhs: rhs: let
     merged-into-lhs =
       lib.mapAttrs (
         name: list:

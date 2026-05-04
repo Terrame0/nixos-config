@@ -4,7 +4,7 @@
   config,
   ...
 }:
-extend-config "chain-operations" (
+extend-config "conditional-foldl" (
   value: chain:
     lib.foldl (
       result: entry: let

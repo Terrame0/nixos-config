@@ -85,7 +85,7 @@ function FindProxyForURL(url, host) {
     "github.com",
     "githubusercontent.com",
     "extranix.com",
-    // "nixos.org",
+    "nixos.org",
     "nix.dev",
     "desmos.com",
     "wikipedia.org",

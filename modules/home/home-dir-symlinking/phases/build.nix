@@ -14,7 +14,7 @@ extend-config "home-dir.phases" {
       file: let
         build-specs = config.file.get-spec-values "build" file;
       in
-        config.chain-operations
+        config.conditional-foldl
         file
         [
           [

@@ -26,7 +26,7 @@ extend-config "home-dir.files" {
             ) {}
             include-specs;
         in
-          config.attrset.list-merge
+          config.attrset.merge
           (lhs: rhs: lib.unique (lhs ++ rhs))
           path-attrset-acc
           spec-attrset

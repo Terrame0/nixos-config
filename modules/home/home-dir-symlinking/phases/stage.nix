@@ -23,7 +23,7 @@ extend-config "home-dir.phases" {
         form-specs = config.file.get-spec-values "form" file;
         extension-specs = config.file.get-spec-values "ext" file;
       in
-        config.chain-operations
+        config.conditional-foldl
         file
         [
           [
