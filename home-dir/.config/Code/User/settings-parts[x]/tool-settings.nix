@@ -15,8 +15,8 @@
     "--background-index" # indexing
     "--clang-tidy" # linting
     "--header-insertion=iwyu" # include-what-you-use
-    "--completion-style=detailed" # completion verbosity
-    "--log=verbose" # debug logging
+    "--completion-style=detailed"
+    "--log=verbose"
   ];
 
   # -- lsp / nix
