@@ -11,8 +11,8 @@
     gedit
 
     # -- desktop apps
-    whatsapp-electron
-    telegram-desktop
+    # whatsapp-electron
+    # telegram-desktop
     # freecad
     # gparted
     # dconf-editor
