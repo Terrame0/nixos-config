@@ -65,7 +65,7 @@
           y = 8;
         };
         dynamic_padding = true;
-        opacity = config.style.constants.primary-bg-opacity;
+        opacity = 1.0;
         startup_mode = "Maximized";
         title = "Terminal";
         blur = true;
