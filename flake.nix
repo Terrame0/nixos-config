@@ -44,10 +44,10 @@
         system-state-version = "25.11";
       }
     ];
-    target-system = "x86_64-linux";
+    system = "x86_64-linux";
   in {
-    nixosConfigurations = lib.foldl (acc: x: acc // x) {} (
-      lib.forEach hosts (host: let
+    nixosConfigurations = lib.mergeAttrsList (
+      map (host: let
         module-args = {
           inherit nixpkgs-unstable;
           inherit nixos-update-script;
@@ -66,13 +66,14 @@
         };
       in {
         ${host.name} = lib.nixosSystem {
-          system = target-system;
+          inherit system;
           specialArgs = module-args;
           modules = [
             ./core/configuration.nix
             ./core/${"hardware-configuration@${host.name}.nix"}
             sops-nix.nixosModules.sops
             home-manager.nixosModules.home-manager
+
             {
               home-manager.extraSpecialArgs = module-args;
               home-manager.useGlobalPkgs = true;
@@ -83,6 +84,7 @@
           ];
         };
       })
+      hosts
     );
   };
 }
