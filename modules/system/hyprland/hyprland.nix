@@ -3,7 +3,7 @@
   services.xserver = {
     enable = true;
     videoDrivers = ["nvidia"];
-    # displayManager.startx.enable = true;
+    displayManager.startx.enable = true;
   };
 
   environment.variables = {
