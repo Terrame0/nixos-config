@@ -24,6 +24,7 @@
       "app.discord.com"
       "discordapp.com"
       "discordcdn.com"
+      "cdn.localizeapi.com"
 
       # -- youtube
       "youtube.com"

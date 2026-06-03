@@ -1,14 +1,13 @@
 {
   config,
   file-dir,
-  username,
   ...
 }: let
   parts-dir = "${file-dir}/settings-parts[x]";
   invisible = "#ffffff00";
 
   tool-settings = import "${parts-dir}/tool-settings.nix" {};
-  behaviour = import "${parts-dir}/behaviour.nix" {inherit username;};
+  behaviour = import "${parts-dir}/behaviour.nix" {};
   appearance = import "${parts-dir}/theme/appearance.nix" {
     inherit config;
     inherit parts-dir;

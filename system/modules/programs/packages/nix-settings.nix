@@ -1,6 +1,6 @@
-{nix4vscode, ...}: {
+{inputs, ...}: {
   nixpkgs.config.allowUnfree = true;
-  nixpkgs.overlays = [nix4vscode.overlays.default];
+  nixpkgs.overlays = [inputs.nix4vscode.overlays.default];
   nix.settings = {
     "experimental-features" = [
       "nix-command"

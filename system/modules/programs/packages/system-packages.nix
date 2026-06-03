@@ -1,13 +1,13 @@
 {
   pkgs,
-  nixos-update-script,
+  inputs,
   ...
 }: {
   environment.systemPackages = with pkgs; [
     keyd
     nix-ld
     pacproxy
-    nixos-update-script.packages.${pkgs.system}.default
+    inputs.nixos-update-script.packages.${pkgs.system}.default
   ];
 
   # -- remove preinstalled apps
