@@ -5,7 +5,7 @@
     {
       "label": "run",
       "type": "shell",
-      "command": "alejandra . && nixos-update --test",
+      "command": "alejandra . && nixos-update --test", //"git add . && alejandra . && nixos-rebuild dry-run --flake .#"
       "group": "none",
     },
     {

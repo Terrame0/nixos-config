@@ -1,7 +1,9 @@
-{...}: {
+{host, ...}: {
   networking = {
+    hostName = host.name;
     nameservers = ["8.8.8.8" "8.8.4.4" "1.1.1.1"];
     networkmanager.enable = true;
+    firewall.allowedTCPPorts = [5432];
     # -- nix breaks if system proxy is enabled
     # proxy = {
     #   default = "http://127.0.0.1:10808";

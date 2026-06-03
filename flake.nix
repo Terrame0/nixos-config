@@ -1,6 +1,5 @@
 {
   description = "my nixos config flake";
-
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.11";
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
@@ -10,6 +9,10 @@
     };
     nixos-update-script = {
       url = "git+ssh://git@github.com/Terrame0/nixos-update-script.git";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    nix-mlem = {
+      url = "git+ssh://git@github.com/Terrame0/nix-mlem.git";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     sops-nix = {
@@ -22,39 +25,44 @@
     };
   };
 
-  outputs = {
+  outputs = inputs @ {
     self,
-    nixpkgs,
-    nixpkgs-unstable,
-    home-manager,
-    nixos-update-script,
     sops-nix,
+    nixpkgs,
+    home-manager,
+    nix-mlem,
     nix4vscode,
+    nixpkgs-unstable,
+    nixos-update-script,
     ...
   }: let
-    lib = nixpkgs.lib;
     username = "terrame";
     hosts = [
       {
         name = "desktop";
         system-state-version = "25.05";
+        system = "x86_64-linux";
       }
       {
         name = "laptop";
         system-state-version = "25.11";
+        system = "x86_64-linux";
       }
     ];
-    system = "x86_64-linux";
   in {
-    nixosConfigurations = lib.mergeAttrsList (
+    nixosConfigurations = builtins.foldl' (acc: x: acc // x) {} (
       map (host: let
+        sys-attrs = {inherit (host) system;};
+        pkgs = import nixpkgs sys-attrs;
+        mlem = (nix-mlem.evaluate sys-attrs).functions;
+        flake-root = self.outPath;
+        lib = pkgs.lib;
         module-args = {
-          inherit nixpkgs-unstable;
-          inherit nixos-update-script;
-          inherit nix4vscode;
+          inherit inputs;
           inherit username;
           inherit host;
-          flake-root = self.outPath;
+          inherit flake-root;
+          inherit mlem;
           extend-config = namespace: value: let
             path = lib.splitString "." namespace;
           in {
@@ -64,24 +72,41 @@
             config = lib.setAttrByPath path value;
           };
         };
-      in {
-        ${host.name} = lib.nixosSystem {
-          inherit system;
-          specialArgs = module-args;
-          modules = [
-            ./core/configuration.nix
-            ./core/${"hardware-configuration@${host.name}.nix"}
-            sops-nix.nixosModules.sops
+        filter-modules = dir:
+          with mlem;
+            lib.pipe dir [
+              vfs.dir.from-real
+              vfs.dir.resolve-specs
+              (vfs.dir.filter (path: file:
+                !file.specs ? x
+                && file.specs.host or host.name == host.name
+                && vfs.path.get.ext path == "nix"))
+              vfs.dir.path-strs
+              (map (path: vfs.path.get.str [dir path]))
+            ];
+        lib-modules = filter-modules ./lib;
+        system-modules = filter-modules ./system/modules ++ lib-modules;
+        home-manager-modules = filter-modules ./home-manager/modules ++ lib-modules;
+        home-manager-config.home-manager = {
+          extraSpecialArgs = module-args;
+          useGlobalPkgs = true;
+          useUserPackages = true;
+          backupFileExtension = "hm-backup";
+          users.${username}.imports = home-manager-modules;
+        };
+        modules =
+          system-modules
+          ++ [
+            ./hardware-configurations/${"${host.name}.nix"}
             home-manager.nixosModules.home-manager
-
-            {
-              home-manager.extraSpecialArgs = module-args;
-              home-manager.useGlobalPkgs = true;
-              home-manager.useUserPackages = true;
-              home-manager.backupFileExtension = "hm-backup";
-              home-manager.users.${username} = import ./core/home-configuration.nix;
-            }
+            sops-nix.nixosModules.sops
+            home-manager-config
           ];
+      in {
+        ${host.name} = nixpkgs.lib.nixosSystem {
+          inherit (host) system;
+          specialArgs = module-args;
+          inherit modules;
         };
       })
       hosts
