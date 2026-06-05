@@ -1,7 +1,12 @@
-{pkgs, ...}: {
+{
+  pkgs,
+  config,
+  ...
+}: {
   programs.firefox = {
     enable = true;
     package = pkgs.firefox;
+    configPath = "${config.xdg.configHome}/mozilla/firefox";
 
     nativeMessagingHosts = with pkgs; [
       ff2mpv-rust

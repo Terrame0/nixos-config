@@ -7,7 +7,7 @@
     enable = true;
     # -- do not auto-inject defaults in the future
     enableDefaultConfig = false;
-    matchBlocks = {
+    settings = {
       "*" = {
         identityFile = personal-ssh-key-path;
         identitiesOnly = true;
