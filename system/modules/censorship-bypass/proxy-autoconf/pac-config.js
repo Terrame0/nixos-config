@@ -28,6 +28,7 @@ function FindProxyForURL(url, host) {
     "twttr.com",
 
     // -- communication
+    "web.telegram.org",
     "telegram.org",
     "t.me",
     "telegram.me",
@@ -99,19 +100,13 @@ function FindProxyForURL(url, host) {
     "dota2mapdrawing.com",
     "onlinegdb.com"
   ];
-
-  // -- matches domain or subdomain
   function isInDomain(h, domain) {
     return (h === domain) || dnsDomainIs(h, "." + domain);
   }
-
-  // -- use xray if the host is in the list above
   for (var i = 0; i < proxyDomains.length; i++) {
     if (isInDomain(host, proxyDomains[i])) {
       return "PROXY 127.0.0.1:10808";
     }
   }
-
-  // -- everything else goes direct
   return "DIRECT";
 }
