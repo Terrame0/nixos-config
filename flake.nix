@@ -76,7 +76,7 @@
           with mlem;
             lib.pipe dir [
               vfs.dir.from-real
-              vfs.dir.resolve-specs
+              (vfs.dir.resolve-specs {strip = false;})
               (vfs.dir.filter (path: file:
                 !file.specs ? x
                 && file.specs.host or host.name == host.name
