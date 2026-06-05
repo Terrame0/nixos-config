@@ -9,13 +9,14 @@ in {
     settings = {
       ipc = true;
       splash = false;
-
       preload = [
         "${wallpaper}"
       ];
-
       wallpaper = [
-        ",${wallpaper}"
+        {
+          monitor = "";
+          path = "${wallpaper}";
+        }
       ];
     };
   };
