@@ -79,7 +79,7 @@
               (vfs.dir.resolve-specs {strip = false;})
               (vfs.dir.filter (path: file:
                 !file.specs ? x
-                && file.specs.host or host.name == host.name
+                && mlem.list.is-in (file.specs.hosts or host.name) host.name
                 && vfs.path.get.ext path == "nix"))
               vfs.dir.path-strs
               (map (path: vfs.path.get.str [dir path]))
