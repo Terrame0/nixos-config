@@ -28,7 +28,6 @@ function FindProxyForURL(url, host) {
     "twttr.com",
 
     // -- communication
-    "web.telegram.org",
     "telegram.org",
     "t.me",
     "telegram.me",
