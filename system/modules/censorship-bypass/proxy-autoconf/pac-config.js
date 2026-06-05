@@ -17,6 +17,9 @@ function FindProxyForURL(url, host) {
     "fb.watch",
     "instagram.net",
 
+    // -- nixos binary cache
+    "cache.nixos.org",
+
     // -- twitter
     "x.com",
     "twitter.com",
