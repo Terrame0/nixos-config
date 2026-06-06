@@ -3,6 +3,10 @@
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-26.05";
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
+    hyprland = {
+      url = "github:hyprwm/Hyprland";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     home-manager = {
       url = "github:nix-community/home-manager/release-26.05";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -31,6 +35,7 @@
     nixpkgs,
     home-manager,
     nix-mlem,
+    hyprland,
     nix4vscode,
     nixpkgs-unstable,
     nixos-update-script,
@@ -98,6 +103,7 @@
           system-modules
           ++ [
             ./hardware-configurations/${"${host.name}.nix"}
+            hyprland.nixosModules.default
             home-manager.nixosModules.home-manager
             sops-nix.nixosModules.sops
             home-manager-config
