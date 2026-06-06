@@ -1,6 +1,6 @@
 {...}: {
   programs.throne = {
-    tunMode.enable = true;
+    tunMode.enable = false; # -- breaks bwrap
     enable = true;
   };
 }
