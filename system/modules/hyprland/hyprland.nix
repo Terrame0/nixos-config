@@ -13,7 +13,6 @@
 
   programs.hyprland = {
     withUWSM = true;
-    package = pkgs.hyprland;
     enable = true;
     xwayland.enable = true;
   };
