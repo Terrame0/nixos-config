@@ -15,7 +15,6 @@
     withUWSM = true;
     enable = true;
     xwayland.enable = true;
-    configType = "lua";
   };
 
   environment.systemPackages = with pkgs; [
