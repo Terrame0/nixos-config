@@ -82,9 +82,11 @@
             lib.pipe dir [
               vfs.dir.from-real
               (vfs.dir.resolve-specs {strip = false;})
-              (vfs.dir.filter (path: file:
-                !file.specs ? x
-                && mlem.list.is-in (file.specs.hosts or host.name) host.name
+              (vfs.dir.filter (path: file: let
+                merged-specs = mlem.attrs.merge.concat file.specs;
+              in
+                !merged-specs ? x
+                && mlem.list.is-in (merged-specs.hosts or host.name) host.name
                 && vfs.path.get.ext path == "nix"))
               vfs.dir.path-strs
               (map (path: vfs.path.get.str [dir path]))
@@ -110,8 +112,8 @@
           ];
       in {
         ${host.name} = nixpkgs.lib.nixosSystem {
-          inherit (host) system;
           specialArgs = module-args;
+          inherit (host) system;
           inherit modules;
         };
       })

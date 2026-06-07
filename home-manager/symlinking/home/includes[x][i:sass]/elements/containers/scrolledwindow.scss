@@ -1,0 +1,19 @@
+@use "common/parameters";
+@use "common/colors";
+@use "lib";
+@use "sass:math";
+
+scrolledwindow {
+    padding: parameters.$base-offset;
+    @each $direction in top bottom left right {
+        overshoot.#{$direction} {
+            @each $orthogonal in lib.orthogonal($direction) {margin-#{$orthogonal}:parameters.$base-offset;}
+            @include lib.edge-radius($direction, math.div(parameters.$base-border-radius,2));
+            background-image: linear-gradient(
+                to $direction, 
+                transparent, 
+                lib.scale-alpha(colors.$selection-color,colors.$tertiary-alpha) 
+            );
+        }
+    }
+}

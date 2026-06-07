@@ -1,0 +1,9 @@
+@use "mixins";
+@use "common/colors";
+
+@mixin meter-base {
+    &.good { color: colors.$white; }
+    &.warning { color: colors.$warning-color; }
+    &.alert { color: colors.$alert-color; }
+    &.critical { color: colors.$critical-color; }
+}

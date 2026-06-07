@@ -1,0 +1,14 @@
+@use "common/parameters";
+@use "common/colors";
+@use "lib";
+
+@mixin clickable($hover-color:colors.$selection-color) {
+  &:hover {
+    transition: parameters.$regular-duration ease-in-out;
+    @include lib.highlight($hover-color);
+  }
+  &:active {
+    transition: parameters.$regular-duration ease-out;
+    @include lib.highlight(lib.scale-alpha($hover-color,colors.$primary-alpha));
+  }
+}

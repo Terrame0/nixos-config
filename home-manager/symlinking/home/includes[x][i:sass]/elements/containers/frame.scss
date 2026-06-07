@@ -1,0 +1,26 @@
+@use "lib";
+@use "common/bases";
+@use "common/parameters";
+
+frame {
+    > border {
+        @include bases.textbox-base;
+        padding: parameters.$base-offset;
+    }
+}
+
+.frame:not(placessidebar) {
+    @include bases.textbox-base;
+}
+
+grid {
+    @include lib.link(
+        $selectors: (
+            first: ".top",
+            middle: ":not(.top):not(.bottom)",
+            last : ".bottom"
+        ),
+        $targets: (colorswatch),
+        $directions: ("":vertical),
+    );
+}

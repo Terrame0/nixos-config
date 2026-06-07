@@ -1,0 +1,27 @@
+@use "common/bases";
+@use "common/colors";
+@use "lib";
+@use "sass:list";
+
+$-infobar-types: (
+    (info,colors.$aqua),
+    (question,colors.$blue),
+    (warning,colors.$yellow),
+    (error,colors.$red),
+);
+
+infobar {
+    @include bases.textbox-base;
+    @each $pair in $-infobar-types {
+        $type: list.nth($pair,1);
+        $color: list.nth($pair,2);
+        &.#{$type} {
+            @include lib.highlight(
+                lib.scale-alpha($color,colors.$secondary-alpha)
+            );
+        }
+    }
+    button {
+        @include bases.button-base($style:flat);
+    }
+}

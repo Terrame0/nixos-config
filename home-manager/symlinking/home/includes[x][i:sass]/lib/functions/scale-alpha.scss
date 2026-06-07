@@ -1,0 +1,9 @@
+@use "sass:color";
+@use "sass:math";
+
+@function scale-alpha($color-in, $alpha-in) {
+    @return color.scale(
+        $color-in, 
+        $alpha: math.clamp(-1,$alpha-in - 1,1) * 100%
+    );
+}

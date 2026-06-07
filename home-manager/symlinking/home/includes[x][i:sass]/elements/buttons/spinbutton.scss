@@ -1,0 +1,17 @@
+@use "common/properties";
+@use "lib";
+
+spinbutton {
+  @include properties.disabled(flat);
+  @include lib.link(
+    $selectors: (
+      first: ":nth-child(3)",
+      middle: ":nth-child(n+4):not(:last-child)",
+      last: ":last-child"
+    )
+  );
+  > button {
+    min-height: 26px;
+    min-width: 26px;
+  }
+}

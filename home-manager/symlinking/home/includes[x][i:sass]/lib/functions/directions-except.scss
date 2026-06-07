@@ -1,0 +1,5 @@
+@use "lib/functions/remove-item" as lib;
+
+@function directions-except($direction) {
+    @return lib.remove-item((top,bottom,left,right),$direction);
+}

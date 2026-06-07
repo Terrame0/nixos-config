@@ -1,0 +1,24 @@
+@use "common/parameters";
+@use "common/colors";
+@use "clickable" as i1;
+@use "lib";
+
+@mixin toggleable($on-color: colors.$success-color, $off-color: none, $hover-alpha: 1) {
+    transition: parameters.$regular-duration ease-out;
+    @if $off-color != none {
+        @include lib.highlight($off-color);
+        @include i1.clickable(lib.scale-alpha($off-color,$hover-alpha));
+    }
+    &:checked {
+        @include lib.highlight($on-color);
+        @include i1.clickable(lib.scale-alpha($on-color,$hover-alpha));
+    }
+    &:disabled {
+        @if $off-color != none {
+            @include lib.highlight(lib.scale-alpha($off-color,colors.$secondary-alpha));
+        }
+        &:checked {
+            @include lib.highlight(lib.scale-alpha($on-color,colors.$secondary-alpha));
+        }
+    }
+}
