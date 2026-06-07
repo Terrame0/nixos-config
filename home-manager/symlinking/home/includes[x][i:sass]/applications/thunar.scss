@@ -1,0 +1,92 @@
+@use "common/colors";
+@use "common/parameters";
+@use "lib";
+@use "common/properties";
+@use "common/bases";
+
+window.thunar {
+     > grid {
+        padding: 0px;
+        > menubar {
+            @include bases.pane-base(top,colors.$primary-bg);
+            padding: 3px;
+        }
+        > toolbar {
+            @include lib.hide;
+            margin: 6px;
+            margin-bottom: 0px;
+        }
+        > paned {
+            > box > scrolledwindow.sidebar {
+                -gtk-icon-style: regular;
+                margin: 6px;
+                margin-right: 0px;
+            }
+            > separator {
+                margin: 0px;
+                min-width: 6px;
+                margin: 0px;
+                background: transparent;
+            }
+            > paned > grid {
+                > widget > statusbar {
+                    margin-bottom: 6px;
+                    label {
+                        color: colors.$disabled-fg;
+                    }
+                }
+                > paned {
+                    padding: 3px 6px;
+                    padding-left: 0px;
+                    > notebook {
+                        background: transparent;
+                        background-image: linear-gradient(
+                            to bottom,
+                            colors.$tertiary-bg 0%,
+                            transparent calc(0% + 40px),
+                            transparent calc(100% - 40px),
+                            colors.$tertiary-bg 100%
+                        );
+                        border-width: parameters.$base-border-thickness;
+                        border-left: none;
+                        border-right: none;
+                        border-radius: 6px;
+                        > stack > scrolledwindow {
+                            @include lib.hide;
+                            > undershoot {
+                                background-image: none;
+                            }
+                            &.standard-view widget.view {
+                                &:hover {
+                                    border-radius: 3px;
+                                    @include lib.highlight(lib.scale-alpha(colors.$selection-color,colors.$primary-alpha));
+                                    $line-bg: lib.scale-alpha(colors.$selection-color,colors.$secondary-alpha);
+                                    background-image: linear-gradient(to right, $line-bg, $line-bg);
+                                }
+                                &:selected {
+                                    @include lib.highlight(lib.scale-alpha(colors.$success-color,colors.$primary-alpha));
+                                    border-radius: 3px;
+                                    $line-bg: lib.scale-alpha(colors.$success-color,colors.$secondary-alpha);
+                                    background-image: linear-gradient(to right, $line-bg, $line-bg);
+                                }
+                            }
+                        }
+                        &.split-view-inactive-pane {
+                            color: colors.$disabled-fg;
+                        }
+                    }  
+                }
+            }
+        }
+    }
+    treeview.view {
+        &:selected {
+            $line-bg: lib.scale-alpha(colors.$success-color,colors.$tertiary-alpha);
+            background-image: linear-gradient(to right, $line-bg, $line-bg);
+        }
+    }
+}
+
+
+
+

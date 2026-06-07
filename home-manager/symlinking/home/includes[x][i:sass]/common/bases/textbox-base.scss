@@ -1,0 +1,21 @@
+@use "lib";
+@use "common/colors";
+@use "common/properties";
+@use "common/parameters";
+@use "sass:math";
+
+@mixin textbox-base($style: none) {
+  @include properties.disabled($style);
+  &, label { transition: parameters.$regular-duration ease-in-out; }
+  border-radius: math.div(parameters.$base-border-radius,2);
+  margin: parameters.$base-offset;
+  @include lib.border(transparent);
+  @if $style != flat {
+    background: colors.$secondary-bg;
+    @include lib.border(colors.$contrast-border-color);
+  }
+  &.flat {
+    @include lib.border(transparent);
+    background: transparent;
+  }
+}

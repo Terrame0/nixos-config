@@ -1,0 +1,13 @@
+@use "common/colors";
+@use "lib";
+
+@mixin pane-base($direction,$bg-color:colors.$tertiary-bg,$margin:0px) {
+    $inside-direction: lib.opposite($direction);
+    @include lib.edge-radius($inside-direction,0px);
+    background: $bg-color;
+    margin: 0px;
+    @each $dir in lib.directions-except($inside-direction) {
+        border-#{$dir}: none;
+        margin-#{$dir}: $margin;
+    }
+}

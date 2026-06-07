@@ -1,0 +1,29 @@
+@use "common/colors";
+@use "common/parameters";
+@use "lib";
+@use "sass:map";
+
+$title-sep-map: (
+  vertical: (left,right),
+  horizontal: (top,bottom),
+);
+
+separator {
+  min-width: 2px;
+  min-height: 2px;
+  border-radius: parameters.$round-corner-radius;
+  -gtk-icon-source: none;
+  border-style: none;
+  background-color: colors.$separator-color;
+  margin: 6px;
+  &.titlebutton {
+    @each $direction in vertical horizontal {
+      &.#{$direction} {
+        @each $margin-direction in map.get($title-sep-map,$direction) {
+          margin-#{$margin-direction}: 0px;
+        }
+      }
+    }
+  }
+}
+

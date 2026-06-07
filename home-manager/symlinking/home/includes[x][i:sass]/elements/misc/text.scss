@@ -1,0 +1,13 @@
+@use "common/bases";
+@use "common/properties";
+@use "common/colors";
+@use "common/parameters";
+@use "lib";
+
+text, value, image {
+  @include properties.disabled(flat);
+}
+
+image {
+  margin: 3px;
+}

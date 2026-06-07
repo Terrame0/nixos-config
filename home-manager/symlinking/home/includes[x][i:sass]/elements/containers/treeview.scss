@@ -1,0 +1,27 @@
+@use "common/bases";
+@use "common/properties";
+@use "common/parameters";
+@use "sass:math";
+@use "lib";
+
+treeview.view {
+    border: none;
+    @include properties.clickable;
+    @include properties.selectable;
+    padding: 2px parameters.$base-offset * 2;
+    header {
+        button {
+            @include bases.pane-base(top);
+            &:first-child { 
+              @include lib.edge-radius(right,0px);
+            }
+            &:not(:first-child):not(:last-child) {
+              border-radius: 0px;
+            }
+            &:last-child { 
+              @include lib.edge-radius(left,0px); 
+            }
+            @include properties.clickable;
+        }
+    } 
+}

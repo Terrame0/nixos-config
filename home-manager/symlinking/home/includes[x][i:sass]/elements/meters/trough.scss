@@ -1,0 +1,10 @@
+@use "common/bases";
+@use "common/parameters";
+
+trough {
+    @include bases.textbox-base;
+    border-radius: parameters.$round-corner-radius;
+    min-width: 4px;
+    min-height: 4px;
+    padding: 2px;
+}
