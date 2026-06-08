@@ -80,7 +80,7 @@
         filter-modules = dir:
           with mlem;
             lib.pipe dir [
-              vfs.dir.from-real
+              vfs.dir.from-src
               (vfs.dir.resolve-specs {strip = false;})
               (vfs.dir.filter (path: file: let
                 merged-specs = mlem.attrs.merge.concat file.specs;

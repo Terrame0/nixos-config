@@ -420,11 +420,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1780791639,
-        "narHash": "sha256-uPm74b5olWjrmsUblgnfx3TF/rfpgm/rS7nRL1Rn5uo=",
+        "lastModified": 1780834296,
+        "narHash": "sha256-Hyw65YRD8bvZdw32ugi1MqAwyfLu8yHvNC9Vi25uJlA=",
         "ref": "refs/heads/main",
-        "rev": "77686f5f620c0efd1a779d69e8202d80f4544c92",
-        "revCount": 14,
+        "rev": "a32ac12901abd0340072d8eba2d8f50ba4a4da63",
+        "revCount": 18,
         "type": "git",
         "url": "ssh://git@github.com/Terrame0/nix-mlem.git"
       },
