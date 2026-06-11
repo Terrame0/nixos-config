@@ -69,6 +69,14 @@ function FindProxyForURL(url, host) {
     "ipinfo.io",
     "icanhazip.com",
 
+    // -- trove 
+    "trionworlds.com",
+    "triongames.com",
+    "trovegame.com",
+    "glyph.net",
+    "client.downloader.gamigo.com",
+    "support.gamigo.com",
+
     // -- steam cdn (for cloud sync)
     "steamcloud-tyo.s3.dualstack.ap-northeast-1.amazonaws.com",
     "steamcloud-us-east.s3.dualstack.us-east-1.amazonaws.com",
