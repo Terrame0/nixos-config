@@ -74,8 +74,7 @@ function FindProxyForURL(url, host) {
     "triongames.com",
     "trovegame.com",
     "glyph.net",
-    "client.downloader.gamigo.com",
-    "support.gamigo.com",
+    "gamigo.com",
 
     // -- steam cdn (for cloud sync)
     "steamcloud-tyo.s3.dualstack.ap-northeast-1.amazonaws.com",
