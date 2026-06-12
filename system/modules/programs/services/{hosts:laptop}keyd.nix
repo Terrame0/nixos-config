@@ -1,4 +1,7 @@
-{...}: {
+{pkgs, ...}: {
+  environment.systemPackages = with pkgs; [
+    keyd
+  ];
   # -- fix for touchpad toggle activating twice
   services.keyd = {
     enable = true;

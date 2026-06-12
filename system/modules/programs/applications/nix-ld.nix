@@ -1,4 +1,7 @@
 {pkgs, ...}: {
+  environment.systemPackages = with pkgs; [
+    nix-ld
+  ];
   # -- nix-ld (run unpatched binaries)
   programs.nix-ld = {
     enable = true;
