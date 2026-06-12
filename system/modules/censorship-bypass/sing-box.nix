@@ -34,7 +34,6 @@
           tag = "fakeip";
           type = "fakeip";
           inet4_range = "198.18.0.0/15";
-          inet6_range = "fc00::/18";
         }
       ];
       rules = [
@@ -44,6 +43,7 @@
           rewrite_ttl = 1;
         }
       ];
+      strategy = "ipv4_only";
       final = "remote-dns";
       independent_cache = true;
     };
@@ -51,7 +51,7 @@
       {
         type = "tun";
         tag = "tun-in";
-        address = ["172.19.0.1/30" "fdfe:dcba:9876::1/126"];
+        address = ["172.19.0.1/30"];
         mtu = 1500;
         auto_route = true;
         strict_route = true;
@@ -102,7 +102,7 @@
   update-script = pkgs.writeShellApplication {
     name = "sing-box-update";
     runtimeInputs = [pkgs.curl pkgs.jq pkgs.sing-box pkgs.coreutils];
-    text = ''      
+    text = ''          
       DO_UPDATE=false
       if curl -sS \
         --connect-timeout 15 --max-time 40 \
