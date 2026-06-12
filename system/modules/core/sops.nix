@@ -3,11 +3,16 @@
   mlem,
   flake-root,
   username,
+  pkgs,
   ...
 }: let
   secrets-src = "${flake-root}/secrets";
   age-key-src = "/home/${username}/age/keys.txt";
 in {
+  environment.systemPackages = with pkgs; [
+    sops
+    age
+  ];
   environment.variables.SOPS_AGE_KEY_FILE = age-key-src;
   sops = {
     age.keyFile = age-key-src;
