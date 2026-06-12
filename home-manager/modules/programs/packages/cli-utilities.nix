@@ -18,10 +18,6 @@
     ouch
     htop
 
-    # -- encryption
-    sops
-    age
-
     # -- screenshots
     grim
     slurp
