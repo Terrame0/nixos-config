@@ -29,6 +29,8 @@ in {
               ${attrname} = {
                 sopsFile = mlem.vfs.path.get.str ([secrets-src] ++ path);
                 inherit key;
+                owner = username;
+                mode = "0400";
               };
             }))
             mlem.attrs.merge.recursive.no-collision
