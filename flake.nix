@@ -104,7 +104,6 @@
         modules =
           system-modules
           ++ [
-            ./hardware-configurations/${"${host.name}.nix"}
             hyprland.nixosModules.default
             home-manager.nixosModules.home-manager
             sops-nix.nixosModules.sops
