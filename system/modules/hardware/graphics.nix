@@ -1,5 +1,5 @@
 {...}: {
-  services.xserver.enable = true;
+  services.xserver.videoDrivers = ["nvidia"];
   hardware = {
     graphics = {
       enable = true;
