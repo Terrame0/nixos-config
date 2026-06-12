@@ -21,12 +21,6 @@
     dns = {
       servers = [
         {
-          tag = "remote-dns";
-          type = "tls";
-          server = "1.1.1.1";
-          detour = "auto-selector";
-        }
-        {
           tag = "local-dns";
           type = "local";
         }
@@ -40,11 +34,11 @@
         {
           query_type = ["A" "AAAA"];
           server = "fakeip";
-          rewrite_ttl = 1;
+          rewrite_ttl = 300;
         }
       ];
       strategy = "ipv4_only";
-      final = "remote-dns";
+      final = "local-dns";
       independent_cache = true;
     };
     inbounds = [
@@ -106,7 +100,7 @@
   update-script = pkgs.writeShellApplication {
     name = "sing-box-update";
     runtimeInputs = [pkgs.curl pkgs.jq pkgs.sing-box pkgs.coreutils];
-    text = ''      
+    text = ''          
       DO_UPDATE=false
       if curl -sS \
         --connect-timeout 15 --max-time 40 \
