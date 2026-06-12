@@ -3,7 +3,7 @@
   config,
   lib,
   pkgs,
-  flake-root,
+  config-root,
   username,
   host,
   ...
@@ -16,7 +16,7 @@ extend-config "string" {
         inherit config;
         inherit lib;
         inherit pkgs;
-        inherit flake-root;
+        inherit config-root;
         inherit username;
         inherit host;
       }

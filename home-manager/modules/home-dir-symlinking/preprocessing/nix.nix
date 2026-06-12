@@ -2,7 +2,7 @@
   extend-config,
   config,
   lib,
-  flake-root,
+  config-root,
   ...
 }:
 extend-config "convert"
@@ -13,7 +13,7 @@ extend-config "convert"
     contents =
       config.string.evaluate-nix
       (config.file.read file)
-      {file-dir = lib.concatStringsSep "/" ([flake-root] ++ file.dir-raw);};
+      {file-dir = lib.concatStringsSep "/" ([config-root] ++ file.dir-raw);};
   in
     config.file.emplace (file // {extension = generator;}) (generator-function contents);
 }

@@ -1,12 +1,12 @@
 {
   lib,
   mlem,
-  flake-root,
+  config-root,
   username,
   pkgs,
   ...
 }: let
-  secrets-src = "${flake-root}/secrets";
+  secrets-src = "${config-root}/system/secrets";
   age-key-src = "/home/${username}/age/keys.txt";
 in {
   environment.systemPackages = with pkgs; [
