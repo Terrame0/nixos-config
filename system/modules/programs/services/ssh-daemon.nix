@@ -1,6 +1,6 @@
 {config, ...}: {
   sops.templates."authorized-keys" = {
-    content = "${config.sops.placeholder."ssh/authorized-keys"}";
+    content = "${config.sops.placeholder."authorized-ssh-keys/authorized-keys"}";
     owner = "terrame";
     group = "users";
     mode = "0600";
