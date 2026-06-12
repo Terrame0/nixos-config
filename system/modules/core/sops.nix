@@ -28,10 +28,8 @@ in {
                 builtins.match "[A-Za-z0-9_/-]+:.*" line != null && line != ""))
             (map (mlem.string.before ":"))
             (lib.filter (key: key != "sops"))
-            (map (key: let
-              attrname = "${mlem.vfs.path.get.stem path}/${key}";
-            in {
-              ${attrname} = {
+            (map (key: {
+              "${mlem.vfs.path.get.stem path}/${key}" = {
                 sopsFile = mlem.vfs.path.get.str ([secrets-src] ++ path);
                 inherit key;
                 owner = username;
