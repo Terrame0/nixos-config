@@ -98,9 +98,9 @@
     name = "sing-box-update";
     runtimeInputs = [pkgs.curl pkgs.jq pkgs.sing-box pkgs.coreutils];
 
-    text = ''        
+    text = ''      
       HWID="$(cat ${config.sops.secrets."vpn/hwid".path})"
-      SUB_URL="$(cat ${config.sops.secrets."vpn/sub_url".path})"
+      SUB_URL="$(cat ${config.sops.secrets."vpn/sub-url".path})"
       LIVE="${options.state-dir}/config.json"
       RUNTIME="${options.runtime-dir}/config.json"
 
