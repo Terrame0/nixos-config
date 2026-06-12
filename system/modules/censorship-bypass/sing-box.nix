@@ -84,6 +84,10 @@
           action = "hijack-dns";
         }
         {
+          protocol = "quic";
+          action = "reject";
+        }
+        {
           ip_is_private = true;
           outbound = "direct";
         }
@@ -102,7 +106,7 @@
   update-script = pkgs.writeShellApplication {
     name = "sing-box-update";
     runtimeInputs = [pkgs.curl pkgs.jq pkgs.sing-box pkgs.coreutils];
-    text = ''      
+    text = ''        
       DO_UPDATE=false
       if curl -sS \
         --connect-timeout 15 --max-time 40 \
