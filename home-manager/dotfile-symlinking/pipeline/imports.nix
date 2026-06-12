@@ -1,12 +1,12 @@
 {
   mlem,
-  flake-root,
+  config-root,
   ...
 }: {
   imports = {
     transform = _:
       mlem.vfs.dir.from-src
-      "${flake-root}/home-manager/dotfile-symlinking/src";
+      "${config-root}/home-manager/dotfile-symlinking/src";
   };
   specs-stripped = {
     deps = ["imports"];

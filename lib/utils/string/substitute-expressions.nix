@@ -43,7 +43,7 @@ extend-config "string" {
           expression = lib.last matched-string-parts;
           evaluated-expression =
             config.string.evaluate-nix
-            "{config,lib,pkgs,flake-root,host,username}: ${expression}" {};
+            "{config,lib,pkgs,config-root,host,username}: ${expression}" {};
         in
           assert can-interpolate evaluated-expression;
             lib.replaceStrings [substitution-target] [(apply-flags flag-str (toString evaluated-expression))] changing-text

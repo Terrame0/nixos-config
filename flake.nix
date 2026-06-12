@@ -60,13 +60,13 @@
         sys-attrs = {inherit (host) system;};
         pkgs = import nixpkgs sys-attrs;
         mlem = (nix-mlem.evaluate sys-attrs).functions;
-        flake-root = self.outPath;
+        config-root = self.outPath;
         lib = pkgs.lib;
         module-args = {
           inherit inputs;
           inherit username;
           inherit host;
-          inherit flake-root;
+          inherit config-root;
           inherit mlem;
           extend-config = namespace: value: let
             path = lib.splitString "." namespace;
