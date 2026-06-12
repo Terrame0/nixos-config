@@ -1,52 +1,45 @@
-{...}: {
-  sops.age.keyFile = "/home/terrame/age/keys.txt";
-  environment.variables = {
-    SOPS_AGE_KEY_FILE = "/home/terrame/age/keys.txt";
-  };
-
-  sops.secrets = {
-    # -- secrets for configuring the xray config
-    "xray/uuid" = {
-      sopsFile = ./secrets/xray-secrets.yaml;
-      key = "uuid";
-    };
-    "xray/server-ip" = {
-      sopsFile = ./secrets/xray-secrets.yaml;
-      key = "server-ip";
-    };
-    "xray/spiderx" = {
-      sopsFile = ./secrets/xray-secrets.yaml;
-      key = "spiderx";
-    };
-    "xray/sid" = {
-      sopsFile = ./secrets/xray-secrets.yaml;
-      key = "sid";
-    };
-    "xray/pubkey" = {
-      sopsFile = ./secrets/xray-secrets.yaml;
-      key = "pubkey";
-    };
-    "xray/path" = {
-      sopsFile = ./secrets/xray-secrets.yaml;
-      key = "path";
-    };
-    "xray/mldsa" = {
-      sopsFile = ./secrets/xray-secrets.yaml;
-      key = "mldsa";
-    };
-    # -- ssh private keys
-    "ssh-keys/personal" = {
-      sopsFile = ./secrets/ssh-keys.yaml;
-      key = "personal";
-    };
-    "ssh-keys/github" = {
-      sopsFile = ./secrets/ssh-keys.yaml;
-      key = "github";
-    };
-    # -- authorized keys
-    "ssh/authorized-keys" = {
-      sopsFile = ./secrets/authorized-ssh-keys.yaml;
-      key = "authorized-keys";
-    };
-  };
+{
+  lib,
+  mlem,
+  flake-root,
+  username,
+  config,
+  ...
+}: let
+  secrets-src = "${flake-root}/secrets";
+  age-key-src = "/home/${username}/age/keys.txt";
+  generated-attrs = lib.pipe secrets-src [
+    mlem.vfs.dir.from-src
+    (mlem.vfs.dir.filter (path: file: mlem.vfs.path.get.ext path == "yaml"))
+    (mlem.vfs.dir.collapse (
+      path: file:
+        lib.pipe file.contents [
+          (lib.splitString "\n")
+          (lib.filter
+            (line:
+              builtins.match "[A-Za-z0-9_/-]+:.*" line != null && line != ""))
+          (map (mlem.string.before ":"))
+          (lib.filter (key: key != "sops"))
+          (map (key: let
+            attrname = "${mlem.vfs.path.get.stem path}/${key}";
+          in {
+            secrets.${attrname} = {
+              sopsFile = mlem.vfs.path.get.str ([secrets-src] ++ path);
+              inherit key;
+            };
+            templates.${attrname} = {
+              content = "${config.sops.placeholder.${attrname}}";
+              owner = username;
+              group = "users";
+              mode = "0400";
+            };
+          }))
+          mlem.attrs.merge.recursive.no-collision
+        ]
+    ))
+    mlem.attrs.merge.recursive.no-collision
+  ];
+in {
+  environment.variables.SOPS_AGE_KEY_FILE = age-key-src;
+  sops = generated-attrs // {age.keyFile = age-key-src;};
 }
