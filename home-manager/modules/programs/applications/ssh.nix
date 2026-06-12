@@ -1,15 +1,11 @@
-{
-  personal-ssh-key-path,
-  github-ssh-key-path,
-  ...
-}: {
+{osConfig, ...}: {
   programs.ssh = {
     enable = true;
     # -- do not auto-inject defaults in the future
     enableDefaultConfig = false;
     settings = {
       "*" = {
-        identityFile = personal-ssh-key-path;
+        identityFile = osConfig.sops.secrets."ssh-keys/personal".path;
         identitiesOnly = true;
         serverAliveInterval = 60;
         serverAliveCountMax = 3;
@@ -20,7 +16,7 @@
       };
       "github.com" = {
         user = "git";
-        identityFile = github-ssh-key-path;
+        identityFile = osConfig.sops.secrets."ssh-keys/github".path;
         identitiesOnly = true;
         addKeysToAgent = "yes";
       };
