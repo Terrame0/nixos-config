@@ -13,7 +13,10 @@ in {
     sops
     age
   ];
-  environment.variables.SOPS_AGE_KEY_FILE = age-key-src;
+  environment.variables = {
+    SOPS_AGE_KEY_FILE = age-key-src;
+    SOPS_AGE_RECIPIENTS = "age1rh3ejm93aaawujhuhst4tezwneefkxhh0aede0wpqf86mpjhesks6rem3m";
+  };
   sops = {
     age.keyFile = age-key-src;
     secrets = lib.pipe secrets-src [
