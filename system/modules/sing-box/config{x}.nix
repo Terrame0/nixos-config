@@ -81,7 +81,7 @@
       }
       # -- routing rules
       {
-        domain_suffix = ["claude.ai"];
+        domain_keyword = ["claude"];
         outbound = "auto-selector";
       }
       {
@@ -93,7 +93,7 @@
         outbound = "auto-selector";
       }
     ];
-    final = "direct";
+    final = "auto-selector";
     default_domain_resolver = "remote-dns";
     auto_detect_interface = true;
     rule_set = [
