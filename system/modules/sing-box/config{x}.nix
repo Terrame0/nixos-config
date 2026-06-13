@@ -67,7 +67,6 @@
   ];
   route = {
     rules = [
-      # -- default actions
       {action = "sniff";}
       {
         type = "logical";
