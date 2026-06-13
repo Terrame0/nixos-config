@@ -94,29 +94,29 @@ in
       final = "auto-selector";
       default_domain_resolver = "local-dns";
       auto_detect_interface = true;
-      rule_set = [
-        {
-          tag = "google-domains";
-          type = "remote";
-          format = "binary";
-          url = "https://raw.githubusercontent.com/Chocolate4U/Iran-sing-box-rules/rule-set/geoip-google.srss";
-          download_detour = "auto-selector";
-        }
-        {
-          tag = "refilter-domains";
-          type = "remote";
-          format = "binary";
-          url = "https://github.com/1andrevich/Re-filter-lists/releases/latest/download/ruleset-domain-refilter_domains.srs";
-          download_detour = "auto-selector";
-        }
-        {
-          tag = "refilter-ipsum";
-          type = "remote";
-          format = "binary";
-          url = "https://github.com/1andrevich/Re-filter-lists/releases/latest/download/ruleset-ip-refilter_ipsum.srs";
-          download_detour = "auto-selector";
-        }
-      ];
+      #rule_set = [
+      #  {
+      #    tag = "google-domains";
+      #    type = "remote";
+      #    format = "binary";
+      #    url = "https://raw.githubusercontent.com/Chocolate4U/Iran-sing-box-rules/rule-set/geoip-google.srss";
+      #    download_detour = "auto-selector";
+      #  }
+      #  {
+      #    tag = "refilter-domains";
+      #    type = "remote";
+      #    format = "binary";
+      #    url = "https://github.com/1andrevich/Re-filter-lists/releases/latest/download/ruleset-domain-refilter_domains.srs";
+      #    download_detour = "auto-selector";
+      #  }
+      #  {
+      #    tag = "refilter-ipsum";
+      #    type = "remote";
+      #    format = "binary";
+      #    url = "https://github.com/1andrevich/Re-filter-lists/releases/latest/download/ruleset-ip-refilter_ipsum.srs";
+      #    download_detour = "auto-selector";
+      #  }
+      #];
     };
 
     experimental.cache_file = {
