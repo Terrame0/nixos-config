@@ -80,14 +80,14 @@
         outbound = "direct";
       }
       # -- routing rules
-      {
-        domain_suffix = ["youtube.com" "googlevideo.com" "ytimg.com" "ggpht.com"];
-        outbound = "direct";
-      }
-      {
-        rule_set = ["refilter-domains" "refilter-ipsum"];
-        outbound = "auto-selector";
-      }
+      #{
+      #  domain_suffix = ["youtube.com" "googlevideo.com" "ytimg.com" "ggpht.com"];
+      #  outbound = "direct";
+      #}
+      #{
+      #  rule_set = ["refilter-domains" "refilter-ipsum"];
+      #  outbound = "auto-selector";
+      #}
     ];
     final = "auto-selector";
     default_domain_resolver = "remote-dns";
