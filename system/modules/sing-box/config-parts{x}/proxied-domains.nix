@@ -22,6 +22,7 @@
   "rutracker.org"
   "rutracker.net"
   "bt4gprx.com"
+  "bt4g.com"
   "bt4g.org"
 
   # -- nix resources often get blocked
