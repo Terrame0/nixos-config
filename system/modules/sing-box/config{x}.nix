@@ -84,10 +84,10 @@
         outbound = "direct";
       }
       # -- routing rules
-      #{
-      #  domain_suffix = ["youtube.com" "googlevideo.com" "ytimg.com" "ggpht.com"];
-      #  outbound = "direct";
-      #}
+      {
+        domain_suffix = ["youtube.com" "googlevideo.com" "ytimg.com" "ggpht.com"];
+        outbound = "direct";
+      }
       #{
       #  rule_set = ["refilter-domains" "refilter-ipsum"];
       #  outbound = "auto-selector";
