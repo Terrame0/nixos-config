@@ -48,7 +48,6 @@
       strict_route = true;
       stack = "mixed";
       endpoint_independent_nat = true;
-      route_exclude_address_set = ["google-domains"];
     }
   ];
   outbounds = [
@@ -84,36 +83,29 @@
         ip_is_private = true;
         outbound = "direct";
       }
-      #{
-      #  rule_set = ["refilter-domains" "refilter-ipsum"];
-      #  outbound = "auto-selector";
-      #}
+      {
+        rule_set = ["refilter-domains" "refilter-ipsum"];
+        outbound = "auto-selector";
+      }
     ];
-    final = "auto-selector";
+    final = "direct";
     default_domain_resolver = "local-dns";
     auto_detect_interface = true;
     rule_set = [
       {
-        tag = "google-domains";
+        tag = "refilter-domains";
         type = "remote";
         format = "binary";
-        url = "https://raw.githubusercontent.com/Chocolate4U/Iran-sing-box-rules/rule-set/geoip-google.srs";
+        url = "https://github.com/1andrevich/Re-filter-lists/releases/latest/download/ruleset-domain-refilter_domains.srs";
         download_detour = "auto-selector";
       }
-      #{
-      #  tag = "refilter-domains";
-      #  type = "remote";
-      #  format = "binary";
-      #  url = "https://github.com/1andrevich/Re-filter-lists/releases/latest/download/ruleset-domain-refilter_domains.srs";
-      #  download_detour = "auto-selector";
-      #}
-      #{
-      #  tag = "refilter-ipsum";
-      #  type = "remote";
-      #  format = "binary";
-      #  url = "https://github.com/1andrevich/Re-filter-lists/releases/latest/download/ruleset-ip-refilter_ipsum.srs";
-      #  download_detour = "auto-selector";
-      #}
+      {
+        tag = "refilter-ipsum";
+        type = "remote";
+        format = "binary";
+        url = "https://github.com/1andrevich/Re-filter-lists/releases/latest/download/ruleset-ip-refilter_ipsum.srs";
+        download_detour = "auto-selector";
+      }
     ];
   };
 
