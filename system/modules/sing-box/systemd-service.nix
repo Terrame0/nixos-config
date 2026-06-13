@@ -5,6 +5,7 @@ args @ {
   config-root,
   ...
 }: let
+  parts-dir = "${config-root}/system/modules/sing-box";
   paths = rec {
     base-dir = "sing-box";
     state-dir = "/var/lib/${base-dir}";
@@ -13,14 +14,10 @@ args @ {
     stored-config = "${state-dir}/config.json";
     runtime-config = "${runtime-dir}/config.json";
   };
-
-  parts-dir = "${config-root}/system/modules/sing-box";
-
   skeleton =
     import
     "${parts-dir}/config{x}.nix"
     (args // {inherit paths;});
-
   update-script =
     import
     "${parts-dir}/update-script{x}.nix"
