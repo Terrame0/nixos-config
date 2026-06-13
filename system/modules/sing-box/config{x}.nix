@@ -81,10 +81,6 @@
       }
       # -- routing rules
       {
-        domain_keyword = ["claude"];
-        outbound = "auto-selector";
-      }
-      {
         domain_suffix = ["youtube.com" "googlevideo.com" "ytimg.com" "ggpht.com"];
         outbound = "direct";
       }
