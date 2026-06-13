@@ -88,6 +88,10 @@
         rule_set = ["refilter-domains" "refilter-ipsum"];
         outbound = "auto-selector";
       }
+      {
+        domain_suffix = ["claude.ai"];
+        outbound = "auto-selector";
+      }
     ];
     final = "direct";
     default_domain_resolver = "remote-dns";
