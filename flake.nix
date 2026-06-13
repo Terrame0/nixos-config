@@ -85,7 +85,7 @@
               (vfs.dir.filter (path: file: let
                 merged-specs = mlem.attrs.merge.concat file.specs;
               in
-                !merged-specs ? x
+                !(merged-specs ? x)
                 && mlem.list.is-in (merged-specs.hosts or host.name) host.name
                 && vfs.path.get.ext path == "nix"))
               vfs.dir.path-strs
