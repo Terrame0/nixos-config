@@ -83,6 +83,10 @@
         outbound = "direct";
       }
       {
+        domain = import "${paths.parts-dir}/whitelist{x}.nix";
+        outbound = "auto-selector";
+      }
+      {
         rule_set = ["refilter-domains" "refilter-ipsum"];
         outbound = "auto-selector";
       }
