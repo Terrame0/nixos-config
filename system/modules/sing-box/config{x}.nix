@@ -89,7 +89,7 @@
         outbound = "auto-selector";
       }
       {
-        domain_suffix = ["claude.ai"];
+        domain_suffix = ["claude"];
         outbound = "auto-selector";
       }
     ];
