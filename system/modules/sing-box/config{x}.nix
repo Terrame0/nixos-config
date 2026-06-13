@@ -4,7 +4,7 @@
   ...
 }:
 (pkgs.formats.json {}).generate
-"sing-box-skeleton.json" {
+"sing-box-config.json" {
   log = {
     level = "debug";
     timestamp = true;
@@ -15,6 +15,7 @@
         tag = "remote-dns";
         type = "tls";
         server = "1.1.1.1";
+        detour = "auto-selector";
       }
       {
         tag = "fakeip";
@@ -62,6 +63,7 @@
   ];
   route = {
     rules = [
+      # -- default actions
       {action = "sniff";}
       {
         type = "logical";
@@ -77,11 +79,37 @@
         ip_is_private = true;
         outbound = "direct";
       }
+      # -- routing rules
+      {
+        domain_suffix = ["youtube.com" "googlevideo.com" "ytimg.com" "ggpht.com"];
+        outbound = "direct";
+      }
+      {
+        rule_set = ["refilter-domains" "refilter-ipsum"];
+        outbound = "auto-selector";
+      }
     ];
     final = "auto-selector";
     default_domain_resolver = "remote-dns";
     auto_detect_interface = true;
+    rule_set = [
+      {
+        tag = "refilter-domains";
+        type = "remote";
+        format = "binary";
+        url = "https://github.com/1andrevich/Re-filter-lists/releases/latest/download/ruleset-domain-refilter_domains.srs";
+        download_detour = "auto-selector";
+      }
+      {
+        tag = "refilter-ipsum";
+        type = "remote";
+        format = "binary";
+        url = "https://github.com/1andrevich/Re-filter-lists/releases/latest/download/ruleset-ip-refilter_ipsum.srs";
+        download_detour = "auto-selector";
+      }
+    ];
   };
+
   experimental.cache_file = {
     enabled = true;
     path = "${paths.state-dir}/cache.db";
