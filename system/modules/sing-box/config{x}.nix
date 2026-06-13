@@ -4,7 +4,7 @@
   ...
 }:
 (pkgs.formats.json {}).generate
-"sing-config.json" {
+"sing-box-config.json" {
   log = {
     level = "debug";
     timestamp = true;
