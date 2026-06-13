@@ -79,7 +79,7 @@
       }
     ];
     final = "auto-selector";
-    default_domain_resolver = "local-dns";
+    default_domain_resolver = "remote-dns";
     auto_detect_interface = true;
   };
   experimental.cache_file = {
