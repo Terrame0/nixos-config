@@ -5,7 +5,7 @@
   ...
 }:
 pkgs.writeShellApplication {
-  name = "sing-box-update";
+  name = "sing-box-updater";
   runtimeInputs = [pkgs.curl pkgs.jq pkgs.sing-box pkgs.coreutils];
   text = ''
     DO_UPDATE=false

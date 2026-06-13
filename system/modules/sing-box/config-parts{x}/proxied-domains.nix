@@ -2,18 +2,6 @@
   # -- nixos binary cache
   "cache.nixos.org"
 
-  # -- ip checkers
-  "ipleak.net"
-  "browserleaks.com"
-  "dnsleaktest.com"
-  "whoer.net"
-  "ipleak.org"
-  "ip-api.com"
-  "checkip.amazonaws.com"
-  "api.ipify.org"
-  "ipinfo.io"
-  "icanhazip.com"
-
   # -- trove
   "trionworlds.com"
   "triongames.com"
@@ -35,13 +23,14 @@
   "bt4gprx.com"
   "bt4g.org"
 
-  # -- misc
-  "mpv.io"
-  "github.com"
-  "githubusercontent.com"
+  # -- nix resources often get blocked
+  # for some unknown reason
   "extranix.com"
   "nixos.org"
   "nix.dev"
+
+  # -- misc
+  "mpv.io"
   "desmos.com"
   "wikipedia.org"
   "wikimedia.org"

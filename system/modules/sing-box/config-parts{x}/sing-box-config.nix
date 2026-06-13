@@ -83,7 +83,7 @@
         outbound = "direct";
       }
       {
-        domain = import "${paths.parts-dir}/whitelist{x}.nix";
+        domain = import "${paths.parts-dir}/proxied-domains.nix";
         outbound = "auto-selector";
       }
       {
