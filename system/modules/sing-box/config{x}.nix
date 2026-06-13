@@ -48,7 +48,7 @@
       strict_route = true;
       stack = "mixed";
       endpoint_independent_nat = true;
-      #route_exclude_address_set = ["google-domains"];
+      route_exclude_address_set = ["google-domains"];
     }
   ];
   outbounds = [
