@@ -20,6 +20,7 @@
   # -- torrents
   "downloadtorrentfile.com"
   "rutracker.org"
+  "rutracker.net"
   "bt4gprx.com"
   "bt4g.org"
 

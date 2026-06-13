@@ -83,7 +83,7 @@
         outbound = "direct";
       }
       {
-        domain = import "${paths.parts-dir}/proxied-domains.nix";
+        domain_suffix = import "${paths.parts-dir}/proxied-domains.nix";
         outbound = "auto-selector";
       }
       {
