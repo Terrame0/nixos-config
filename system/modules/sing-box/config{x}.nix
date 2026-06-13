@@ -81,7 +81,7 @@
       }
       # -- routing rules
       {
-        domain_suffix = ["claude"];
+        domain_suffix = ["claude.ai"];
         outbound = "auto-selector";
       }
       {
