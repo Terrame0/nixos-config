@@ -15,7 +15,6 @@
         tag = "remote-dns";
         type = "tls";
         server = "1.1.1.1";
-        detour = "auto-selector";
       }
       {
         tag = "fakeip";
