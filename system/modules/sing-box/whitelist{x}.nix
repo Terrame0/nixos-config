@@ -1,57 +1,6 @@
 [
-  # -- meta
-  "instagram.com"
-  "cdninstagram.com"
-  "facebook.com"
-  "fbcdn.net"
-  "fbsbx.com"
-  "whatsapp.com"
-  "whatsapp.net"
-  "fb.com"
-  "facebook.net"
-  "fb.me"
-  "fb.watch"
-  "instagram.net"
-
   # -- nixos binary cache
   "cache.nixos.org"
-
-  # -- twitter
-  "x.com"
-  "twitter.com"
-  "t.co"
-  "twimg.com"
-  "twttr.com"
-
-  # -- communication
-  "telegram.org"
-  "t.me"
-  "telegram.me"
-  "cdn.telesco.pe"
-  "zoom.us"
-  "zoom.com"
-
-  # -- social
-  "reddit.com"
-  "redditstatic.com"
-  "medium.com"
-  "discord.com"
-  "discord.gg"
-  "discordapp.com"
-  "discordapp.net"
-
-  # -- twitch
-  "twitch.tv"
-  "ttvnw.net"
-  "jtvnw.net"
-
-  # -- ai
-  "anthropic.com"
-  "claude.ai"
-  "perplexity.ai"
-  "notion.so"
-  "chatgpt.com"
-  "openai.com"
 
   # -- ip checkers
   "ipleak.net"
@@ -81,10 +30,10 @@
   "steamcloud-tokyo.storage.googleapis.com"
 
   # -- torrents
-  "rutracker.org"
-  "bt4g.org"
-  "bt4gprx.com"
   "downloadtorrentfile.com"
+  "rutracker.org"
+  "bt4gprx.com"
+  "bt4g.org"
 
   # -- misc
   "mpv.io"
