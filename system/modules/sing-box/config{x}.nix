@@ -80,34 +80,34 @@
         outbound = "direct";
       }
       # -- routing rules
-      {
-        domain_suffix = ["youtube.com" "googlevideo.com" "ytimg.com" "ggpht.com"];
-        outbound = "direct";
-      }
-      {
-        rule_set = ["refilter-domains" "refilter-ipsum"];
-        outbound = "auto-selector";
-      }
+      #{
+      #  domain_suffix = ["youtube.com" "googlevideo.com" "ytimg.com" "ggpht.com"];
+      #  outbound = "direct";
+      #}
+      #{
+      #  rule_set = ["refilter-domains" "refilter-ipsum"];
+      #  outbound = "auto-selector";
+      #}
     ];
     final = "auto-selector";
-    default_domain_resolver = "remote-dns";
+    #default_domain_resolver = "remote-dns";
     auto_detect_interface = true;
-    rule_set = [
-      {
-        tag = "refilter-domains";
-        type = "remote";
-        format = "binary";
-        url = "https://github.com/1andrevich/Re-filter-lists/releases/latest/download/ruleset-domain-refilter_domains.srs";
-        download_detour = "auto-selector";
-      }
-      {
-        tag = "refilter-ipsum";
-        type = "remote";
-        format = "binary";
-        url = "https://github.com/1andrevich/Re-filter-lists/releases/latest/download/ruleset-ip-refilter_ipsum.srs";
-        download_detour = "auto-selector";
-      }
-    ];
+    #rule_set = [
+    #  {
+    #    tag = "refilter-domains";
+    #    type = "remote";
+    #    format = "binary";
+    #    url = "https://github.com/1andrevich/Re-filter-lists/releases/latest/download/ruleset-domain-refilter_domains.srs";
+    #    download_detour = "auto-selector";
+    #  }
+    #  {
+    #    tag = "refilter-ipsum";
+    #    type = "remote";
+    #    format = "binary";
+    #    url = "https://github.com/1andrevich/Re-filter-lists/releases/latest/download/ruleset-ip-refilter_ipsum.srs";
+    #    download_detour = "auto-selector";
+    #  }
+    #];
   };
 
   experimental.cache_file = {
