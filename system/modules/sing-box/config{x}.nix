@@ -12,9 +12,14 @@
   dns = {
     servers = [
       {
+        tag = "local-dns";
+        type = "local";
+      }
+      {
         tag = "remote-dns";
         type = "tls";
         server = "1.1.1.1";
+        detour = "auto-selector";
       }
       {
         tag = "fakeip";
@@ -89,7 +94,7 @@
       #}
     ];
     final = "auto-selector";
-    default_domain_resolver = "remote-dns";
+    default_domain_resolver = "local-dns";
     auto_detect_interface = true;
     #rule_set = [
     #  {
