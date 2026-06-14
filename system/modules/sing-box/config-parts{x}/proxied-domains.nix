@@ -10,6 +10,8 @@
   "gamigo.com"
 
   # -- claude domains
+  "api.anthropic.com"
+  "platform.claude.com"
   "claude.com"
   "claude.ai"
 
