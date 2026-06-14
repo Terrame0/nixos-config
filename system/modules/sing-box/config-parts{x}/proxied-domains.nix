@@ -31,6 +31,8 @@
   "bt4g.com"
   "bt4g.org"
 
+  "cloudflare.com"
+
   # -- nix resources often get blocked
   # for some unknown reason
   "extranix.com"
