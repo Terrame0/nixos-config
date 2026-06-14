@@ -9,6 +9,10 @@
   "glyph.net"
   "gamigo.com"
 
+  # -- claude domains
+  "claude.com"
+  "claude.ai"
+
   # -- steam cdn (for cloud sync)
   "steamcloud-tyo.s3.dualstack.ap-northeast-1.amazonaws.com"
   "steamcloud-us-east.s3.dualstack.us-east-1.amazonaws.com"
