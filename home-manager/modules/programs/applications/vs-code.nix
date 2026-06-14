@@ -12,6 +12,7 @@
         "mads-hartmann.bash-ide-vscode"
         "llvm-vs-code-extensions.vscode-clangd"
         "mesonbuild.mesonbuild"
+        "anthropic.claude-code"
       ];
     in {
       extensions = marketplace-extensions;
