@@ -21,15 +21,7 @@
           "network.trr.mode" = 2;
           "network.trr.uri" = "https://dns.cloudflare.com/dns-query";
 
-          # -- routing through proxy
-          "network.proxy.type" = 1;
-          "network.proxy.http" = "127.0.0.1";
-          "network.proxy.http_port" = 8080;
-          "network.proxy.ssl" = "127.0.0.1";
-          "network.proxy.ssl_port" = 8080;
-
-          # -- all traffix goes through pacproxy
-          "network.proxy.no_proxies_on" = "";
+          "network.proxy.type" = 0;
 
           # -- startup behaviour
           "browser.startup.homepage" = "about:newtab";
