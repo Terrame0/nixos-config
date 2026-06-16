@@ -7,7 +7,7 @@
   ...
 }: let
   secrets-src = "${config-root}/system/secrets";
-  age-key-src = "/home/${username}/age/keys.txt";
+  age-key-src = "/etc/sops/age/master.txt";
 in {
   environment.systemPackages = with pkgs; [
     sops
@@ -15,6 +15,7 @@ in {
   ];
   environment.variables = {
     SOPS_AGE_KEY_FILE = age-key-src;
+    # -- to not enter the key fingerprint manually when using sops cli
     SOPS_AGE_RECIPIENTS = "age1rh3ejm93aaawujhuhst4tezwneefkxhh0aede0wpqf86mpjhesks6rem3m";
   };
   sops = {
@@ -36,22 +37,14 @@ in {
               merged-specs = mlem.attrs.merge.no-collision file.specs;
               clean-path = mlem.vfs.path.strip-between "{" "}" path;
               filename = mlem.vfs.path.get.stem clean-path;
-              is-for-users = merged-specs ? "for-users";
             in {
-              "${filename}/${key}" =
-                {
-                  sopsFile = mlem.vfs.path.get.str ([secrets-src] ++ path);
-                  neededForUsers = is-for-users;
-                  inherit key;
-                }
-                // (
-                  if is-for-users
-                  then {}
-                  else {
-                    owner = username;
-                    mode = "0400";
-                  }
-                );
+              "${filename}/${key}" = {
+                sopsFile = mlem.vfs.path.get.str ([secrets-src] ++ path);
+                neededForUsers = merged-specs ? "for-users";
+                inherit key;
+                owner = username;
+                mode = "0400";
+              };
             }))
             mlem.attrs.merge.recursive.no-collision
           ]
