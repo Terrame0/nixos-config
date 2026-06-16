@@ -5,8 +5,8 @@
   ...
 }: {
   programs.zsh.enable = true;
-  users.defaultUserShell = pkgs.zsh;
   users = {
+    defaultUserShell = pkgs.zsh;
     users.backup = {
       isNormalUser = true;
       description = "backup";
