@@ -1,6 +1,7 @@
 {
   pkgs,
   username,
+  config,
   ...
 }: {
   programs.zsh.enable = true;
@@ -13,6 +14,7 @@
         "networkmanager"
         "wheel"
       ];
+      hashedPasswordFile = config.sops.secrets."password-hashes/backup".path;
       shell = pkgs.zsh;
     };
   };
