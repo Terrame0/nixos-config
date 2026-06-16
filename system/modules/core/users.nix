@@ -15,7 +15,6 @@
         "wheel"
       ];
       hashedPasswordFile = config.sops.secrets."password-hashes/backup".path;
-      shell = pkgs.zsh;
     };
   };
   users.users.${username} = {
@@ -25,6 +24,5 @@
       "networkmanager"
       "wheel"
     ];
-    shell = pkgs.zsh;
   };
 }
