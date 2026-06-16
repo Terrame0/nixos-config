@@ -9,7 +9,7 @@
   users = {
     users.backup = {
       isNormalUser = true;
-      description = "${username}";
+      description = "backup";
       extraGroups = [
         "networkmanager"
         "wheel"
