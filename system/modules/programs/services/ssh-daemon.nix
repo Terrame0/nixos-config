@@ -9,7 +9,7 @@
       PasswordAuthentication = false;
       KbdInteractiveAuthentication = false;
       ChallengeResponseAuthentication = false;
-      UsePAM = false;
+      UsePAM = true;
       PubkeyAuthentication = true;
       MaxAuthTries = 3;
       LogLevel = "VERBOSE";

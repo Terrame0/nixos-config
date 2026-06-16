@@ -33,6 +33,7 @@ in {
             (lib.filter (key: key != "sops"))
             (map (key: {
               "${mlem.vfs.path.get.stem path}/${key}" = {
+                neededForUsers = true;
                 sopsFile = mlem.vfs.path.get.str ([secrets-src] ++ path);
                 inherit key;
                 owner = username;
