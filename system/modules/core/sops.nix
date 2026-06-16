@@ -21,6 +21,7 @@ in {
     age.keyFile = age-key-src;
     secrets = lib.pipe secrets-src [
       mlem.vfs.dir.from-src
+      (mlem.vfs.dir.resolve-specs {strip = false;})
       (mlem.vfs.dir.filter (path: file: mlem.vfs.path.get.ext path == "yaml"))
       (mlem.vfs.dir.collapse (
         path: file:
@@ -29,10 +30,13 @@ in {
             (lib.filter
               (line:
                 builtins.match "[A-Za-z0-9_/-]+:.*" line != null && line != ""))
-            (map (mlem.string.before ":"))
+            (map (mlem.str.before ":"))
             (lib.filter (key: key != "sops"))
-            (map (key: {
-              "${mlem.vfs.path.get.stem path}/${key}" = {
+            (map (key: let
+              clean-path = mlem.vfs.path.strip-between "{" "}" path;
+              filename = mlem.vfs.path.get.stem clean-path;
+            in {
+              "${filename}/${key}" = {
                 sopsFile = mlem.vfs.path.get.str ([secrets-src] ++ path);
                 inherit key;
                 owner = username;
