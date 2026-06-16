@@ -12,14 +12,16 @@
       ${username} = {
         isNormalUser = true;
         description = "${username}";
-        hashedPasswordFile = config.sops.secrets."password-hashes/terrame".path;
+        hashedPasswordFile =
+          config.sops.secrets."password-hashes/terrame".path;
         extraGroups = [
           "networkmanager"
           "wheel"
         ];
       };
       root = {
-        hashedPasswordFile = config.sops.secrets."password-hashes/root".path;
+        hashedPasswordFile =
+          config.sops.secrets."password-hashes/root".path;
       };
     };
   };
