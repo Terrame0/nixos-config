@@ -31,6 +31,7 @@
   "bt4g.com"
   "bt4g.org"
 
+  # -- cloudflare does not resolve sometimes
   "cloudflare.com"
 
   # -- nix resources often get blocked
