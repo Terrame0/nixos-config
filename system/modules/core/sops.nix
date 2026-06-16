@@ -33,11 +33,13 @@ in {
             (map (mlem.str.before ":"))
             (lib.filter (key: key != "sops"))
             (map (key: let
+              merged-specs = mlem.attrs.merge.no-collision file.specs;
               clean-path = mlem.vfs.path.strip-between "{" "}" path;
               filename = mlem.vfs.path.get.stem clean-path;
             in {
-              "${filename}/${key}" = {
+              "${filename}/${key}" = mlem.debug {
                 sopsFile = mlem.vfs.path.get.str ([secrets-src] ++ path);
+                neededForUsers = merged-specs ? usr;
                 inherit key;
                 owner = username;
                 mode = "0400";
