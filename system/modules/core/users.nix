@@ -6,23 +6,16 @@
 }: {
   programs.zsh.enable = true;
   users = {
+    mutableUsers = false;
     defaultUserShell = pkgs.zsh;
-    users.backup = {
+    users.${username} = {
       isNormalUser = true;
-      description = "backup";
+      description = "${username}";
+      hashedPasswordFile = config.sops.secrets."password-hashes/terrame".path;
       extraGroups = [
         "networkmanager"
         "wheel"
       ];
-      hashedPasswordFile = config.sops.secrets."password-hashes/backup".path;
     };
-  };
-  users.users.${username} = {
-    isNormalUser = true;
-    description = "${username}";
-    extraGroups = [
-      "networkmanager"
-      "wheel"
-    ];
   };
 }
