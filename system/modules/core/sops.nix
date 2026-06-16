@@ -37,7 +37,7 @@ in {
               clean-path = mlem.vfs.path.strip-between "{" "}" path;
               filename = mlem.vfs.path.get.stem clean-path;
             in {
-              "${filename}/${key}" = mlem.debug {
+              "${filename}/${key}" = {
                 sopsFile = mlem.vfs.path.get.str ([secrets-src] ++ path);
                 neededForUsers = merged-specs ? usr;
                 inherit key;
