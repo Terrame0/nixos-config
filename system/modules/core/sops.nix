@@ -41,6 +41,8 @@ in {
                 sopsFile = mlem.vfs.path.get.str ([secrets-src] ++ path);
                 neededForUsers = merged-specs ? "for-users";
                 inherit key;
+                owner = username;
+                mode = "0600";
               };
             }))
             mlem.attrs.merge.recursive.no-collision
