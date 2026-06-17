@@ -12,20 +12,14 @@
     deps = ["imports"];
     transform = prev:
       mlem.vfs.dir.resolve-specs
-      {
-        strip = true;
-        separators = ["[" ":" "," "]"];
-      }
+      {strip = true;}
       prev.imports;
   };
   specs = {
     deps = ["imports"];
     transform = prev:
       mlem.vfs.dir.resolve-specs
-      {
-        strip = false;
-        separators = ["[" ":" "," "]"];
-      }
+      {strip = false;}
       prev.imports;
   };
 }

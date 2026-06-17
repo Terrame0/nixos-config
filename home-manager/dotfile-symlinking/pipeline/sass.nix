@@ -1,7 +1,7 @@
 {
-  src-path,
   mlem,
   lib,
+  pkgs,
   ...
 }: {
   sass-staging = {
@@ -12,47 +12,30 @@
       prev.specs-stripped;
   };
 
-  sass-includes = {
-  };
-
   sass-finalized = {
     deps = ["sass-staging"];
-    transform = prev:
-      lib.pipe prev.sass-staging [
-        (mlem.vfs.dir.reform-by-spec {build = "sass";} (path: spec-pos: file: {
-          inherit path;
-          value = file;
-        }))
-      ];
-  };
-
-  sass-includes = {
-    deps = ["sass-staging"];
-    transform = prev: let
-      dir = prev.sass-staging;
-    in
-      mlem.vfs.dir.reform-by-spec
-      {i = "sass";}
-      (path: spec-pos: file: {
-        path =
-          lib.sublist
-          spec-pos
-          ((lib.length path) - spec-pos)
-          path;
-        value = file;
-      })
-      dir;
+    transform = prev: prev;
+    #  materialized = mlem.vfs.dir.materialize "sass-build-dir" prev.sass-staging;
+    #  store-path = pkgs.runCommand "bruh" {
+    #    buildInputs = [pkgs.dart-sass];
+    #  } "sass '${lib.concatStringsSep "' '"}' $out --no-source-map --quiet";
+    #in
+    #  mlem.vfs.dir.from-src store-path;
   };
 
   result = {
-    deps = ["sass-staging" "sass-finalized" "sass-includes"];
+    deps = ["sass-finalized"];
     transform = prev:
       lib.pipe prev [
         (lib.mapAttrsToList
           (name: value:
             mlem.attrs.merge.recursive.no-collision
             (mlem.vfs.dir.collapse (path: file: {
-                "test-dir/${name}/${mlem.vfs.path.get.str path}".text =
+                "test-dir/${name}/${mlem.vfs.path.get.str path}".${
+                  if file.is-src or false
+                  then "src"
+                  else "text"
+                } =
                   file.contents;
               })
               value)))
@@ -72,5 +55,23 @@
   #  };
   #  in
   #    file // modifications;
+  #};
+
+  #sass-includes = {
+  #  deps = ["sass-staging"];
+  #  transform = prev: let
+  #    dir = prev.sass-staging;
+  #  in
+  #    mlem.vfs.dir.reform-by-spec
+  #    {i = "sass";}
+  #    (path: spec-pos: file: {
+  #      path =
+  #        lib.sublist
+  #        spec-pos
+  #        ((lib.length path) - spec-pos)
+  #        path;
+  #      value = file;
+  #    })
+  #    dir;
   #};
 }

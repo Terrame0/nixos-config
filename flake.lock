@@ -420,11 +420,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1781584573,
-        "narHash": "sha256-neo6gz+noTyK6LBLmdg7CqK0HV/y+y1NmZekej8sCgQ=",
+        "lastModified": 1781688996,
+        "narHash": "sha256-kxF0PUlfR15Xt6ahnfskWLQ23rWxotqyrhBxzKJ/akE=",
         "ref": "refs/heads/main",
-        "rev": "4820cddeb4ee9fec98d3ceef0b92b52d0ea32f94",
-        "revCount": 21,
+        "rev": "fecf6e27d6a7c78bac8b1ff75cf2e31baaccf09f",
+        "revCount": 25,
         "type": "git",
         "url": "ssh://git@github.com/Terrame0/nix-mlem.git"
       },
@@ -441,11 +441,11 @@
         "systems": "systems_2"
       },
       "locked": {
-        "lastModified": 1778731423,
-        "narHash": "sha256-v91ucSedRpKHfY/kC95Nf4GYQ4mx01CdmyY8p2irJJ8=",
+        "lastModified": 1781672127,
+        "narHash": "sha256-BEiVbM+OT2dI4yVvyrWZeS+CY2U/z0n7f03+07JL/RE=",
         "owner": "nix-community",
         "repo": "nix4vscode",
-        "rev": "ff6534c2a4d3f0e8e4dd436e9b1f4035ee8819ce",
+        "rev": "11d8ade16794a3bad98951a2d60b2e8f1fb6a5d9",
         "type": "github"
       },
       "original": {
