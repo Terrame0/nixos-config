@@ -81,12 +81,12 @@
           with mlem;
             lib.pipe dir [
               vfs.dir.from-src
-              (vfs.dir.resolve-specs {strip = false;})
+              (vfs.dir.resolve-tags {strip = false;})
               (vfs.dir.filter (path: file: let
-                merged-specs = mlem.attrs.merge.concat file.specs;
+                merged-tags = mlem.attrs.merge.concat file.tags;
               in
-                !(merged-specs ? x)
-                && mlem.list.is-in (merged-specs.hosts or host.name) host.name
+                !(merged-tags ? x)
+                && mlem.list.is-in (merged-tags.hosts or host.name) host.name
                 && vfs.path.get.ext path == "nix"))
               vfs.dir.path-strs
               (map (path: vfs.path.get.str [dir path]))
