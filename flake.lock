@@ -413,26 +413,6 @@
         "type": "github"
       }
     },
-    "nix-mlem": {
-      "inputs": {
-        "nixpkgs": [
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1781793812,
-        "narHash": "sha256-aqIlRSyVoVpaLLIEaq4zy/QPFBhp68KlbQwLDLV5Lds=",
-        "ref": "refs/heads/main",
-        "rev": "fcac17780498b74206d9dafdc66eb00a0a35b848",
-        "revCount": 36,
-        "type": "git",
-        "url": "ssh://git@github.com/Terrame0/nix-mlem.git"
-      },
-      "original": {
-        "type": "git",
-        "url": "ssh://git@github.com/Terrame0/nix-mlem.git"
-      }
-    },
     "nix4vscode": {
       "inputs": {
         "nixpkgs": [
@@ -533,12 +513,12 @@
       "inputs": {
         "home-manager": "home-manager",
         "hyprland": "hyprland",
-        "nix-mlem": "nix-mlem",
         "nix4vscode": "nix4vscode",
         "nixos-update-script": "nixos-update-script",
         "nixpkgs": "nixpkgs",
         "nixpkgs-unstable": "nixpkgs-unstable",
-        "sops-nix": "sops-nix"
+        "sops-nix": "sops-nix",
+        "sundry-input": "sundry-input"
       }
     },
     "sops-nix": {
@@ -559,6 +539,26 @@
         "owner": "Mic92",
         "repo": "sops-nix",
         "type": "github"
+      }
+    },
+    "sundry-input": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1781833439,
+        "narHash": "sha256-dxKKlmSjoRbpDar+JljG5E5OwaT4vKvINSSkZoFnobM=",
+        "ref": "refs/heads/main",
+        "rev": "400cb5f391601316a2c7927c63aa8e8fe44fcab3",
+        "revCount": 37,
+        "type": "git",
+        "url": "ssh://git@github.com/Terrame0/sundry.git"
+      },
+      "original": {
+        "type": "git",
+        "url": "ssh://git@github.com/Terrame0/sundry.git"
       }
     },
     "systems": {
