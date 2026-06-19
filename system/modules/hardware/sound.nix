@@ -8,12 +8,12 @@
     wireplumber = {
       enable = true;
       extraConfig = {
-        "10-default-policy" = {
-          "wireplumber.settings" = {
-            "stream.restore-target" = false;
-            "stream.restore-props" = true;
-            "device.restore-profile" = true;
-            "device.restore-routes" = true;
+        "10-no-state-persistence" = {
+          "wireplumber.profiles" = {
+            main = {
+              "hooks.default-nodes.state" = "disabled";
+              "hooks.stream.state" = "disabled";
+            };
           };
         };
         "51-lower-priorities" = {
