@@ -1,6 +1,6 @@
 {
   lib,
-  mlem,
+  sundry,
   config-root,
   username,
   pkgs,
@@ -21,35 +21,35 @@ in {
   sops = {
     age.keyFile = age-key-src;
     secrets = lib.pipe secrets-src [
-      mlem.vfs.dir.from-src
-      (mlem.vfs.dir.resolve-tags {strip = false;})
-      (mlem.vfs.dir.filter (path: file: mlem.vfs.path.get.ext path == "yaml"))
-      (mlem.vfs.dir.collapse (
+      sundry.vfs.dir.from-src
+      (sundry.vfs.dir.resolve-tags {strip = false;})
+      (sundry.vfs.dir.filter (path: file: sundry.vfs.path.get.ext path == "yaml"))
+      (sundry.vfs.dir.collapse (
         path: file:
           lib.pipe file.text [
             (lib.splitString "\n")
             (lib.filter
               (line:
                 builtins.match "[A-Za-z0-9_/-]+:.*" line != null && line != ""))
-            (map (mlem.str.before ":"))
+            (map (sundry.str.before ":"))
             (lib.filter (key: key != "sops"))
             (map (key: let
-              merged-tags = mlem.attrs.merge.no-collision file.tags;
-              clean-path = mlem.vfs.path.strip-between "{" "}" path;
-              filename = mlem.vfs.path.get.stem clean-path;
+              merged-tags = sundry.attrs.merge.no-collision file.tags;
+              clean-path = sundry.vfs.path.strip-between "{" "}" path;
+              filename = sundry.vfs.path.get.stem clean-path;
             in {
               "${filename}/${key}" = {
-                sopsFile = mlem.vfs.path.get.str ([secrets-src] ++ path);
+                sopsFile = sundry.vfs.path.get.str ([secrets-src] ++ path);
                 neededForUsers = merged-tags ? "for-users";
                 inherit key;
                 owner = username;
                 mode = "0400";
               };
             }))
-            mlem.attrs.merge.recursive.no-collision
+            sundry.attrs.merge.recursive.no-collision
           ]
       ))
-      mlem.attrs.merge.recursive.no-collision
+      sundry.attrs.merge.recursive.no-collision
     ];
   };
 }

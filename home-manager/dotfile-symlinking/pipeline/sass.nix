@@ -1,5 +1,5 @@
 {
-  mlem,
+  sundry,
   lib,
   pkgs,
   ...
@@ -8,11 +8,11 @@
     deps = ["tags-stripped"];
     transform = prev:
       lib.pipe prev.tags-stripped [
-        (mlem.vfs.dir.filter (path: file: mlem.vfs.path.get.ext path == "scss"))
-        (mlem.vfs.dir.materialize "sass-build-dir")
-        (mlem.vfs.dir.by-tag.reform {build = "sass";}
+        (sundry.vfs.dir.filter (path: file: sundry.vfs.path.get.ext path == "scss"))
+        (sundry.vfs.dir.materialize "sass-build-dir")
+        (sundry.vfs.dir.by-tag.reform {build = "sass";}
           (path: tag-pos: file: {
-            path = mlem.vfs.path.set.ext "css" path;
+            path = sundry.vfs.path.set.ext "css" path;
             value =
               file
               // {
@@ -30,15 +30,15 @@
       lib.pipe prev [
         (lib.mapAttrsToList
           (name: value:
-            mlem.attrs.merge.recursive.no-collision
-            (mlem.vfs.dir.collapse (path: file: {
-                "test-dir/${name}/${mlem.vfs.path.get.str path}" =
+            sundry.attrs.merge.recursive.no-collision
+            (sundry.vfs.dir.collapse (path: file: {
+                "test-dir/${name}/${sundry.vfs.path.get.str path}" =
                   if file ? text
                   then {text = file.text;}
                   else {source = file.src;};
               })
               value)))
-        mlem.attrs.merge.recursive.no-collision
+        sundry.attrs.merge.recursive.no-collision
       ];
   };
 }

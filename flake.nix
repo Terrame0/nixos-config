@@ -15,8 +15,8 @@
       url = "git+ssh://git@github.com/Terrame0/nixos-update-script.git";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    nix-mlem = {
-      url = "git+ssh://git@github.com/Terrame0/nix-mlem.git";
+    sundry-input = {
+      url = "git+ssh://git@github.com/Terrame0/sundry.git";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     sops-nix = {
@@ -34,7 +34,7 @@
     sops-nix,
     nixpkgs,
     home-manager,
-    nix-mlem,
+    sundry-input,
     hyprland,
     nix4vscode,
     nixpkgs-unstable,
@@ -59,7 +59,7 @@
       map (host: let
         sys-attrs = {inherit (host) system;};
         pkgs = import nixpkgs sys-attrs;
-        mlem = (nix-mlem.evaluate sys-attrs).functions;
+        sundry = (sundry-input.evaluate sys-attrs).functions;
         config-root = self.outPath;
         lib = pkgs.lib;
         module-args = {
@@ -67,7 +67,7 @@
           inherit username;
           inherit host;
           inherit config-root;
-          inherit mlem;
+          inherit sundry;
           extend-config = namespace: value: let
             path = lib.splitString "." namespace;
           in {
@@ -78,19 +78,18 @@
           };
         };
         filter-modules = dir:
-          with mlem;
-            lib.pipe dir [
-              vfs.dir.from-src
-              (vfs.dir.resolve-tags {strip = false;})
-              (vfs.dir.filter (path: file: let
-                merged-tags = mlem.attrs.merge.concat file.tags;
-              in
-                !(merged-tags ? x)
-                && mlem.list.is-in (merged-tags.hosts or host.name) host.name
-                && vfs.path.get.ext path == "nix"))
-              vfs.dir.path-strs
-              (map (path: vfs.path.get.str [dir path]))
-            ];
+          lib.pipe dir [
+            sundry.vfs.dir.from-src
+            (sundry.vfs.dir.resolve-tags {strip = false;})
+            (sundry.vfs.dir.filter (path: file: let
+              merged-tags = sundry.attrs.merge.concat file.tags;
+            in
+              !(merged-tags ? x)
+              && sundry.list.is-in (merged-tags.hosts or host.name) host.name
+              && sundry.vfs.path.get.ext path == "nix"))
+            sundry.vfs.dir.path-strs
+            (map (path: sundry.vfs.path.get.str [dir path]))
+          ];
         lib-modules = filter-modules ./lib;
         system-modules = filter-modules ./system/modules ++ lib-modules;
         home-manager-modules = filter-modules ./home-manager/modules ++ lib-modules;
