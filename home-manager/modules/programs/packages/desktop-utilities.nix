@@ -22,6 +22,7 @@
     # transmission_4-gtk
     # blender
     # gimp
+    baobab
     inkscape
     rawtherapee
   ];
