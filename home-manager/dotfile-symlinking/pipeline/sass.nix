@@ -4,41 +4,45 @@
   pkgs,
   ...
 }: {
-  sass = {
+  sass-staging-dir = {
     deps = ["tags-stripped"];
     transform = prev:
       lib.pipe prev.tags-stripped [
         (sundry.vfs.dir.filter (path: file: sundry.vfs.path.get.ext path == "scss"))
         (sundry.vfs.dir.materialize "sass-build-dir")
-        (sundry.vfs.dir.by-tag.reform {build = "sass";}
-          (path: tag-pos: file: {
-            path = sundry.vfs.path.set.ext "css" path;
-            value =
-              file
-              // {
-                src =
-                  pkgs.runCommand "bruh" {buildInputs = [pkgs.dart-sass];}
-                  "sass '${file.src}' $out --no-source-map --quiet";
-              };
-          }))
       ];
   };
 
-  result = {
-    deps = ["sass"];
+  sass-load-paths = {
+    deps = ["sass-staging-dir"];
     transform = prev:
-      lib.pipe prev [
-        (lib.mapAttrsToList
-          (name: value:
-            sundry.attrs.merge.recursive.no-collision
-            (sundry.vfs.dir.collapse (path: file: {
-                "test-dir/${name}/${sundry.vfs.path.get.str path}" =
-                  if file ? text
-                  then {text = file.text;}
-                  else {source = file.src;};
-              })
-              value)))
-        sundry.attrs.merge.recursive.no-collision
+      lib.pipe prev.sass-staging-dir [
+        (sundry.vfs.dir.filter-by-tag {i = "sass";})
+        (sundry.vfs.dir.collapse (path: file:
+          lib.pipe path [
+            (lib.sublist 0 (sundry.vfs.file.get-tag-pos {i = "sass";} file))
+            sundry.vfs.path.get.str
+            (path: "--load-path='${sundry.vfs.path.get.str [file.base path]}'")
+          ]))
+        (lib.concatStringsSep " ")
+      ];
+  };
+
+  sass = {
+    deps = ["sass-staging-dir" "sass-load-paths"];
+    transform = prev:
+      lib.pipe prev.sass-staging-dir [
+        (sundry.vfs.dir.filter-by-tag {build = "sass";})
+        (sundry.vfs.dir.reform (path: file: {
+          path = sundry.vfs.path.set.ext "css" path;
+          value =
+            file
+            // {
+              src =
+                pkgs.runCommand "bruh" {buildInputs = [pkgs.dart-sass];}
+                "sass '${file.src}' $out --no-source-map ${prev.sass-load-paths} --quiet";
+            };
+        }))
       ];
   };
 }

@@ -34,7 +34,7 @@ in {
             (map (sundry.str.before ":"))
             (lib.filter (key: key != "sops"))
             (map (key: let
-              merged-tags = sundry.attrs.merge.no-collision file.tags;
+              merged-tags = sundry.attrs.merge.no-collision file.tag-list;
               clean-path = sundry.vfs.path.strip-between "{" "}" path;
               filename = sundry.vfs.path.get.stem clean-path;
             in {

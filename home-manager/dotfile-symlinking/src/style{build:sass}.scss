@@ -1,4 +1,5 @@
+@use "lib/bruh";
 a {
     &:hover { color: blue; }
-    background: red;
+    background: bruh.a();
 };

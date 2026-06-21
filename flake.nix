@@ -81,12 +81,9 @@
           lib.pipe dir [
             sundry.vfs.dir.from-src
             (sundry.vfs.dir.resolve-tags {strip = false;})
-            (sundry.vfs.dir.filter (path: file: let
-              merged-tags = sundry.attrs.merge.concat file.tags;
-            in
-              !(merged-tags ? x)
-              && sundry.list.is-in (merged-tags.hosts or host.name) host.name
-              && sundry.vfs.path.get.ext path == "nix"))
+            (sundry.vfs.dir.filter-by-tag {x = null;})
+            (sundry.vfs.dir.filter-by-tag [{hosts = host.name;} {hosts = null;}])
+            (sundry.vfs.dir.filter (path: file: sundry.vfs.path.get.ext path == "nix"))
             sundry.vfs.dir.path-strs
             (map (path: sundry.vfs.path.get.str [dir path]))
           ];
