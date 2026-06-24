@@ -1,12 +1,12 @@
 {
   sundry,
   config-root,
+  lib,
   ...
 }: {
   imports = {
     transform = _:
-      sundry.vfs.dir.from-src
-      "${config-root}/home-manager/dotfile-symlinking/src";
+      sundry.vfs.dir.from-src "${config-root}/home-manager/dotfile-symlinking/src";
   };
   tags-stripped = {
     deps = ["imports"];

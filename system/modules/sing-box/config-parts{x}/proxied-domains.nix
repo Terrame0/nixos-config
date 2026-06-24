@@ -41,6 +41,7 @@
   "nix.dev"
 
   # -- misc
+  "chordify.net"
   "mpv.io"
   "desmos.com"
   "wikipedia.org"
