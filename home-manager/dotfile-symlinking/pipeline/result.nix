@@ -6,7 +6,6 @@
   result = {
     deps = [
       "sass"
-      "nix-filtered"
     ];
     transform = prev:
       lib.pipe prev [
