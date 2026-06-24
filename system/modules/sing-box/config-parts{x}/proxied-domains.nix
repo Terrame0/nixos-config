@@ -51,4 +51,5 @@
   "starship.rs"
   "dota2mapdrawing.com"
   "onlinegdb.com"
+  "virtualpiano.net"
 ]
