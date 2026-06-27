@@ -35,7 +35,7 @@ in {
     serviceConfig = {
       Type = "simple";
       ExecStartPre = lib.getExe update-script;
-      ExecStart = "${pkgs.sing-box}/bin/sing-box run -c ${paths.runtime-config}";
+      ExecStart = "${lib.getExe pkgs.sing-box} run -c ${paths.runtime-config}";
       LoadCredential = [
         "sub-url:${config.sops.secrets."vpn/sub-url".path}"
         "hwid:${config.sops.secrets."vpn/hwid".path}"

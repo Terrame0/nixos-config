@@ -1,4 +1,5 @@
 {
+  lib,
   pkgs,
   config,
   ...
@@ -33,7 +34,7 @@
 
     # -- configuration
     initContent = ''
-      ${pkgs.any-nix-shell}/bin/any-nix-shell zsh | source /dev/stdin
+      ${lib.getExe pkgs.any-nix-shell} zsh | source /dev/stdin
 
       # -- use starship prompt theme
       eval "$(starship init zsh)"
