@@ -13,6 +13,7 @@
         "llvm-vs-code-extensions.vscode-clangd"
         "mesonbuild.mesonbuild"
         "anthropic.claude-code"
+        "a5huynh.vscode-ron"
       ];
     in {
       extensions = marketplace-extensions;
