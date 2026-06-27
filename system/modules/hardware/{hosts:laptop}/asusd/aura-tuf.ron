@@ -1,5 +1,5 @@
 (
-    config_name: "aura-tuf.ron",
+    config_name: "aura_tuf.ron",
     brightness: High,
     current_mode: Static,
     builtins: {
