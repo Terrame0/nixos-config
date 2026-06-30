@@ -41,13 +41,13 @@ in {
     serviceConfig = {
       Type = "oneshot";
       RemainAfterExit = true;
-      ExecStart = pkgs.writeShellScript "apply-fan-curves" (sundry.debug ''
+      ExecStart = pkgs.writeShellScript "apply-fan-curves" ''
         for _ in $(seq 1 10); do
           ${asusctl} fan-curve --get-enabled >/dev/null 2>&1 && break
           sleep 1
         done
         ${cmds}
-      '');
+      '';
     };
   };
 }
