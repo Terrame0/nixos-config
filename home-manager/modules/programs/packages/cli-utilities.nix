@@ -1,9 +1,11 @@
 {pkgs, ...}: {
   home.packages = with pkgs; [
     # -- dev tools
-    (python3.withPackages (pkg-set: [pkg-set.tkinter]))
+    python3
     git
     nixd
+    jq-lsp
+    jq
     gtk3.dev
 
     # -- utilities
@@ -18,7 +20,7 @@
     ouch
     htop
 
-    # -- screenshots
+    # -- screenshotse
     grim
     slurp
 
