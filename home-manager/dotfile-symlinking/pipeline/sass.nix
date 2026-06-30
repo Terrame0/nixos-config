@@ -17,7 +17,8 @@
     deps = ["sass-staging-dir"];
     transform = prev:
       lib.pipe prev.sass-staging-dir [
-        (sundry.vfs.dir.collapse-by-tag (e: with e; tag {i = "sass";}) (path: file:
+        (sundry.vfs.dir.select-by-tag (e: with e; tag {i = "sass";}))
+        (sundry.vfs.dir.collapse (path: file:
           lib.pipe path [
             (lib.sublist 0 (sundry.vfs.file.get-tag-pos (e: with e; tag {i = "sass";}) file))
             sundry.vfs.path.get.str
@@ -31,7 +32,7 @@
     deps = ["sass-staging-dir" "sass-load-paths"];
     transform = prev:
       lib.pipe prev.sass-staging-dir [
-        (sundry.vfs.dir.reform-by-tag (e: with e; tag {build = "sass";}) (path: file: {
+        (sundry.vfs.dir.reform-within-tag (e: with e; tag {build = "sass";}) (path: file: {
           path = sundry.vfs.path.set.ext "css" path;
           value =
             file
