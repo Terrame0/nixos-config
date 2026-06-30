@@ -1,1 +1,0 @@
-def supported($allow): $allow | index(.) != null;
