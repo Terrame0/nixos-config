@@ -16,7 +16,7 @@
                 "test-dir/${name}/${sundry.vfs.path.get.str path}" =
                   if file ? text
                   then {text = file.text;}
-                  else {source = file.src;};
+                  else {source = file.origin;};
               })
               value)))
         sundry.attrs.merge.recursive.no-collision
