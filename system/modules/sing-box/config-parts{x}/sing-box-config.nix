@@ -8,6 +8,7 @@
   log = {
     level = "debug";
     timestamp = true;
+    output = "/tmp/sing-box/log.txt";
   };
   dns = {
     servers = [
