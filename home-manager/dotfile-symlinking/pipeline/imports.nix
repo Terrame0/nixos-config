@@ -12,14 +12,6 @@
     deps = ["imports"];
     transform = prev:
       sundry.vfs.dir.resolve-tags
-      {strip = true;}
-      prev.imports;
-  };
-  tags = {
-    deps = ["imports"];
-    transform = prev:
-      sundry.vfs.dir.resolve-tags
-      {strip = false;}
       prev.imports;
   };
 }

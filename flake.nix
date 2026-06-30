@@ -80,12 +80,11 @@
         filter-modules = dir:
           lib.pipe dir [
             sundry.vfs.dir.from-src
-            (sundry.vfs.dir.resolve-tags {strip = false;})
+            sundry.vfs.dir.resolve-tags
             (sundry.vfs.dir.select-by-tag
-              (e: with e; !tag {x = [];} && (tag {hosts = host.name;} || !tag {hosts = [];})))
+              (_: with _; !tag {x = [];} && (tag {hosts = host.name;} || !tag {hosts = [];})))
             (sundry.vfs.dir.filter (path: file: sundry.vfs.path.get.ext path == "nix"))
-            sundry.vfs.dir.path-strs
-            (map (path: sundry.vfs.path.get.str [dir path]))
+            (sundry.vfs.dir.collapse (path: file: file.origin))
           ];
         lib-modules = filter-modules ./lib;
         system-modules = filter-modules ./system/modules ++ lib-modules;

@@ -22,7 +22,7 @@ in {
     age.keyFile = age-key-src;
     secrets = lib.pipe secrets-src [
       sundry.vfs.dir.from-src
-      (sundry.vfs.dir.resolve-tags {strip = false;})
+      sundry.vfs.dir.resolve-tags
       (sundry.vfs.dir.filter (path: file: sundry.vfs.path.get.ext path == "yaml"))
       (sundry.vfs.dir.collapse (
         path: file:
@@ -33,14 +33,10 @@ in {
                 builtins.match "[A-Za-z0-9_/-]+:.*" line != null && line != ""))
             (map (sundry.str.before ":"))
             (lib.filter (key: key != "sops"))
-            (map (key: let
-              merged-tags = sundry.attrs.merge.no-collision file.tag-list;
-              clean-path = sundry.vfs.path.strip-between "{" "}" path;
-              filename = sundry.vfs.path.get.stem clean-path;
-            in {
-              "${filename}/${key}" = {
-                sopsFile = sundry.vfs.path.get.str ([secrets-src] ++ path);
-                neededForUsers = merged-tags ? "for-users";
+            (map (key: {
+              "${sundry.vfs.path.get.stem path}/${key}" = {
+                sopsFile = file.origin;
+                neededForUsers = (sundry.attrs.merge.no-collision file.tag-list) ? "for-users";
                 inherit key;
                 owner = username;
                 mode = "0400";

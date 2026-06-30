@@ -39,7 +39,7 @@
             // {
               src =
                 pkgs.runCommand "bruh" {buildInputs = [pkgs.dart-sass];}
-                "sass '${file.src}' $out --no-source-map ${prev.sass-load-paths} --quiet";
+                "sass '${file.origin}' $out --no-source-map ${prev.sass-load-paths} --quiet";
             };
         }))
       ];
