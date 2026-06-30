@@ -28,7 +28,7 @@ args @ {
       });
 in {
   systemd.services.sing-box = {
-    description = "sing-box";
+    description = "a sing-box proxy client";
     after = ["network-online.target"];
     wants = ["network-online.target"];
     wantedBy = ["multi-user.target"];
