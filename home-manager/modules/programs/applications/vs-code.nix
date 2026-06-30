@@ -14,7 +14,7 @@
         "mesonbuild.mesonbuild"
         "anthropic.claude-code"
         "a5huynh.vscode-ron"
-        "dandric.vscode-jq"
+        "jq-syntax-highlighting.jq-syntax-highlighting"
       ];
     in {
       extensions = marketplace-extensions;
