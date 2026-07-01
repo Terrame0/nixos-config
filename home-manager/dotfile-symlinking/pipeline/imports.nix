@@ -1,7 +1,6 @@
 {
   sundry,
   config-root,
-  lib,
   ...
 }: {
   imports = {
