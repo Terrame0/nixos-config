@@ -6,6 +6,8 @@
   result = {
     deps = [
       "sass"
+      "nix"
+      "processed-imports"
     ];
     transform = prev:
       lib.pipe prev [

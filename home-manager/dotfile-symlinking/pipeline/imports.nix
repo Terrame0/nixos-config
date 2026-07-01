@@ -1,16 +1,29 @@
 {
   sundry,
   config-root,
+  lib,
   ...
 }: {
   imports = {
     transform = _:
-      sundry.vfs.dir.from-src "${config-root}/home-manager/dotfile-symlinking/src";
+      lib.pipe "${config-root}/home-manager/dotfile-symlinking/src" [
+        sundry.vfs.dir.from-src
+        sundry.vfs.dir.resolve-tags
+      ];
   };
-  tags-stripped = {
+
+  processed-imports = {
     deps = ["imports"];
     transform = prev:
-      sundry.vfs.dir.resolve-tags
-      prev.imports;
+      lib.pipe prev.imports [
+        (sundry.vfs.dir.select-by-tag
+          (e:
+            !(
+              e.tag {include = [];}
+              || e.tag {build = [];}
+              || e.tag {convert = [];}
+              || e.tag {x = [];}
+            )))
+      ];
   };
 }
