@@ -5,9 +5,9 @@
   ...
 }: {
   sass-staging-dir = {
-    deps = ["tags-stripped"];
+    deps = ["imports"];
     transform = prev:
-      lib.pipe prev.tags-stripped [
+      lib.pipe prev.imports [
         (sundry.vfs.dir.filter (path: file: sundry.vfs.path.get.ext path == "scss"))
         (sundry.vfs.dir.materialize "sass-build-dir")
       ];
@@ -17,8 +17,10 @@
     deps = ["sass-staging-dir"];
     transform = prev:
       lib.pipe prev.sass-staging-dir [
-        (sundry.vfs.dir.select-by-tag (_: with _; tag {i = "sass";}))
-        (sundry.vfs.dir.collapse (path: file: "--load-path='${file.origin}'"))
+        (sundry.vfs.dir.select-by-tag (_: with _; tag {include = "sass";}))
+        (sundry.vfs.dir.collapse (path: file: let
+          tag-pos = sundry.vfs.file.get-tag-pos (_: with _; tag {include = "sass";}) file;
+        in "--load-path='${sundry.vfs.path.get.str ([file.drv-path] ++ (lib.take tag-pos path))}'"))
         (lib.concatStringsSep " ")
       ];
   };
@@ -27,14 +29,15 @@
     deps = ["sass-staging-dir" "sass-load-paths"];
     transform = prev:
       lib.pipe prev.sass-staging-dir [
-        (sundry.vfs.dir.reform-within-tag (_: with _; tag {build = "sass";}) (path: file: {
+        (sundry.vfs.dir.select-by-tag (_: with _; tag {build = "sass";}))
+        (sundry.vfs.dir.reform (path: file: {
           path = sundry.vfs.path.set.ext "css" path;
           value =
             file
             // {
               origin =
                 pkgs.runCommand "bruh" {buildInputs = [pkgs.dart-sass];}
-                "sass '${file.origin}' $out --no-source-map ${sundry.debug prev.sass-load-paths} --quiet";
+                (sundry.debug "sass '${file.origin}' $out --no-source-map ${prev.sass-load-paths} --quiet");
             };
         }))
       ];
