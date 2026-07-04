@@ -29,6 +29,10 @@
     ];
     rules = [
       {
+        domain = ["www.gstatic.com"];
+        server = "local-dns";
+      }
+      {
         query_type = ["A" "AAAA"];
         server = "fakeip";
         rewrite_ttl = 300;
@@ -100,14 +104,14 @@
         type = "remote";
         format = "binary";
         url = "https://github.com/1andrevich/Re-filter-lists/releases/latest/download/ruleset-domain-refilter_domains.srs";
-        download_detour = "auto-selector";
+        download_detour = "direct";
       }
       {
         tag = "refilter-ipsum";
         type = "remote";
         format = "binary";
         url = "https://github.com/1andrevich/Re-filter-lists/releases/latest/download/ruleset-ip-refilter_ipsum.srs";
-        download_detour = "auto-selector";
+        download_detour = "direct";
       }
     ];
   };
