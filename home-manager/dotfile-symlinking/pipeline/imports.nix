@@ -10,12 +10,6 @@
         sundry.vfs.dir.from-src
         sundry.vfs.dir.resolve-tags
         (sundry.vfs.dir.reform-within-tag
-          (_: with _; tag {ext = [];})
-          (path: file: {
-            path = sundry.vfs.path.set.ext (lib.last file.tag-list).ext path;
-            value = file;
-          }))
-        (sundry.vfs.dir.reform-within-tag
           (_: with _; tag {place = [];})
           (path: file: {
             path =
