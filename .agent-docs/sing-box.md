@@ -17,6 +17,7 @@ Paths:
 | `/run/sing-box/config.json` | Active config passed to sing-box |
 | `/run/sing-box/response.json` | Temporary subscription response (deleted after processing) |
 | `/var/lib/sing-box/config.json` | Last known-good config (persists across reboots) |
+| `/var/lib/sing-box/cache.db` | bbolt database: fakeip cache + selected selector choice |
 
 ## Subscription updater
 
@@ -53,7 +54,21 @@ Two outbounds sit in front of the nodes, both filled with the node tags at runti
 
 `proxy` also lists every node tag directly, so it can be **pinned to a specific node**, bypassing the urltest — useful when a node's metadata lies (e.g. a "Netherlands" node whose exit is actually in RU domain space, which the latency heuristic can't detect).
 
-Pinning is done over the Clash control API, enabled in [config-parts{x}/sing-box-config/misc.nix](../system/modules/sing-box/config-parts%7Bx%7D/sing-box-config/misc.nix) as `experimental.clash_api.external_controller = "127.0.0.1:9090"`. It is localhost-only with no secret; point a Clash-compatible UI or `curl` at it to switch the `proxy` selector.
+Pinning is done over the Clash control API, configured in [config-parts{x}/sing-box-config/misc.nix](../system/modules/sing-box/config-parts%7Bx%7D/sing-box-config/misc.nix):
+
+- `external_controller = "127.0.0.1:9090"` — localhost-only, no secret.
+- `access_control_allow_origin = ["https://metacubex.github.io"]` — CORS restricted to MetaCubeXD dashboard only.
+- `access_control_allow_private_network = true` — required for Chrome to allow requests from a public origin (`github.io`) into localhost.
+
+Point a Clash-compatible UI (e.g. [MetaCubeXD](https://metacubex.github.io/metacubexd)) or `curl` at it to switch the `proxy` selector:
+
+```bash
+curl -X PUT http://127.0.0.1:9090/proxies/proxy \
+  -H 'Content-Type: application/json' \
+  -d '{"name":"<node-tag>"}'
+```
+
+The selected node persists across restarts via `cache_file.store_selected = true` — the choice is stored in `/var/lib/sing-box/cache.db` (bbolt format, not SQLite). If the node tag disappears after a subscription update, sing-box falls back to `default = "auto-selector"`.
 
 ## Secrets
 

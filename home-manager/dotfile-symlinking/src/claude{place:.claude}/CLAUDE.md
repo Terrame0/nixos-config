@@ -46,6 +46,10 @@ After editing, run `nixos-rebuild switch` to symlink the updated file into `~/.c
 - LSP: **nixd**
 - Editor: **VS Code** (user settings managed by Home Manager — see above)
 
+## sudo
+
+`sudo` requires an interactive terminal to read the password and cannot be used in a non-interactive shell. Do not attempt `sudo` commands — tell the user and ask them to run the command themselves.
+
 ## Adding tools temporarily
 
 `nix shell nixpkgs#<package>` works and is the right way to add a tool for the current session without touching any config. Example:
