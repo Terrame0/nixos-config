@@ -1,0 +1,19 @@
+@use "module-base" as i1;
+@use "includes/lib";
+@use "includes/common/parameters";
+
+@mixin spacer-base($l-color, $r-color) {
+    @include i1.module-base;
+    border-image-source: linear-gradient(
+        to right, 
+        $l-color,
+        $r-color
+    );
+    background-image: linear-gradient(
+        to right, 
+        lib.scale-alpha($l-color,0.1), 
+        lib.scale-alpha($r-color,0.1)
+    );
+    border-image-slice: 1;
+    min-width: parameters.$base-offset * 8;
+}

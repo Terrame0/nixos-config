@@ -1,0 +1,17 @@
+@use "includes/common/colors";
+@use "includes/lib";
+
+.link {
+  label {
+    color:colors.$blue;
+    text-decoration:underline;
+  }
+  &:visited {
+    &:hover {
+      @include lib.highlight(colors.$purple);
+    }
+    label {
+      color:colors.$purple;
+    }
+  }
+}

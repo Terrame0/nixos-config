@@ -1,0 +1,23 @@
+@use "includes/common/bases";
+@use "includes/common/properties";
+@use "includes/common/parameters";
+@use "includes/common/colors";
+@use "sass:math";
+
+switch {
+  @include bases.textbox-base;
+  @include properties.clickable;
+  border-radius: parameters.$base-offset + 2 + math.div(parameters.$base-border-radius,2);
+  > image, &:disabled > image {
+    color:transparent;
+  }
+  padding: parameters.$base-offset;
+  > slider {
+    @include bases.button-base;
+    @include properties.toggleable($off-color: colors.$disabled-fg, $on-color: colors.$success-color);
+    transition: parameters.$regular-duration ease-out;
+    margin: 0px;
+    min-width: 16px;
+    min-height: 16px;
+  }
+}

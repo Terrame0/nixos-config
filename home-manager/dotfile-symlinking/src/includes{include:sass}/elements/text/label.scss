@@ -1,0 +1,9 @@
+@use "includes/common/properties";
+@use "includes/common/colors";
+
+label, cellview {
+  @include properties.disabled(flat);
+  color: colors.$fg;
+  margin: 3px 6px;
+}
+

@@ -1,0 +1,120 @@
+// //apps rely on some named colors to be exported
+// /* GTK NAMED COLORS
+//    ----------------
+//    use responsibly! */
+// 
+// // Sass thinks we're using the colors in the parameters as strings and may shoot
+// // warning, it's innocuous and can be defeated by using "" + $var
+// /*
+// widget text/foreground color */
+// @define-color theme_fg_color #ffffff;
+// 
+// /*
+// text color for entries, views and content in general */
+// @define-color theme_text_color #ffffff;
+// 
+// /*
+// widget base background color */
+// @define-color theme_bg_color #ffffff;
+// 
+// /*
+// text widgets and the like base background color */
+// @define-color theme_base_color #ffffff;
+// 
+// /*
+// base background color of selections */
+// @define-color theme_selected_bg_color #{rgba($success-color, $secondary-alpha)};
+// 
+// /*s
+// text/foreground color of selections */
+// @define-color theme_selected_fg_color #ffffff;
+// 
+// /*
+// base background color of insensitive widgets */
+// @define-color insensitive_bg_color #ffffff;
+// 
+// /*
+// text foreground color of insensitive widgets */
+// @define-color insensitive_fg_color #ffffff;
+// 
+// /*
+// insensitive text widgets and the like base background color */
+// @define-color insensitive_base_color #ffffff;
+// 
+// /*
+// widget text/foreground color on backdrop windows */
+// @define-color theme_unfocused_fg_color #ffffff;
+// 
+// /*
+// text color for entries, views and content in general on backdrop windows */
+// @define-color theme_unfocused_text_color #ffffff;
+// 
+// /*
+// widget base background color on backdrop windows */
+// @define-color theme_unfocused_bg_color #ffffff;
+// 
+// /*
+// text widgets and the like base background color on backdrop windows */
+// @define-color theme_unfocused_base_color #ffffff;
+// 
+// /*
+// base background color of selections on backdrop windows */
+// @define-color theme_unfocused_selected_bg_color #ffffff;
+// 
+// /*
+// text/foreground color of selections on backdrop windows */
+// @define-color theme_unfocused_selected_fg_color  #ffffff;
+// 
+// /*
+// insensitive color on backdrop windows*/
+// @define-color unfocused_insensitive_color  #ffffff;
+// 
+// /*
+// widgets main borders color */
+// @define-color borders #ffffff;
+// 
+// /*
+// widgets main borders color on backdrop windows */
+// @define-color unfocused_borders #ffffff;
+// 
+// /*
+// these are pretty self explicative */
+// @define-color warning_color #ffffff;
+// @define-color error_color #ffffff;
+// @define-color success_color #ffffff;
+// //@define-color destructive_color #{$destructive_color}
+// 
+// //WM
+// 
+// //$_wm_highlight: if($variant=='light', $top_hilight,  // Sass gets mad if this is
+// //                  transparentize(black,1));          // done directly in the
+// //                                                     // color definition
+// 
+// /*
+// these colors are exported for the window manager and shouldn't be used in applications,
+// read if you used those and something break with a version upgrade you're on your own... */
+// @define-color wm_title #ffffff;
+// @define-color wm_unfocused_title #ffffff;
+// @define-color wm_highlight  #ffffff;
+// @define-color wm_borders_edge  #ffffff;
+// 
+// @define-color wm_bg_a #ffffff;
+// @define-color wm_bg_b #ffffff;
+// 
+// @define-color wm_shadow alpha(black, 0.35);
+// @define-color wm_border alpha(black, 0.18);
+// 
+// @define-color wm_button_hover_color_a #ffffff;
+// @define-color wm_button_hover_color_b #ffffff;
+// @define-color wm_button_active_color_a #ffffff;
+// @define-color wm_button_active_color_b #ffffff;
+// @define-color wm_button_active_color_c #ffffff;
+// 
+// /FIXME this is really an API
+// 
+// * content view background such as thumbnails view in Photos or Boxes */
+// define-color content_view_bg  #ffffff;
+// 
+// * Very contrasty background for text views (@theme_text_color foreground) */
+// define-color text_view_bg  #ffffff;
+

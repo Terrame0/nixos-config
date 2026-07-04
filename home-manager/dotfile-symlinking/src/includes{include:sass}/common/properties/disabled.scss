@@ -1,0 +1,16 @@
+@use "includes/common/parameters";
+@use "includes/common/colors";
+@use "includes/lib";
+
+@mixin disabled($style: regular) {
+  transition: parameters.$regular-duration ease-in-out;
+  &:disabled {
+    @if $style != flat {
+      @include lib.border(colors.$disabled-bg);
+      background: colors.$disabled-bg;
+    }
+    &, & * {
+      color: colors.$disabled-fg;
+    }
+  }
+}

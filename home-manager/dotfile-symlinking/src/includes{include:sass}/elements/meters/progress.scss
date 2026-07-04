@@ -1,0 +1,13 @@
+@use "includes/lib";
+@use "includes/common/parameters";
+@use "includes/common/colors";
+
+progress {
+    border-radius: parameters.$round-corner-radius;
+    background: colors.$primary-accent-color;
+    &:disabled {
+        background: lib.scale-alpha(colors.$primary-accent-color,colors.$secondary-alpha);
+    }
+    min-width: 4px;
+    min-height: 4px;
+}

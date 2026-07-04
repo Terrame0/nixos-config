@@ -1,0 +1,15 @@
+@use "includes/lib";
+@use "includes/common/colors";
+
+@mixin scrollable-area-base($offset) {
+    background: transparent;
+    $edge-color: colors.$tertiary-bg;
+    $middle-color: lib.scale-alpha(colors.$tertiary-bg,colors.$tertiary-alpha);
+    background-image: linear-gradient(
+        to bottom,
+        $edge-color 0%,
+        $middle-color calc(0% + $offset),
+        $middle-color calc(100% - $offset),
+        $edge-color 100%
+    );
+}

@@ -1,0 +1,29 @@
+@use "includes/common/colors";
+@use "includes/common/parameters";
+
+// -- 0.9 opacity crossfade curves
+$fade-in: cubic-bezier(0.582,0.631,0.343,0.947);
+$fade-out: cubic-bezier(0.657,0.053,0.418,0.369);
+
+@mixin container-state($state){
+    $bool: $state == active;
+    // TODO change to @if
+    border: if(
+        $state == active,
+        parameters.$bold-border-width solid colors.$window-border-color, 
+        parameters.$bold-border-width solid transparent
+    );
+    background: if(
+        $state == active, 
+        colors.$primary-bg, 
+        transparent
+    );
+    $transition: if(
+        $state == active,
+        $fade-in,
+        $fade-out,
+    );
+    transition:
+        background-color 0.2s $transition,
+        border-color 0.2s $transition;
+}
