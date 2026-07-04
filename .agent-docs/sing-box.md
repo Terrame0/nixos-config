@@ -17,17 +17,20 @@ Paths:
 | `/run/sing-box/config.json` | Active config passed to sing-box |
 | `/run/sing-box/response.json` | Temporary subscription response (deleted after processing) |
 | `/var/lib/sing-box/config.json` | Last known-good config (persists across reboots) |
-| `/var/lib/sing-box/cache.db` | bbolt database: fakeip cache + selected selector choice |
+| `/var/lib/sing-box/cache.db` | bbolt database: fakeip cache |
 
 ## Subscription updater
 
 [config-parts{x}/subscription-updater.nix](../system/modules/sing-box/config-parts%7Bx%7D/subscription-updater.nix) builds a shell script that:
 
-1. Fetches the subscription URL (from sops secret `vpn/sub-url`) with custom headers including `x-hwid` (from sops secret `vpn/hwid`).
-2. Filters outbounds with `jq`: keeps only VLESS + XTLS-Vision nodes; injects the node tags into both the `auto-selector` (urltest) and `proxy` (manual selector) outbounds, and appends the node definitions themselves.
-3. Validates the merged config with `sing-box check`.
-4. On success: saves to `/var/lib/sing-box/config.json`, copies to runtime path.
-5. On any failure (network, filter, validation): falls back to the last valid stored config. If no stored config exists, exits 1 (service fails).
+1. **Validates the bare skeleton with `sing-box check` first.** If the skeleton itself is invalid (a config bug — e.g. an unknown field like `store_selected`), the script exits 1 immediately **without falling back**, printing the check output. This class of failure is the author's bug, not a runtime condition, so it fails loud instead of being masked by a stale stored config.
+2. Fetches the subscription URL (from sops secret `vpn/sub-url`) with custom headers including `x-hwid` (from sops secret `vpn/hwid`).
+3. Filters outbounds with `jq`: keeps only VLESS + XTLS-Vision nodes; injects the node tags into both the `auto-selector` (urltest) and `proxy` (manual selector) outbounds, and appends the node definitions themselves.
+4. Validates the *merged* config with `sing-box check`. On failure, the tool's output is logged to the journal alongside the fallback warning, so the reason is visible under `journalctl -u sing-box`.
+5. On success: saves to `/var/lib/sing-box/config.json`, copies to runtime path.
+6. On a **network/data** failure (subscription unreachable, no matching nodes, merged config rejected): falls back to the last valid stored config. If no stored config exists, exits 1 (service fails).
+
+The two `sing-box check` calls split failures deliberately: a broken **skeleton** is a config bug → fail fast; a broken **merged** config is driven by subscription data → fall back and keep the last good config running.
 
 ## Config skeleton
 
@@ -68,7 +71,7 @@ curl -X PUT http://127.0.0.1:9090/proxies/proxy \
   -d '{"name":"<node-tag>"}'
 ```
 
-The selected node persists across restarts via `cache_file.store_selected = true` — the choice is stored in `/var/lib/sing-box/cache.db` (bbolt format, not SQLite). If the node tag disappears after a subscription update, sing-box falls back to `default = "auto-selector"`.
+A manual pin does **not** persist across restarts: sing-box 1.13.x has no `cache_file.store_selected` field (setting it makes `sing-box check` fail with `unknown field "store_selected"`, which sends the updater into an endless fall-back-and-restart loop). On every restart the `proxy` selector resets to `default = "auto-selector"` and must be re-pinned over the Clash API. The same reset happens if the pinned node tag disappears after a subscription update.
 
 ## Secrets
 
