@@ -137,6 +137,12 @@ Meta-rules for files under `.agent-docs/`.
 
 A doc owns one orthogonal concern — naming, layout, testing, etc. If you find yourself drafting an "extension", "appendix", or "see also at the end" section that doesn't fit the doc's main thread, the doc is probably two topics. Split it and link between them.
 
+## Gotchas live in their own file
+
+Non-obvious traps — behavior that already bit someone and would bite again — belong in a dedicated `gotchas.md`, not scattered as warnings across topic docs. Each entry is one trap: **the rule, one line of why, and how to avoid it.** Motivation is mandatory here; a gotcha without its *why* reads as arbitrary and gets "cleaned up" by the next person.
+
+Keep it strictly to the counter-intuitive. It is not a FAQ, not a troubleshooting log, and not a place to restate normal architecture — if a trap is just "how the system works", it belongs in the topic doc that owns that system, linked from here if needed. A gotcha earns its entry only by surprising someone.
+
 ## No internal forward/backward references
 
 Avoid pointers like *"see X at the end"* or *"as covered above"* within a single doc. They betray that the doc was added to over time and force the reader to skip around. Restructure so the natural reading order makes them unnecessary — either move the relevant content next to the reference, or split into a separate doc and link to it as a peer.
