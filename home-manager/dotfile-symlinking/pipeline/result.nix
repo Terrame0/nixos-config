@@ -17,9 +17,14 @@
           }))
         (sundry.vfs.dir.collapse (path: file: {
           ${sundry.vfs.path.get.str path} =
-            if file ? text
-            then {text = file.text;}
-            else {source = file.origin;};
+            (
+              if file ? text
+              then {text = file.text;}
+              else {source = file.origin;}
+            )
+            // lib.optionalAttrs (sundry.vfs.path.get.ext path == "sh") {
+              executable = true;
+            };
         }))
         sundry.attrs.merge.recursive.no-collision
       ];
