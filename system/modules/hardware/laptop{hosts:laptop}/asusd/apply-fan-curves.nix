@@ -24,7 +24,7 @@
       (path: curve:
         (lib.concatMapStrings (fan: let
           data = lib.pipe curve [
-            sundry.list.zip
+            sundry.list.zip-n
             (lib.concatMapStringsSep ","
               (point: "${toString (sundry.list.at 0 point)}c:${toString (sundry.list.at 1 point)}"))
           ];
