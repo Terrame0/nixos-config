@@ -75,7 +75,7 @@ A manual pin does **not** persist across restarts: sing-box 1.13.x has no `cache
 
 ## Secrets
 
-Managed by sops-nix. Required secrets in the sops file:
+Managed by sops-nix (see [secrets.md](secrets.md) for the general mechanism). Both live in [system/secrets/vpn.yaml](../system/secrets/vpn.yaml) and reach the service via `LoadCredential` → `$CREDENTIALS_DIRECTORY`:
 
 | Secret | Used for |
 |---|---|
