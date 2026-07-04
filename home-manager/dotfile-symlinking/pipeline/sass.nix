@@ -38,7 +38,7 @@
             // {
               origin =
                 pkgs.runCommand "build-sass" {buildInputs = [pkgs.dart-sass];}
-                (sundry.debug "sass '${file.origin}' $out --no-source-map ${prev.sass-load-paths} --quiet");
+                "sass '${file.origin}' $out --no-source-map ${prev.sass-load-paths} --quiet";
             };
         }))
       ];

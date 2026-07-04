@@ -548,11 +548,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1783086758,
-        "narHash": "sha256-iwUGPGPk5YNTAloRK1ao0rbAYNeGEV43znrK14LOVnQ=",
+        "lastModified": 1783142077,
+        "narHash": "sha256-kk/80hbAz+0x50Y4pCyYACDfRj7au+m/KRrHzpsnFJs=",
         "ref": "refs/heads/main",
-        "rev": "91bedcf698f261fe3a7c0f58e0889ae6b620af40",
-        "revCount": 61,
+        "rev": "88415171939ca2643f77f6e096952ce7180801c5",
+        "revCount": 63,
         "type": "git",
         "url": "ssh://git@github.com/Terrame0/sundry.git"
       },
