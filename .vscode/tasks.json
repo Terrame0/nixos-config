@@ -11,7 +11,7 @@
     {
       "label": "build",
       "type": "shell",
-      "command": "alejandra . && nixos-update --branch migration-to-sundry",
+      "command": "alejandra . && nixos-update --branch master",
       "group": "none",
     },
   ]
