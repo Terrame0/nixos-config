@@ -77,3 +77,23 @@ Pipeline (pipeline/nix.nix) теперь пробрасывает в import то
      (воспроизводит config.run-command из lib/utils/general/run-command.nix)
      ВНИМАНИЕ: nproc вычисляется на этапе eval на машине сборки, число ядер
      может отличаться между хостами desktop/laptop.
+
+9) home-manager/modules/programs/applications/alacritty.nix (HM-модуль, вне src)
+   config (аргумент) убран. Добавлены let palette = {13 цветов} и
+   font = {mono = "JetBrainsMono NF";}.
+   config.style.palette.X -> palette.X, config.style.font.mono -> font.mono.
+
+
+================================================================
+ЧАСТЬ 3: локальная lib/ удалена целиком
+================================================================
+
+После части 2 lib/ больше никто не использовал, поэтому удалено:
+  - каталог lib/ целиком (git rm -r lib)
+  - extend-config из module-args во flake.nix
+  - lib-modules = filter-modules ./lib и его добавление в
+    system-modules / home-manager-modules во flake.nix
+
+Проверено: nix eval desktop.system.build.toplevel.drvPath проходит.
+Чтобы вернуть систему config/style — восстанови lib/, extend-config и
+замени все локальные let-блоки (пункты 5-9) обратно на config.*.
