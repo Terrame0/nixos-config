@@ -8,6 +8,22 @@ pkgs.writeShellApplication {
   name = "sing-box-updater";
   runtimeInputs = [pkgs.curl pkgs.jq pkgs.sing-box pkgs.coreutils];
   text = ''
+    SKEL_STUB="$(mktemp)"
+    jq '
+        ({type: "direct", tag: "__skeleton_check_stub__"}) as $stub
+        | .outbounds = (.outbounds | map(
+            if   .tag == "auto-selector" then .outbounds = ["__skeleton_check_stub__"]
+            elif .tag == "proxy"         then .outbounds += ["__skeleton_check_stub__"]
+            else . end)) + [$stub]
+      ' ${skeleton} > "$SKEL_STUB"
+    if ! SKELETON_CHECK="$(sing-box check -c "$SKEL_STUB" 2>&1)"; then
+      echo "FATAL: the config skeleton itself is invalid — this is a config bug, not a network failure." >&2
+      echo "$SKELETON_CHECK" >&2
+      rm -f "$SKEL_STUB"
+      exit 1
+    fi
+    rm -f "$SKEL_STUB"
+
     DO_UPDATE=false
     if curl -sS \
       --connect-timeout 15 --max-time 40 \
@@ -33,11 +49,12 @@ pkgs.writeShellApplication {
               else . end)) + $nodes
         ' ${skeleton} > "$TMP";
       then
-        if sing-box check -c "$TMP"; then
+        if CHECK_OUT="$(sing-box check -c "$TMP" 2>&1)"; then
           mv "$TMP" "${paths.stored-config}"
           DO_UPDATE=true
         else
           echo "WARN: the configuration didn't pass the check, falling back to the last valid configuration" >&2
+          echo "$CHECK_OUT" >&2
           rm -f "$TMP"
         fi
       else 
