@@ -52,7 +52,7 @@
       address = ["172.19.0.1/30"];
       mtu = 1500;
       auto_route = true;
-      strict_route = true;
+      strict_route = false;
       stack = "mixed";
       endpoint_independent_nat = true;
     }
@@ -108,7 +108,6 @@
         format = "binary";
         url = "https://github.com/1andrevich/Re-filter-lists/releases/latest/download/ruleset-domain-refilter_domains.srs";
         download_detour = "direct";
-        domain_resolver = "bootstrap-dns";
       }
       {
         tag = "refilter-ipsum";
@@ -116,7 +115,6 @@
         format = "binary";
         url = "https://github.com/1andrevich/Re-filter-lists/releases/latest/download/ruleset-ip-refilter_ipsum.srs";
         download_detour = "direct";
-        domain_resolver = "bootstrap-dns";
       }
     ];
   };
