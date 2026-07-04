@@ -29,6 +29,10 @@
     ];
     rules = [
       {
+        outbound = "direct";
+        server = "local-dns";
+      }
+      {
         query_type = ["A" "AAAA"];
         server = "fakeip";
         rewrite_ttl = 300;
