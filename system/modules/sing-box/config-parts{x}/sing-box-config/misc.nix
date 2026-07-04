@@ -8,7 +8,6 @@
     enabled = true;
     path = "${paths.state-dir}/cache.db";
     store_fakeip = true;
-    store_selected = true;
   };
 
   experimental.clash_api = {
