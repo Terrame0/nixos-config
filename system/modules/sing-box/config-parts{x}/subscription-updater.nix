@@ -8,12 +8,6 @@ pkgs.writeShellApplication {
   name = "sing-box-updater";
   runtimeInputs = [pkgs.curl pkgs.jq pkgs.sing-box pkgs.coreutils];
   text = ''
-    if ! SKELETON_CHECK="$(sing-box check -c ${skeleton} 2>&1)"; then
-      echo "FATAL: the config skeleton itself is invalid — this is a config bug, not a network failure." >&2
-      echo "$SKELETON_CHECK" >&2
-      exit 1
-    fi
-
     DO_UPDATE=false
     if curl -sS \
       --connect-timeout 15 --max-time 40 \
@@ -39,12 +33,11 @@ pkgs.writeShellApplication {
               else . end)) + $nodes
         ' ${skeleton} > "$TMP";
       then
-        if CHECK_OUT="$(sing-box check -c "$TMP" 2>&1)"; then
+        if sing-box check -c "$TMP"; then
           mv "$TMP" "${paths.stored-config}"
           DO_UPDATE=true
         else
           echo "WARN: the configuration didn't pass the check, falling back to the last valid configuration" >&2
-          echo "$CHECK_OUT" >&2
           rm -f "$TMP"
         fi
       else 
