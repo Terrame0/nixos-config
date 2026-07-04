@@ -1,0 +1,17 @@
+@use "includes/common/bases";
+@use "includes/common/properties";
+@use "includes/common/colors";
+@use "includes/lib";
+
+entry {
+  @include bases.textbox-base;
+  @include properties.focusable;
+  padding: 3px 6px;
+  > progress {
+    margin-top: 31px;
+    margin-bottom: -7px;
+    min-height:2px;
+    min-width:2px;
+    @include lib.highlight(colors.$success-color);
+  }
+}

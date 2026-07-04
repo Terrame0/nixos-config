@@ -1,0 +1,120 @@
+@use "sass:math";
+@use "sass:color";
+@use "includes/common/colors";
+@use "includes/common/parameters";
+@use "includes/lib";
+@use "waybar";
+
+// --- ELEMENTS ---
+
+window#waybar {
+    * {
+        font-size: parameters.$h2;
+        font-family: parameters.$font;
+    }
+
+    border-radius: parameters.$base-border-radius;
+    > box.horizontal {
+        padding: 0px;
+        margin: 0px;
+    }
+
+    // --- SOLID BAR ---
+
+    // -- bar active (fullscreen)
+    @include waybar.container-state(active);
+    .modules-left,
+    .modules-center,
+    .modules-right {
+        border-radius: parameters.$base-border-radius;
+        padding: 0px;
+        margin: 0px;
+        // --  islands inactive (fullscreen)
+        @include waybar.container-state(inactive);
+    }
+
+    // --- ISLANDS ---
+
+    &.empty, &.floating {
+        // -- bar inactive (split)
+        @include waybar.container-state(inactive);
+        .modules-left,
+        .modules-center,
+        .modules-right {
+            // -- islands active (split)
+            @include waybar.container-state(active);
+        }
+    }
+
+    // --- MODULES ---
+
+    .modules-left {
+        #custom-clock { 
+            @include waybar.module-base(colors.$purple); 
+            @include waybar.module-edge-type(left,round);
+        }
+        #custom-spacer-1 { @include waybar.spacer-base(colors.$purple, colors.$blue); }
+        #pulseaudio { @include waybar.module-base(colors.$blue); }
+        #custom-spacer-2 { @include waybar.spacer-base(colors.$blue, colors.$green); }
+        #battery {
+            @include waybar.module-base(colors.$green);
+            padding-right: parameters.$base-offset * 4;
+        }
+        #network {
+            @include waybar.module-base(colors.$green);
+            @include waybar.module-edge-type(right,round);
+        }
+    }
+
+    .modules-center {
+        #workspaces {
+            button {
+                transition: 0.1s ease-in-out;
+                @include waybar.module-highlight(transparent);
+                @include waybar.module-edge-type(left,round);
+                @include waybar.module-edge-type(right,round);
+                label { 
+                    font-weight: 900; 
+                    color: colors.$disabled-fg;
+                }
+                padding: 0px;
+                margin: 0px;
+                margin-right: parameters.$base-offset;
+                &:not(.empty) {
+                    label{ color: colors.$fg; }
+                }
+                &.active {
+                    label{ color: colors.$green; }
+                    @include waybar.module-highlight(colors.$green);
+                    padding: 0px 4px 0px 5px;
+                }
+                &.urgent {
+                    label{ color: colors.$yellow; }
+                    @include waybar.module-highlight(colors.$yellow);
+                    padding: 0px 4px 0px 5px;
+                }
+            }
+            margin-right: - parameters.$base-offset;
+        }
+    }
+    
+    .modules-right {
+        #tray {
+            margin: 0px parameters.$base-offset * 2;
+            &.passive { color:colors.$disabled-fg; } 
+        }
+        #cpu { 
+            @include waybar.module-base(colors.$aqua); 
+            @include waybar.module-edge-type(left,round)
+        }
+        #custom-spacer-3 { @include waybar.spacer-base(colors.$aqua, colors.$orange); }
+        #memory { 
+            @include waybar.module-base(colors.$orange); 
+        }
+        #custom-spacer-4 { @include waybar.spacer-base(colors.$orange, colors.$yellow); }
+        #disk {
+            @include waybar.module-base(colors.$yellow);
+            @include waybar.module-edge-type(right,round);
+        }
+    }
+}

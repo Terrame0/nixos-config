@@ -1,0 +1,39 @@
+ВНИМАНИЕ: захардкоженные значения интерполяций "#[...]"
+================================================================
+
+Система подстановки выражений "#[...]" ещё НЕ имплементирована в новом
+dotfile-symlinking pipeline (в старой системе это делала функция
+config.string.substitute-expressions из lib/utils/string/substitute-expressions.nix).
+
+Пока её нет, значения ниже подставлены ВРУЧНУЮ. Когда допишешь pipeline-шаг
+интерполяции — верни исходный синтаксис "#[...]" в эти файлы.
+
+Источники значений:
+  - lib/style/palette.nix     (config.style.palette.*)
+  - lib/style/constants.nix   (config.style.constants.*)
+  - lib/utils/substitution/make-span.nix (config.make-span)
+  - username = "terrame" (flake.nix)
+
+----------------------------------------------------------------
+1) includes{include:sass}/common/colors/palette.scss
+   Было:  $black: "#[config.style.palette.black]";  (и т.д. для всех цветов)
+   Стало: $black: #1d1f21;
+   Все цвета из palette.nix:
+     black #1d1f21  dark-gray #282a2e  dim-gray #373b41  gray #4d5057
+     light-gray #969896  white #c5c8c6  red #d54e53  orange #e78c45
+     yellow #e7c547  green #b9ca4a  aqua #70c0b1  blue #7aa6da  purple #c397d8
+
+2) .config/hypr/hyprland.conf
+   $dim-gray      "#[config.style.palette.dim-gray]"       -> #373b41
+   $offset-in     "#[config.style.constants.offset / 2]"   -> 3   (6 / 2)
+   $offset-out    "#[config.style.constants.offset]"       -> 6
+   $border-radius "#[config.style.constants.border-radius]" -> 12
+
+3) .config/mpv/script-opts/webtorrent.conf
+   /home/"#[username]"/Videos/webtorrent -> /home/terrame/Videos/webtorrent
+
+4) .config/waybar/clock.sh
+   Флаг str| оборачивает результат make-span в кавычки.
+   colon "#[str|config.make-span {color=light-gray;} ":"]"   -> "<span color='#969896'>:</span>"
+   sep   "#[str|config.make-span {color=purple;}    " == "]" -> "<span color='#c397d8'> == </span>"
+   point "#[str|config.make-span {color=light-gray;} "·"]"   -> "<span color='#969896'>·</span>"

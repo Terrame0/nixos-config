@@ -1,0 +1,67 @@
+@use "includes/common/bases";
+@use "includes/common/properties";
+@use "includes/common/colors";
+@use "includes/common/parameters";
+@use "includes/lib";
+
+.background {
+  color: colors.$fg;
+  background-color: colors.$primary-bg;
+}
+
+
+colorswatch {
+  @include bases.button-base;
+  @include properties.selectable;
+  padding:0px;
+}
+
+window {
+  > box, > grid{
+    padding: parameters.$base-offset * 4;
+  }
+}
+
+iconview.view {
+  @include bases.button-base;
+  @include properties.selectable;
+}
+
+//:not(headerbar).titlebar {
+//    background: $primary-bg;
+//}
+
+spinner {
+  @include properties.disabled(flat);
+  -gtk-icon-source: -gtk-icontheme("process-working-symbolic");
+}
+spinner:checked {
+  animation: spin 1s linear infinite;
+}
+
+flowbox {
+  flowboxchild {
+    @include bases.textbox-base;
+    @include properties.selectable;
+  }
+}
+
+.rubberband,
+rubberband {
+    background: lib.scale-alpha(colors.$selection-color, colors.$secondary-alpha);
+    border: 1px solid colors.$selection-color;
+    box-shadow: none;
+}
+
+headerbar, .titlebar {
+  @include bases.textbox-base;
+  @include bases.pane-base(top);
+  padding: 3px;
+  background: colors.$black;
+  &:properties.disabled {
+    background-color: colors.$primary-bg;
+  }
+}
+
+
+

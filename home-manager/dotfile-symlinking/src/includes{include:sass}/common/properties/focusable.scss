@@ -1,0 +1,10 @@
+@use "includes/common/colors";
+@use "includes/common/parameters";
+@use "includes/lib";
+
+@mixin focusable($color: colors.$selection-color) {
+    transition: parameters.$regular-duration ease-in-out;
+    &:focus {
+        @include lib.highlight($color);
+    }
+}

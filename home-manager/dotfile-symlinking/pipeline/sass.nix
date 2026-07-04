@@ -21,6 +21,7 @@
         (sundry.vfs.dir.collapse (path: file: let
           tag-pos = sundry.vfs.file.get-tag-pos (_: with _; tag {include = "sass";}) file;
         in "--load-path='${sundry.vfs.path.get.str ([file.drv-path] ++ (lib.take tag-pos path))}'"))
+        lib.unique
         (lib.concatStringsSep " ")
       ];
   };
@@ -36,7 +37,7 @@
             file
             // {
               origin =
-                pkgs.runCommand "bruh" {buildInputs = [pkgs.dart-sass];}
+                pkgs.runCommand "build-sass" {buildInputs = [pkgs.dart-sass];}
                 (sundry.debug "sass '${file.origin}' $out --no-source-map ${prev.sass-load-paths} --quiet");
             };
         }))

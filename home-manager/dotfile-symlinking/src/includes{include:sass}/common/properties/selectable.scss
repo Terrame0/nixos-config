@@ -1,0 +1,10 @@
+@use "includes/common/colors";
+@use "includes/common/parameters";
+@use "includes/lib";
+
+@mixin selectable($color:colors.$success-color){
+    transition: parameters.$regular-duration ease-out;
+    &:selected {
+        @include lib.highlight(lib.scale-alpha($color,colors.$primary-alpha));
+    }
+}

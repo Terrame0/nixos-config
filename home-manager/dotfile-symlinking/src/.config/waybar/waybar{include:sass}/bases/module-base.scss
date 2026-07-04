@@ -1,0 +1,13 @@
+@use "includes/common/colors";
+@use "includes/common/parameters";
+@use "waybar/mixins";
+@use "meter-base" as i1;
+
+@mixin module-base($color:transparent){
+    transition: parameters.$long-duration ease-in-out;
+    padding: 0px;
+    margin: 0px;
+    color: colors.$white;
+    @include mixins.module-highlight($color);
+    @include i1.meter-base;
+}

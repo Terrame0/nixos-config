@@ -1,0 +1,32 @@
+@use "includes/lib";
+@use "includes/common/parameters";
+@use "includes/common/colors";
+
+levelbar {
+    @each $type in continuous discrete {
+        &.#{$type} > trough > block {
+            border-radius: parameters.$round-corner-radius;
+            @include lib.border(colors.$contrast-border-color);
+            @if $type == discrete {
+                &:last-child { margin-right: 0px; }
+                &:not(:first-child) { margin-left: 4px; }
+            }
+            &.filled{
+                &.full, &.high {
+                    @include lib.border(colors.$success-color);
+                }
+                &.low {
+                    @include lib.border(colors.$critical-color);
+                }
+                &:disabled {
+                    &.full, &.high {
+                        @include lib.border(lib.scale-alpha(colors.$success-color,colors.$secondary-alpha));
+                    }
+                    &.low {
+                        @include lib.border(lib.scale-alpha(colors.$critical-color,colors.$secondary-alpha));
+                    }
+                }
+            }
+        }
+    }
+}

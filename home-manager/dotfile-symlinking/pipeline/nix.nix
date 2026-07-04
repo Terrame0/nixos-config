@@ -1,6 +1,7 @@
 {
   sundry,
   lib,
+  config,
   ...
 }: {
   nix-imports = {
@@ -8,7 +9,14 @@
     transform = prev:
       lib.pipe prev.imports [
         (sundry.vfs.dir.filter (path: file: sundry.vfs.path.get.ext path == "nix"))
-        (sundry.vfs.dir.walk (path: file: file // {expr = import file.origin;}))
+        (sundry.vfs.dir.walk (path: file:
+          file
+          // {
+            expr = import file.origin {
+              inherit config lib;
+              file-dir = dirOf file.origin;
+            };
+          }))
       ];
   };
 

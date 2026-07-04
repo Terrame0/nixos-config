@@ -1,0 +1,7 @@
+@use "includes/lib/mixins/borders";
+@use "includes/lib/functions";
+
+@mixin highlight($color) {
+    @include borders.border($color);
+    background: functions.scale-alpha($color,0.3);
+}
