@@ -8,7 +8,12 @@
     enabled = true;
     path = "${paths.state-dir}/cache.db";
     store_fakeip = true;
+    store_selected = true;
   };
 
-  experimental.clash_api.external_controller = "127.0.0.1:9090";
+  experimental.clash_api = {
+    external_controller = "127.0.0.1:9090";
+    access_control_allow_origin = ["https://metacubex.github.io"];
+    access_control_allow_private_network = true;
+  };
 }
