@@ -9,13 +9,7 @@ pkgs.writeShellApplication {
   runtimeInputs = [pkgs.curl pkgs.jq pkgs.sing-box pkgs.coreutils];
   text = ''
     SKEL_STUB="$(mktemp)"
-    jq '
-        ({type: "direct", tag: "__skeleton_check_stub__"}) as $stub
-        | .outbounds = (.outbounds | map(
-            if   .tag == "auto-selector" then .outbounds = ["__skeleton_check_stub__"]
-            elif .tag == "proxy"         then .outbounds += ["__skeleton_check_stub__"]
-            else . end)) + [$stub]
-      ' ${skeleton} > "$SKEL_STUB"
+    jq -f ${./updater/stub-filter.jq} ${skeleton} > "$SKEL_STUB"
     if ! SKELETON_CHECK="$(sing-box check -c "$SKEL_STUB" 2>&1)"; then
       echo "FATAL: the config skeleton itself is invalid — this is a config bug, not a network failure." >&2
       echo "$SKELETON_CHECK" >&2
@@ -36,18 +30,7 @@ pkgs.writeShellApplication {
       -o "${paths.response-file}";
     then
       TMP="$(mktemp)"
-      if jq --slurpfile response "${paths.response-file}" '
-          def is_node: .type == "vless" and .tls.reality.enabled? == true and .flow? == "xtls-rprx-vision";
-          ($response[0].outbounds | map(select(is_node))) as $nodes
-          | if ($nodes | length) < 1
-            then error("0 nodes matched filter")
-            else . end
-          | ($nodes | map(.tag)) as $tags
-          | .outbounds = (.outbounds | map(
-              if   .tag == "auto-selector" then .outbounds = $tags
-              elif .tag == "proxy"         then .outbounds += $tags
-              else . end)) + $nodes
-        ' ${skeleton} > "$TMP";
+      if jq --slurpfile response "${paths.response-file}" -f ${./updater/node-filter.jq} ${skeleton} > "$TMP";
       then
         if CHECK_OUT="$(sing-box check -c "$TMP" 2>&1)"; then
           mv "$TMP" "${paths.stored-config}"
@@ -57,7 +40,7 @@ pkgs.writeShellApplication {
           echo "$CHECK_OUT" >&2
           rm -f "$TMP"
         fi
-      else 
+      else
         echo "WARN: merge failed (no matching nodes?), falling back" >&2
         rm -f "$TMP"
       fi
