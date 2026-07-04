@@ -11,7 +11,7 @@
     {
       "label": "build",
       "type": "shell",
-      "command": "alejandra . && nixos-update --branch new-ui",
+      "command": "alejandra . && nixos-update --branch migration-to-sundry",
       "group": "none",
     },
   ]
