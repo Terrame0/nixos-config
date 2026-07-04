@@ -11,7 +11,7 @@ if curl -sS \
   -H "x-device-os: Linux" \
   -H "x-ver-os: 1.0.0" \
   -H "x-device-model: Computer" \
-  -A 'singbox' \
+  -A "singbox" \
   "$(cat "$CREDENTIALS_DIRECTORY/sub-url")" \
   -o "$RESPONSE_FILE";
 then
