@@ -16,6 +16,13 @@
         type = "local";
       }
       {
+        tag = "bootstrap-dns";
+        type = "udp";
+        server = "1.1.1.1";
+        server_port = 53;
+        detour = "direct";
+      }
+      {
         tag = "remote-dns";
         type = "tls";
         server = "1.1.1.1";
@@ -28,10 +35,6 @@
       }
     ];
     rules = [
-      {
-        outbound = "direct";
-        server = "local-dns";
-      }
       {
         query_type = ["A" "AAAA"];
         server = "fakeip";
@@ -105,6 +108,7 @@
         format = "binary";
         url = "https://github.com/1andrevich/Re-filter-lists/releases/latest/download/ruleset-domain-refilter_domains.srs";
         download_detour = "direct";
+        domain_resolver = "bootstrap-dns";
       }
       {
         tag = "refilter-ipsum";
@@ -112,6 +116,7 @@
         format = "binary";
         url = "https://github.com/1andrevich/Re-filter-lists/releases/latest/download/ruleset-ip-refilter_ipsum.srs";
         download_detour = "direct";
+        domain_resolver = "bootstrap-dns";
       }
     ];
   };
