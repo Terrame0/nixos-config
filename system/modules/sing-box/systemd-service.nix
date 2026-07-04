@@ -16,7 +16,7 @@ args @ {
   };
   skeleton =
     import
-    "${paths.parts-dir}/sing-box-config.nix"
+    "${paths.parts-dir}/sing-box-config"
     (args // {inherit paths;});
   update-script =
     import
