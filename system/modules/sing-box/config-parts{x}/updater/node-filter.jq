@@ -1,15 +1,18 @@
 # Merges subscription nodes into the skeleton.
 # Reads the subscription response via --slurpfile response.
-# Keeps only VLESS + REALITY + XTLS-Vision nodes, injects their tags into the
-# auto-selector (urltest) and proxy (manual selector) outbounds, and appends the
-# node definitions themselves. Errors out if the filter matches nothing.
+# Keeps only VLESS + REALITY + XTLS-Vision nodes, swaps the skeleton's "dummy"
+# placeholder for their tags in the auto-selector (urltest) and proxy (manual
+# selector) outbounds, drops the dummy node itself, and appends the real node
+# definitions. Errors out if the filter matches nothing.
 def is_node: .type == "vless" and .tls.reality.enabled? == true and .flow? == "xtls-rprx-vision";
 ($response[0].outbounds | map(select(is_node))) as $nodes
 | if ($nodes | length) < 1
   then error("0 nodes matched filter")
   else . end
 | ($nodes | map(.tag)) as $tags
-| .outbounds = (.outbounds | map(
+| .outbounds = ((.outbounds | map(
     if   .tag == "auto-selector" then .outbounds = $tags
-    elif .tag == "proxy"         then .outbounds += $tags
-    else . end)) + $nodes
+    elif .tag == "proxy"         then .outbounds = ((.outbounds - ["dummy"]) + $tags)
+    else . end))
+    | map(select(.tag != "dummy")))
+  + $nodes

@@ -20,7 +20,7 @@ args @ {
     (args // {inherit paths;});
   update-script =
     import
-    "${paths.parts-dir}/subscription-updater.nix"
+    "${paths.parts-dir}/updater"
     (args
       // {
         inherit paths;
