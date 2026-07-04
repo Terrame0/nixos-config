@@ -16,13 +16,6 @@
         type = "local";
       }
       {
-        tag = "bootstrap-dns";
-        type = "udp";
-        server = "1.1.1.1";
-        server_port = 53;
-        detour = "direct";
-      }
-      {
         tag = "remote-dns";
         type = "tls";
         server = "1.1.1.1";
@@ -52,7 +45,7 @@
       address = ["172.19.0.1/30"];
       mtu = 1500;
       auto_route = true;
-      strict_route = false;
+      strict_route = true;
       stack = "mixed";
       endpoint_independent_nat = true;
     }
@@ -107,14 +100,14 @@
         type = "remote";
         format = "binary";
         url = "https://github.com/1andrevich/Re-filter-lists/releases/latest/download/ruleset-domain-refilter_domains.srs";
-        download_detour = "direct";
+        download_detour = "auto-selector";
       }
       {
         tag = "refilter-ipsum";
         type = "remote";
         format = "binary";
         url = "https://github.com/1andrevich/Re-filter-lists/releases/latest/download/ruleset-ip-refilter_ipsum.srs";
-        download_detour = "direct";
+        download_detour = "auto-selector";
       }
     ];
   };
