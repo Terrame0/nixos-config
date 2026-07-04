@@ -1,4 +1,14 @@
-{config, ...}: {
+{...}: let
+  palette = {
+    light-gray = "#969896";
+    white = "#c5c8c6";
+    red = "#d54e53";
+    orange = "#e78c45";
+    aqua = "#70c0b1";
+    blue = "#7aa6da";
+    purple = "#c397d8";
+  };
+in {
   textMateRules = [
     # -- light-gray
     {
@@ -10,7 +20,7 @@
         "keyword.operator" # operators
         "comment" # comments
       ];
-      settings.foreground = config.style.palette.light-gray;
+      settings.foreground = palette.light-gray;
     }
 
     # -- white
@@ -30,7 +40,7 @@
         "source.css" # css fallback
         "source.css.scss" # scss fallback
       ];
-      settings.foreground = config.style.palette.white;
+      settings.foreground = palette.white;
     }
 
     # -- purple
@@ -48,7 +58,7 @@
         "constant.language" # true/false/null
         "support.constant.property-value.css" # css constants
       ];
-      settings.foreground = config.style.palette.purple;
+      settings.foreground = palette.purple;
     }
 
     # -- blue
@@ -60,7 +70,7 @@
         "support.type" # built-in types
         "storage.modifier" # modifiers (const, static)
       ];
-      settings.foreground = config.style.palette.blue;
+      settings.foreground = palette.blue;
     }
 
     # -- orange
@@ -76,7 +86,7 @@
         "string.template" # template strings
         "string.interpolated" # interpolated strings
       ];
-      settings.foreground = config.style.palette.orange;
+      settings.foreground = palette.orange;
     }
 
     # -- aqua
@@ -87,7 +97,7 @@
         "entity.other.attribute-name.pseudo-class.css" # :hover
         "entity.other.attribute-name.class.css" # .class
       ];
-      settings.foreground = config.style.palette.aqua;
+      settings.foreground = palette.aqua;
     }
 
     # -- red
@@ -102,7 +112,7 @@
         "entity.name.tag.css" # css tags
         "source.css.scss" # scss root
       ];
-      settings.foreground = config.style.palette.red;
+      settings.foreground = palette.red;
     }
   ];
 }

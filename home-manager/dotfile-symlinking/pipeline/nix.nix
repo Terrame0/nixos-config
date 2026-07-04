@@ -1,7 +1,7 @@
 {
   sundry,
   lib,
-  config,
+  pkgs,
   ...
 }: {
   nix-imports = {
@@ -13,7 +13,7 @@
           file
           // {
             expr = import file.origin {
-              inherit config lib;
+              inherit lib pkgs;
               file-dir = dirOf file.origin;
             };
           }))

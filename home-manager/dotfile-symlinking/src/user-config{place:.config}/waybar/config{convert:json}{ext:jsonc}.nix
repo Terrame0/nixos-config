@@ -1,10 +1,29 @@
 {
-  config,
   lib,
+  pkgs,
   ...
 }: let
-  palette = config.style.palette;
-  color-span = color: config.make-span {inherit color;};
+  run-command = command: builtins.readFile (pkgs.runCommand "run-command" {} "${command} > $out");
+  palette = {
+    black = "#1d1f21";
+    dark-gray = "#282a2e";
+    dim-gray = "#373b41";
+    gray = "#4d5057";
+    light-gray = "#969896";
+    white = "#c5c8c6";
+    red = "#d54e53";
+    orange = "#e78c45";
+    yellow = "#e7c547";
+    green = "#b9ca4a";
+    aqua = "#70c0b1";
+    blue = "#7aa6da";
+    purple = "#c397d8";
+  };
+  make-span = parameters: string: let
+    parameter-list = lib.mapAttrsToList (name: value: "${name}='${value}'") parameters;
+    parameter-string = lib.concatStrings parameter-list;
+  in "<span ${parameter-string}>${string}</span>";
+  color-span = color: make-span {inherit color;};
   chr = let
     span = color-span palette.light-gray;
   in {
@@ -95,9 +114,9 @@ in
     reload_style_on_change = true;
 
     margin-bottom = 0;
-    margin-top = config.style.constants.offset;
-    margin-left = config.style.constants.offset;
-    margin-right = config.style.constants.offset;
+    margin-top = 6;
+    margin-left = 6;
+    margin-right = 6;
     height = 44;
 
     # --- MODULES LEFT ---
@@ -195,14 +214,14 @@ in
       };
       format = let
         bars =
-          config.make-span {
+          make-span {
             size = "9pt";
             rise = "2.25pt";
           }
           (
             lib.concatStrings (
               lib.forEach (
-                builtins.genList (i: i) (builtins.fromJSON (config.run-command "nproc"))
+                builtins.genList (i: i) (builtins.fromJSON (run-command "nproc"))
               )
               (
                 id: "{icon${toString id}}"

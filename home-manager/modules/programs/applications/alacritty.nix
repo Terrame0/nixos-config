@@ -1,4 +1,23 @@
-{config, ...}: {
+{...}: let
+  palette = {
+    black = "#1d1f21";
+    dark-gray = "#282a2e";
+    dim-gray = "#373b41";
+    gray = "#4d5057";
+    light-gray = "#969896";
+    white = "#c5c8c6";
+    red = "#d54e53";
+    orange = "#e78c45";
+    yellow = "#e7c547";
+    green = "#b9ca4a";
+    aqua = "#70c0b1";
+    blue = "#7aa6da";
+    purple = "#c397d8";
+  };
+  font = {
+    mono = "JetBrainsMono NF";
+  };
+in {
   programs.alacritty = {
     enable = true;
     settings = {
@@ -6,56 +25,56 @@
         transparent_background_colors = false;
 
         primary = {
-          foreground = config.style.palette.white;
-          background = config.style.palette.black;
+          foreground = palette.white;
+          background = palette.black;
         };
 
         search = {
           matches = {
-            foreground = config.style.palette.black;
-            background = config.style.palette.yellow;
+            foreground = palette.black;
+            background = palette.yellow;
           };
           focused_match = {
-            foreground = config.style.palette.black;
-            background = config.style.palette.green;
+            foreground = palette.black;
+            background = palette.green;
           };
         };
 
         line_indicator = {
           foreground = "None";
-          background = config.style.palette.dim-gray;
+          background = palette.dim-gray;
         };
 
         footer_bar = {
-          foreground = config.style.palette.blue;
-          background = config.style.palette.dim-gray;
+          foreground = palette.blue;
+          background = palette.dim-gray;
         };
 
         selection = {
           text = "CellForeground";
-          background = config.style.palette.dim-gray;
+          background = palette.dim-gray;
         };
 
         normal = {
-          black = config.style.palette.light-gray;
-          red = config.style.palette.red;
-          green = config.style.palette.green;
-          yellow = config.style.palette.yellow;
-          blue = config.style.palette.blue;
-          magenta = config.style.palette.purple;
-          cyan = config.style.palette.aqua;
-          white = config.style.palette.white;
+          black = palette.light-gray;
+          red = palette.red;
+          green = palette.green;
+          yellow = palette.yellow;
+          blue = palette.blue;
+          magenta = palette.purple;
+          cyan = palette.aqua;
+          white = palette.white;
         };
 
         bright = {
-          black = config.style.palette.light-gray;
-          red = config.style.palette.red;
-          green = config.style.palette.green;
-          yellow = config.style.palette.yellow;
-          blue = config.style.palette.blue;
-          magenta = config.style.palette.purple;
-          cyan = config.style.palette.aqua;
-          white = config.style.palette.white;
+          black = palette.light-gray;
+          red = palette.red;
+          green = palette.green;
+          yellow = palette.yellow;
+          blue = palette.blue;
+          magenta = palette.purple;
+          cyan = palette.aqua;
+          white = palette.white;
         };
       };
 
@@ -96,15 +115,15 @@
 
       font = {
         normal = {
-          family = config.style.font.mono;
+          family = font.mono;
           style = "Regular";
         };
         bold = {
-          family = config.style.font.mono;
+          family = font.mono;
           style = "Bold";
         };
         italic = {
-          family = config.style.font.mono;
+          family = font.mono;
           style = "Italic";
         };
         size = 14.0;

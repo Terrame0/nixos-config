@@ -37,3 +37,43 @@ config.string.substitute-expressions из lib/utils/string/substitute-expression
    colon "#[str|config.make-span {color=light-gray;} ":"]"   -> "<span color='#969896'>:</span>"
    sep   "#[str|config.make-span {color=purple;}    " == "]" -> "<span color='#c397d8'> == </span>"
    point "#[str|config.make-span {color=light-gray;} "·"]"   -> "<span color='#969896'>·</span>"
+
+
+================================================================
+ЧАСТЬ 2: убрана зависимость от `config` в nix-файлах src
+================================================================
+
+Цель: полностью удалить локальную библиотеку lib/ — nix-файлы больше
+не должны обращаться к config.style.* / config.make-span / config.run-command.
+Значения захардкожены как локальные let-биндинги в каждом файле.
+Pipeline (pipeline/nix.nix) теперь пробрасывает в import только {lib, pkgs, file-dir}
+(раньше был config).
+
+Когда вернёшь генерацию config/style обратно — замени эти let-блоки на config.*.
+
+5) vscode.../settings{convert:json}.nix
+   config (аргумент) убран. Добавлен let palette = {13 цветов из palette.nix};
+   все config.style.palette.X -> palette.X.
+   appearance.nix теперь импортируется без inherit config.
+
+6) vscode.../settings-parts{x}/theme/textmate.nix
+   config (аргумент) убран. Добавлен let palette = {7 использованных цветов};
+   все config.style.palette.X -> palette.X.
+
+7) vscode.../settings-parts{x}/theme/appearance.nix
+   config (аргумент) убран.
+   "editor.fontFamily" = config.style.font.propo -> "JetBrainsMono NFP"
+     (источник: lib/style/font.nix, font.propo)
+   textmate.nix импортируется как {} (раньше {inherit config;}).
+
+8) .config/waybar/config{convert:json}{ext:jsonc}.nix
+   config (аргумент) убран, добавлен pkgs.
+   - palette = config.style.palette -> let palette = {13 цветов}
+   - config.make-span -> локальная функция make-span (из make-span.nix)
+   - margin-top/left/right = config.style.constants.offset -> 6
+   - config.run-command "nproc" -> локальная run-command через IFD:
+       run-command = command:
+         builtins.readFile (pkgs.runCommand "run-command" {} "${command} > $out");
+     (воспроизводит config.run-command из lib/utils/general/run-command.nix)
+     ВНИМАНИЕ: nproc вычисляется на этапе eval на машине сборки, число ядер
+     может отличаться между хостами desktop/laptop.

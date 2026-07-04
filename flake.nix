@@ -68,14 +68,6 @@
           inherit host;
           inherit config-root;
           inherit sundry;
-          extend-config = namespace: value: let
-            path = lib.splitString "." namespace;
-          in {
-            options = lib.setAttrByPath path (lib.mkOption {
-              type = lib.types.anything;
-            });
-            config = lib.setAttrByPath path value;
-          };
         };
         filter-modules = dir:
           lib.pipe dir [
@@ -86,9 +78,8 @@
             (sundry.vfs.dir.filter (path: file: sundry.vfs.path.get.ext path == "nix"))
             (sundry.vfs.dir.collapse (path: file: file.origin))
           ];
-        lib-modules = filter-modules ./lib;
-        system-modules = filter-modules ./system/modules ++ lib-modules;
-        home-manager-modules = filter-modules ./home-manager/modules ++ lib-modules;
+        system-modules = filter-modules ./system/modules;
+        home-manager-modules = filter-modules ./home-manager/modules;
         home-manager-config.home-manager = {
           extraSpecialArgs = module-args;
           useGlobalPkgs = true;
