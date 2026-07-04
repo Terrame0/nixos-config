@@ -1,6 +1,4 @@
 {...}: {
-  # The auto-selector's `outbounds` list is a placeholder: the subscription
-  # updater fills it with the node tags pulled from the subscription.
   outbounds = [
     {
       type = "urltest";

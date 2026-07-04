@@ -18,11 +18,6 @@
       }
     ];
     rules = [
-      # The urltest probe host must resolve to a real address, otherwise it
-      # gets a fakeip and the connect loops back into the router before
-      # auto-selector has picked a node (deadlock). Node server domains are
-      # already resolved by the outbound dialer via default_domain_resolver,
-      # so they don't need listing here.
       {
         domain = ["www.gstatic.com"];
         server = "local-dns";
