@@ -1,6 +1,13 @@
 {...}: {
   outbounds = [
     {
+      type = "selector";
+      tag = "proxy";
+      # -- ahead of the urltest so it can be pinned to a node via clash-api when metadata lies
+      outbounds = ["auto-selector"];
+      default = "auto-selector";
+    }
+    {
       type = "urltest";
       tag = "auto-selector";
       outbounds = []; # -- placeholder

@@ -18,11 +18,11 @@
       }
       {
         domain_suffix = import "${paths.parts-dir}/proxied-domains.nix";
-        outbound = "auto-selector";
+        outbound = "proxy";
       }
       {
         rule_set = ["refilter-domains" "refilter-ipsum"];
-        outbound = "auto-selector";
+        outbound = "proxy";
       }
     ];
     final = "direct";

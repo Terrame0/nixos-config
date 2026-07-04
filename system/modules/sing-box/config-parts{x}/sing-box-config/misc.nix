@@ -9,4 +9,6 @@
     path = "${paths.state-dir}/cache.db";
     store_fakeip = true;
   };
+
+  experimental.clash_api.external_controller = "127.0.0.1:9090";
 }

@@ -27,7 +27,10 @@ pkgs.writeShellApplication {
             then error("0 nodes matched filter")
             else . end
           | ($nodes | map(.tag)) as $tags
-          | .outbounds = (.outbounds | map(if .tag == "auto-selector" then .outbounds = $tags else . end)) + $nodes
+          | .outbounds = (.outbounds | map(
+              if   .tag == "auto-selector" then .outbounds = $tags
+              elif .tag == "proxy"         then .outbounds += $tags
+              else . end)) + $nodes
         ' ${skeleton} > "$TMP";
       then
         if sing-box check -c "$TMP"; then

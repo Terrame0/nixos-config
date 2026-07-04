@@ -23,7 +23,7 @@ Paths:
 [config-parts{x}/subscription-updater.nix](../system/modules/sing-box/config-parts%7Bx%7D/subscription-updater.nix) builds a shell script that:
 
 1. Fetches the subscription URL (from sops secret `vpn/sub-url`) with custom headers including `x-hwid` (from sops secret `vpn/hwid`).
-2. Filters outbounds with `jq`: keeps only VLESS + XTLS-Vision nodes; injects them into the skeleton config's `auto-selector` outbound.
+2. Filters outbounds with `jq`: keeps only VLESS + XTLS-Vision nodes; injects the node tags into both the `auto-selector` (urltest) and `proxy` (manual selector) outbounds, and appends the node definitions themselves.
 3. Validates the merged config with `sing-box check`.
 4. On success: saves to `/var/lib/sing-box/config.json`, copies to runtime path.
 5. On any failure (network, filter, validation): falls back to the last valid stored config. If no stored config exists, exits 1 (service fails).
@@ -37,10 +37,23 @@ The skeleton is assembled from parts in [config-parts{x}/sing-box-config/](../sy
 | `default.nix` | Merges all parts into a single JSON derivation |
 | `dns.nix` | DNS settings |
 | `inbounds.nix` | Inbound listeners |
-| `outbounds.nix` | Outbound definitions (including `auto-selector` placeholder) |
+| `outbounds.nix` | Outbound definitions: `proxy` (manual selector, what route/dns point at), `auto-selector` (urltest placeholder), `direct` |
 | `route.nix` | Routing rules |
 | `misc.nix` | Misc top-level fields |
 | `proxied-domains.nix` | Domain list used in routing rules |
+
+## Outbound selection
+
+Two outbounds sit in front of the nodes, both filled with the node tags at runtime by the updater:
+
+| Outbound | Type | Role |
+|---|---|---|
+| `proxy` | `selector` | What `route.nix` rules and the `remote-dns` detour point at. `default = auto-selector`, so out of the box it delegates to the urltest. |
+| `auto-selector` | `urltest` | Latency-based automatic pick across all nodes. |
+
+`proxy` also lists every node tag directly, so it can be **pinned to a specific node**, bypassing the urltest — useful when a node's metadata lies (e.g. a "Netherlands" node whose exit is actually in RU domain space, which the latency heuristic can't detect).
+
+Pinning is done over the Clash control API, enabled in [config-parts{x}/sing-box-config/misc.nix](../system/modules/sing-box/config-parts%7Bx%7D/sing-box-config/misc.nix) as `experimental.clash_api.external_controller = "127.0.0.1:9090"`. It is localhost-only with no secret; point a Clash-compatible UI or `curl` at it to switch the `proxy` selector.
 
 ## Secrets
 

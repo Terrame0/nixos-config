@@ -117,6 +117,18 @@ A `CLAUDE.md` that lists a doc that no longer exists is worse than no `CLAUDE.md
 
 ---
 
+# Writing code
+
+Conventions for the code Claude writes, as opposed to the docs about it.
+
+## Don't comment code inline
+
+Don't add inline comments explaining what code does. Well-named identifiers and clear structure carry that load; a comment that restates the code is noise that drifts out of sync. If a line needs a comment to be understood, prefer renaming or restructuring it instead.
+
+Reserve comments for the rare case where the *why* is genuinely non-obvious and cannot be expressed in the code — a workaround for an external bug, a deliberate deviation from the obvious approach. Keep those short and place them at the point they explain. Never narrate the *what*.
+
+---
+
 # Writing docs
 
 Meta-rules for files under `.agent-docs/`.

@@ -7,7 +7,7 @@
       dns = "none";
     };
     firewall = {
-      allowedTCPPorts = [5432];
+      # allowedTCPPorts = [5432];
       trustedInterfaces = ["tun0"];
     };
   };
