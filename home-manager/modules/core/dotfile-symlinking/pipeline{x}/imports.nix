@@ -5,8 +5,8 @@
   ...
 }: {
   imports = {
-    transform = _:
-      lib.pipe "${config-root}/home-manager/dotfile-symlinking/src" [
+    transform = _: let
+      dedicated-files = lib.pipe "${config-root}/home-manager/dotfile-symlinking/src" [
         sundry.vfs.dir.from-src
         sundry.vfs.dir.resolve-tags
         (sundry.vfs.dir.reform-within-tag
@@ -14,10 +14,7 @@
           (path: file: {
             path =
               sundry.vfs.file.fold-tags (path-acc: tags: pos: let
-                path-fragment =
-                  if tags ? "~"
-                  then lib.splitString "|" tags."~"
-                  else [];
+                path-fragment = sundry.str.to-segments "|" (tags."~" or "");
               in
                 if path-fragment == []
                 then path-acc
@@ -27,6 +24,24 @@
             value = file;
           }))
       ];
+      inline-files = lib.pipe "${config-root}/home-manager/modules" [
+        sundry.vfs.dir.from-src
+        sundry.vfs.dir.resolve-tags
+        (sundry.vfs.dir.select-by-tag (_: with _; tag {"~" = [];}))
+        (sundry.vfs.dir.reform
+          (path: file: {
+            path =
+              sundry.vfs.file.fold-tags
+              (path-acc: tags: pos:
+                (sundry.str.to-segments "|" (tags."~" or ""))
+                ++ (lib.drop (pos + 1) path-acc))
+              path
+              file;
+            value = file;
+          }))
+      ];
+    in
+      sundry.attrs.merge.recursive.no-collision [dedicated-files inline-files];
   };
 
   processed-imports = {
