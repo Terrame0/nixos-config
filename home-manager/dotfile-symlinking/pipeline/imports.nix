@@ -18,12 +18,10 @@
                   if tags ? "~"
                   then lib.splitString "|" tags."~"
                   else [];
-                path-cut =
-                  if path-fragment == []
-                  then path-acc
-                  else sundry.list.remove-at pos path-acc;
               in
-                sundry.list.insert-at pos path-fragment path-cut)
+                if path-fragment == []
+                then path-acc
+                else path-fragment ++ lib.drop (pos + 1) path-acc)
               path
               file;
             value = file;
