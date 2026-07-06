@@ -6,7 +6,7 @@
 }: {
   imports = {
     transform = _:
-      lib.pipe "${config-root}/home-manager/modules" [
+      lib.pipe config-root [
         sundry.vfs.dir.from-src
         sundry.vfs.dir.resolve-tags
         (sundry.vfs.dir.select-by-tag (_: with _; tag {dotfiles = [];}))

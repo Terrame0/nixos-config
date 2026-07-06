@@ -69,21 +69,25 @@
           inherit config-root;
           inherit sundry;
         };
-        filter-modules = dir:
-          lib.pipe dir [
-            sundry.vfs.dir.from-src
-            sundry.vfs.dir.resolve-tags
-            (sundry.vfs.dir.select-by-tag
-              (_:
-                with _;
-                  !tag {x = [];}
-                  && !tag {dotfiles = [];}
-                  && (tag {hosts = host.name;} || !tag {hosts = [];})))
-            (sundry.vfs.dir.filter (path: file: sundry.vfs.path.get.ext path == "nix"))
+        modules = lib.pipe config-root [
+          sundry.vfs.dir.from-src
+          (sundry.vfs.dir.filter
+            (path: file: sundry.vfs.path.get.ext path == "nix"))
+          sundry.vfs.dir.resolve-tags
+          (sundry.vfs.dir.select-by-tag
+            (_:
+              with _;
+                (tag {modules = [];})
+                && !(tag {x = [];} || tag {parts = [];} || tag {dotfiles = [];})
+                && (tag {hosts = host.name;} || !tag {hosts = [];})))
+        ];
+        filter-modules = tag-value:
+          lib.pipe modules [
+            (sundry.vfs.dir.select-by-tag (_: with _; tag {modules = tag-value;}))
             (sundry.vfs.dir.collapse (path: file: file.origin))
           ];
-        system-modules = filter-modules ./system/modules;
-        home-manager-modules = filter-modules ./home-manager/modules;
+        system-modules = filter-modules "system";
+        home-manager-modules = filter-modules "user";
         home-manager-config.home-manager = {
           extraSpecialArgs = module-args;
           useGlobalPkgs = true;
@@ -91,19 +95,18 @@
           backupFileExtension = "hm-backup";
           users.${username}.imports = home-manager-modules;
         };
-        modules =
-          system-modules
-          ++ [
-            hyprland.nixosModules.default
-            home-manager.nixosModules.home-manager
-            sops-nix.nixosModules.sops
-            home-manager-config
-          ];
       in {
         ${host.name} = nixpkgs.lib.nixosSystem {
           specialArgs = module-args;
           inherit (host) system;
-          inherit modules;
+          modules =
+            system-modules
+            ++ [
+              hyprland.nixosModules.default
+              home-manager.nixosModules.home-manager
+              sops-nix.nixosModules.sops
+              home-manager-config
+            ];
         };
       })
       hosts
