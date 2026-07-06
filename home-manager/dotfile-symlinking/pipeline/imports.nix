@@ -10,13 +10,13 @@
         sundry.vfs.dir.from-src
         sundry.vfs.dir.resolve-tags
         (sundry.vfs.dir.reform-within-tag
-          (_: with _; tag {place = [];})
+          (_: with _; tag {"~" = [];})
           (path: file: {
             path =
               sundry.vfs.file.fold-tags (path-acc: tags: pos: let
                 path-fragment =
-                  if tags ? place
-                  then lib.splitString "|" tags.place
+                  if tags ? "~"
+                  then lib.splitString "|" tags."~"
                   else [];
                 path-cut =
                   if path-fragment == []

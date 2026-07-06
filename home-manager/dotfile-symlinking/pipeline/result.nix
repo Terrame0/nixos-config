@@ -22,6 +22,7 @@
               then {text = file.text;}
               else {source = file.origin;}
             )
+            # -- otherwise the scripts won't be executable
             // lib.optionalAttrs (sundry.vfs.path.get.ext path == "sh") {
               executable = true;
             };
