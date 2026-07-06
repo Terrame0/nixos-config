@@ -4,11 +4,6 @@
   config,
   ...
 }: {
-  # -- zsh prompt theme
-  programs.starship = {
-    enable = true;
-  };
-
   programs.zsh = {
     enable = true;
     dotDir = "${config.xdg.configHome}/zsh";
@@ -35,9 +30,6 @@
     # -- configuration
     initContent = ''
       ${lib.getExe pkgs.any-nix-shell} zsh | source /dev/stdin
-
-      # -- use starship prompt theme
-      eval "$(starship init zsh)"
 
       # -- emacs-like key bindings
       bindkey -e
