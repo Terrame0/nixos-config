@@ -41,6 +41,8 @@
   "nix.dev"
 
   # -- misc
+  "kupibilet.ru"
+  "aviasales.ru"
   "chordify.net"
   "mpv.io"
   "desmos.com"

@@ -1,12 +1,11 @@
 {
   lib,
   sundry,
-  config-root,
   username,
   pkgs,
   ...
 }: let
-  secrets-src = "${config-root}/system/secrets";
+  secrets-src = ./secrets;
   age-key-src = "/etc/sops/age/master.txt";
 in {
   environment.systemPackages = with pkgs; [
