@@ -83,7 +83,7 @@
         ];
         filter-modules = tag-value:
           lib.pipe modules [
-            (sundry.vfs.dir.select-by-tag (_: with _; tag {modules = tag-value;}))
+            (sundry.vfs.dir.select-by-tag (_: with _; deepest-tag {modules = tag-value;}))
             (sundry.vfs.dir.collapse (path: file: file.origin))
           ];
         home-manager-config.home-manager = {

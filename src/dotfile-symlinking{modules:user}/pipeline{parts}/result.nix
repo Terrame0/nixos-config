@@ -11,7 +11,7 @@
         sundry.attrs.merge.recursive.no-collision
         (sundry.vfs.dir.collapse (path: file: let
           target-path =
-            sundry.vfs.file.fold-tags (path-acc: tags: pos: let
+            sundry.vfs.tag.foldl (path-acc: tags: pos: let
               target-path-fragment = sundry.str.to-segments "|" (tags.dotfiles or "");
             in
               sundry.cond-pipe path-acc [
@@ -19,7 +19,7 @@
                 [(tags ? ext) (path: sundry.vfs.path.set.ext tags.ext path)]
               ])
             path
-            file;
+            file.tag-list;
         in {
           ${sundry.vfs.path.get.str target-path} =
             (

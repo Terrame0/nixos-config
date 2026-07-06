@@ -77,3 +77,11 @@ Setting `experimental.cache_file.store_selected = true` makes `sing-box check` f
 **Why:** it's a schema-version mismatch, not a runtime condition.
 
 **Avoid:** don't add it to persist the manual selector choice — it doesn't exist here. Worse, if the updater's fallback swallows the `check` output, this bug is invisible: the service silently runs the last stored config forever while the new one is rejected on every restart. The updater now prints the `check` output on failure and validates the skeleton up front precisely so this class of bug fails loud (see [sing-box.md](sing-box.md)).
+
+## A path literal whose name carries a `{…}` tag breaks the store path it forces
+
+Interpolating a path **literal** into a string (`"${./dir}/x"`, `import "${./. + "/config{parts}"}"`, or `origin = <path-literal>` later stringified) makes Nix copy that path into the store as its **own** object, named after the last segment. If that segment holds a `{…}` tag — as tag-named module dirs now do (`config{parts}`, `password-hashes{for-users}.yaml`) — the copy fails: `name '…{…}' … contains illegal character '{'`.
+
+**Why:** stringifying a path literal forces a fresh store object; store-object *names* forbid `{`. A `{` living **inside** an already-valid store path (`config-root`, the copied git tree) is fine — it's only a new object's *name* that's rejected.
+
+**Avoid:** never build these paths from a path literal (`./.`, `./secrets`). Reference them as **strings under `config-root`** — `"${config-root}/src/…/config{parts}"` is plain concatenation inside the already-copied repo, no new copy. Same trap in sundry's `vfs.dir.from-src`: pass it a **string** dir (`"${config-root}/…"`), not a path literal, or `listFilesRecursive` yields path literals whose `origin` re-copies each file under its tag name. **TODO:** a `sundry.path.rel config-root [segments…]` helper to build these `config-root`-relative strings without hand-writing the absolute prefix (which drifts when the tree is renamed) — pending the `{modules:…}` discovery migration ([structure.md](structure.md)).
