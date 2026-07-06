@@ -68,7 +68,7 @@ Swapping one for the other is not refactor-neutral. `reform-within-tag pred f` t
 
 **Why:** they answer different questions — "transform these, keep the rest" vs "keep only these".
 
-**Avoid:** the dedicated dotfile tree is read with a plain scan (no `select`) precisely because it holds non-dotfile infrastructure — `{include:sass}` dirs that carry no `{dotfiles}`/home path but are needed for Sass `--load-path`. Filtering the tree by `{dotfiles}` would silently drop them and Sass `@use "includes/…"` would fail to resolve. Only the inline (`modules/`) tree is `{dotfiles}`-filtered, because there dotfiles must be told apart from real modules.
+**Avoid:** `imports` filters the module tree by `{dotfiles}` so dotfiles are told apart from real modules — but the filter matches at the **subtree root** (`{dotfiles:…}` dir) and keeps that whole subtree, including untagged children. That's what lets `{include:sass}` dirs survive: they carry no `{dotfiles}`/home tag of their own but sit *inside* a `{dotfiles}` subtree, so they're kept and Sass `@use "includes/…"` still resolves. Reaching for a per-node `{dotfiles}` filter (instead of subtree selection) would drop those include dirs and break the Sass `--load-path`.
 
 ## sing-box 1.13.x has no `cache_file.store_selected`
 

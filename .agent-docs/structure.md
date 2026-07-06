@@ -15,17 +15,14 @@ nixos-config/
 │   ├── programs/services/     — blueman, dbus, keyd, keyring, ssh-daemon, virtual-filesystems
 │   └── sing-box/              — VPN proxy service (see sing-box.md)
 └── home-manager/
-    ├── modules/               — Home Manager modules (imported per-host same as system)
-    │   ├── core/              — state-version, dotfile-symlinking hook
-    │   ├── desktop-environment/ — packages, autostart, xdg, gtk-theme, default-apps
-    │   └── programs/
-    │       ├── applications/  — alacritty, direnv, firefox, git, mpv, ssh, thunar, vs-code, yt-dlp, zsh
-    │       ├── packages/      — cli-utilities, desktop-utilities
-    │       └── services/      — cliphist, hyprpaper, polkit
-    └── dotfile-symlinking/    — dotfile pipeline (see dotfile-symlinking.md)
-        ├── pipeline/          — pipeline stages: imports, nix, sass, result
-        └── src/               — dotfile sources with tag annotations in directory/file names
+    └── modules/               — Home Manager modules (imported per-host same as system)
+        ├── core/              — state-version, dotfile-symlinking pipeline (see dotfile-symlinking.md)
+        ├── applications/      — application software: alacritty, firefox, thunar, yt-dlp, claude, mpv, vscode, packages
+        ├── desktop-environment/ — shell/compositor: hyprland, gtk-theme, waybar, wofi, autostart, xdg, default-apps, packages
+        └── shell/             — terminal environment: zsh, starship, git, ssh, direnv, packages
 ```
+
+Dotfiles live inline next to the module they belong to, tagged `{dotfiles:PATH}` — a feature's module and its dotfiles share one folder. See [dotfile-symlinking.md](dotfile-symlinking.md).
 
 ## Multi-host setup
 

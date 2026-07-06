@@ -1,6 +1,6 @@
 # Dotfile symlinking pipeline
 
-Dotfiles are produced by a custom pipeline under [home-manager/modules/core/dotfile-symlinking/](../home-manager/modules/core/dotfile-symlinking/). It turns tagged source files into `home.file` entries that Home Manager symlinks into place. Sources come from two trees — a dedicated dotfile store and dotfiles tagged inline in the module tree.
+Dotfiles are produced by a custom pipeline under [home-manager/modules/core/dotfile-symlinking/](../home-manager/modules/core/dotfile-symlinking/). It turns tagged source files into `home.file` entries that Home Manager symlinks into place. Sources are dotfiles tagged inline in the module tree — a dotfile lives in the same folder as the module it belongs to.
 
 ## How it works
 
@@ -12,24 +12,17 @@ Dotfiles are produced by a custom pipeline under [home-manager/modules/core/dotf
 
 The pipeline directory is tagged `{x}` so its own files are never mistaken for dotfile sources or NixOS/HM modules.
 
-## Two source trees
+## Source: the inline module tree
 
-`imports` reads from two roots and merges them ([imports.nix](../home-manager/modules/core/dotfile-symlinking/pipeline%7Bx%7D/imports.nix)):
+`imports` reads one root ([imports.nix](../home-manager/modules/core/dotfile-symlinking/pipeline%7Bx%7D/imports.nix)):
 
-| Source | Root | Selection | Destination path comes from |
-|---|---|---|---|
-| **dedicated** | `home-manager/dotfile-symlinking/src/` | *everything* (no tag filter) | the file's path **is** its `~`-relative path |
-| **inline** | `home-manager/modules/` | only subtrees tagged `{dotfiles:…}` | the `{dotfiles:PATH}` tag value |
+| Root | Selection | Destination path comes from |
+|---|---|---|
+| `home-manager/modules/` | only subtrees tagged `{dotfiles:…}` | the `{dotfiles:PATH}` tag value |
 
-The dedicated tree is a pure dotfile store: every file in it is a dotfile, so no marker tag is needed — a file at `src/.config/waybar/style.scss` maps to `~/.config/waybar/style.css`. The inline tree is the *module* tree, which also holds real NixOS/HM modules, so a dotfile there **must** carry `{dotfiles:PATH}` both to opt in and to state where it lands. This lets a feature keep its module and its dotfiles side by side (e.g. `waybar/package.nix` next to `waybar/config{dotfiles:.config|waybar}/`).
+The module tree also holds real NixOS/HM modules, so a dotfile there **must** carry `{dotfiles:PATH}` both to opt in and to state where it lands. This lets a feature keep its module and its dotfiles side by side (e.g. `waybar/package.nix` next to `waybar/config{dotfiles:.config|waybar}/`).
 
 The `{dotfiles}` selection is the mirror of `filter-modules` in [flake.nix](../flake.nix): module discovery *excludes* `{dotfiles}` subtrees, dotfile discovery *includes* only them — the two never claim the same file.
-
-### Direction: the dedicated tree is being retired
-
-The dedicated `src/` tree is transitional. The end state is **tag-centric**: every file — module or dotfile — is discovered by tag, so a feature's module and its dotfiles sit in one folder under `home-manager/modules/…/`. As files migrate inline (tagged `{dotfiles:PATH}`), `src/` shrinks and will eventually be deleted, leaving `imports` with only the inline scan. Don't add new files to `src/`; put them inline next to their module.
-
-**Cleanup that unblocks once `src/` is gone:** `to-target-path` in [result.nix](../home-manager/modules/core/dotfile-symlinking/pipeline%7Bx%7D/result.nix) reads `tags.dotfiles or ""`. The `or ""` exists only for the dedicated tree, whose files carry no `{dotfiles}` tag at all — without it, the attribute access throws on every dedicated file. Once every dotfile is inline (and therefore always has a `{dotfiles}` tag), the `or ""` becomes dead and can drop to a plain `tags.dotfiles`.
 
 ## Tag model: nouns classify, verbs process
 
@@ -44,7 +37,7 @@ The tag vocabulary splits along one axis:
 
 | Stage | File | What it does |
 |---|---|---|
-| `imports` | [imports.nix](../home-manager/modules/core/dotfile-symlinking/pipeline%7Bx%7D/imports.nix) | Reads both source trees, resolves tags, merges. **Paths stay as-is** — no home-relative rewrite here. |
+| `imports` | [imports.nix](../home-manager/modules/core/dotfile-symlinking/pipeline%7Bx%7D/imports.nix) | Scans the module tree, resolves tags, selects `{dotfiles}` subtrees. **Paths stay as-is** — no home-relative rewrite here. |
 | `processed-imports` | same file | Drops `{include}`, `{build}`, `{convert}`, `{x}` files — the raw-copy set. |
 | `nix-imports` | [nix.nix](../home-manager/modules/core/dotfile-symlinking/pipeline%7Bx%7D/nix.nix) | Imports every `.nix`, evaluating it with `{ lib, pkgs, file-dir }` into `.expr`. |
 | `nix` | same file | Serialises `{convert:json}` / `{convert:ini}` files' `.expr` to text via `lib.generators`. |
@@ -65,7 +58,7 @@ Tags are embedded in path segments as `{key}` or `{key:value}`; multiple values 
 
 | Tag | Where | Meaning |
 |---|---|---|
-| `{dotfiles:seg\|nested}` | directory | **Inline tree only.** Marks the subtree as a dotfile source and sets its `~`-relative destination. `\|` splits sub-segments. A dedicated-tree file needs no such tag — its own path is the destination. |
+| `{dotfiles:seg\|nested}` | directory | Marks the subtree as a dotfile source and sets its `~`-relative destination. `\|` splits sub-segments. |
 | `{convert:json}` / `{convert:ini}` | file | `.nix` evaluates to an attrset; pipeline serialises it to JSON / INI text. |
 | `{ext:ext}` | file | Overrides the output extension. Bare `{ext}` strips the extension entirely. |
 | `{build:sass}` | file | This `.scss` is a Sass entry point — compile to `.css`. |
@@ -73,18 +66,21 @@ Tags are embedded in path segments as `{key}` or `{key:value}`; multiple values 
 | `{x}` | file or dir | Excluded from output; source-only helpers (e.g. `settings-parts{x}/`, the `pipeline{x}/` dir itself). |
 | `{hosts:name}` | file or dir | Only built for the named host. |
 
-## Example: VS Code settings (dedicated tree)
+## Example: VS Code settings
 
 ```
-src/.config/Code/User/
-  settings{convert:json}.nix          → ~/.config/Code/User/settings.json
-  keybindings{convert:json}.nix       → ~/.config/Code/User/keybindings.json
-  settings-parts{x}/                  → excluded; imported by settings.nix via file-dir
+modules/applications/vscode/
+  program.nix                                       → HM module (installs vscode)
+  extensions.nix                                    → HM module
+  config{dotfiles:.config|Code|User}/
+    settings{convert:json}.nix                      → ~/.config/Code/User/settings.json
+    keybindings{convert:json}.nix                   → ~/.config/Code/User/keybindings.json
+    settings-parts{x}/                              → excluded; imported by settings.nix via file-dir
 ```
 
-The directory path (`.config/Code/User`) already *is* the home path — no `{dotfiles}` tag. `settings.nix` imports the `{x}`-tagged parts manually with `file-dir`; `{x}` keeps them out of the output.
+`{dotfiles:.config|Code|User}` pins the destination. `settings.nix` imports the `{x}`-tagged parts manually with `file-dir`; `{x}` keeps them out of the output.
 
-## Example: waybar (inline tree)
+## Example: waybar
 
 ```
 modules/desktop-environment/applications/waybar/
@@ -99,8 +95,7 @@ The module and its dotfiles live together. `{dotfiles:.config|waybar}` opts the 
 
 ## Adding a new dotfile
 
-1. **Dedicated tree:** drop the file under `src/` at its literal `~`-relative path (e.g. `src/.config/foo/bar.conf`). No destination tag needed.
-2. **Inline tree (next to a module):** put it under `home-manager/modules/…/` and tag the containing directory `{dotfiles:PATH}` with the `|`-separated home path.
-3. If it's a Nix expression to serialise, add `{convert:json}` or `{convert:ini}` to the filename.
-4. If it's a `.scss` entry point, tag it `{build:sass}`; tag include-only dirs `{include:sass}`.
-5. `git add` the new file (a flake only sees git-tracked files) and `nixos-rebuild switch`.
+1. Put it under `home-manager/modules/…/`, next to the module it belongs to, and tag the containing directory `{dotfiles:PATH}` with the `|`-separated home path.
+2. If it's a Nix expression to serialise, add `{convert:json}` or `{convert:ini}` to the filename.
+3. If it's a `.scss` entry point, tag it `{build:sass}`; tag include-only dirs `{include:sass}`.
+4. `git add` the new file (a flake only sees git-tracked files) and `nixos-rebuild switch`.
