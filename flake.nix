@@ -78,7 +78,7 @@
             (_:
               with _;
                 (tag {modules = [];})
-                && !(tag {x = [];} || tag {parts = [];} || tag {dotfiles = [];})
+                && !(tag {parts = [];} || tag {dotfiles = [];})
                 && (tag {hosts = host.name;} || !tag {hosts = [];})))
         ];
         filter-modules = tag-value:

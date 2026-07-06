@@ -1,5 +1,5 @@
 {file-dir, ...}: let
-  parts-dir = "${file-dir}/settings-parts{x}";
+  parts-dir = "${file-dir}/settings{parts}";
   invisible = "#ffffff00";
 
   palette = {
