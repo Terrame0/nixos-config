@@ -23,7 +23,6 @@
         in "--load-path='${sundry.vfs.path.get.str ([file.drv-path] ++ (lib.take tag-pos path))}'"))
         lib.unique
         (lib.concatStringsSep " ")
-        (sundry.debug)
       ];
   };
 
