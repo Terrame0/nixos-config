@@ -70,6 +70,14 @@ Swapping one for the other is not refactor-neutral. `reform-within-tag pred f` t
 
 **Avoid:** `imports` filters the module tree by `{dotfiles}` so dotfiles are told apart from real modules — but the filter matches at the **subtree root** (`{dotfiles:…}` dir) and keeps that whole subtree, including untagged children. That's what lets `{include:sass}` dirs survive: they carry no `{dotfiles}`/home tag of their own but sit *inside* a `{dotfiles}` subtree, so they're kept and Sass `@use "includes/…"` still resolves. Reaching for a per-node `{dotfiles}` filter (instead of subtree selection) would drop those include dirs and break the Sass `--load-path`.
 
+## `{modules}` value queries need `deepest-tag`, not `tag`
+
+`tag {modules = "system"}` matches if `system` appears **anywhere** in the path's tag chain (union). But `{modules}` is mutually exclusive — a co-located file like `desktop-environment/system{modules:system}/…` sitting under an (untagged) domain, or a lone `{modules:system}` file nested inside a `{modules:user}` domain, has **one** true level. Union would match *both* `filter-modules "system"` and `filter-modules "user"`, importing the same file into the NixOS list **and** the HM `imports` — a double-import that throws (e.g. `programs.hyprland` has no HM option).
+
+**Why:** the deepest `{modules}` in the path is the real level; shallower ones are overridden, not additive.
+
+**Avoid:** query the *value* with `deepest-tag {modules = …}` (nearest-in-chain wins), which [flake.nix](../flake.nix)'s `filter-modules` does. Keep the plain `tag {modules = [];}` only for the **presence** check ("is this a module at all") — presence is the same under both operands; only value discrimination differs. See [structure.md](structure.md).
+
 ## sing-box 1.13.x has no `cache_file.store_selected`
 
 Setting `experimental.cache_file.store_selected = true` makes `sing-box check` fail with `unknown field "store_selected"`. The field exists in newer sing-box schemas but not 1.13.x.
@@ -84,4 +92,4 @@ Interpolating a path **literal** into a string (`"${./dir}/x"`, `import "${./. +
 
 **Why:** stringifying a path literal forces a fresh store object; store-object *names* forbid `{`. A `{` living **inside** an already-valid store path (`config-root`, the copied git tree) is fine — it's only a new object's *name* that's rejected.
 
-**Avoid:** never build these paths from a path literal (`./.`, `./secrets`). Reference them as **strings under `config-root`** — `"${config-root}/src/…/config{parts}"` is plain concatenation inside the already-copied repo, no new copy. Same trap in sundry's `vfs.dir.from-src`: pass it a **string** dir (`"${config-root}/…"`), not a path literal, or `listFilesRecursive` yields path literals whose `origin` re-copies each file under its tag name. **TODO:** a `sundry.path.rel config-root [segments…]` helper to build these `config-root`-relative strings without hand-writing the absolute prefix (which drifts when the tree is renamed) — pending the `{modules:…}` discovery migration ([structure.md](structure.md)).
+**Avoid:** never build these paths from a path literal (`./.`, `./secrets`). Reference them as **strings under `config-root`** — `"${config-root}/src/…/config{parts}"` is plain concatenation inside the already-copied repo, no new copy. Same trap in sundry's `vfs.dir.from-src`: pass it a **string** dir (`"${config-root}/…"`), not a path literal, or `listFilesRecursive` yields path literals whose `origin` re-copies each file under its tag name. **TODO:** a `sundry.path.rel config-root [segments…]` helper to build these `config-root`-relative strings without hand-writing the absolute prefix — which drifts when the tree is renamed, exactly as it did during the `{modules:…}` discovery migration ([structure.md](structure.md)). sing-box's `config-dir` string in [systemd-service.nix](../src/network%7Bmodules:system%7D/sing-box%7Bmodules:system%7D/systemd-service.nix) still hardcodes the full absolute prefix and had to be hand-fixed on every rename.

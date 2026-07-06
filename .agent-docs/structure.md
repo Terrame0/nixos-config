@@ -2,41 +2,51 @@
 
 ## Layout
 
+Modules live in one tree, grouped by **domain** (what a feature *is*), not by privilege level. Whether a module is system- or user-level is a **tag** (`{modules:system}` / `{modules:user}`), not which root it sits in.
+
 ```
 nixos-config/
-├── flake.nix                  — entry point; defines hosts and wires all inputs
-├── system/modules/            — NixOS system-level modules
-│   ├── core/                  — users, locale, fonts, sops, sudo, state-version, package-management, update-script
-│   ├── hardware/              — boot, graphics, sound, bluetooth, swap, networking
-│   │   ├── desktop{hosts:desktop}/  — desktop-only hardware config
-│   │   └── laptop{hosts:laptop}/   — laptop-only: hardware config + asusd (ASUS fan/aura)
-│   ├── desktop-environment/   — hyprland, uwsm
-│   ├── programs/applications/ — nix-ld, steam, throne
-│   ├── programs/services/     — blueman, dbus, keyd, keyring, ssh-daemon, virtual-filesystems
-│   └── sing-box/              — VPN proxy service (see sing-box.md)
-└── home-manager/
-    └── modules/               — Home Manager modules (imported per-host same as system)
-        ├── core/              — state-version, dotfile-symlinking pipeline (see dotfile-symlinking.md)
-        ├── applications/      — application software: alacritty, firefox, thunar, yt-dlp, claude, mpv, vscode, packages
-        ├── desktop-environment/ — shell/compositor: hyprland, gtk-theme, waybar, wofi, autostart, xdg, default-apps, packages
-        └── shell/             — terminal environment: zsh, starship, git, ssh, direnv, packages
+├── flake.nix          — entry point; declares hosts, discovers modules by tag, wires inputs
+├── src/               — feature modules, grouped by domain
+│   ├── nixos/         — OS foundation: nix, nixpkgs, locale, state-version, update-script
+│   ├── hardware/      — boot, graphics, sound, bluetooth, networking, swap, per-host, asusd, keyd
+│   ├── security/      — sops, keyring, sudo
+│   ├── network/       — sing-box (VPN, see sing-box.md), throne, ssh-daemon
+│   ├── applications/  — steam, nix-ld, dbus (sys); alacritty, firefox, mpv, vscode, thunar, yt-dlp (user)
+│   ├── desktop-environment/ — hyprland, uwsm, fonts (sys); waybar, wofi, gtk-theme, cliphist, autostart, xdg (user)
+│   └── shell/         — zsh, starship, git, ssh, direnv (user)
+└── infrastructure/    — build machinery, not a feature domain
+    └── dotfile-symlinking/ — the dotfile pipeline (see dotfile-symlinking.md)
 ```
 
 Dotfiles live inline next to the module they belong to, tagged `{dotfiles:PATH}` — a feature's module and its dotfiles share one folder. See [dotfile-symlinking.md](dotfile-symlinking.md).
 
+## The `{modules:…}` level tag
+
+A module's level is declared by a `{modules:system}` or `{modules:user}` tag in its path. The tag is placed at the **coarsest** point that is unambiguous, and inherited by everything below it:
+
+- **Mono-level domain** — the whole domain is one level, so the tag sits on the domain directory itself: `hardware{modules:system}/`, `shell{modules:user}/`, `security{modules:system}/`, `network{modules:system}/`.
+- **Mixed-level domain** — the domain has both system and user sides, so its directory is left **untagged** and the level is set on two sub-folders: `desktop-environment/system{modules:system}/` + `desktop-environment/user{modules:user}/`. Same for `applications/` and `nixos/`.
+
+This asymmetry (tag-on-domain vs tag-on-subfolder) is deliberate: mono-domains never need subfolders, mixed ones do. Both patterns resolve to the same thing — every `.nix` inherits exactly one `{modules:…}` value from its nearest such tag.
+
+### Deepest tag wins
+
+`{modules:…}` is a mutually-exclusive noun tag — a file is exactly one level. When tags nest (a `{modules:system}` file inside a `{modules:user}` domain, e.g. co-locating a compositor-enable module with its user dotfiles), the **deepest** tag in the path wins, not the union. `filter-modules` in [flake.nix](../flake.nix) queries this with the `deepest-tag` operand; the outer presence-check (`tag {modules = [];}` — "is this a module at all") stays plain `tag`. See [gotchas.md](gotchas.md).
+
+## Module discovery
+
+`flake.nix` scans the whole repo from `config-root` and keeps a `.nix` file as a module when it:
+
+1. carries a `{modules:…}` tag somewhere in its path (presence check), **and**
+2. is not `{parts}` (source-only helper) or `{dotfiles}` (a dotfile, not a module), **and**
+3. passes the host gate: `{hosts:name}` matching the current host, or no `{hosts}` tag at all.
+
+`filter-modules "system"` / `filter-modules "user"` then split the survivors by their deepest `{modules}` value into the NixOS module list and the Home Manager `imports`. Home Manager runs as a NixOS module, not standalone — apply all changes with `nixos-rebuild switch`.
+
 ## Multi-host setup
 
-Two hosts are declared in `flake.nix`: `desktop` and `laptop`. Both are built from the same module tree — host-specific files are gated with `{hosts:desktop}` / `{hosts:laptop}` tags in their path, and the `filter-modules` function in `flake.nix` selects only the appropriate files for each host.
-
-Home Manager runs as a NixOS module, not standalone. Apply all changes with `nixos-rebuild switch`.
-
-### Planned: tag-based module discovery
-
-Module discovery is being moved from positional roots to tags, the same shift `{hosts:…}` already made and [dotfile-symlinking.md](dotfile-symlinking.md) made for dotfiles. Planned direction:
-
-- Introduce noun-tags `{modules:system}` / `{modules:home}` so a module's *level* is a tag, not which root it sits in. A feature's system module, HM module, and dotfiles could then share one folder.
-- **Negative polarity** for the exclusion side: everything in the module tree is a module unless excluded, so granularity comes from a few exclusion tags rather than tagging every file. The exclusion tag is tentatively `{no-glob}` — it names the discovery mechanism (glob over the tree), not a use-case.
-- An untagged `.nix` in the module tree should **hard-error or debug-print**, never silently drop — a forgotten tag must fail loud, not vanish a module.
+Two hosts are declared in `flake.nix`: `desktop` and `laptop`. Both build from the same tree; host-specific files are gated with `{hosts:desktop}` / `{hosts:laptop}` in their path (e.g. under `hardware/`), and discovery selects only the matching host's files.
 
 ## Special args available in every module
 
@@ -59,3 +69,5 @@ Module discovery is being moved from positional roots to tags, the same shift `{
 | `sops-nix` | latest |
 | `nix4vscode` | latest |
 | `nixos-update-script` | private repo `Terrame0/nixos-update-script` |
+</content>
+</invoke>

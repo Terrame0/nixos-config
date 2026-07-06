@@ -1,10 +1,10 @@
 # Secrets (sops-nix)
 
-Secrets are managed by [sops-nix](https://github.com/Mic92/sops-nix), wired up in [system/modules/core/sops.nix](../system/modules/core/sops.nix). Encrypted YAML files live in [system/secrets/](../system/secrets/) and are decrypted at activation with an age key.
+Secrets are managed by [sops-nix](https://github.com/Mic92/sops-nix), wired up in [sops.nix](../src/security%7Bmodules:system%7D/sops.nix). Encrypted YAML files live in [src/security…/secrets/](../src/security%7Bmodules:system%7D/secrets/) and are decrypted at activation with an age key.
 
 ## Secrets are auto-derived from the YAML files, not declared by hand
 
-`sops.nix` does **not** list secrets individually. It scans every `.yaml` under `system/secrets/` (via `sundry.vfs`) and generates one `sops.secrets` entry per top-level key in every file. Adding a key to a YAML file is all it takes — no Nix edit.
+`sops.nix` does **not** list secrets individually. It scans every `.yaml` under its `secrets/` dir (via `sundry.vfs`) and generates one `sops.secrets` entry per top-level key in every file. Adding a key to a YAML file is all it takes — no Nix edit.
 
 The generated secret name is `<file-stem>/<yaml-key>`:
 
@@ -32,12 +32,12 @@ A secret needed **before** users exist (e.g. login password hashes) must be decr
 `SOPS_AGE_KEY_FILE` and `SOPS_AGE_RECIPIENTS` are exported as environment variables so the `sops` CLI works without passing the key path or fingerprint manually:
 
 ```bash
-sops system/secrets/vpn.yaml    # edit — decrypts, opens $EDITOR, re-encrypts on save
+sops "src/security{modules:system}/secrets/vpn.yaml"    # edit — decrypts, opens $EDITOR, re-encrypts on save
 ```
 
 ## Consuming a secret in a service
 
-sops decrypts each secret to a path under `/run/secrets/…` owned by `username`, mode `0400`. A systemd service reads it via `LoadCredential`, which copies it into the unit's private `$CREDENTIALS_DIRECTORY` — see [sing-box's systemd-service.nix](../system/modules/sing-box/systemd-service.nix):
+sops decrypts each secret to a path under `/run/secrets/…` owned by `username`, mode `0400`. A systemd service reads it via `LoadCredential`, which copies it into the unit's private `$CREDENTIALS_DIRECTORY` — see [sing-box's systemd-service.nix](../src/network%7Bmodules:system%7D/sing-box%7Bmodules:system%7D/systemd-service.nix):
 
 ```nix
 LoadCredential = [
@@ -50,7 +50,7 @@ The script then reads `$CREDENTIALS_DIRECTORY/sub-url` and `$CREDENTIALS_DIRECTO
 
 ## Adding a secret
 
-1. `sops system/secrets/<file>.yaml` — add the key under an existing or new YAML file.
+1. `sops "src/security{modules:system}/secrets/<file>.yaml"` — add the key under an existing or new YAML file.
 2. Reference it as `config.sops.secrets."<file-stem>/<key>".path` — no declaration needed; `sops.nix` picks it up from the file.
 3. For a service, wire that path through `LoadCredential` and read `$CREDENTIALS_DIRECTORY/<name>`.
 4. `git add` the YAML file (a flake only sees git-tracked files) and `nixos-rebuild switch`.
