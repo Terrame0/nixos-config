@@ -29,6 +29,8 @@ The `{dotfiles}` selection is the mirror of `filter-modules` in [flake.nix](../f
 
 The dedicated `src/` tree is transitional. The end state is **tag-centric**: every file — module or dotfile — is discovered by tag, so a feature's module and its dotfiles sit in one folder under `home-manager/modules/…/`. As files migrate inline (tagged `{dotfiles:PATH}`), `src/` shrinks and will eventually be deleted, leaving `imports` with only the inline scan. Don't add new files to `src/`; put them inline next to their module.
 
+**Cleanup that unblocks once `src/` is gone:** `to-target-path` in [result.nix](../home-manager/modules/core/dotfile-symlinking/pipeline%7Bx%7D/result.nix) reads `tags.dotfiles or ""`. The `or ""` exists only for the dedicated tree, whose files carry no `{dotfiles}` tag at all — without it, the attribute access throws on every dedicated file. Once every dotfile is inline (and therefore always has a `{dotfiles}` tag), the `or ""` becomes dead and can drop to a plain `tags.dotfiles`.
+
 ## Tag model: nouns classify, verbs process
 
 The tag vocabulary splits along one axis:
