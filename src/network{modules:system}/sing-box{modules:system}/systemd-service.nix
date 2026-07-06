@@ -6,7 +6,7 @@ args @ {
   ...
 }: let
   paths = rec {
-    parts-dir = "${config-root}/system/modules{modules:system}/sing-box/config-parts{x}";
+    config-dir = "${config-root}/src/network{modules:system}/sing-box{modules:system}/config{parts}";
     base-dir = "sing-box";
     state-dir = "/var/lib/${base-dir}";
     runtime-dir = "/run/${base-dir}";
@@ -16,11 +16,11 @@ args @ {
   };
   skeleton =
     import
-    "${paths.parts-dir}/sing-box-config"
+    "${paths.config-dir}/sing-box-config"
     (args // {inherit paths;});
   update-script =
     import
-    "${paths.parts-dir}/updater"
+    "${paths.config-dir}/updater"
     (args
       // {
         inherit paths;

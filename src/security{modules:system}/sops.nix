@@ -3,9 +3,10 @@
   sundry,
   username,
   pkgs,
+  config-root,
   ...
 }: let
-  secrets-src = ./secrets;
+  secrets-src = "${config-root}/src/security{modules:system}/secrets";
   age-key-src = "/etc/sops/age/master.txt";
 in {
   environment.systemPackages = with pkgs; [

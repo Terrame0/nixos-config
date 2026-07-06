@@ -17,7 +17,7 @@
         outbound = "direct";
       }
       {
-        domain_suffix = import "${paths.parts-dir}/proxied-domains.nix";
+        domain_suffix = import "${paths.config-dir}/proxied-domains.nix";
         outbound = "proxy";
       }
       {
