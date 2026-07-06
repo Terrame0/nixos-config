@@ -44,6 +44,32 @@ A bare config whose `urltest` has `outbounds = []` fails `sing-box check` with `
 
 **Avoid:** two consequences. (1) You cannot validate a bare skeleton for *other* schema bugs while a selector is empty — the empty-selector error masks them. The sing-box skeleton solves this with a `dummy` placeholder node the updater strips at merge time (see [sing-box.md](sing-box.md)). (2) When a `check` failure looks puzzling, remember it reports only the **first** error — fix it and re-run; there may be more behind it.
 
+## `lib.splitString sep ""` returns `[""]`, not `[]`
+
+Splitting an empty string yields a one-element list holding the empty string, not an empty list. In path work this is a bug: a path segment list `[""]` is "one empty segment" (→ stray `/`, `a//b`), not "no segments".
+
+**Why:** `splitString` is "delimiter count + 1 elements"; zero delimiters → one element, which for `""` is `""` itself.
+
+**Avoid:** in the dotfile pipeline, segment splits go through [`sundry.str.to-segments`](../../sundry/src/str/to-segments.nix) (`"" → []`), not raw `lib.splitString`. `vfs.path.from-str` uses it too. Reach for `to-segments` whenever a string becomes path segments; keep `lib.splitString` only for genuine string ops (`str.after`/`before`) where an empty element is meaningful.
+
+## A VFS node's `path` and `tag-list` desync if you rewrite `path` mid-pipeline
+
+`sass-load-paths` computes `lib.take tag-pos path`, where `tag-pos = get-tag-pos …` is an index into the node's **`tag-list`**. This only lands on the right prefix while `tag-list` and `path` share coordinates. Rewriting `path` (e.g. the `{dotfiles}` home-relative rebase) **without** rewriting `tag-list` breaks that: `tag-pos` stays large, the rebased `path` is short, and `take` overshoots — putting **file** paths into `--load-path` instead of include **dirs**, so Sass can't resolve `@use`.
+
+**Why:** `take tag-pos path` silently assumes `tag-pos` indexes the *current* `path`. The old positional model kept them equal-length; home-relative rebasing drops the left prefix from `path` only.
+
+**Avoid:** keep the node's `path` in source-tree coordinates through every stage that reads `tag-pos`/`tag-list`. The home-relative rewrite happens **last**, in `result`'s `to-home-path`, applied only to the emitted `home.file` key — never to the node in the tree. See [dotfile-symlinking.md](dotfile-symlinking.md).
+
+The deeper lesson: **rewriting a directory node's `path` mid-pipeline is suspect on principle** — any later stage that correlates `path` with `tag-list` (via `tag-pos`) will misread it, because the rewrite moves one and not the other. The safe pattern is to derive the final path from `path` + `tag-list` **at the point of use** (as `to-home-path` does), leaving the tree in one coordinate system end to end. Treat "reform a directory's path early" as a smell, not a tool.
+
+## `select-by-tag` drops non-matches; `reform-within-tag` keeps them
+
+Swapping one for the other is not refactor-neutral. `reform-within-tag pred f` transforms only the matched branches and **passes everything else through untouched**. `select-by-tag pred` **discards** every branch that doesn't match.
+
+**Why:** they answer different questions — "transform these, keep the rest" vs "keep only these".
+
+**Avoid:** the dedicated dotfile tree is read with a plain scan (no `select`) precisely because it holds non-dotfile infrastructure — `{include:sass}` dirs that carry no `{dotfiles}`/home path but are needed for Sass `--load-path`. Filtering the tree by `{dotfiles}` would silently drop them and Sass `@use "includes/…"` would fail to resolve. Only the inline (`modules/`) tree is `{dotfiles}`-filtered, because there dotfiles must be told apart from real modules.
+
 ## sing-box 1.13.x has no `cache_file.store_selected`
 
 Setting `experimental.cache_file.store_selected = true` makes `sing-box check` fail with `unknown field "store_selected"`. The field exists in newer sing-box schemas but not 1.13.x.

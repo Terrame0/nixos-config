@@ -74,7 +74,11 @@
             sundry.vfs.dir.from-src
             sundry.vfs.dir.resolve-tags
             (sundry.vfs.dir.select-by-tag
-              (_: with _; !tag {x = [];} && (tag {hosts = host.name;} || !tag {hosts = [];})))
+              (_:
+                with _;
+                  !tag {x = [];}
+                  && !tag {dotfiles = [];}
+                  && (tag {hosts = host.name;} || !tag {hosts = [];})))
             (sundry.vfs.dir.filter (path: file: sundry.vfs.path.get.ext path == "nix"))
             (sundry.vfs.dir.collapse (path: file: file.origin))
           ];

@@ -72,6 +72,8 @@ Every git repository must have an `.agent-docs/` directory at its root. It holds
 
 If `.agent-docs/` does not exist, create it before starting any task, and populate it with at least one doc covering the project's domain.
 
+**Project-specific information belongs in the project's `.agent-docs/`, never in the global cross-project memory store.** The memory store is for facts that hold across every repo (who the user is, machine-wide conventions, how Claude should work in general). Anything tied to one project — its architecture, ongoing work, design decisions, tag models, gotchas — goes in that project's `.agent-docs/`, where it lives with the code and any session or contributor can read it. If a fact would be meaningless in a different repository, it is project-specific: write it to `.agent-docs/`, not to memory.
+
 ## `CLAUDE.md` is required
 
 A `CLAUDE.md` must exist at the repository root. It is the entry point Claude reads first. It must contain:

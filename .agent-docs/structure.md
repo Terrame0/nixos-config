@@ -33,6 +33,14 @@ Two hosts are declared in `flake.nix`: `desktop` and `laptop`. Both are built fr
 
 Home Manager runs as a NixOS module, not standalone. Apply all changes with `nixos-rebuild switch`.
 
+### Planned: tag-based module discovery
+
+Module discovery is being moved from positional roots to tags, the same shift `{hosts:…}` already made and [dotfile-symlinking.md](dotfile-symlinking.md) made for dotfiles. Planned direction:
+
+- Introduce noun-tags `{modules:system}` / `{modules:home}` so a module's *level* is a tag, not which root it sits in. A feature's system module, HM module, and dotfiles could then share one folder.
+- **Negative polarity** for the exclusion side: everything in the module tree is a module unless excluded, so granularity comes from a few exclusion tags rather than tagging every file. The exclusion tag is tentatively `{no-glob}` — it names the discovery mechanism (glob over the tree), not a use-case.
+- An untagged `.nix` in the module tree should **hard-error or debug-print**, never silently drop — a forgotten tag must fail loud, not vanish a module.
+
 ## Special args available in every module
 
 | Arg | Value |

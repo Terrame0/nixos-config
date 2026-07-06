@@ -2,7 +2,17 @@
   sundry,
   lib,
   ...
-}: {
+}: let
+  to-home-path = path: file:
+    sundry.vfs.file.fold-tags (path-acc: tags: pos: let
+      path-fragment = sundry.str.to-segments "|" (tags.dotfiles or "");
+    in
+      if path-fragment == []
+      then path-acc
+      else path-fragment ++ lib.drop (pos + 1) path-acc)
+    path
+    file;
+in {
   result = {
     deps = ["sass" "nix" "processed-imports"];
     transform = prev:
@@ -16,7 +26,7 @@
             value = file;
           }))
         (sundry.vfs.dir.collapse (path: file: {
-          ${sundry.vfs.path.get.str path} =
+          ${sundry.vfs.path.get.str (to-home-path path file)} =
             (
               if file ? text
               then {text = file.text;}
