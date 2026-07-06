@@ -86,21 +86,19 @@
             (sundry.vfs.dir.select-by-tag (_: with _; tag {modules = tag-value;}))
             (sundry.vfs.dir.collapse (path: file: file.origin))
           ];
-        system-modules = filter-modules "system";
-        home-manager-modules = filter-modules "user";
         home-manager-config.home-manager = {
           extraSpecialArgs = module-args;
           useGlobalPkgs = true;
           useUserPackages = true;
           backupFileExtension = "hm-backup";
-          users.${username}.imports = home-manager-modules;
+          users.${username}.imports = filter-modules "user";
         };
       in {
         ${host.name} = nixpkgs.lib.nixosSystem {
           specialArgs = module-args;
           inherit (host) system;
           modules =
-            system-modules
+            (filter-modules "system")
             ++ [
               hyprland.nixosModules.default
               home-manager.nixosModules.home-manager
