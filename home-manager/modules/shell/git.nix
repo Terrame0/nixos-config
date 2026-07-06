@@ -6,7 +6,7 @@
     settings = {
       core = {
         editor = "code";
-        autocrlf = "input"; # -- turns \r\n into \n in a commit
+        autocrlf = "input";
       };
       init.defaultBranch = "main";
       color.ui = true;

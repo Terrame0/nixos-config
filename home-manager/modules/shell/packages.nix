@@ -2,7 +2,6 @@
   home.packages = with pkgs; [
     # -- dev tools
     python3
-    git
     nixd
     jq-lsp
     jq

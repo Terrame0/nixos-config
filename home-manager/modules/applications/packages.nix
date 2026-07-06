@@ -10,18 +10,9 @@
     eog
     gedit
 
-    # -- desktop apps
-    # whatsapp-electron
-    # telegram-desktop
-    # freecad
-    # gparted
-    # dconf-editor
     prismlauncher
     onlyoffice-desktopeditors
     qbittorrent
-    # transmission_4-gtk
-    # blender
-    # gimp
     baobab
     inkscape
     rawtherapee
