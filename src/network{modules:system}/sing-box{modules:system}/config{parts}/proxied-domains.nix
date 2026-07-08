@@ -48,6 +48,11 @@
   "user.frontierstore.net"
   "frontierstore.net"
 
+  # -- epic games auth (elite dangerous epic launch)
+  "epicgames.com"
+  "epicgames.dev"
+  "account-public-service-prod03.ol.epicgames.com"
+
   # -- misc
   "web.archive.org"
   "ubistatic3-a.akamaihd.net"
