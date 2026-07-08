@@ -16,5 +16,6 @@
     baobab
     inkscape
     rawtherapee
+    legendary-gl
   ];
 }
