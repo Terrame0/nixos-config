@@ -40,7 +40,13 @@
   "nixos.org"
   "nix.dev"
 
+  # -- lutris can't download from github w/o this
+  "github.com"
+  "api.github.com"
+
   # -- misc
+  "web.archive.org"
+  "ubistatic3-a.akamaihd.net"
   "kupibilet.ru"
   "aviasales.ru"
   "chordify.net"
