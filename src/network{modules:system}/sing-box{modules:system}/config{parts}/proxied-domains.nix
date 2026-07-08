@@ -44,6 +44,10 @@
   "github.com"
   "api.github.com"
 
+  # -- frontier (elite dangerous)
+  "user.frontierstore.net"
+  "frontierstore.net"
+
   # -- misc
   "web.archive.org"
   "ubistatic3-a.akamaihd.net"

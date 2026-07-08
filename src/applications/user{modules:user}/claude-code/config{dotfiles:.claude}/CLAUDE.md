@@ -34,10 +34,16 @@ All projects live under the home directory (`~/`). Each project has a `CLAUDE.md
 This file (`~/.claude/CLAUDE.md`) is managed as a dotfile in `~/nixos-config`. Edit the source at:
 
 ```
-~/nixos-config/home-manager/dotfile-symlinking/src/claude{place:.claude}/CLAUDE.md
+~/nixos-config/src/applications/user{modules:user}/claude-code/config{dotfiles:.claude}/CLAUDE.md
 ```
 
 After editing, run `nixos-rebuild switch` to symlink the updated file into `~/.claude/`.
+
+`~/.claude/settings.json` is also a symlink — generated from Home Manager options in:
+
+```
+~/nixos-config/src/applications/user{modules:user}/claude-code/program.nix
+```
 
 ## Shell and tools
 
