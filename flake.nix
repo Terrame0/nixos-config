@@ -47,11 +47,13 @@
         name = "desktop";
         system-state-version = "25.05";
         system = "x86_64-linux";
+        cores = 8;
       }
       {
         name = "laptop";
         system-state-version = "25.11";
         system = "x86_64-linux";
+        cores = 16;
       }
     ];
   in {

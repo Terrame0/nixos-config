@@ -39,7 +39,7 @@ The tag vocabulary splits along one axis:
 |---|---|---|
 | `imports` | [imports.nix](../infrastructure/dotfile-symlinking%7Bmodules:user%7D/pipeline%7Bparts%7D/imports.nix) | Scans from `config-root`, resolves tags, selects `{dotfiles}` subtrees. **Paths stay as-is** — no home-relative rewrite here. |
 | `processed-imports` | same file | Drops `{include}`, `{build}`, `{convert}`, `{parts}` files — the raw-copy set. |
-| `nix-imports` | [nix.nix](../infrastructure/dotfile-symlinking%7Bmodules:user%7D/pipeline%7Bparts%7D/nix.nix) | Imports every `.nix`, evaluating it with `{ lib, pkgs, file-dir }` into `.expr`. |
+| `nix-imports` | [nix.nix](../infrastructure/dotfile-symlinking%7Bmodules:user%7D/pipeline%7Bparts%7D/nix.nix) | Imports every `.nix`, evaluating it with `{ lib, pkgs, host, file-dir }` into `.expr`. (`host` lets a dotfile read host facts like `host.cores`; `theme` joins this arg set when the global theme lands — see [theme-source.md](theme-source.md).) |
 | `nix` | same file | Serialises `{convert:json}` / `{convert:ini}` files' `.expr` to text via `lib.generators`. |
 | `sass-staging-dir` | [sass.nix](../infrastructure/dotfile-symlinking%7Bmodules:user%7D/pipeline%7Bparts%7D/sass.nix) | Materialises all `.scss` into one derivation directory. |
 | `sass-load-paths` | same file | Collects `{include:sass}` dirs as `--load-path` flags. |

@@ -1,7 +1,8 @@
-{
+args @ {
   sundry,
   lib,
   pkgs,
+  host,
   ...
 }: {
   nix-imports = {
@@ -12,10 +13,9 @@
         (sundry.vfs.dir.walk (path: file:
           file
           // {
-            expr = import file.origin {
-              inherit lib pkgs;
-              file-dir = dirOf file.origin;
-            };
+            expr =
+              import file.origin
+              (args // {file-dir = dirOf file.origin;});
           }))
       ];
   };

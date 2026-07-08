@@ -1,9 +1,8 @@
 {
   lib,
-  pkgs,
+  host,
   ...
 }: let
-  run-command = command: builtins.readFile (pkgs.runCommand "run-command" {} "${command} > $out");
   palette = {
     black = "#1d1f21";
     dark-gray = "#282a2e";
@@ -221,7 +220,7 @@ in
           (
             lib.concatStrings (
               lib.forEach (
-                builtins.genList (i: i) (builtins.fromJSON (run-command "nproc"))
+                builtins.genList (i: i) host.cores
               )
               (
                 id: "{icon${toString id}}"

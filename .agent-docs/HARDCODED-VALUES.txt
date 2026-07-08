@@ -67,16 +67,17 @@ Pipeline (pipeline/nix.nix) теперь пробрасывает в import то
    textmate.nix импортируется как {} (раньше {inherit config;}).
 
 8) .config/waybar/config{convert:json}{ext:jsonc}.nix
-   config (аргумент) убран, добавлен pkgs.
+   config (аргумент) убран.
    - palette = config.style.palette -> let palette = {13 цветов}
    - config.make-span -> локальная функция make-span (из make-span.nix)
    - margin-top/left/right = config.style.constants.offset -> 6
-   - config.run-command "nproc" -> локальная run-command через IFD:
-       run-command = command:
-         builtins.readFile (pkgs.runCommand "run-command" {} "${command} > $out");
-     (воспроизводит config.run-command из lib/utils/general/run-command.nix)
-     ВНИМАНИЕ: nproc вычисляется на этапе eval на машине сборки, число ядер
-     может отличаться между хостами desktop/laptop.
+   - [РЕШЕНО] config.run-command "nproc" (число ядер CPU): раньше был IFD
+     (readFile (runCommand ...)), который вдобавок считал ядра МАШИНЫ СБОРКИ,
+     а не целевого хоста. Заменён на host.cores — статичный факт про хост,
+     объявленный в hosts[] во flake.nix и прокинутый в дотфайл через nix.nix
+     (в args импорта добавлен host). Ни IFD, ни машинно-зависимости.
+     См. theme-source.md (тот же канал host/theme -> дотфайлы).
+     TODO: desktop.cores = 0 (плейсхолдер) — проставить реальный nproc на desktop.
 
 9) home-manager/modules/programs/applications/alacritty.nix (HM-модуль, вне src)
    config (аргумент) убран. Добавлены let palette = {13 цветов} и

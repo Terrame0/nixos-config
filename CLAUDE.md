@@ -9,6 +9,8 @@ NixOS + Home Manager configuration for two hosts (`desktop`, `laptop`). Declared
 - [sing-box.md](.agent-docs/sing-box.md) — VPN proxy service: subscription updater, config skeleton, secrets.
 - [secrets.md](.agent-docs/secrets.md) — sops-nix: how secrets are auto-derived from the `secrets/*.yaml` files, the age key, and `LoadCredential`.
 - [gotchas.md](.agent-docs/gotchas.md) — counter-intuitive traps: nix eval vs build, flake git-tracking, empty sing-box selectors, and more.
+- [theme-source.md](.agent-docs/theme-source.md) — **TODO/план:** единый источник темы (радиус, цвета, шрифты) в `infrastructure/theme{parts}.nix` + прокидывание по классам форматов. Ещё не реализовано.
+- [HARDCODED-VALUES.txt](.agent-docs/HARDCODED-VALUES.txt) — список мест, где значения стиля захардкожены вручную после сноса `lib/style` — что отменить при возврате единого источника ([theme-source.md](.agent-docs/theme-source.md)).
 
 When you add, rename, or remove a doc under `.agent-docs/`, update this index — and the import list below — in the same change so neither drifts from what's on disk.
 
@@ -17,3 +19,4 @@ When you add, rename, or remove a doc under `.agent-docs/`, update this index �
 @.agent-docs/sing-box.md
 @.agent-docs/secrets.md
 @.agent-docs/gotchas.md
+@.agent-docs/theme-source.md
