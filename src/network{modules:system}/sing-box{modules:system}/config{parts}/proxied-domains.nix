@@ -47,6 +47,7 @@
   # -- frontier (elite dangerous)
   "user.frontierstore.net"
   "frontierstore.net"
+  "orerve.net"
 
   # -- epic games auth (elite dangerous epic launch)
   "epicgames.com"
