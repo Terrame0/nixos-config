@@ -4,6 +4,7 @@
     package = pkgs.claude-code;
     settings = {
       theme = "dark";
+      suggestions = false;
       includeCoAuthoredBy = false;
       permissions = {
         allow = [
