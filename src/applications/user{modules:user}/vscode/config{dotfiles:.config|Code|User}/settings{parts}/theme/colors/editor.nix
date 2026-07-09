@@ -63,5 +63,29 @@ in {
     "editorBracketPairGuide.background4" = invisible;
     "editorBracketPairGuide.background5" = invisible;
     "editorBracketPairGuide.background6" = invisible;
+
+    "descriptionForeground" = palette.light-gray;
+    "disabledForeground" = palette.light-gray;
+    "editor.findRangeHighlightBackground" = palette.black;
+    "editor.hoverHighlightBackground" = palette.black;
+    "editor.inactiveSelectionBackground" = "${palette.blue}1a";
+    "editor.rangeHighlightBackground" = palette.black;
+    "editorCodeLens.foreground" = palette.light-gray;
+    "editorCommentsWidget.rangeActiveBackground" = palette.black;
+    "editorCommentsWidget.rangeBackground" = palette.black;
+    "editorIndentGuide.activeBackground1" = palette.gray;
+    "editorIndentGuide.background1" = palette.dark-gray;
+    "editorLink.activeForeground" = palette.blue;
+    "editorRuler.foreground" = palette.dim-gray;
+    "editorStickyScroll.border" = palette.dark-gray;
+    "editorStickyScroll.shadow" = invisible;
+    "editorStickyScrollHover.background" = palette.black;
+    "editorWhitespace.foreground" = "${palette.light-gray}40";
+    "foreground" = palette.white;
+    "icon.foreground" = palette.light-gray;
+    "keybindingLabel.foreground" = palette.white;
+    "minimapSlider.activeBackground" = "${palette.gray}55";
+    "minimapSlider.background" = "${palette.gray}26";
+    "minimapSlider.hoverBackground" = "${palette.gray}40";
   };
 }

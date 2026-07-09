@@ -28,5 +28,16 @@ in {
     "editorGroup.border" = invisible;
     "editorGroupHeader.tabsBackground" = palette.black;
     "editorGroupHeader.tabsBorder" = palette.dark-gray;
+
+    "tab.hoverBackground" = palette.dark-gray;
+    "tab.hoverForeground" = palette.white;
+    "tab.lastPinnedBorder" = palette.dark-gray;
+    "tab.selectedBackground" = "${palette.dim-gray}a5";
+    "tab.selectedForeground" = "${palette.white}b3";
+    "tab.unfocusedActiveBackground" = palette.dark-gray;
+    "tab.unfocusedActiveForeground" = palette.light-gray;
+    "tab.unfocusedHoverBackground" = palette.dark-gray;
+    "tab.unfocusedInactiveBackground" = palette.dark-gray;
+    "tab.unfocusedInactiveForeground" = palette.light-gray;
   };
 }

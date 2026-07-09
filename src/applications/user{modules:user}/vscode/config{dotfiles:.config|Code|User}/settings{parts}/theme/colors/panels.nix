@@ -47,5 +47,17 @@ in {
     "terminal.ansiBrightMagenta" = palette.purple;
     "terminal.ansiBrightCyan" = palette.aqua;
     "terminal.ansiBrightWhite" = palette.white;
+
+    "dropdown.listBackground" = palette.dark-gray;
+    "input.placeholderForeground" = palette.light-gray;
+    "inputOption.activeBackground" = "${palette.blue}26";
+    "inputOption.activeBorder" = palette.dark-gray;
+    "inputOption.activeForeground" = palette.white;
+    "panelInput.border" = palette.dark-gray;
+    "panelStickyScroll.shadow" = invisible;
+    "panelTitle.activeBorder" = invisible;
+    "terminal.inactiveSelectionBackground" = palette.black;
+    "terminalCursor.background" = palette.black;
+    "terminalCursor.foreground" = palette.white;
   };
 }

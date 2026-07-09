@@ -25,5 +25,11 @@ in {
     "gitDecoration.stageModifiedResourceForeground" = palette.yellow;
     "gitDecoration.stageDeletedResourceForeground" = palette.red;
     "gitDecoration.conflictingResourceForeground" = palette.red;
+
+    "diffEditor.unchangedRegionBackground" = palette.black;
+    "editorGutter.background" = palette.black;
+    "editorOverviewRuler.border" = palette.dark-gray;
+    "editorOverviewRuler.errorForeground" = palette.red;
+    "editorOverviewRuler.findMatchForeground" = "${palette.blue}99";
   };
 }

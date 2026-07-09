@@ -51,5 +51,23 @@ in {
     "statusBarItem.remoteBackground" = palette.blue;
     "statusBarItem.remoteForeground" = palette.black;
     "statusBarItem.hoverBackground" = palette.dim-gray;
+
+    "breadcrumbPicker.background" = palette.black;
+    "commandCenter.activeBorder" = palette.dark-gray;
+    "notificationCenter.border" = palette.dark-gray;
+    "notificationCenterHeader.background" = palette.black;
+    "notificationCenterHeader.foreground" = palette.white;
+    "notificationToast.border" = palette.dark-gray;
+    "statusBar.focusBorder" = palette.blue;
+    "statusBar.noFolderForeground" = palette.light-gray;
+    "statusBarItem.activeBackground" = palette.dark-gray;
+    "statusBarItem.compactHoverBackground" = palette.dim-gray;
+    "statusBarItem.errorBackground" = palette.red;
+    "statusBarItem.focusBorder" = palette.blue;
+    "statusBarItem.hoverForeground" = palette.white;
+    "statusBarItem.prominentBackground" = "${palette.blue}dd";
+    "statusBarItem.prominentForeground" = palette.black;
+    "statusBarItem.prominentHoverBackground" = palette.blue;
+    "statusBarItem.prominentHoverForeground" = palette.black;
   };
 }

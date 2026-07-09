@@ -35,5 +35,18 @@ in {
     "sideBarSectionHeader.foreground" = palette.white;
     "sideBarSectionHeader.border" = palette.dark-gray;
     "sideBarTitle.foreground" = palette.white;
+
+    "activityBarBadge.background" = palette.blue;
+    "activityBarBadge.foreground" = palette.black;
+    "activityBarTop.activeBorder" = invisible;
+    "list.dropBackground" = "${palette.blue}15";
+    "list.errorForeground" = palette.red;
+    "list.focusAndSelectionOutline" = palette.blue;
+    "list.focusBackground" = "${palette.blue}1a";
+    "list.hoverForeground" = palette.white;
+    "list.invalidItemForeground" = palette.light-gray;
+    "list.warningForeground" = palette.yellow;
+    "listFilterWidget.shadow" = invisible;
+    "sideBarStickyScroll.shadow" = invisible;
   };
 }

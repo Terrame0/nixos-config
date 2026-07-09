@@ -107,6 +107,165 @@ in {
         ];
         settings.foreground = palette.red;
       }
+
+      # -- light-gray (comments beyond the base rule)
+      {
+        scope = [
+          "punctuation.definition.comment" # comment markers
+          "string.comment" # embedded comments
+        ];
+        settings.foreground = palette.light-gray;
+      }
+
+      # -- purple (constants / language literals)
+      {
+        scope = [
+          "constant" # generic constants
+          "constant.other" # other constants
+          "constant.other.option" # option constants
+          "entity.name.constant" # named constants
+          "variable.other.constant" # const vars
+          "variable.other.enummember" # enum members
+          "variable.language" # this / self / super
+          "support.constant" # built-in constants
+          "support.constant.math" # Math.*
+          "support.constant.dom" # DOM constants
+          "support.constant.json" # json constants
+        ];
+        settings.foreground = palette.purple;
+      }
+
+      # -- blue (types / classes / storage)
+      {
+        scope = [
+          "storage" # storage keywords
+          "support.class" # built-in classes
+          "support.class.component" # framework components
+          "entity.name.class" # class names
+          "entity.other.inherited-class" # base classes
+          "meta.type.cast.expr" # cast types
+          "meta.type.new.expr" # new-expr types
+        ];
+        settings.foreground = palette.blue;
+      }
+
+      # -- aqua (keys / property names)
+      {
+        scope = [
+          "meta.object-literal.key" # object keys
+          "support.type.property-name.json" # json keys
+          "support.type.property-name" # property names
+          "meta.property-name" # css/less property names
+          "meta.structure.dictionary.key.python" # python dict keys
+        ];
+        settings.foreground = palette.aqua;
+      }
+
+      # -- orange (functions / strings / regexp bodies)
+      {
+        scope = [
+          "support.function" # built-in functions
+          "entity.name.function.preprocessor" # preprocessor macros
+          "string.regexp" # regexp literals
+          "source.regexp" # regexp source
+          "constant.regexp" # regexp constants
+        ];
+        settings.foreground = palette.orange;
+      }
+
+      # -- red (escapes / invalid / errors)
+      {
+        scope = [
+          "constant.character.escape" # \n \t etc
+          "string.regexp constant.character.escape" # regexp escapes
+          "keyword.control.anchor.regexp" # ^ $ anchors
+          "keyword.operator.or.regexp" # regexp alternation
+          "invalid" # invalid
+          "invalid.broken" # broken
+          "invalid.deprecated" # deprecated
+          "invalid.illegal" # illegal
+          "invalid.unimplemented" # unimplemented
+          "message.error" # error messages
+          "brackethighlighter.unmatched" # unmatched brackets
+        ];
+        settings.foreground = palette.red;
+      }
+
+      # -- markdown
+      {
+        scope = ["markup.heading" "markup.heading entity.name"];
+        settings = {
+          foreground = palette.blue;
+          fontStyle = "bold";
+        };
+      }
+      {
+        scope = "markup.bold";
+        settings = {
+          foreground = palette.white;
+          fontStyle = "bold";
+        };
+      }
+      {
+        scope = "markup.italic";
+        settings = {
+          foreground = palette.white;
+          fontStyle = "italic";
+        };
+      }
+      {
+        scope = "markup.quote";
+        settings.foreground = palette.aqua;
+      }
+      {
+        scope = "markup.inline.raw";
+        settings.foreground = palette.orange;
+      }
+      {
+        scope = ["markup.inserted" "meta.diff.header.to-file"];
+        settings.foreground = palette.green;
+      }
+      {
+        scope = ["markup.deleted" "meta.diff.header.from-file"];
+        settings.foreground = palette.red;
+      }
+      {
+        scope = ["markup.changed" "punctuation.definition.changed"];
+        settings.foreground = palette.yellow;
+      }
+      {
+        scope = ["constant.other.reference.link" "string.other.link"];
+        settings.foreground = palette.blue;
+      }
+      {
+        scope = "meta.diff.range";
+        settings = {
+          foreground = palette.purple;
+          fontStyle = "bold";
+        };
+      }
+      {
+        scope = ["meta.diff.header" "meta.separator" "meta.output"];
+        settings.foreground = palette.blue;
+      }
+
+      # -- log tokens (output / debug console)
+      {
+        scope = "token.info-token";
+        settings.foreground = palette.blue;
+      }
+      {
+        scope = "token.warn-token";
+        settings.foreground = palette.yellow;
+      }
+      {
+        scope = "token.error-token";
+        settings.foreground = palette.red;
+      }
+      {
+        scope = "token.debug-token";
+        settings.foreground = palette.purple;
+      }
     ];
   };
 }
