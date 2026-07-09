@@ -149,7 +149,7 @@ in {
         settings.foreground = palette.blue;
       }
 
-      # -- aqua (keys / property names)
+      # -- blue (keys / property names — closer to Dark Modern defaults)
       {
         scope = [
           "meta.object-literal.key" # object keys
@@ -158,7 +158,7 @@ in {
           "meta.property-name" # css/less property names
           "meta.structure.dictionary.key.python" # python dict keys
         ];
-        settings.foreground = palette.aqua;
+        settings.foreground = palette.blue;
       }
 
       # -- orange (functions / strings / regexp bodies)

@@ -54,6 +54,9 @@ in {
     "inputOption.activeBorder" = palette.dark-gray;
     "inputOption.activeForeground" = palette.white;
     "panelInput.border" = palette.dark-gray;
+    "radio.activeBackground" = "${palette.orange}26";
+    "radio.activeBorder" = palette.orange;
+    "radio.activeForeground" = palette.white;
     "panelStickyScroll.shadow" = invisible;
     "panelTitle.activeBorder" = invisible;
     "terminal.inactiveSelectionBackground" = palette.black;

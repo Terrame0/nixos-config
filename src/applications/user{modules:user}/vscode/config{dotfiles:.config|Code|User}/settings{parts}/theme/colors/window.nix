@@ -42,10 +42,10 @@ in {
     "notificationsErrorIcon.foreground" = palette.red;
     "notificationsWarningIcon.foreground" = palette.orange;
 
-    "statusBar.background" = palette.dark-gray;
+    "statusBar.background" = palette.black;
     "statusBar.foreground" = palette.white;
-    "statusBar.border" = palette.dark-gray;
-    "statusBar.noFolderBackground" = palette.dark-gray;
+    "statusBar.border" = palette.black;
+    "statusBar.noFolderBackground" = palette.black;
     "statusBar.debuggingBackground" = palette.blue;
     "statusBar.debuggingForeground" = palette.black;
     "statusBarItem.remoteBackground" = palette.blue;
