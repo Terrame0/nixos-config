@@ -37,7 +37,7 @@ in {
     "tab.unfocusedActiveBackground" = palette.dark-gray;
     "tab.unfocusedActiveForeground" = palette.light-gray;
     "tab.unfocusedHoverBackground" = palette.dark-gray;
-    "tab.unfocusedInactiveBackground" = palette.dark-gray;
+    "tab.unfocusedInactiveBackground" = palette.black;
     "tab.unfocusedInactiveForeground" = palette.light-gray;
   };
 }
