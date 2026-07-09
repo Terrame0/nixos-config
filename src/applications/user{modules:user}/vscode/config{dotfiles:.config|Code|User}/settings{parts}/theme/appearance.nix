@@ -1,6 +1,6 @@
-{parts-dir, ...}: {
+{settings, ...}: {
   # -- appearance
-  "editor.fontFamily" = "JetBrainsMono NFP";
+  "editor.fontFamily" = settings.font.propo;
   "editor.fontLigatures" = true;
   "workbench.colorTheme" = "Dark Modern";
   "workbench.iconTheme" = "vs-seti";
@@ -22,5 +22,4 @@
 
   # -- syntax theming
   "editor.semanticHighlighting.enabled" = false;
-  "editor.tokenColorCustomizations" = import "${parts-dir}/theme/textmate.nix" {};
 }

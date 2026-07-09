@@ -70,7 +70,14 @@
           inherit host;
           inherit config-root;
           inherit sundry;
+          inherit settings;
         };
+        settings = lib.pipe "${config-root}/infrastructure/settings" [
+          sundry.vfs.dir.from-src
+          (sundry.vfs.dir.collapse
+            (path: file: {${sundry.vfs.path.get.stem path} = import file.origin;}))
+          sundry.attrs.merge.recursive.no-collision
+        ];
         modules = lib.pipe config-root [
           sundry.vfs.dir.from-src
           (sundry.vfs.dir.filter
