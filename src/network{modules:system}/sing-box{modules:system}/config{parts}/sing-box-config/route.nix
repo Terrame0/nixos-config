@@ -21,6 +21,11 @@
         outbound = "proxy";
       }
       {
+        # -- elite dangerous game servers
+        port = [19364];
+        outbound = "proxy";
+      }
+      {
         rule_set = ["refilter-domains" "refilter-ipsum"];
         outbound = "proxy";
       }

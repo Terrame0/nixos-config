@@ -1,6 +1,7 @@
 {pkgs, ...}: {
   home.packages = with pkgs; [
     # -- games
+    lutris
     wine-wayland
     winetricks
     pcsx2
