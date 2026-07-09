@@ -49,6 +49,7 @@ in {
     "ports.iconRunningProcessForeground" = palette.green;
 
     "toolbar.hoverBackground" = "${palette.gray}10";
+    "toolbar.activeBackground" = "${palette.gray}20";
 
     "welcomePage.tileBackground" = palette.black;
   };

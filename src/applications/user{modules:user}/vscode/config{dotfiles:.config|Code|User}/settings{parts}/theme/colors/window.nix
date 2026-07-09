@@ -61,6 +61,7 @@ in {
     "statusBarItem.activeBackground" = palette.dark-gray;
     "statusBarItem.compactHoverBackground" = palette.dim-gray;
     "statusBarItem.errorBackground" = palette.red;
+    "statusBarItem.errorHoverBackground" = "${palette.red}cc";
     "statusBarItem.focusBorder" = palette.blue;
     "statusBarItem.hoverBackground" = palette.dim-gray;
     "statusBarItem.hoverForeground" = palette.white;
@@ -70,6 +71,7 @@ in {
     "statusBarItem.prominentHoverForeground" = palette.black;
     "statusBarItem.remoteBackground" = palette.blue;
     "statusBarItem.remoteForeground" = palette.black;
+    "statusBarItem.remoteHoverBackground" = "${palette.blue}cc";
 
     "titleBar.activeBackground" = palette.black;
     "titleBar.activeForeground" = palette.white;

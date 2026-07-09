@@ -21,6 +21,7 @@ in {
     "inputOption.activeBackground" = "${palette.blue}26";
     "inputOption.activeBorder" = palette.dark-gray;
     "inputOption.activeForeground" = palette.white;
+    "inputOption.hoverBackground" = palette.dim-gray;
 
     "dropdown.background" = palette.dark-gray;
     "dropdown.border" = palette.dark-gray;
@@ -30,5 +31,6 @@ in {
     "radio.activeBackground" = "${palette.orange}26";
     "radio.activeBorder" = palette.orange;
     "radio.activeForeground" = palette.white;
+    "radio.inactiveHoverBackground" = palette.dim-gray;
   };
 }
