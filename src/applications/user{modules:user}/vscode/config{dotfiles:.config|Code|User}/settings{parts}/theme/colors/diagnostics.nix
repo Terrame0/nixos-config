@@ -3,11 +3,15 @@
 in {
   "workbench.colorCustomizations" = {
     "editorError.foreground" = palette.red;
-    "editorWarning.foreground" = palette.orange;
-    "editorInfo.foreground" = palette.white;
+
     "editorHint.foreground" = palette.light-gray;
 
+    "editorInfo.foreground" = palette.white;
+
+    "editorWarning.foreground" = palette.orange;
+
     "errorForeground" = palette.red;
+
     "inputValidation.errorBackground" = palette.dark-gray;
     "inputValidation.errorBorder" = palette.red;
     "inputValidation.errorForeground" = palette.white;
