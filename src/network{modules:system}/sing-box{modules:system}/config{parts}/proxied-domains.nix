@@ -43,6 +43,7 @@
   # -- lutris can't download from github w/o this
   "github.com"
   "api.github.com"
+  "githubusercontent.com"
 
   # -- frontier (elite dangerous)
   "user.frontierstore.net"
