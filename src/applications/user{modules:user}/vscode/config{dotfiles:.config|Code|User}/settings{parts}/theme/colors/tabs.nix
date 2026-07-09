@@ -24,5 +24,9 @@ in {
 
     "problems.decorations.enabled" = false;
     "scm.diffDecorations" = "none";
+
+    "editorGroup.border" = invisible;
+    "editorGroupHeader.tabsBackground" = palette.black;
+    "editorGroupHeader.tabsBorder" = palette.dark-gray;
   };
 }

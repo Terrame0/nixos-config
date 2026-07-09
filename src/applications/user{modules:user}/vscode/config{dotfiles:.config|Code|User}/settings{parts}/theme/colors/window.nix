@@ -41,5 +41,15 @@ in {
     "notificationsInfoIcon.foreground" = palette.blue;
     "notificationsErrorIcon.foreground" = palette.red;
     "notificationsWarningIcon.foreground" = palette.orange;
+
+    "statusBar.background" = palette.dark-gray;
+    "statusBar.foreground" = palette.white;
+    "statusBar.border" = palette.dark-gray;
+    "statusBar.noFolderBackground" = palette.dark-gray;
+    "statusBar.debuggingBackground" = palette.blue;
+    "statusBar.debuggingForeground" = palette.black;
+    "statusBarItem.remoteBackground" = palette.blue;
+    "statusBarItem.remoteForeground" = palette.black;
+    "statusBarItem.hoverBackground" = palette.dim-gray;
   };
 }

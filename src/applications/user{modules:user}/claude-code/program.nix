@@ -3,6 +3,7 @@
     enable = true;
     package = pkgs.claude-code;
     settings = {
+      model = "claude-opus-4-8";
       theme = "dark";
       suggestions = false;
       includeCoAuthoredBy = false;

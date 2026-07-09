@@ -30,5 +30,10 @@ in {
     "list.focusHighlightForeground" = palette.green;
 
     "tree.indentGuidesStroke" = palette.white;
+
+    "sideBarSectionHeader.background" = palette.black;
+    "sideBarSectionHeader.foreground" = palette.white;
+    "sideBarSectionHeader.border" = palette.dark-gray;
+    "sideBarTitle.foreground" = palette.white;
   };
 }

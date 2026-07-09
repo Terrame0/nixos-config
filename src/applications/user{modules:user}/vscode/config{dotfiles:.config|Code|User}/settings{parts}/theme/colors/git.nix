@@ -17,9 +17,13 @@ in {
     "editorOverviewRuler.modifiedForeground" = "${palette.yellow}99";
     "editorOverviewRuler.deletedForeground" = "${palette.red}99";
     "editorOverviewRuler.commonContentForeground" = "${palette.gray}99";
-    "editorOverviewRuler.warningForeground" = palette.orange;
+    "editorOverviewRuler.warningForeground" = palette.yellow;
 
     "diffEditor.insertedTextBackground" = "${palette.green}33";
     "diffEditor.removedTextBackground" = "${palette.red}33";
+
+    "gitDecoration.stageModifiedResourceForeground" = palette.yellow;
+    "gitDecoration.stageDeletedResourceForeground" = palette.red;
+    "gitDecoration.conflictingResourceForeground" = palette.red;
   };
 }

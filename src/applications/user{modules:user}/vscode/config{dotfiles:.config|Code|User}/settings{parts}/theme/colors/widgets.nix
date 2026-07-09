@@ -62,5 +62,18 @@ in {
     "debugConsoleLink.foreground" = palette.blue;
 
     "symbolIcon.textForeground" = palette.white;
+
+    "editorWidget.background" = palette.dark-gray;
+    "editorWidget.foreground" = palette.white;
+    "editorWidget.border" = palette.dim-gray;
+    "widget.border" = palette.dim-gray;
+
+    "actionBar.toggledBackground" = palette.dim-gray;
+
+    "quickInput.background" = palette.dark-gray;
+    "quickInput.foreground" = palette.white;
+    "quickInputList.focusBackground" = palette.dim-gray;
+    "quickInputList.focusForeground" = palette.white;
+    "quickInputList.focusHighlightForeground" = palette.green;
   };
 }
