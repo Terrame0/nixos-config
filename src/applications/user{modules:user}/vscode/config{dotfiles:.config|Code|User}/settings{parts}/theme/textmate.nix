@@ -168,8 +168,6 @@ in {
           "meta.property-name.scss" # scss props
           "entity.name.tag.css" # css tags
           "source.css.scss" # scss root
-          "constant.character.escape" # \n \t etc
-          "string.regexp constant.character.escape" # regexp escapes
           "keyword.control.anchor.regexp" # ^ $ anchors
           "keyword.operator.or.regexp" # regexp alternation
           "invalid" # invalid
@@ -194,6 +192,15 @@ in {
       # -- yellow (changes)
       {
         scope = ["markup.changed" "punctuation.definition.changed"];
+        settings.foreground = palette.yellow;
+      }
+
+      # -- yellow (escape sequences)
+      {
+        scope = [
+          "constant.character.escape" # \n \t \\ etc
+          "string.regexp constant.character.escape" # regexp escapes
+        ];
         settings.foreground = palette.yellow;
       }
 
