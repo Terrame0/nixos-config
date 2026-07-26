@@ -443,15 +443,15 @@
       "locked": {
         "lastModified": 1772352894,
         "narHash": "sha256-rWtDLq4huOPuZ10g4zm8uZb0567mqcxJjP2d1r0H7L8=",
-        "ref": "refs/heads/master",
+        "owner": "Terrame0",
+        "repo": "nixos-update-script",
         "rev": "e377d01b3b6b7fa336581f4c811a2f2ee5ede9f0",
-        "revCount": 8,
-        "type": "git",
-        "url": "ssh://git@github.com/Terrame0/nixos-update-script.git"
+        "type": "github"
       },
       "original": {
-        "type": "git",
-        "url": "ssh://git@github.com/Terrame0/nixos-update-script.git"
+        "owner": "Terrame0",
+        "repo": "nixos-update-script",
+        "type": "github"
       }
     },
     "nixpkgs": {
@@ -550,15 +550,15 @@
       "locked": {
         "lastModified": 1783351804,
         "narHash": "sha256-OEHyN5rfQC9ckbw/jCHxBY26AmeKxkERVCepY3/iM3o=",
-        "ref": "refs/heads/main",
+        "owner": "Terrame0",
+        "repo": "sundry",
         "rev": "b85fed04192ac3db58d8fc5b1f536a117e5116ac",
-        "revCount": 67,
-        "type": "git",
-        "url": "ssh://git@github.com/Terrame0/sundry.git"
+        "type": "github"
       },
       "original": {
-        "type": "git",
-        "url": "ssh://git@github.com/Terrame0/sundry.git"
+        "owner": "Terrame0",
+        "repo": "sundry",
+        "type": "github"
       }
     },
     "systems": {

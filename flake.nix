@@ -12,11 +12,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     nixos-update-script = {
-      url = "git+ssh://git@github.com/Terrame0/nixos-update-script.git";
+      url = "github:Terrame0/nixos-update-script";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     sundry-input = {
-      url = "git+ssh://git@github.com/Terrame0/sundry.git";
+      url = "github:Terrame0/sundry";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     sops-nix = {
@@ -43,6 +43,12 @@
   }: let
     username = "terrame";
     hosts = [
+      {
+        name = "lenovo";
+        system-state-version = "26.05";
+        system = "x86_64-linux";
+        cores = 4;
+      }
       {
         name = "desktop";
         system-state-version = "25.05";
