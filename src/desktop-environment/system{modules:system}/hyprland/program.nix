@@ -10,7 +10,5 @@
     xwayland.enable = true;
   };
 
-  environment.systemPackages = with pkgs; [
-    xdg-desktop-portal-hyprland
-  ];
+  xdg.portal.extraPortals = [pkgs.xdg-desktop-portal-gtk];
 }

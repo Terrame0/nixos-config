@@ -12,7 +12,7 @@ nixos-config/
 │   ├── hardware/      — boot, graphics, sound, bluetooth, networking, swap, per-host, asusd, keyd
 │   ├── security/      — sops, keyring, sudo
 │   ├── network/       — sing-box (VPN, see sing-box.md), throne, ssh-daemon
-│   ├── applications/  — steam, nix-ld, dbus (sys); alacritty, firefox, mpv, vscode, thunar, yt-dlp (user)
+│   ├── applications/  — steam, nix-ld, dbus, thunar (sys); alacritty, firefox, mpv, vscode, yt-dlp (user)
 │   ├── desktop-environment/ — hyprland, uwsm, fonts (sys); waybar, wofi, gtk-theme, cliphist, autostart, xdg (user)
 │   └── shell/         — zsh, starship, git, ssh, direnv (user)
 └── infrastructure/    — foundation for modules, but not itself a module
