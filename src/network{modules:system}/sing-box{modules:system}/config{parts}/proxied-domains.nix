@@ -71,4 +71,5 @@
   "dota2mapdrawing.com"
   "onlinegdb.com"
   "virtualpiano.net"
+  "firefox.com"
 ]

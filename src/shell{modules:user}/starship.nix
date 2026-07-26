@@ -2,6 +2,7 @@
   programs.starship = {
     enable = true;
     enableZshIntegration = true;
+    enableNushellIntegration = true;
     settings = {
       "$schema" = "https://starship.rs/config-schema.json";
       format = "$username$git_branch$nix_shell$directory";
