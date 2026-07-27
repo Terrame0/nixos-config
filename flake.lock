@@ -542,17 +542,12 @@
       }
     },
     "sundry-input": {
-      "inputs": {
-        "nixpkgs": [
-          "nixpkgs"
-        ]
-      },
       "locked": {
-        "lastModified": 1783351804,
-        "narHash": "sha256-OEHyN5rfQC9ckbw/jCHxBY26AmeKxkERVCepY3/iM3o=",
+        "lastModified": 1785136173,
+        "narHash": "sha256-wKEDIKfJz7FrvILnITVAwFupxK9j+xTXvsJt0tcMzBc=",
         "owner": "Terrame0",
         "repo": "sundry",
-        "rev": "b85fed04192ac3db58d8fc5b1f536a117e5116ac",
+        "rev": "85189ec4a277413886a5bb6de980fdbd88a9a4f8",
         "type": "github"
       },
       "original": {

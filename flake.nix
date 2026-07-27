@@ -65,9 +65,8 @@
   in {
     nixosConfigurations = builtins.foldl' (acc: x: acc // x) {} (
       map (host: let
-        sys-attrs = {inherit (host) system;};
-        pkgs = import nixpkgs sys-attrs;
-        sundry = (sundry-input.evaluate sys-attrs).functions;
+        pkgs = import nixpkgs {inherit (host) system;};
+        sundry = sundry-input.mk-lib {inherit pkgs;};
         config-root = self.outPath;
         lib = pkgs.lib;
         module-args = {
