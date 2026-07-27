@@ -8,7 +8,6 @@
     "mads-hartmann.bash-ide-vscode"
     "llvm-vs-code-extensions.vscode-clangd"
     "mesonbuild.mesonbuild"
-    "anthropic.claude-code"
     "openai.chatgpt"
     "a5huynh.vscode-ron"
     "jq-syntax-highlighting.jq-syntax-highlighting"
