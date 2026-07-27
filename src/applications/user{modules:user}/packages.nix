@@ -9,7 +9,6 @@
     # -- basic desktop utilities
     eog
     gedit
-
     prismlauncher
     onlyoffice-desktopeditors
     qbittorrent
