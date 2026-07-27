@@ -25,5 +25,4 @@
   "telemetry.telemetryLevel" = "off";
   "chat.disableAIFeatures" = true;
   "extensions.ignoreRecommendations" = true;
-  "claudeCode.preferredLocation" = "panel";
 }
