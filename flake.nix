@@ -17,7 +17,6 @@
     };
     sundry-input = {
       url = "github:Terrame0/sundry";
-      inputs.nixpkgs.follows = "nixpkgs";
     };
     sops-nix = {
       url = "github:Mic92/sops-nix";

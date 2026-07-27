@@ -60,10 +60,10 @@ Two outbounds sit in front of the nodes, both filled with the node tags at runti
 Pinning is done over the Clash control API, configured in [config{parts}/sing-box-config/misc.nix](../src/network%7Bmodules:system%7D/sing-box%7Bmodules:system%7D/config%7Bparts%7D/sing-box-config/misc.nix):
 
 - `external_controller = "127.0.0.1:9090"` — localhost-only, no secret.
-- `access_control_allow_origin = ["https://metacubex.github.io"]` — CORS restricted to MetaCubeXD dashboard only.
+- `access_control_allow_origin` allows MetaCubeXD and Yacd dashboards.
 - `access_control_allow_private_network = true` — required for Chrome to allow requests from a public origin (`github.io`) into localhost.
 
-Point a Clash-compatible UI (e.g. [MetaCubeXD](https://metacubex.github.io/metacubexd)) or `curl` at it to switch the `proxy` selector:
+Point a Clash-compatible UI (e.g. [MetaCubeXD](https://metacubex.github.io/metacubexd) or [Yacd](http://yacd.metacubex.one)) or `curl` at it to switch the `proxy` selector:
 
 ```bash
 curl -X PUT http://127.0.0.1:9090/proxies/proxy \
