@@ -5,10 +5,10 @@ args @ {
   host,
   ...
 }: {
-  nix-imports = {
-    deps = ["imports"];
+  evaluated-nix-dotfiles = {
+    deps = ["dotfile-sources"];
     transform = prev:
-      lib.pipe prev.imports [
+      lib.pipe prev.dotfile-sources [
         (sundry.vfs.dir.filter (path: file: sundry.vfs.path.get.ext path == "nix"))
         (sundry.vfs.dir.walk (path: file:
           file
@@ -20,10 +20,10 @@ args @ {
       ];
   };
 
-  nix = {
-    deps = ["nix-imports"];
+  converted-nix-dotfiles = {
+    deps = ["evaluated-nix-dotfiles"];
     transform = prev:
-      lib.pipe prev.nix-imports [
+      lib.pipe prev.evaluated-nix-dotfiles [
         (sundry.vfs.dir.filter (path: file: sundry.vfs.path.get.ext path == "nix"))
         (sundry.vfs.dir.select-by-tag (_: with _; tag {convert = ["json" "ini"];}))
         (sundry.vfs.dir.reform (

@@ -3,8 +3,8 @@
   lib,
   ...
 }: {
-  result = {
-    deps = ["sass" "nix" "processed-imports"];
+  home-files = {
+    deps = ["built-sass-dotfiles" "converted-nix-dotfiles" "raw-dotfiles"];
     transform = prev:
       lib.pipe prev [
         lib.attrValues

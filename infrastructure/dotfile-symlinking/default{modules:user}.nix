@@ -12,5 +12,5 @@ args @ {
     sundry.attrs.merge.recursive.no-collision
   ];
 in {
-  home.file = (sundry.attrs.resolve-deps pipeline).result;
+  home.file = (sundry.attrs.resolve-deps pipeline).home-files;
 }

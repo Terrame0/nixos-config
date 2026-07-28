@@ -54,11 +54,11 @@ Splitting an empty string yields a one-element list holding the empty string, no
 
 ## A VFS node's `path` and `tag-list` desync if you rewrite `path` mid-pipeline
 
-`sass-load-paths` computes `lib.take tag-pos path`, where `tag-pos = get-tag-pos …` is an index into the node's **`tag-list`**. This only lands on the right prefix while `tag-list` and `path` share coordinates. Rewriting `path` (e.g. the `{dotfiles}` home-relative rebase) **without** rewriting `tag-list` breaks that: `tag-pos` stays large, the rebased `path` is short, and `take` overshoots — putting **file** paths into `--load-path` instead of include **dirs**, so Sass can't resolve `@use`.
+`sass-load-flags` computes `lib.take tag-pos path`, where `tag-pos = get-tag-pos …` is an index into the node's **`tag-list`**. This only lands on the right prefix while `tag-list` and `path` share coordinates. Rewriting `path` (e.g. the `{dotfiles}` home-relative rebase) **without** rewriting `tag-list` breaks that: `tag-pos` stays large, the rebased `path` is short, and `take` overshoots — putting **file** paths into `--load-path` instead of include **dirs**, so Sass can't resolve `@use`.
 
 **Why:** `take tag-pos path` silently assumes `tag-pos` indexes the *current* `path`. The old positional model kept them equal-length; home-relative rebasing drops the left prefix from `path` only.
 
-**Avoid:** keep the node's `path` in source-tree coordinates through every stage that reads `tag-pos`/`tag-list`. The home-relative rewrite happens **last**, in `result`'s `to-home-path`, applied only to the emitted `home.file` key — never to the node in the tree. See [dotfile-symlinking.md](dotfile-symlinking.md).
+**Avoid:** keep the node's `path` in source-tree coordinates through every stage that reads `tag-pos`/`tag-list`. The home-relative rewrite happens **last**, in `home-files`'s `to-home-path`, applied only to the emitted `home.file` key — never to the node in the tree. See [dotfile-symlinking.md](dotfile-symlinking.md).
 
 The deeper lesson: **rewriting a directory node's `path` mid-pipeline is suspect on principle** — any later stage that correlates `path` with `tag-list` (via `tag-pos`) will misread it, because the rewrite moves one and not the other. The safe pattern is to derive the final path from `path` + `tag-list` **at the point of use** (as `to-home-path` does), leaving the tree in one coordinate system end to end. Treat "reform a directory's path early" as a smell, not a tool.
 

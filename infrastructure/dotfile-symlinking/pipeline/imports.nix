@@ -4,7 +4,7 @@
   lib,
   ...
 }: {
-  imports = {
+  dotfile-sources = {
     transform = _:
       lib.pipe config-root [
         sundry.vfs.dir.from-src
@@ -13,10 +13,10 @@
       ];
   };
 
-  processed-imports = {
-    deps = ["imports"];
+  raw-dotfiles = {
+    deps = ["dotfile-sources"];
     transform = prev:
-      lib.pipe prev.imports [
+      lib.pipe prev.dotfile-sources [
         (sundry.vfs.dir.select-by-tag
           (e:
             !(

@@ -8,13 +8,13 @@ Dotfiles are produced by a custom pipeline under [infrastructure/dotfile-symlink
 
 1. It reads every `.nix` file under `pipeline{parts}/` and imports each with shared args.
 2. The stages are merged and run through `sundry.attrs.resolve-deps` — a dependency-aware evaluator that orders stages by their declared `deps`.
-3. The final `result` key is assigned to `home.file`.
+3. The final `home-files` key is assigned to `home.file`.
 
 The pipeline directory is tagged `{parts}` so its own files are never mistaken for dotfile sources or modules.
 
 ## Source: the module tree
 
-`imports` scans the whole repo from `config-root` and keeps only `{dotfiles:…}` subtrees ([imports.nix](../infrastructure/dotfile-symlinking%7Bmodules:user%7D/pipeline%7Bparts%7D/imports.nix)):
+`dotfile-sources` scans the whole repo from `config-root` and keeps only `{dotfiles:…}` subtrees ([imports.nix](../infrastructure/dotfile-symlinking%7Bmodules:user%7D/pipeline%7Bparts%7D/imports.nix)):
 
 | Root | Selection | Destination path comes from |
 |---|---|---|
@@ -37,20 +37,20 @@ The tag vocabulary splits along one axis:
 
 | Stage | File | What it does |
 |---|---|---|
-| `imports` | [imports.nix](../infrastructure/dotfile-symlinking%7Bmodules:user%7D/pipeline%7Bparts%7D/imports.nix) | Scans from `config-root`, resolves tags, selects `{dotfiles}` subtrees. **Paths stay as-is** — no home-relative rewrite here. |
-| `processed-imports` | same file | Drops `{include}`, `{build}`, `{convert}`, `{parts}` files — the raw-copy set. |
-| `nix-imports` | [nix.nix](../infrastructure/dotfile-symlinking%7Bmodules:user%7D/pipeline%7Bparts%7D/nix.nix) | Imports every `.nix`, evaluating it with `{ lib, pkgs, host, file-dir }` into `.expr`. (`host` lets a dotfile read host facts like `host.cores`; `theme` joins this arg set when the global theme lands — see [theme-source.md](theme-source.md).) |
-| `nix` | same file | Serialises `{convert:json}` / `{convert:ini}` files' `.expr` to text via `lib.generators`. |
-| `sass-staging-dir` | [sass.nix](../infrastructure/dotfile-symlinking%7Bmodules:user%7D/pipeline%7Bparts%7D/sass.nix) | Materialises all `.scss` into one derivation directory. |
-| `sass-load-paths` | same file | Collects `{include:sass}` dirs as `--load-path` flags. |
-| `sass` | same file | Compiles `{build:sass}` entry points to `.css` via `dart-sass`. |
-| `result` | [result.nix](../infrastructure/dotfile-symlinking%7Bmodules:user%7D/pipeline%7Bparts%7D/result.nix) | Merges all stages; applies `{ext:…}` renames; **rewrites each path to its `~`-relative home path** (`to-home-path`); collapses to `home.file`. |
+| `dotfile-sources` | [imports.nix](../infrastructure/dotfile-symlinking%7Bmodules:user%7D/pipeline%7Bparts%7D/imports.nix) | Scans from `config-root`, resolves tags, selects `{dotfiles}` subtrees. **Paths stay as-is** — no home-relative rewrite here. |
+| `raw-dotfiles` | same file | Drops `{include}`, `{build}`, `{convert}`, `{parts}` files — the raw-copy set. |
+| `evaluated-nix-dotfiles` | [nix.nix](../infrastructure/dotfile-symlinking%7Bmodules:user%7D/pipeline%7Bparts%7D/nix.nix) | Imports every `.nix`, evaluating it with `{ lib, pkgs, host, file-dir }` into `.expr`. (`host` lets a dotfile read host facts like `host.cores`; `theme` joins this arg set when the global theme lands — see [theme-source.md](theme-source.md).) |
+| `converted-nix-dotfiles` | same file | Serialises `{convert:json}` / `{convert:ini}` files' `.expr` to text via `lib.generators`. |
+| `sass-build-tree` | [sass.nix](../infrastructure/dotfile-symlinking%7Bmodules:user%7D/pipeline%7Bparts%7D/sass.nix) | Materialises all `.scss` into one clean source tree in a derivation and keeps both `{ drv, dir }`. |
+| `sass-load-flags` | same file | Collects `{include:sass}` dirs as ready-to-use `--load-path` flags. |
+| `built-sass-dotfiles` | same file | Compiles `{build:sass}` entry points to `.css` via `dart-sass`. |
+| `home-files` | [result.nix](../infrastructure/dotfile-symlinking%7Bmodules:user%7D/pipeline%7Bparts%7D/result.nix) | Merges all stages; applies `{ext:…}` renames; **rewrites each path to its `~`-relative home path** (`to-home-path`); collapses to `home.file`. |
 
 ### Where the home-relative rewrite happens — and why it's last
 
 `{dotfiles:PATH}` gives a path **relative to `~`**, replacing everything to its left. `PATH` uses `|` to separate segments (local convention, not sundry tag syntax): `{dotfiles:.config|waybar}` → `~/.config/waybar/`.
 
-This rewrite lives in `result`'s `to-home-path`, applied only when building the `home.file` key — **not** in `imports`. The VFS node's `path` stays in its original (source-tree) coordinates through every stage. This is deliberate: `sass-load-paths` computes `lib.take tag-pos path`, which relies on `tag-pos` (an index into the node's `tag-list`) still indexing `path`. Rewriting `path` early — but not `tag-list` — desynchronises the two, and `take` overshoots into file paths instead of include dirs. See [gotchas.md](gotchas.md).
+This rewrite lives in `home-files`'s `to-home-path`, applied only when building the `home.file` key — **not** in `dotfile-sources`. The VFS node's `path` stays in its original (source-tree) coordinates through every stage. This is deliberate: `sass-load-flags` computes `lib.take tag-pos path`, which relies on `tag-pos` (an index into the node's `tag-list`) still indexing `path`. Rewriting `path` early — but not `tag-list` — desynchronises the two, and `take` overshoots into file paths instead of include dirs. See [gotchas.md](gotchas.md).
 
 ## Tag syntax in file/directory names
 
@@ -62,7 +62,7 @@ Tags are embedded in path segments as `{key}` or `{key:value}`; multiple values 
 | `{convert:json}` / `{convert:ini}` | file | `.nix` evaluates to an attrset; pipeline serialises it to JSON / INI text. |
 | `{ext:ext}` | file | Overrides the output extension. Bare `{ext}` strips the extension entirely. |
 | `{build:sass}` | file | This `.scss` is a Sass entry point — compile to `.css`. |
-| `{include:sass}` | directory | Sass include path. The `--load-path` is the dir **above** the tagged segment (`lib.take tag-pos path` in the staging derivation). |
+| `{include:sass}` | directory | Sass include path. The `--load-path` is the dir **above** the tagged segment (`lib.take tag-pos path` in the Sass build tree derivation). |
 | `{parts}` | file or dir | Source-only helper, excluded from all discovery (module *and* dotfile). E.g. `settings{parts}/`, the `pipeline{parts}/` dir, sing-box's `config{parts}/`. |
 | `{hosts:name}` | file or dir | Only built for the named host. |
 
