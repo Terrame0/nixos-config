@@ -7,6 +7,7 @@
     pcsx2
 
     # -- basic desktop utilities
+    clang-tools
     eog
     gedit
     prismlauncher
