@@ -8,6 +8,6 @@
     "--completion-style=detailed"
     "--log=verbose"
     "--pch-storage=memory"
-    "--function-arg-placeholders"
+    "--function-arg-placeholders=true"
   ];
 }
