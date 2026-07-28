@@ -1,25 +1,26 @@
 {pkgs, ...}: {
   home.packages = with pkgs; [
-    # -- dev tools
-    python3
+    # -- lsps
     nixd
     jq-lsp
-    jq
+
+    # -- dev tools
+    python3
+    clang-tools
     gtk3.dev
+    jq
 
     # -- utilities
     treefmt
     brightnessctl
     wireplumber
     alejandra
-    any-nix-shell
     fastfetch
     tree
-    jq
     ouch
     htop
 
-    # -- screenshotse
+    # -- screenshots
     grim
     slurp
 
