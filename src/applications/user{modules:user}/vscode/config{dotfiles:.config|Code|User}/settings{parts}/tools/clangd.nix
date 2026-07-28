@@ -7,5 +7,7 @@
     "--header-insertion=iwyu"
     "--completion-style=detailed"
     "--log=verbose"
+    "--pch-storage=memory"
+    "--function-arg-placeholders"
   ];
 }

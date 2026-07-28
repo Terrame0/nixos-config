@@ -1,15 +1,25 @@
 {pkgs, ...}: {
   programs.vscode.profiles.default.extensions = pkgs.nix4vscode.forVscode [
-    "tamasfe.even-better-toml"
+    # -- cpp
     "twxs.cmake"
-    "ms-python.python"
-    "jnoortheen.nix-ide"
-    "charliermarsh.ruff"
-    "mads-hartmann.bash-ide-vscode"
     "llvm-vs-code-extensions.vscode-clangd"
     "mesonbuild.mesonbuild"
-    "openai.chatgpt"
-    "a5huynh.vscode-ron"
+
+    # -- direnv
+    "mkhl.direnv"
+
+    # -- python
+    "ms-python.python"
+    "charliermarsh.ruff"
+
+    # -- syntax highlighters
     "jq-syntax-highlighting.jq-syntax-highlighting"
+    "mads-hartmann.bash-ide-vscode"
+    "tamasfe.even-better-toml"
+    "a5huynh.vscode-ron"
+    "jnoortheen.nix-ide"
+
+    # -- codex
+    "openai.chatgpt"
   ];
 }
