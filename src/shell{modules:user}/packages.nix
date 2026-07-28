@@ -15,6 +15,7 @@
     brightnessctl
     wireplumber
     alejandra
+    any-nix-shell
     fastfetch
     tree
     ouch
