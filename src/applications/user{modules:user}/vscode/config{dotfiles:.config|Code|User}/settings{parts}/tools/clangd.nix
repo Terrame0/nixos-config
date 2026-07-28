@@ -1,5 +1,9 @@
-{...}: {
-  "clangd.path" = "clangd";
+{
+  pkgs,
+  lib,
+  ...
+}: {
+  "clangd.path" = "${lib.getExe' pkgs.llvmPackages_latest.clang-tools "clangd"}";
   "clangd.trace" = "/tmp/clangd-log.txt";
   "clangd.arguments" = [
     "--background-index"
