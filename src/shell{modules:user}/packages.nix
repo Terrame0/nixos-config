@@ -6,7 +6,7 @@
 
     # -- dev tools
     python3
-    clang-tools
+    # clang-tools
     gtk3.dev
     jq
 
