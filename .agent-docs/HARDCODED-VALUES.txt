@@ -23,11 +23,10 @@ config.string.substitute-expressions из lib/utils/string/substitute-expression
      light-gray #969896  white #c5c8c6  red #d54e53  orange #e78c45
      yellow #e7c547  green #b9ca4a  aqua #70c0b1  blue #7aa6da  purple #c397d8
 
-2) .config/hypr/hyprland.conf
-   $dim-gray      "#[config.style.palette.dim-gray]"       -> #373b41
-   $offset-in     "#[config.style.constants.offset / 2]"   -> 3   (6 / 2)
-   $offset-out    "#[config.style.constants.offset]"       -> 6
-   $border-radius "#[config.style.constants.border-radius]" -> 12
+2) .config/hypr/hyprland.lua
+   offset_in     "#[config.style.constants.offset / 2]"   -> 3   (6 / 2)
+   offset_out    "#[config.style.constants.offset]"       -> 6
+   border_radius "#[config.style.constants.border-radius]" -> 12
 
 3) .config/mpv/script-opts/webtorrent.conf
    /home/"#[username]"/Videos/webtorrent -> /home/terrame/Videos/webtorrent
