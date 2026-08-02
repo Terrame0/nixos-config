@@ -35,9 +35,14 @@
   "nix.dev"
 
   # -- lutris can't download from github w/o this
+  "lutris.net"
   "github.com"
   "api.github.com"
+  "githubassets.com"
   "githubusercontent.com"
+  "objects.githubusercontent.com"
+  "release-assets.githubusercontent.com"
+  "lutris.nyc3.cdn.digitaloceanspaces.com"
 
   # -- frontier (elite dangerous)
   "user.frontierstore.net"
