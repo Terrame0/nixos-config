@@ -19,5 +19,6 @@
     gdk-pixbuf
     poppler
     ffmpegthumbnailer
+    file-roller
   ];
 }
