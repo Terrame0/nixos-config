@@ -49,6 +49,10 @@
   "epicgames.dev"
   "account-public-service-prod03.ol.epicgames.com"
 
+  # -- minecraft
+  "modrinth.com"
+  "curseforge.com"
+
   # -- misc
   "web.archive.org"
   "ubistatic3-a.akamaihd.net"
