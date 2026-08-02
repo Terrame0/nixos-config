@@ -52,6 +52,7 @@
   # -- minecraft
   "modrinth.com"
   "curseforge.com"
+  "minecraft.net"
 
   # -- misc
   "web.archive.org"
