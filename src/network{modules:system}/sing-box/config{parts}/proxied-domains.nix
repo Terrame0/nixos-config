@@ -1,8 +1,9 @@
 [
-  # -- nixos binary cache
+  # -- nixos binary caches
   "cache.nixos.org"
   "attic.xuyh0120.win"
   "hyprland.cachix.org"
+  "watersucks.cachix.org"
 
   # -- trove
   "trionworlds.com"

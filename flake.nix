@@ -14,9 +14,6 @@
       url = "github:Terrame0/nixos-update-script";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    sundry-input = {
-      url = "github:Terrame0/sundry";
-    };
     sops-nix = {
       url = "github:Mic92/sops-nix";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -25,8 +22,14 @@
       url = "github:nix-community/nix4vscode";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    # -- do not override nixpkgs input
+    nixos-cli = {
+      url = "github:nix-community/nixos-cli";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    # -- do not override nixpkgs input (per their README.md)
     nix-cachyos-kernel.url = "github:xddxdd/nix-cachyos-kernel/release";
+    # -- does not have a nixpkgs input
+    sundry-input.url = "github:Terrame0/sundry";
   };
 
   outputs = inputs @ {
@@ -36,9 +39,7 @@
     home-manager,
     sundry-input,
     hyprland,
-    # nix4vscode,
-    # nixpkgs-unstable,
-    # nixos-update-script,
+    nixos-cli,
     ...
   }: let
     username = "terrame";
@@ -114,6 +115,7 @@
           modules =
             (filter-modules "system")
             ++ [
+              nixos-cli.nixosModules.nixos-cli
               hyprland.nixosModules.default
               home-manager.nixosModules.home-manager
               sops-nix.nixosModules.sops

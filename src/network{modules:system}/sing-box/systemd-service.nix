@@ -6,7 +6,7 @@ args @ {
   ...
 }: let
   paths = rec {
-    config-dir = "${config-root}/src/network{modules:system}/sing-box{modules:system}/config{parts}";
+    config-dir = "${config-root}/src/network{modules:system}/sing-box/config{parts}";
     base-dir = "sing-box";
     state-dir = "/var/lib/${base-dir}";
     runtime-dir = "/run/${base-dir}";

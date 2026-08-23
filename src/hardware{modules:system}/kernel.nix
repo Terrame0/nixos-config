@@ -1,12 +1,11 @@
 {pkgs, ...}: {
   boot = {
     kernelPackages =
-      pkgs.linuxPackages_latest;
-    #pkgs.cachyosKernels.linuxPackages-cachyos-latest-lto-x86_64-v3;
-    #kernelModules = [
-    #  "ntsync"
-    #  "tcp_bbr3"
-    #  "sch_fq"
-    #];
+      pkgs.cachyosKernels.linuxPackages-cachyos-latest-lto-x86_64-v3;
+    kernelModules = [
+      "ntsync" # -- to improve windows compat layer performance
+      "tcp_bbr3" # -- tcp congestion control
+      "sch_fq"
+    ];
   };
 }
