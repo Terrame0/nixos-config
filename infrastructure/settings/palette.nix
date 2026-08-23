@@ -13,6 +13,7 @@
   aqua = "#70c0b1";
   blue = "#7aa6da";
   purple = "#c397d8";
+
   # -- Kanagawa (wave) --
   # black = "#1f1f28"; # sumiInk1 (bg)
   # dark-gray = "#2a2a37"; # sumiInk3
