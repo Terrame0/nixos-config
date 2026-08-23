@@ -5,7 +5,7 @@
     kernelModules = [
       "ntsync" # -- to improve windows compat layer performance
       "tcp_bbr3" # -- tcp congestion control
-      "sch_fq"
+      "sch_fq" # -- qdisc fair queue
     ];
   };
 }
