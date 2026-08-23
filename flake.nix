@@ -78,10 +78,11 @@
           inherit sundry;
           inherit settings;
         };
-        settings = lib.pipe "${config-root}/infrastructure/settings" [
+        settings = lib.pipe "${config-root}/infrastructure/design-system" [
           sundry.vfs.dir.from-src
+          sundry.vfs.dir.load-nix
           (sundry.vfs.dir.collapse
-            (path: file: {${sundry.vfs.path.get.stem path} = import file.origin;}))
+            (path: file: {${sundry.vfs.path.get.stem path} = file.expr;}))
           sundry.attrs.merge.recursive.no-collision
         ];
         modules = lib.pipe config-root [

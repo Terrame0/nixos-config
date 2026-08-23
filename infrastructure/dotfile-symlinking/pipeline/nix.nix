@@ -10,13 +10,8 @@ args @ {
     transform = prev:
       lib.pipe prev.dotfile-sources [
         (sundry.vfs.dir.filter (path: file: sundry.vfs.path.get.ext path == "nix"))
-        (sundry.vfs.dir.walk (path: file:
-          file
-          // {
-            expr =
-              import file.origin
-              (args // {file-dir = dirOf file.origin;});
-          }))
+        (sundry.vfs.dir.load-nix-with
+          (path: file: expr: expr (args // {file-dir = dirOf file.origin;})))
       ];
   };
 
