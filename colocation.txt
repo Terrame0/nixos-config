@@ -1,0 +1,285 @@
+SWEEP КОЛОКАЦИИ
+================
+
+Дата: 2026-08-23
+
+Цель: одна функциональность должна иметь одного владельца в дереве. Системный или
+пользовательский уровень задаётся тегом, а не разносом частей одной функциональности
+по разным каталогам. Модуль, dotfiles, локальные скрипты и их runtime-зависимости
+должны находиться рядом.
+
+Приоритеты:
+  P0 — перенос одновременно устраняет фактический дефект.
+  P1 — подтверждённое нарушение колокации.
+  P2 — улучшение границ и именования.
+
+
+P0. HYPRLAND И ЕГО RUNTIME-ЗАВИСИМОСТИ
+--------------------------------------
+
+Сейчас одна функциональность разрезана между:
+
+  src/desktop-environment/system{modules:system}/hyprland/program.nix
+  src/desktop-environment/system{modules:system}/uwsm.nix
+  src/desktop-environment/user{modules:user}/autostart.nix
+  src/desktop-environment/user{modules:user}/hyprland/config{dotfiles:.config|hypr}/
+
+Целевой владелец:
+
+  src/desktop-environment/hyprland/
+    program{modules:system}.nix
+    uwsm{modules:system}.nix
+    session{modules:user}.nix
+    config{dotfiles:.config|hypr}/
+
+Корень feature оставляется без level-тега, потому что внутри есть system-, user- и
+dotfile-классы. Это соответствует правилу deepest tag wins и не требует отдельного
+system/user-дерева для одного compositor feature.
+
+В session{modules:user}.nix переносится programs.zsh.loginExtra, который запускает
+именно Hyprland через UWSM. Он не является общим автозапуском desktop environment.
+
+Команды из hyprland.lua и screenshot.sh сейчас зависят от пакетов, установленных в
+src/shell{modules:user}/packages.nix:
+
+  brightnessctl
+  wireplumber (ради wpctl)
+  grim
+  slurp
+  wl-clipboard (ради wl-copy)
+
+Эти пакеты не принадлежат shell feature. grim, slurp и wl-clipboard должны
+устанавливаться модулем рядом со screenshot.sh. brightnessctl и клиент wpctl должны
+устанавливаться рядом с bindings, которые их вызывают, либо команды должны получать
+абсолютные store paths из генерируемого Nix-dotfile.
+
+Фактический дефект: hyprland.lua вызывает playerctl, но playerctl не объявлен ни в
+одном пакете репозитория. Добавить его к runtime-зависимостям Hyprland bindings.
+
+Дополнительная проверка: wireplumber уже включён системным модулем
+src/hardware{modules:system}/sound.nix. Проверить, попадает ли wpctl в системный PATH;
+если да, удалить дублирующий home.packages = [ wireplumber ], а не переносить его.
+
+
+P0. ПРИЛОЖЕНИЯ И MIME-АССОЦИАЦИИ
+--------------------------------
+
+Установка приложений находится в src/applications/, но их конфигурация по умолчанию
+собрана отдельно в:
+
+  src/desktop-environment/user{modules:user}/default-apps.nix
+
+Из-за этого удаление или замена приложения оставляет устаревшую ассоциацию. Уже есть
+три подтверждённых рассинхронизации:
+
+  gimp.desktop — GIMP не устанавливается;
+  libreoffice-*.desktop — установлен OnlyOffice, а не LibreOffice;
+  xarchiver.desktop — установлен file-roller, а не Xarchiver.
+
+Разнести xdg.mimeApps.defaultApplications по владельцам:
+
+  Firefox     — HTTP, HTTPS и text/html рядом с firefox module;
+  mpv         — video/* и audio/* рядом с mpv/program.nix;
+  Thunar      — inode/directory рядом с Thunar feature;
+  gedit       — text/plain рядом с установкой gedit;
+  EOG         — поддерживаемые image/* рядом с установкой EOG;
+  qBittorrent — application/x-bittorrent рядом с qBittorrent;
+  office app  — офисные MIME-типы рядом с выбранным и реально установленным suite;
+  archive app — архивные MIME-типы рядом с выбранным и реально установленным app;
+  XCF editor  — объявлять ассоциацию только вместе с выбранным установленным app.
+
+Для смешанного Thunar feature допустим файл defaults{modules:user}.nix внутри
+src/applications/system{modules:system}/thunar/: более глубокий user-тег переопределит
+system-тег родителя. Это позволяет оставить program.nix, helpers.rc и MIME-настройки
+рядом.
+
+После переноса удалить default-apps.nix. xdg.mimeApps.enable можно задать в одном
+нейтральном HM-модуле, если опция не включается автоматически при добавлении
+defaultApplications.
+
+
+P1. УЧЁТНАЯ ЗАПИСЬ ПОЛЬЗОВАТЕЛЯ И ZSH
+-------------------------------------
+
+src/desktop-environment/system{modules:system}/users.nix не принадлежит desktop
+environment. Файл одновременно владеет четырьмя разными решениями:
+
+  созданием системных пользователей;
+  password hashes из sops;
+  группами wheel и networkmanager;
+  включением Zsh и выбором defaultUserShell.
+
+Разделить ответственность:
+
+  src/nixos/system{modules:system}/users.nix
+    — сами учётные записи и password hashes;
+
+  src/shell{modules:user}/zsh/system{modules:system}.nix
+    — programs.zsh.enable и users.defaultUserShell;
+
+  src/shell{modules:user}/zsh/user.nix
+    — текущее содержимое src/shell{modules:user}/zsh.nix.
+
+Системный файл можно держать внутри преимущественно user-level домена shell:
+deepest system-тег делает его NixOS-модулем. Если каталог zsh создаётся, старый
+zsh.nix нужно удалить в том же изменении, чтобы не получить неоднозначный import
+файл/каталог.
+
+Членство в wheel является политикой учётной записи/доступа и может остаться в
+users.nix. Членство в networkmanager желательно объявить со стороны NetworkManager
+feature, только если список extraGroups безопасно композируется без конфликтов;
+иначе оставить его в users.nix как интеграционную политику.
+
+
+P1. NETWORKMANAGER ЛЕЖИТ В HARDWARE
+-----------------------------------
+
+src/hardware{modules:system}/networking.nix включает NetworkManager, DNS и firewall.
+Это сетевой, а не аппаратный feature. Перенести его в network domain.
+
+Текущий минимальный вариант:
+
+  src/network{modules:system}/network-manager.nix
+
+Вариант, готовый к будущему nm-applet/Quickshell frontend:
+
+  src/network/network-manager/
+    system{modules:system}.nix
+    frontend{modules:user}.nix
+
+Firewall trustedInterfaces = [ "tun0" ] относится не к NetworkManager, а к VPN/TUN.
+Перенести правило к владельцу интерфейса (sing-box или другому VPN feature) после
+проверки, кто создаёт tun0. Nameservers относятся к выбранной DNS/network policy и
+могут остаться в NetworkManager system module.
+
+
+P1. ОБЩИЕ PACKAGES.NIX СКРЫВАЮТ ВЛАДЕЛЬЦЕВ
+------------------------------------------
+
+src/applications/user{modules:user}/packages.nix смешивает независимые приложения:
+игровые launchers, Wine tooling, редакторы, офисный пакет, torrent client и
+диагностические GUI. Разбить список на feature-модули. Для приложения без настроек
+достаточно отдельного <name>.nix; для приложения с MIME/defaults использовать каталог
+с package.nix и defaults.nix.
+
+Предлагаемые группы владельцев:
+
+  wine-gaming — lutris, wine-wayland, winetricks, legendary-gl;
+  pcsx2        — отдельный emulator feature;
+  prismlauncher — отдельный launcher feature;
+  eog, gedit, onlyoffice, qbittorrent, baobab, inkscape, rawtherapee
+               — отдельные application features.
+
+Не объединять пакет с feature только из-за категории "basic desktop utilities":
+это категория меню, а не общий жизненный цикл конфигурации.
+
+После P0 в src/shell{modules:user}/packages.nix останутся преимущественно CLI и dev
+tools. Переименовать файл в tools.nix или разделить на development-tools.nix и
+utilities.nix, чтобы packages.nix не стал новым складом зависимостей.
+
+any-nix-shell используется только в src/shell{modules:user}/zsh.nix через
+lib.getExe pkgs.any-nix-shell. Store path уже становится частью closure, поэтому
+отдельное добавление any-nix-shell в home.packages, вероятно, избыточно. Проверить и
+удалить дубликат.
+
+
+P2. МЕЛКИЕ ГРАНИЦЫ И ИМЕНОВАНИЕ
+-------------------------------
+
+1. Mako
+
+   src/desktop-environment/user{modules:user}/packages.nix содержит только mako.
+   Создать applications/mako/package.nix либо mako.nix. Это даст feature владельца,
+   который затем целиком удаляется при переходе на Quickshell notification center.
+
+2. Hyprland Polkit agent
+
+   applications/polkit.nix на самом деле настраивает только hyprpolkitagent. Назвать
+   feature hyprpolkitagent, чтобы его не принять за общую настройку polkit. Не
+   сливать его с Hyprland core: это отдельный заменяемый агент с собственным service
+   lifecycle.
+
+3. Sing-box tag
+
+   src/network{modules:system}/sing-box{modules:system}/ повторяет тот же modules tag,
+   который уже унаследован от network domain. Переименовать каталог в sing-box/.
+   Это не меняет уровень модулей и выполняет правило "tag at the coarsest
+   unambiguous point".
+
+   В том же изменении обновить config-dir в systemd-service.nix и все ссылки в
+   .agent-docs/. Сейчас config-dir содержит полный путь с обоими тегированными
+   сегментами, поэтому простой rename без обновления сломает сборку.
+
+4. Dotfile pipeline documentation
+
+   Документация ссылается на infrastructure/dotfile-symlinking{modules:user}/ и
+   pipeline{parts}/, но на диске находятся dotfile-symlinking/ с единственным
+   default{modules:user}.nix и нетегированный pipeline/. Код колоцирован нормально,
+   но задокументированная структура расходится с фактической. Выбрать один вариант и
+   синхронно исправить structure.md, dotfile-symlinking.md, theme-source.md и ссылки.
+   Не делать механический rename до решения, должен ли infrastructure содержать
+   HM-adapter, потому что structure.md одновременно утверждает, что infrastructure
+   "не сам модуль".
+
+5. Theme settings documentation
+
+   flake.nix уже читает infrastructure/settings/{font,palette}.nix и передаёт settings
+   в modules, хотя theme-source.md и HARDCODED-VALUES.txt описывают тему как полностью
+   не реализованную. Это drift документации, не нарушение колокации. Исправить вместе
+   с работой над единой дизайн-системой, не в переносах feature-каталогов.
+
+
+ПРОВЕРЕННЫЕ НЕ-НАРУШЕНИЯ
+------------------------
+
+- Thunar program.nix и helpers.rc уже находятся в одном feature-каталоге. То, что
+  dotfile лежит под system-tagged родителем, безопасно: {dotfiles} исключает его из
+  module discovery.
+
+- Codex, VS Code, mpv, Waybar и wofi держат module/package и dotfiles рядом.
+
+- Части sing-box config и updater находятся рядом с systemd service. Их не нужно
+  выносить в общий scripts/ или infrastructure/.
+
+- infrastructure/settings является допустимым наддоменным владельцем общих theme
+  data. Копировать palette/font в каждого потребителя ради физической колокации не
+  нужно.
+
+- GTK theme может владеть thunar.scss: файл является частью собираемого GTK theme,
+  а не конфигурацией запуска Thunar.
+
+- default policy, которая действительно выбирает между несколькими features, может
+  оставаться отдельным integration module. MIME-ассоциации выше не подходят под это
+  исключение: каждая запись однозначно принадлежит выбранному приложению и должна
+  исчезать вместе с ним.
+
+
+ПОРЯДОК ИСПРАВЛЕНИЙ
+-------------------
+
+1. Сначала перенести Hyprland tree и его runtime-зависимости; добавить playerctl.
+2. Затем разнести приложения и MIME-ассоциации, одновременно исправив три stale
+   desktop ID.
+3. Перенести users.nix и выделить system-часть Zsh.
+4. Перенести NetworkManager и выяснить владельца tun0 firewall rule.
+5. Разобрать общие package buckets и Mako.
+6. Выполнить безопасные rename: hyprpolkitagent и sing-box.
+7. После стабилизации дерева синхронизировать AGENTS.md и релевантные .agent-docs/.
+
+Каждый шаг делать отдельным проверяемым изменением. Новые пути добавить в git до
+flake eval, потому что flake не видит untracked files.
+
+
+ПРОВЕРКА ПОСЛЕ КАЖДОГО ШАГА
+---------------------------
+
+- alejandra .
+- rg по старым путям и именам во всём репозитории, включая .agent-docs/.
+- nix eval для drvPath всех трёх hosts: desktop, laptop, lenovo.
+- Проверить, что каждый .nix с {modules:*} попадает ровно в один уровень discovery.
+- Проверить сгенерированный home.file для Hyprland, Thunar, mpv, Waybar и wofi.
+- Проверить наличие исполняемых файлов playerctl, brightnessctl, wpctl, grim, slurp
+  и wl-copy в окружении пользовательской сессии.
+- Проверить xdg-mime query для HTTP, directory, text, image, video, audio, office,
+  torrent и archive типов.
+- Не запускать nixos-update или nixos-rebuild switch: активацию делает пользователь.
