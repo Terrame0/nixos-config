@@ -23,6 +23,11 @@
     };
   };
 
+  qt = {
+    enable = true;
+    platformTheme.name = "gtk3";
+  };
+
   home.sessionVariables = {
     XCURSOR_THEME = "Adwaita";
     XCURSOR_SIZE = "24";
