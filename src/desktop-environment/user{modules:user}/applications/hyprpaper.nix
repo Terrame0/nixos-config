@@ -20,6 +20,10 @@
       url = "https://w.wallhaven.cc/full/p9/wallhaven-p9pd23.png";
       sha256 = "sha256-7CMuETntiVUCKhUIdJzX+sf3F47GvuX2a61o4xbEzww=";
     };
+    field = pkgs.fetchurl {
+      url = "https://w.wallhaven.cc/full/zp/wallhaven-zp5z2w.png";
+      sha256 = "sha256-tqDgwCl97Gc2/8iZxAuf4Xpr1duDilKkYeBp2+7bhew=";
+    };
   };
 in {
   services.hyprpaper = {
