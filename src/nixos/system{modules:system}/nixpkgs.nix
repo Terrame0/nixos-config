@@ -1,6 +1,9 @@
 {inputs, ...}: {
   nixpkgs = {
     config.allowUnfree = true;
-    overlays = [inputs.nix4vscode.overlays.default];
+    overlays = [
+      inputs.nix4vscode.overlays.default
+      inputs.nix-cachyos-kernel.overlays.pinned
+    ];
   };
 }

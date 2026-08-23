@@ -12,20 +12,11 @@
 
     # -- utilities
     treefmt
-    brightnessctl
-    wireplumber
     alejandra
     any-nix-shell
     fastfetch
     tree
     ouch
     htop
-
-    # -- screenshots
-    grim
-    slurp
-
-    # -- shell clipboard broker
-    wl-clipboard
   ];
 }

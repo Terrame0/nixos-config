@@ -1,4 +1,6 @@
 {pkgs, ...}: {
+  # -- this is a systemd service
+  # - because the agent is designed to be a oneshot
   systemd.user.services.hyprpolkitagent = {
     Unit = {
       Description = "Hyprland Polkit Authentication Agent";

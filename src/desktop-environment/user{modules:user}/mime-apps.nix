@@ -27,24 +27,24 @@
       "audio/flac" = ["mpv.desktop"];
       "audio/ogg" = ["mpv.desktop"];
 
-      "application/pdf" = ["libreoffice-draw.desktop"];
+      "application/pdf" = ["onlyoffice-desktopeditors.desktop"];
       "application/vnd.openxmlformats-officedocument.wordprocessingml.document" = [
-        "libreoffice-writer.desktop"
+        "onlyoffice-desktopeditors.desktop"
       ];
       "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" = [
-        "libreoffice-calc.desktop"
+        "onlyoffice-desktopeditors.desktop"
       ];
       "application/vnd.openxmlformats-officedocument.presentationml.presentation" = [
-        "libreoffice-impress.desktop"
+        "onlyoffice-desktopeditors.desktop"
       ];
 
       "application/x-bittorrent" = ["qbittorrent.desktop"];
 
-      "application/zip" = ["xarchiver.desktop"];
-      "application/x-tar" = ["xarchiver.desktop"];
-      "application/x-xz" = ["xarchiver.desktop"];
-      "application/x-7z-compressed" = ["xarchiver.desktop"];
-      "application/x-rar" = ["xarchiver.desktop"];
+      "application/zip" = ["org.gnome.FileRoller.desktop"];
+      "application/x-tar" = ["org.gnome.FileRoller.desktop"];
+      "application/x-xz" = ["org.gnome.FileRoller.desktop"];
+      "application/x-7z-compressed" = ["org.gnome.FileRoller.desktop"];
+      "application/x-rar" = ["org.gnome.FileRoller.desktop"];
     };
   };
 }

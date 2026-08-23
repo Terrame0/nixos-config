@@ -1,6 +1,8 @@
 [
   # -- nixos binary cache
   "cache.nixos.org"
+  "attic.xuyh0120.win"
+  "hyprland.cachix.org"
 
   # -- trove
   "trionworlds.com"

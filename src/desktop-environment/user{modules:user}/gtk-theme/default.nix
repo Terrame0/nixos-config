@@ -3,11 +3,13 @@
     gnome-themes-extra
   ];
 
-  # dconf.settings = {
-  #   "org/gnome/desktop/interface" = {
-  #     color-scheme = "prefer-dark";
-  #   };
-  # };
+  # -- gtk apps use this dconf setting
+  # - to determine the default theme
+  dconf.settings = {
+    "org/gnome/desktop/interface" = {
+      color-scheme = "prefer-dark";
+    };
+  };
 
   gtk = {
     enable = true;

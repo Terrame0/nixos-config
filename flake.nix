@@ -25,6 +25,8 @@
       url = "github:nix-community/nix4vscode";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    # -- do not override nixpkgs input
+    nix-cachyos-kernel.url = "github:xddxdd/nix-cachyos-kernel/release";
   };
 
   outputs = inputs @ {
@@ -34,9 +36,9 @@
     home-manager,
     sundry-input,
     hyprland,
-    nix4vscode,
-    nixpkgs-unstable,
-    nixos-update-script,
+    # nix4vscode,
+    # nixpkgs-unstable,
+    # nixos-update-script,
     ...
   }: let
     username = "terrame";
