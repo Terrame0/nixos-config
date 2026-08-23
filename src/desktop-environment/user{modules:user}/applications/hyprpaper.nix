@@ -1,8 +1,4 @@
-{
-  pkgs,
-  lib,
-  ...
-}: let
+{pkgs, ...}: let
   wallpapers = {
     black = pkgs.fetchurl {
       url = "https://upload.wikimedia.org/wikipedia/commons/thumb/5/50/Black_colour.jpg/960px-Black_colour.jpg?utm_source=commons.wikimedia.org&utm_campaign=index&utm_content=thumbnail";
