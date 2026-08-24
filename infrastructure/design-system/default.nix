@@ -13,9 +13,9 @@ args @ {
   tokens = lib.pipe ./tokens [
     sundry.vfs.dir.from-src
     sundry.vfs.dir.load-nix
-    (sundry.vfs.dir.collapse (path: file: {
-      ${sundry.vfs.path.get.stem path} = file.expr (args // {inherit types;});
+    (sundry.vfs.dir.reform (path: file: {
+      path = sundry.vfs.path.set.ext "" path;
+      value = file.expr (args // {inherit types tokens;});
     }))
-    sundry.attrs.merge.recursive.no-collision
   ];
 in {inherit tokens types;}
