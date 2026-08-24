@@ -58,12 +58,17 @@
       }
       {
         name = "laptop";
-        system-state-version = "25.11";
+        system-state-version = "26.05";
         system = "x86_64-linux";
         cores = 16;
       }
     ];
   in {
+    test = import ./infrastructure/design-system rec {
+      pkgs = import nixpkgs {system = "x86_64-linux";};
+      sundry = sundry-input.mk-lib {inherit pkgs;};
+      lib = pkgs.lib;
+    };
     nixosConfigurations = builtins.foldl' (acc: x: acc // x) {} (
       map (host: let
         pkgs = import nixpkgs {inherit (host) system;};
@@ -78,7 +83,7 @@
           inherit sundry;
           inherit settings;
         };
-        settings = lib.pipe "${config-root}/infrastructure/design-system" [
+        settings = lib.pipe "${config-root}/infrastructure/settings" [
           sundry.vfs.dir.from-src
           sundry.vfs.dir.load-nix
           (sundry.vfs.dir.collapse
