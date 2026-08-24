@@ -9,7 +9,7 @@
         (lib.isInt value || lib.isFloat value)
         && value >= 0;
       rendered-values = value: let
-        milliseconds = builtins.floor (
+        milliseconds = lib.floor (
           (
             if unit == "s"
             then value * 1000
@@ -18,7 +18,7 @@
           + 0.5
         );
       in {
-        scss = "${builtins.toJSON value}${unit}";
+        scss = "${lib.toJSON value}${unit}";
         qml = toString milliseconds;
         lua = toString milliseconds;
       };
