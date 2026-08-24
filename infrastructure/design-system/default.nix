@@ -4,18 +4,15 @@ args @ {
   ...
 }: let
   mk-type = import ./mk-type.nix args;
-  types = lib.pipe ./types [
-    sundry.vfs.dir.from-src
-    sundry.vfs.dir.load-nix
-    (sundry.vfs.dir.collapse (path: file: file.expr (args // {inherit mk-type;})))
-    sundry.attrs.merge.recursive.no-collision
-  ];
-  tokens = lib.pipe ./tokens [
-    sundry.vfs.dir.from-src
-    sundry.vfs.dir.load-nix
-    (sundry.vfs.dir.reform (path: file: {
-      path = sundry.vfs.path.set.ext "" path;
-      value = file.expr (args // {inherit types tokens;});
-    }))
-  ];
-in {inherit tokens types;}
+  is-token = import ./is-token.nix args;
+  types = load-parts ./types;
+  tokens = load-parts ./tokens;
+  partials = load-parts ./partials;
+  load-parts = path:
+    lib.pipe path [
+      sundry.vfs.dir.from-src
+      sundry.vfs.dir.load-nix
+      (sundry.vfs.dir.collapse (path: file: file.expr (args // {inherit types tokens mk-type is-token;})))
+      sundry.attrs.merge.recursive.no-collision
+    ];
+in {inherit partials tokens types;}
