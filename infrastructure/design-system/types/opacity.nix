@@ -9,9 +9,9 @@
       && value >= 0
       && value <= 1;
     rendered-values = value: {
-      scss = builtins.toJSON value;
-      qml = builtins.toJSON value;
-      lua = builtins.toJSON value;
+      scss = toString value;
+      qml = toString value;
+      lua = toString value;
     };
   };
 }

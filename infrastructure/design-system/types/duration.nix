@@ -18,7 +18,7 @@
           + 0.5
         );
       in {
-        scss = "${lib.toJSON value}${unit}";
+        scss = "${toString value}${unit}";
         qml = toString milliseconds;
         lua = toString milliseconds;
       };

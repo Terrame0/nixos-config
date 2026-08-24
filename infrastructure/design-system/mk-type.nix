@@ -27,7 +27,7 @@ in
         sundry.attrs.compare
         result (lib.genAttrs consumers (_: "..."));
     in
-      if sundry.debug comparison.missing == {}
+      if comparison.missing == {}
       then result
       else
         throw ''

@@ -15,7 +15,7 @@ in {
       && lib.elemAt value 2 >= 0
       && lib.elemAt value 2 <= 1;
     rendered-values = value: let
-      points = map builtins.toJSON value;
+      points = map toString value;
       x1 = lib.elemAt points 0;
       y1 = lib.elemAt points 1;
       x2 = lib.elemAt points 2;

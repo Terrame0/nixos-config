@@ -1,15 +1,15 @@
-{
-  black = "#1d1f21";
-  dark-gray = "#282a2e";
-  dim-gray = "#373b41";
-  gray = "#4d5057";
-  light-gray = "#969896";
-  white = "#c5c8c6";
-  red = "#d54e53";
-  orange = "#e78c45";
-  yellow = "#e7c547";
-  green = "#b9ca4a";
-  aqua = "#70c0b1";
-  blue = "#7aa6da";
-  purple = "#c397d8";
+{types, ...}: {
+  black = types.color "#1d1f21ff";
+  dark-gray = types.color "#282a2eff";
+  dim-gray = types.color "#373b41ff";
+  gray = types.color "#4d5057ff";
+  light-gray = types.color "#969896ff";
+  white = types.color "#c5c8c6ff";
+  red = types.color "#d54e53ff";
+  orange = types.color "#e78c45ff";
+  yellow = types.color "#e7c547ff";
+  green = types.color "#b9ca4aff";
+  aqua = types.color "#70c0b1ff";
+  blue = types.color "#7aa6daff";
+  purple = types.color "#c397d8ff";
 }

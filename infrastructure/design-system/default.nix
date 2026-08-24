@@ -10,6 +10,12 @@ args @ {
     (sundry.vfs.dir.collapse (path: file: file.expr (args // {inherit mk-type;})))
     sundry.attrs.merge.recursive.no-collision
   ];
-  font-size = types.dimension.px 10;
-in
-  font-size
+  tokens = lib.pipe ./tokens [
+    sundry.vfs.dir.from-src
+    sundry.vfs.dir.load-nix
+    (sundry.vfs.dir.collapse (path: file: {
+      ${sundry.vfs.path.get.stem path} = file.expr (args // {inherit types;});
+    }))
+    sundry.attrs.merge.recursive.no-collision
+  ];
+in {inherit tokens types;}

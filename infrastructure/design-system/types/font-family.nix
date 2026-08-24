@@ -7,10 +7,9 @@
     value-check = value:
       lib.isString value
       && value != ""
-      && !lib.hasInfix "\"" value
-      && !lib.hasInfix "\\" value
-      && !lib.hasInfix "\n" value
-      && !lib.hasInfix "\r" value;
+      && !lib.any
+      ((lib.flip lib.hasInfix) value)
+      ["\"" "\\" "\n" "\r"];
     rendered-values = value: {
       scss = "\"${value}\"";
       qml = "\"${value}\"";
