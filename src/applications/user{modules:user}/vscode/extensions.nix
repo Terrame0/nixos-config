@@ -21,5 +21,8 @@
 
     # -- codex
     "openai.chatgpt"
+
+    # -- html live preview
+    "ms-vscode.live-server"
   ];
 }
