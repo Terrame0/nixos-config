@@ -86,10 +86,25 @@ Setting `experimental.cache_file.store_selected = true` makes `sing-box check` f
 
 **Avoid:** don't add it to persist the manual selector choice — it doesn't exist here. Worse, if the updater's fallback swallows the `check` output, this bug is invisible: the service silently runs the last stored config forever while the new one is rejected on every restart. The updater now prints the `check` output on failure and validates the skeleton up front precisely so this class of bug fails loud (see [sing-box.md](sing-box.md)).
 
-## A path literal whose name carries a `{…}` tag breaks the store path it forces
+## Keep a tagged relative path as a path until it reaches a safe leaf
 
-Interpolating a path **literal** into a string (`"${./dir}/x"`, `import "${./. + "/config{parts}"}"`, or `origin = <path-literal>` later stringified) makes Nix copy that path into the store as its **own** object, named after the last segment. If that segment holds a `{…}` tag — as tag-named module dirs now do (`config{parts}`, `password-hashes{for-users}.yaml`) — the copy fails: `name '…{…}' … contains illegal character '{'`.
+Prefer a relative path over a string assembled from `config-root`. If a relative segment contains a `{…}` tag, interpolate only that segment into the path literal, keep the result as a path, and extend it with `+` before passing it to the final consumer:
 
-**Why:** stringifying a path literal forces a fresh store object; store-object *names* forbid `{`. A `{` living **inside** an already-valid store path (`config-root`, the copied git tree) is fine — it's only a new object's *name* that's rejected.
+```nix
+config-dir = ./${"config{parts}"};
 
-**Avoid:** never build these paths from a path literal (`./.`, `./secrets`). Reference them as **strings under `config-root`** — `"${config-root}/src/…/config{parts}"` is plain concatenation inside the already-copied repo, no new copy. Same trap in sundry's `vfs.dir.from-src`: pass it a **string** dir (`"${config-root}/…"`), not a path literal, or `listFilesRecursive` yields path literals whose `origin` re-copies each file under its tag name. **TODO:** a `sundry.path.rel config-root [segments…]` helper to build these `config-root`-relative strings without hand-writing the absolute prefix — which drifts when the tree is renamed, exactly as it did during the `{modules:…}` discovery migration ([structure.md](structure.md)). sing-box's `config-dir` string in [systemd-service.nix](../src/network%7Bmodules:system%7D/sing-box%7Bmodules:system%7D/systemd-service.nix) still hardcodes the full absolute prefix and had to be hand-fixed on every rename.
+config = import (config-dir + "/sing-box-config") args;
+domains = import (config-dir + "/proxied-domains.nix");
+```
+
+Do not stringify the intermediate tagged path:
+
+```nix
+"${config-dir}/sing-box-config"
+```
+
+**Why:** the relative form follows the source file when its containing tree moves, while a `"${config-root}/src/…"` prefix must be updated by hand. The interpolated segment also avoids Nix's path-literal grammar treating `{` as syntax. Keeping the value as a path until a safe final name prevents Nix from trying to create a store object named after an intermediate `config{parts}` segment; store-object names forbid `{`.
+
+**Use `config-root` only when the final consumer needs a string rooted in the already-copied flake source.** This applies when scanning the whole repository and when a VFS pipeline can later stringify an origin whose final file name itself carries a tag, such as `password-hashes{for-users}.yaml`. A `{` inside the existing `config-root` store path is safe because it is not the store object's name. `sundry.vfs.dir.from-src` therefore receives a `config-root` string for the module, dotfile, and secret trees that can emit tagged origins.
+
+For an untagged local tree whose origins are consumed directly during evaluation, pass the relative path to `sundry.vfs.dir.from-src`; this keeps the code resilient to directory moves. Before changing a VFS root from `config-root` to a relative path, check both the root and every origin that escapes the pipeline: any origin that is later stringified and ends in a tagged name still requires the `config-root` form.

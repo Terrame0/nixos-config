@@ -82,8 +82,10 @@
           inherit config-root;
           inherit sundry;
           inherit settings;
+          inherit design-system;
         };
-        settings = lib.pipe "${config-root}/infrastructure/settings" [
+        design-system = import ./infrastructure/design-system {inherit sundry lib;};
+        settings = lib.pipe ./infrastructure/settings [
           sundry.vfs.dir.from-src
           sundry.vfs.dir.load-nix
           (sundry.vfs.dir.collapse

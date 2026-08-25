@@ -10,6 +10,7 @@
         sundry.vfs.dir.from-src
         sundry.vfs.dir.resolve-tags
         (sundry.vfs.dir.select-by-tag (_: with _; tag {dotfiles = [];}))
+        sundry.debug
       ];
   };
 

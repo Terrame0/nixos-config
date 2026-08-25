@@ -1,4 +1,4 @@
-{paths, ...}: {
+{config-dir, ...}: {
   route = {
     rules = [
       {action = "sniff";}
@@ -17,7 +17,7 @@
         outbound = "direct";
       }
       {
-        domain_suffix = import "${paths.config-dir}/proxied-domains.nix";
+        domain_suffix = import (config-dir + "/proxied-domains.nix");
         outbound = "proxy";
       }
       {

@@ -2,11 +2,10 @@ args @ {
   config,
   pkgs,
   lib,
-  config-root,
   ...
 }: let
+  config-dir = ./${"config{parts}"};
   paths = rec {
-    config-dir = "${config-root}/src/network{modules:system}/sing-box/config{parts}";
     base-dir = "sing-box";
     state-dir = "/var/lib/${base-dir}";
     runtime-dir = "/run/${base-dir}";
@@ -16,11 +15,11 @@ args @ {
   };
   skeleton =
     import
-    "${paths.config-dir}/sing-box-config"
-    (args // {inherit paths;});
+    (config-dir + "/sing-box-config")
+    (args // {inherit config-dir paths;});
   update-script =
     import
-    "${paths.config-dir}/updater"
+    (config-dir + "/updater")
     (args
       // {
         inherit paths;
