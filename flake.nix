@@ -26,6 +26,13 @@
       url = "github:nix-community/nixos-cli";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    zen-browser = {
+      url = "github:0xc000022070/zen-browser-flake";
+      inputs = {
+        nixpkgs.follows = "nixpkgs-unstable";
+        home-manager.follows = "home-manager";
+      };
+    };
     # -- do not override nixpkgs input (per their README.md)
     nix-cachyos-kernel.url = "github:xddxdd/nix-cachyos-kernel/release";
     # -- does not have a nixpkgs input
@@ -114,7 +121,11 @@
           useGlobalPkgs = true;
           useUserPackages = true;
           backupFileExtension = "hm-backup";
-          users.${username}.imports = filter-modules "user";
+          users.${username}.imports =
+            (filter-modules "user")
+            ++ [
+              inputs.zen-browser.homeModules.beta
+            ];
         };
       in {
         ${host.name} = nixpkgs.lib.nixosSystem {
