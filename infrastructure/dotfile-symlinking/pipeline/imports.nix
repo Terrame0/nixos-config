@@ -9,8 +9,7 @@
     transform = _:
       lib.pipe config-root [
         sundry.vfs.dir.from-src
-        (tree:
-          sundry.attrs.merge.recursive.no-collision [tree {"partials{dotfiles:.design-system}" = design-system.partials;}])
+        (sundry.vfs.dir.merge {"partials{dotfiles:.design-system}" = design-system.partials;})
         sundry.vfs.dir.resolve-tags
         (sundry.vfs.dir.select-by-tag (_: with _; tag {dotfiles = [];}))
       ];

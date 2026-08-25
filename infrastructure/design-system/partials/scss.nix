@@ -13,5 +13,5 @@ lib.pipe tokens [
   (sundry.attrs.collapse
     (path: value: "\$${sundry.str.join path}: ${value};"))
   (sundry.str.join-with "\n")
-  (sundry.vfs.file.from-text ["partial{include:sass}.scss"])
+  (sundry.vfs.file.from-text ["partial.scss"])
 ]
