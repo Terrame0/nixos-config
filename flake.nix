@@ -45,7 +45,7 @@
     username = "terrame";
     hosts = [
       {
-        name = "lenovo";
+        name = "legion-y520";
         system-state-version = "26.05";
         system = "x86_64-linux";
         cores = 4;
@@ -57,7 +57,7 @@
         cores = 8;
       }
       {
-        name = "laptop";
+        name = "tuf-f17";
         system-state-version = "26.05";
         system = "x86_64-linux";
         cores = 16;
