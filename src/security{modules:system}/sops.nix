@@ -28,13 +28,16 @@ in {
         path: file:
           lib.pipe file.text [
             (lib.splitString "\n")
-            (lib.filter
-              (line:
-                builtins.match "[A-Za-z0-9_/-]+:.*" line != null && line != ""))
             (map (sundry.str.before ":"))
-            (lib.filter (key: key != "sops"))
-            (map (key: {
-              "${sundry.vfs.path.get.stem path}/${key}" = {
+            (lib.filter (key:
+              (builtins.match "[A-Za-z0-9_/-]+" key != null)
+              && key != ""
+              && key != "sops"))
+            (map (key: let
+              sanitized-path = sundry.vfs.path.set.ext "" path;
+              path-str = sundry.vfs.path.get.str sanitized-path;
+            in {
+              "${path-str}/${key}" = {
                 sopsFile = file.origin;
                 neededForUsers = (sundry.attrs.merge.no-collision file.tag-list) ? "for-users";
                 inherit key;
