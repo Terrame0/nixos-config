@@ -65,9 +65,9 @@ in {
     Locked = true;
   };
 
-  # InstallAddonsPermission = {
-  #   Default = false;
-  # };
+  InstallAddonsPermission = {
+    Default = false;
+  };
 
   Preferences = import ./preferences.nix args';
 
