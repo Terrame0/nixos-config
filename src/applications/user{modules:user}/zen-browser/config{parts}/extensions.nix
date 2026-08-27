@@ -9,7 +9,6 @@ in {
   "ff2mpv@yossarian.net" = mk-extension "ff2mpv";
   "sponsorBlocker@ajay.app" = mk-extension "sponsorblock";
   "deArrow@ajay.app" = mk-extension "dearrow";
-  "addon@darkreader.org" = mk-extension "darkreader";
   "*" = {
     installation_mode = "blocked";
   };

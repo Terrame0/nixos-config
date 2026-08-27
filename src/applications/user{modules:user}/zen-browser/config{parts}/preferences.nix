@@ -60,7 +60,7 @@
   "widget.gtk.overlay-scrollbars.enabled" = lock true;
   "layout.css.always_underline_links" = lock false;
   "browser.zoom.full" = lock true;
-  "browser.display.document_color_use" = lock 0;
+  "browser.display.document_color_use" = lock 1;
   "font.default.x-western" = lock "serif";
   "font.name.serif.x-western" = lock "JetBrainsMono Nerd Font Propo";
   "font.size.variable.x-western" = lock 16;
