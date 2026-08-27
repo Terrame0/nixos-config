@@ -68,7 +68,7 @@
 
   # -- media and performance
   "media.videocontrols.picture-in-picture.video-toggle.enabled" = lock true;
-  "media.videocontrols.picture-in-picture.enable-when-switching-tabs.enabled" = lock true;
+  "media.videocontrols.picture-in-picture.enable-when-switching-tabs.enabled" = lock false;
   "browser.preferences.defaultPerformanceSettings.enabled" = lock true;
   "browser.cache.disk.enable" = lock true;
   "browser.sessionstore.interval" = lock 15000;
