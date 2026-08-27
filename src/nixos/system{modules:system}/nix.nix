@@ -3,13 +3,13 @@
     gc = {
       automatic = true;
       persistent = true;
-      dates = "daily";
+      dates = "weekly";
       options = "--delete-older-than 7d";
     };
     optimise = {
       automatic = true;
       persistent = true;
-      dates = "daily";
+      dates = "weekly";
     };
     settings = {
       experimental-features = [
