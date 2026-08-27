@@ -2,7 +2,7 @@
   sundry,
   lib,
   ...
-}: defs-in: value: let
+}: defs': value: let
   defs =
     sundry.attrs.validate {
       value-check = {
@@ -10,18 +10,18 @@
         desc = "must be a validation predicate";
       };
       rendered-values = {
-        default = value: {};
+        default = _: value: {};
         check = value: lib.isFunction value;
         desc = "must be a function returning a set of rendered values";
       };
     }
-    defs-in;
+    defs';
 in
   if defs.value-check value
   then {
     inherit value;
     to = let
-      consumers = ["scss" "lua" "qml"];
+      consumers = ["scss" "lua" "qml" "rasi"];
       result = defs.rendered-values value;
       comparison =
         sundry.attrs.compare

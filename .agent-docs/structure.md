@@ -17,7 +17,7 @@ nixos-config/
 │   └── shell/         — zsh, starship, git, ssh, direnv (user)
 └── infrastructure/    — foundation for modules, but not itself a module
     ├── dotfile-symlinking/ — the dotfile pipeline: machinery that *runs* (see dotfile-symlinking.md)
-    └── theme{parts}.nix    — global appearance data: values that are *read* (see theme-source.md)
+    └── design-system/     — typed tokens and consumer-native partials (see design-system.md)
 ```
 
 ## What `infrastructure/` is — and the two kinds inside it
@@ -27,11 +27,9 @@ nixos-config/
 | Kind | Example | Nature |
 |---|---|---|
 | Machinery that **runs** | [dotfile-symlinking/](../infrastructure/dotfile-symlinking%7Bmodules:user%7D/) | code executed to produce artifacts (`home.file`) |
-| Data that is **read** | `theme{parts}.nix` | cross-domain values read via special arg to parameterize modules/dotfiles |
+| Data that is **read** | [`design-system/`](../infrastructure/design-system/) | cross-domain typed tokens and generated consumer renderings |
 
-Both are foundation, neither is a module. The theme is **cross-domain** — `applications/` (vscode, alacritty) and `desktop-environment/` (waybar, wofi, hyprland) all ingest it — so it belongs to no single `src/` domain; it sits above them in `infrastructure/`. See [theme-source.md](theme-source.md).
-
-`theme{parts}.nix` is tagged `{parts}` so discovery skips it (it is data, not a module — read as a special arg, not imported). `flake.nix` must reference it as a **string** under `config-root` (`"${config-root}/infrastructure/theme{parts}.nix"`), never a path literal — the `{` in the name breaks a fresh store-object name (see [gotchas.md](gotchas.md)).
+Both are foundation, neither is a module. The design system is **cross-domain** — `applications/` and `desktop-environment/` can ingest the same tokens — so it belongs to no single `src/` domain; it sits above them in `infrastructure/`. See [design-system.md](design-system.md).
 
 Dotfiles live inline next to the module they belong to, tagged `{dotfiles:PATH}` — a feature's module and its dotfiles share one folder. See [dotfile-symlinking.md](dotfile-symlinking.md).
 
@@ -60,7 +58,7 @@ This asymmetry (tag-on-domain vs tag-on-subfolder) is deliberate: mono-domains n
 
 ## Multi-host setup
 
-Two hosts are declared in `flake.nix`: `desktop` and `laptop`. Both build from the same tree; host-specific files are gated with `{hosts:desktop}` / `{hosts:laptop}` in their path (e.g. under `hardware/`), and discovery selects only the matching host's files.
+Three hosts are declared in `flake.nix`: `legion-y520`, `desktop`, and `tuf-f17`. They build from the same tree; host-specific files are gated with `{hosts:name}` in their path, and discovery selects only the matching host's files.
 
 ## Special args available in every module
 
@@ -70,6 +68,8 @@ Two hosts are declared in `flake.nix`: `desktop` and `laptop`. Both build from t
 | `host` | `{ name, system, system-state-version }` |
 | `config-root` | absolute path to repo root in the Nix store |
 | `sundry` | library functions from the `sundry` flake input |
+| `design-system` | typed design tokens and generated partials |
+| `settings` | shared infrastructure settings from `infrastructure/settings/` |
 
 ## Inputs
 

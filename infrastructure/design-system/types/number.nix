@@ -9,6 +9,7 @@
       scss = toString value;
       qml = toString value;
       lua = toString value;
+      rasi = toString value;
     };
   };
 }

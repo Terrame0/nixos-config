@@ -37,9 +37,9 @@ The tag vocabulary splits along one axis:
 
 | Stage | File | What it does |
 |---|---|---|
-| `dotfile-sources` | [imports.nix](../infrastructure/dotfile-symlinking%7Bmodules:user%7D/pipeline%7Bparts%7D/imports.nix) | Scans from `config-root`, resolves tags, selects `{dotfiles}` subtrees. **Paths stay as-is** — no home-relative rewrite here. |
+| `dotfile-sources` | [imports.nix](../infrastructure/dotfile-symlinking%7Bmodules:user%7D/pipeline%7Bparts%7D/imports.nix) | Scans from `config-root`, injects design-system partials, resolves tags, and selects `{dotfiles}` subtrees. **Paths stay as-is** — no home-relative rewrite here. |
 | `raw-dotfiles` | same file | Drops `{include}`, `{build}`, `{convert}`, `{parts}` files — the raw-copy set. |
-| `evaluated-nix-dotfiles` | [nix.nix](../infrastructure/dotfile-symlinking%7Bmodules:user%7D/pipeline%7Bparts%7D/nix.nix) | Imports every `.nix`, evaluating it with `{ lib, pkgs, host, file-dir }` into `.expr`. (`host` lets a dotfile read host facts like `host.cores`; `theme` joins this arg set when the global theme lands — see [theme-source.md](theme-source.md).) |
+| `evaluated-nix-dotfiles` | [nix.nix](../infrastructure/dotfile-symlinking%7Bmodules:user%7D/pipeline%7Bparts%7D/nix.nix) | Imports every `.nix`, evaluating it with the pipeline's module args plus `file-dir` into `.expr`; this includes `host` and `design-system`. |
 | `converted-nix-dotfiles` | same file | Serialises `{convert:json}` / `{convert:ini}` files' `.expr` to text via `lib.generators`. |
 | `sass-build-tree` | [sass.nix](../infrastructure/dotfile-symlinking%7Bmodules:user%7D/pipeline%7Bparts%7D/sass.nix) | Materialises all `.scss` into one clean source tree in a derivation and keeps both `{ drv, dir }`. |
 | `sass-load-flags` | same file | Collects `{include:sass}` dirs as ready-to-use `--load-path` flags. |

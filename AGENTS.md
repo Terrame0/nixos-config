@@ -1,6 +1,6 @@
 # AGENTS.md
 
-NixOS + Home Manager configuration for three hosts (`desktop`, `laptop`, `lenovo`). Declared as a Nix flake; Home Manager runs as a NixOS module, so everything is applied through the system rebuild flow. The repo depends on the private `sundry` library for VFS and attribute utilities.
+NixOS + Home Manager configuration for three hosts (`legion-y520`, `desktop`, `tuf-f17`). Declared as a Nix flake; Home Manager runs as a NixOS module, so everything is applied through the system rebuild flow. The repo depends on the private `sundry` library for VFS and attribute utilities.
 
 ## Before working, read the relevant doc in `.agent-docs/`
 
@@ -11,7 +11,8 @@ Codex loads this file automatically. The topic docs below are not auto-imported 
 - [sing-box.md](.agent-docs/sing-box.md) — VPN proxy service: subscription updater, config skeleton, secrets.
 - [secrets.md](.agent-docs/secrets.md) — sops-nix: how secrets are auto-derived from the `secrets/*.yaml` files, the age key, and `LoadCredential`.
 - [gotchas.md](.agent-docs/gotchas.md) — counter-intuitive traps: nix eval vs build, flake git-tracking, empty sing-box selectors, and more.
-- [theme-source.md](.agent-docs/theme-source.md) — **TODO/план:** единый источник темы (радиус, цвета, шрифты) в `infrastructure/theme{parts}.nix` + прокидывание по классам форматов. Ещё не реализовано.
+- [design-system.md](.agent-docs/design-system.md) — active typed design tokens, consumer renderings, and generated SCSS/Rasi partials.
+- [theme-source.md](.agent-docs/theme-source.md) — historical plan that preceded the active design system.
 - [HARDCODED-VALUES.txt](.agent-docs/HARDCODED-VALUES.txt) — список мест, где значения стиля захардкожены вручную после сноса `lib/style` — что отменить при возврате единого источника ([theme-source.md](.agent-docs/theme-source.md)).
 
 When you add, rename, or remove a doc under `.agent-docs/`, update this index in the same change so it does not drift from what's on disk.

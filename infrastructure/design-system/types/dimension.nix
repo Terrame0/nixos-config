@@ -10,6 +10,10 @@
         scss = "${toString value}${unit}";
         qml = "${toString value}";
         lua = "${toString value}";
+        rasi =
+          if unit == "px"
+          then "${toString value}px"
+          else toString value;
       };
     });
 }

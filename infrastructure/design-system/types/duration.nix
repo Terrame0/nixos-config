@@ -21,6 +21,7 @@
         scss = "${toString value}${unit}";
         qml = toString milliseconds;
         lua = toString milliseconds;
+        rasi = toString milliseconds;
       };
     });
 }

@@ -24,6 +24,7 @@ in {
       scss = "cubic-bezier(${lib.concatStringsSep ", " points})";
       qml = "[${lib.concatStringsSep ", " (points ++ ["1" "1"])}]";
       lua = "{ { ${x1}, ${y1} }, { ${x2}, ${y2} } }";
+      rasi = "[ ${lib.concatStringsSep ", " points} ]";
     };
   };
 }

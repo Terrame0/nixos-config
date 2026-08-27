@@ -14,6 +14,7 @@
       scss = "\"${value}\"";
       qml = "\"${value}\"";
       lua = "\"${value}\"";
+      rasi = "\"${value}\"";
     };
   };
 }
