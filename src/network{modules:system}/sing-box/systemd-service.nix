@@ -46,6 +46,8 @@ in {
       RuntimeDirectoryMode = "0700";
       StateDirectory = paths.base-dir;
       StateDirectoryMode = "0700";
+      # -- auto_detect_interface binds direct UDP sockets to the physical NIC via SO_BINDTODEVICE
+      # -- CAP_NET_RAW is required for the bind; without it UDP fails with EPERM
       CapabilityBoundingSet = ["CAP_NET_ADMIN" "CAP_NET_RAW" "CAP_NET_BIND_SERVICE"];
       AmbientCapabilities = ["CAP_NET_ADMIN" "CAP_NET_RAW" "CAP_NET_BIND_SERVICE"];
     };
