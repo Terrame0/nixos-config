@@ -61,8 +61,8 @@ Pipeline (pipeline/nix.nix) теперь пробрасывает в import то
 
 7) vscode.../settings-parts{x}/theme/appearance.nix
    config (аргумент) убран.
-   "editor.fontFamily" = config.style.font.propo -> "JetBrainsMono NFP"
-     (источник: lib/style/font.nix, font.propo)
+   "editor.fontFamily" = config.style.font.propo -> settings.font.propo
+   "terminal.integrated.fontFamily" = settings.font.mono
    textmate.nix импортируется как {} (раньше {inherit config;}).
 
 8) .config/waybar/config{convert:json}{ext:jsonc}.nix
@@ -78,10 +78,9 @@ Pipeline (pipeline/nix.nix) теперь пробрасывает в import то
      См. theme-source.md (тот же канал host/theme -> дотфайлы).
      TODO: desktop.cores = 0 (плейсхолдер) — проставить реальный nproc на desktop.
 
-9) home-manager/modules/programs/applications/alacritty.nix (HM-модуль, вне src)
-   config (аргумент) убран. Добавлены let palette = {13 цветов} и
-   font = {mono = "JetBrainsMono NF";}.
-   config.style.palette.X -> palette.X, config.style.font.mono -> font.mono.
+9) src/applications/user{modules:user}/alacritty.nix
+   config.style.palette.X -> settings.palette.X.
+   config.style.font.mono -> settings.font.mono.
 
 
 ================================================================

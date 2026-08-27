@@ -6,5 +6,5 @@ mk-partial {
     ${body}
     }
   '';
-  line-fn = name: value: "  ${name}: ${value};";
+  line-fn = name: value: "  ds-${name}: ${value};";
 }

@@ -5,6 +5,7 @@
 }: {
   dimension = lib.genAttrs ["px" "pt"] (unit:
     mk-type {
+      name = "dimension.${unit}";
       value-check = value: lib.isInt value || lib.isFloat value;
       rendered-values = value: {
         scss = "${toString value}${unit}";

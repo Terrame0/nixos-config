@@ -2,6 +2,7 @@
   # -- appearance
   "editor.fontFamily" = settings.font.propo;
   "editor.fontLigatures" = true;
+  "terminal.integrated.fontFamily" = settings.font.mono;
   "workbench.colorTheme" = "Dark Modern";
   "workbench.iconTheme" = "vs-seti";
 

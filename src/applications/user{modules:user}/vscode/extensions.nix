@@ -18,6 +18,7 @@
     "tamasfe.even-better-toml"
     "a5huynh.vscode-ron"
     "jnoortheen.nix-ide"
+    "dlasagno.rasi"
 
     # -- codex
     "openai.chatgpt"

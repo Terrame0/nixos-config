@@ -4,6 +4,7 @@
   ...
 }: {
   font-weight = mk-type {
+    name = "font-weight";
     value-check = value:
       lib.isInt value
       && value >= 1

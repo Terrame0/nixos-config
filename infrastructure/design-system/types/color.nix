@@ -5,6 +5,7 @@
   ...
 }: {
   color = mk-type {
+    name = "color";
     value-check = value:
       lib.isString value
       && lib.match "#[0-9a-fA-F]{8}" value != null;

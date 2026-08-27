@@ -6,6 +6,7 @@
   is-number = value: lib.isInt value || lib.isFloat value;
 in {
   cubic-bezier = mk-type {
+    name = "cubic-bezier";
     value-check = value:
       lib.isList value
       && lib.length value == 4

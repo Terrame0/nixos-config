@@ -4,6 +4,7 @@
   ...
 }: {
   number = mk-type {
+    name = "number";
     value-check = value: lib.isInt value || lib.isFloat value;
     rendered-values = value: {
       scss = toString value;

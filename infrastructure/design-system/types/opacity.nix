@@ -4,6 +4,7 @@
   ...
 }: {
   opacity = mk-type {
+    name = "opacity";
     value-check = value:
       (lib.isInt value || lib.isFloat value)
       && value >= 0

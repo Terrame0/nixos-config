@@ -5,6 +5,10 @@
 }: defs': value: let
   defs =
     sundry.attrs.validate {
+      name = {
+        check = value: lib.isString value && value != "";
+        desc = "must be a non-empty type name string";
+      };
       value-check = {
         check = value: lib.isFunction value;
         desc = "must be a validation predicate";
@@ -20,6 +24,7 @@ in
   if defs.value-check value
   then {
     inherit value;
+    type = defs.name;
     to = let
       consumers = ["scss" "lua" "qml" "rasi"];
       result = defs.rendered-values value;

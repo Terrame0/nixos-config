@@ -4,6 +4,7 @@
   ...
 }: {
   font-family = mk-type {
+    name = "font-family";
     value-check = value:
       lib.isString value
       && value != ""

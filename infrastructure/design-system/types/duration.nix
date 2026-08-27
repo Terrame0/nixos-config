@@ -5,6 +5,7 @@
 }: {
   duration = lib.genAttrs ["ms" "s"] (unit:
     mk-type {
+      name = "duration.${unit}";
       value-check = value:
         (lib.isInt value || lib.isFloat value)
         && value >= 0;
