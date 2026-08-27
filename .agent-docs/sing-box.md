@@ -84,4 +84,4 @@ Managed by sops-nix (see [secrets.md](secrets.md) for the general mechanism). Bo
 
 ## Capabilities
 
-The service runs with `CAP_NET_ADMIN` and `CAP_NET_BIND_SERVICE` (ambient + bounding set) — required for TUN and port binding.
+The service runs with `CAP_NET_ADMIN`, `CAP_NET_RAW`, and `CAP_NET_BIND_SERVICE` (ambient + bounding set) — required for TUN, binding outbound connections to the detected network interface, UDP packet connections, and port binding.
