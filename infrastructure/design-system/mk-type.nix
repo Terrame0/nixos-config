@@ -26,7 +26,7 @@ in
     inherit value;
     type = defs.name;
     to = let
-      consumers = ["scss" "lua" "qml" "rasi"];
+      consumers = ["css" "scss" "lua" "qml" "rasi"];
       result = defs.rendered-values value;
       comparison =
         sundry.attrs.compare

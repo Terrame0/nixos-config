@@ -14,16 +14,17 @@ The active design system lives in [`infrastructure/design-system/`](../infrastru
 
 A token has a type name, one source `value`, and a rendered `to` attribute set. The source value can contain other tokens when the type is composite. [`mk-type.nix`](../infrastructure/design-system/mk-type.nix) rejects a type when it does not render all registered consumers.
 
-Supported consumers are `scss`, `lua`, `qml`, and `rasi`. Lua and QML renderings are available on tokens, but their partial generators have not been added yet.
+Supported consumers are `css`, `scss`, `lua`, `qml`, and `rasi`. Lua and QML renderings are available on tokens, but their partial generators have not been added yet.
 
 ## Generated partials
 
 | Consumer | Generated file | Use |
 | --- | --- | --- |
+| CSS | `~/.design-system/partial.css` | Load the stylesheet, then reference a token as `var(--ds-colors-base-blue)`. |
 | SCSS | `partial{include:sass}.scss` | `@use "partial" as *;` in a `{build:sass}` entry point. |
-| Rasi | `~/.design-system/partial.rasi` | `@import "~/.design-system/partial"`, then reference a token as `@colors-base-blue`. |
+| Rasi | `~/.design-system/partial.rasi` | `@import "~/.design-system/partial"`, then reference a token as `@ds-colors-base-blue`. |
 
-Both generators flatten nested token paths with hyphens. For example, `tokens.colors.base.blue` becomes `$colors-base-blue` in SCSS and `colors-base-blue` in the Rasi global `* { ... }` section.
+All generators flatten nested token paths with hyphens. For example, `tokens.colors.base.blue` becomes `--ds-colors-base-blue` in the CSS `:root` block, `$colors-base-blue` in SCSS, and `ds-colors-base-blue` in the Rasi global `* { ... }` section.
 
 ## Rasi rendering
 

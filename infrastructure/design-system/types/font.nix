@@ -17,6 +17,7 @@
     rendered-values = value: let
       inherit (value) family size;
     in {
+      css = "${size.to.css} ${family.to.css}";
       scss = "${size.to.scss} ${family.to.scss}";
       qml = "Qt.font({ family: ${family.to.qml}, pointSize: ${size.to.qml} })";
       lua = "{ family = ${family.to.lua}, size = ${size.to.lua} }";

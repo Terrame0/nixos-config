@@ -19,6 +19,7 @@
           + 0.5
         );
       in {
+        css = "${toString value}${unit}";
         scss = "${toString value}${unit}";
         qml = toString milliseconds;
         lua = toString milliseconds;

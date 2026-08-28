@@ -10,6 +10,7 @@
       && value >= 1
       && value <= 1000;
     rendered-values = value: {
+      css = toString value;
       scss = toString value;
       qml = toString value;
       lua = toString value;

@@ -17,6 +17,7 @@
       ];
       inherit (rgba) r g b a;
     in {
+      css = "#${sundry.str.join [r g b a]}";
       scss = "#${sundry.str.join [r g b a]}";
       qml = "\"#${sundry.str.join [a r g b]}\""; # -- ordering matters!
       lua = "\"#${sundry.str.join [r g b a]}\"";

@@ -12,6 +12,7 @@
       ((lib.flip lib.hasInfix) value)
       ["\"" "\\" "\n" "\r"];
     rendered-values = value: {
+      css = "\"${value}\"";
       scss = "\"${value}\"";
       qml = "\"${value}\"";
       lua = "\"${value}\"";

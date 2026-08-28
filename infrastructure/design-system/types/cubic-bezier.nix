@@ -22,6 +22,7 @@ in {
       x2 = lib.elemAt points 2;
       y2 = lib.elemAt points 3;
     in {
+      css = "cubic-bezier(${lib.concatStringsSep ", " points})";
       scss = "cubic-bezier(${lib.concatStringsSep ", " points})";
       qml = "[${lib.concatStringsSep ", " (points ++ ["1" "1"])}]";
       lua = "{ { ${x1}, ${y1} }, { ${x2}, ${y2} } }";

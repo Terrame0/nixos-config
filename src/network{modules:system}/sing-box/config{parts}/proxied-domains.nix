@@ -11,6 +11,7 @@
   "trovegame.com"
   "glyph.net"
   "gamigo.com"
+  "bibata.live"
 
   # -- steam cdn (for cloud sync)
   "steamcloud-tyo.s3.dualstack.ap-northeast-1.amazonaws.com"
