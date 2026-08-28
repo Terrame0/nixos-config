@@ -6,7 +6,7 @@ hl.monitor({ output = "", mode = "preferred", position = "auto", scale = 1.0 })
 hl.monitor({ output = "eDP-1", mode = "1920x1080@144", position = "auto", scale = 1.0 })
 hl.monitor({ output = "eDP-2", mode = "1920x1080@144", position = "auto", scale = 1.0 })
 
-local terminal = "alacritty"
+local terminal = "ghostty"
 local file_manager = "thunar"
 local shell = "zsh"
 local menu = shell .. " -c 'flock -n /tmp/wofi.lock wofi --show drun'"
