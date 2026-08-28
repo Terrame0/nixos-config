@@ -1,4 +1,8 @@
-{...}: {
+{
+  lib,
+  pkgs,
+  ...
+}: {
   # -- ui
   "editor.smoothScrolling" = true;
   "workbench.startupEditor" = "none";
@@ -13,6 +17,13 @@
 
   # -- system
   "terminal.external.linuxExec" = "alacritty";
+  "terminal.integrated.profiles.linux" = {
+    Nushell.path = lib.getExe pkgs.nushell;
+  };
+  "terminal.integrated.defaultProfile.linux" = "Nushell";
+  "terminal.integrated.automationProfile.linux" = {
+    path = lib.getExe pkgs.zsh;
+  };
   "security.workspace.trust.untrustedFiles" = "open";
 
   # -- updates
