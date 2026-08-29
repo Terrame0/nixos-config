@@ -1,4 +1,9 @@
-{settings, ...}: let
+{
+  lib,
+  pkgs,
+  settings,
+  ...
+}: let
   inherit (settings) palette font;
 in {
   programs.alacritty = {
@@ -69,9 +74,11 @@ in {
         dynamic_padding = true;
         opacity = 1.0;
         startup_mode = "Maximized";
-        title = "Terminal";
+        dynamic_title = true;
         blur = true;
       };
+
+      terminal.shell.program = lib.getExe pkgs.nushell;
 
       keyboard.bindings = [
         {

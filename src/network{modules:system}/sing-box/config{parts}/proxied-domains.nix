@@ -79,4 +79,5 @@
   "onlinegdb.com"
   "virtualpiano.net"
   "firefox.com"
+  "pinterest.com"
 ]
