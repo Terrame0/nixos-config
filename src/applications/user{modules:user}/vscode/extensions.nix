@@ -21,9 +21,15 @@
     "dlasagno.rasi"
 
     # -- codex
-    "openai.chatgpt"
+    # "openai.chatgpt"
 
     # -- html live preview
     "ms-vscode.live-server"
+
+    # -- plantuml
+    "jebbs.plantuml"
   ];
+
+  # -- needed for plantuml rendering to work
+  home.packages = with pkgs; [jdk graphviz];
 }
