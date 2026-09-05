@@ -16,7 +16,7 @@
     "SearXNG" = {
       urls = [
         {
-          template = "http://localhost:8888";
+          template = "http://localhost:8888/search?q={searchTerms}";
           params = [
             {
               name = "query";
