@@ -1,6 +1,6 @@
 {...}: {
   force = true;
-  default = "google";
+  default = "SearXNG";
   order = [
     "SearXNG"
     "google"
