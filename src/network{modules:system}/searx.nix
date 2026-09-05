@@ -7,7 +7,7 @@
     enable = true;
     environmentFile = config.sops.secrets."searx/secret".path;
     redisCreateLocally = true;
-    runInUwsgi = false;
+    configureUwsgi = false;
     settings = {
       server = {
         base_url = "http://localhost:8888";
