@@ -15,15 +15,7 @@
   engines = {
     "SearXNG" = {
       urls = [
-        {
-          template = "http://localhost:8888/search?q={searchTerms}";
-          params = [
-            {
-              name = "query";
-              value = "{searchTerms}";
-            }
-          ];
-        }
+        {template = "http://localhost:8888/search?q={searchTerms}";}
       ];
       #icon = "https://nixos.org/favicon.ico";
       #definedAliases = ["@np"];
