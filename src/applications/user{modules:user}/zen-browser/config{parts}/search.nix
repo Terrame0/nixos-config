@@ -2,6 +2,7 @@
   force = true;
   default = "google";
   order = [
+    "SearXNG"
     "google"
     "ddg"
     "yandex"
@@ -12,6 +13,21 @@
   ];
 
   engines = {
+    "SearXNG" = {
+      urls = [
+        {
+          template = "http://localhost:8888";
+          params = [
+            {
+              name = "query";
+              value = "{searchTerms}";
+            }
+          ];
+        }
+      ];
+      #icon = "https://nixos.org/favicon.ico";
+      #definedAliases = ["@np"];
+    };
     "NixOS Packages" = {
       urls = [
         {
