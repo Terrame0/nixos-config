@@ -2,7 +2,7 @@
   services.openssh = {
     enable = true;
     authorizedKeysFiles = [
-      config.sops.secrets."authorized-ssh-keys/authorized-keys".path
+      config.sops.secrets."ssh/authorized-keys".path
     ];
     settings = {
       PermitRootLogin = "no";

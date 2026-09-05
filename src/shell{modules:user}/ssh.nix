@@ -5,7 +5,7 @@
     enableDefaultConfig = false;
     settings = {
       "*" = {
-        identityFile = osConfig.sops.secrets."ssh-keys/personal".path;
+        identityFile = osConfig.sops.secrets."ssh/personal-key".path;
         identitiesOnly = true;
         serverAliveInterval = 60;
         serverAliveCountMax = 3;
@@ -16,7 +16,7 @@
       };
       "github.com" = {
         user = "git";
-        identityFile = osConfig.sops.secrets."ssh-keys/github".path;
+        identityFile = osConfig.sops.secrets."ssh/github-key".path;
         identitiesOnly = true;
         addKeysToAgent = "yes";
       };
