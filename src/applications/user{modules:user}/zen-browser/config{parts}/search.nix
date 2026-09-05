@@ -17,8 +17,6 @@
       urls = [
         {template = "http://localhost:8888/search?q={searchTerms}";}
       ];
-      #icon = "https://nixos.org/favicon.ico";
-      #definedAliases = ["@np"];
     };
     "NixOS Packages" = {
       urls = [
