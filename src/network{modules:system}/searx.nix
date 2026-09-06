@@ -16,7 +16,8 @@
         cf_SearxEngineAccessDenied = 21600;
       };
       outgoing = {
-        request_timeout = 3.0;
+        pool_connections = 20;
+        request_timeout = 10.0;
         max_request_timeout = 15.0;
       };
       search = {
