@@ -15,21 +15,21 @@ nixos-config/
 │   ├── applications/  — steam, nix-ld, dbus, thunar (sys); alacritty, firefox, mpv, vscode, yt-dlp (user)
 │   ├── desktop-environment/ — hyprland, uwsm, fonts (sys); waybar, wofi, gtk-theme, cliphist, autostart, xdg (user)
 │   └── shell/         — zsh, starship, git, ssh, direnv (user)
-└── infrastructure/    — foundation for modules, but not itself a module
+└── meta/    — foundation for modules, but not itself a module
     ├── dotfile-symlinking/ — the dotfile pipeline: machinery that *runs* (see dotfile-symlinking.md)
     └── design-system/     — typed tokens and consumer-native partials (see design-system.md)
 ```
 
-## What `infrastructure/` is — and the two kinds inside it
+## What `meta/` is — and the two kinds inside it
 
-`infrastructure/` holds everything that is **foundation for modules but not itself a module** — it never declares a NixOS/HM option, so module discovery skips it. This is a wider axis than "build machinery"; it spans two different kinds:
+`meta/` holds everything that is **foundation for modules but not itself a module** — it never declares a NixOS/HM option, so module discovery skips it. This is a wider axis than "build machinery"; it spans two different kinds:
 
 | Kind | Example | Nature |
 |---|---|---|
-| Machinery that **runs** | [dotfile-symlinking/](../infrastructure/dotfile-symlinking%7Bmodules:user%7D/) | code executed to produce artifacts (`home.file`) |
-| Data that is **read** | [`design-system/`](../infrastructure/design-system/) | cross-domain typed tokens and generated consumer renderings |
+| Machinery that **runs** | [dotfile-symlinking/](../meta/dotfile-symlinking%7Bmodules:user%7D/) | code executed to produce artifacts (`home.file`) |
+| Data that is **read** | [`design-system/`](../meta/design-system/) | cross-domain typed tokens and generated consumer renderings |
 
-Both are foundation, neither is a module. The design system is **cross-domain** — `applications/` and `desktop-environment/` can ingest the same tokens — so it belongs to no single `src/` domain; it sits above them in `infrastructure/`. See [design-system.md](design-system.md).
+Both are foundation, neither is a module. The design system is **cross-domain** — `applications/` and `desktop-environment/` can ingest the same tokens — so it belongs to no single `src/` domain; it sits above them in `meta/`. See [design-system.md](design-system.md).
 
 Dotfiles live inline next to the module they belong to, tagged `{dotfiles:PATH}` — a feature's module and its dotfiles share one folder. See [dotfile-symlinking.md](dotfile-symlinking.md).
 
@@ -69,7 +69,7 @@ Three hosts are declared in `flake.nix`: `legion-y520`, `desktop`, and `tuf-f17`
 | `config-root` | absolute path to repo root in the Nix store |
 | `sundry` | library functions from the `sundry` flake input |
 | `design-system` | typed design tokens and generated partials |
-| `settings` | shared infrastructure settings from `infrastructure/settings/` |
+| `settings` | shared meta settings from `meta/settings/` |
 
 ## Inputs
 

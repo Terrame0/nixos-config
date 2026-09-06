@@ -1,4 +1,5 @@
 args' @ {
+  sundry,
   config,
   pkgs,
   lib,
@@ -14,7 +15,13 @@ args' @ {
     stored-config = "${state-dir}/config.json";
     runtime-config = "${runtime-dir}/config.json";
   };
-  skeleton = import (config-dir + "/sing-box-config") args;
+  skeleton = lib.pipe (config-dir + "/sing-box-config") [
+    sundry.vfs.dir.from-src
+    sundry.vfs.dir.load-nix
+    (sundry.vfs.dir.collapse (path: file: file.expr args))
+    sundry.attrs.merge.recursive.no-collision
+    ((pkgs.formats.json {}).generate "sing-box-config.json")
+  ];
   update-script = import (config-dir + "/updater") args;
 in {
   systemd.services.sing-box = {

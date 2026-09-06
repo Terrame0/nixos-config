@@ -1,6 +1,6 @@
 # Исходный план единого источника темы
 
-> Это исторический план. Действующая типизированная система находится в `infrastructure/design-system/` и описана в [design-system.md](design-system.md).
+> Это исторический план. Действующая типизированная система находится в `meta/design-system/` и описана в [design-system.md](design-system.md).
 
 Этот документ фиксирует первоначальное дизайн-решение, которое не было реализовано в описанном виде. Исходный список захардкоженных мест находится
 в [HARDCODED-VALUES.txt](HARDCODED-VALUES.txt).
@@ -24,32 +24,32 @@ IFD — это только когда результат сборки *дери
 для `nproc`). Обычная интерполяция `"radius: ${theme.radius}"` — **не IFD**: ноль
 деривации. Поэтому единый источник темы не обязан быть IFD и не должен им быть.
 
-Компиляция sass в [sass.nix](../infrastructure/dotfile-symlinking%7Bmodules:user%7D/pipeline%7Bparts%7D/sass.nix)
+Компиляция sass в [sass.nix](../meta/dotfile-symlinking%7Bmodules:user%7D/pipeline%7Bparts%7D/sass.nix)
 — тоже не IFD: результат идёт прямо в `home.file`, обратно в оценку не читается.
 
-## Где живёт: `infrastructure/`, не домен
+## Где живёт: `meta/`, не домен
 
 Тему инжестят **несколько доменов** — `applications/` (vscode, alacritty) и
 `desktop-environment/` (waybar, wofi, hyprland). Значит она не принадлежит ни одному
 `src/`-домену: назначить один домен-потребитель владельцем общего ресурса неверно.
-Она наддоменная и сидит **над** доменами — в `infrastructure/`.
+Она наддоменная и сидит **над** доменами — в `meta/`.
 
-`infrastructure/` — это «фундамент для модулей, но сам не модуль» (шире, чем «build
+`meta/` — это «фундамент для модулей, но сам не модуль» (шире, чем «build
 machinery»): туда входит и пайплайн (механизм, что *бежит*), и тема (данные, что
 *читаются*). Разные роды, одна ось. См. [structure.md](structure.md).
 
-Файл: `infrastructure/theme{parts}.nix` (или каталог `theme{parts}/`, если тема
+Файл: `meta/theme{parts}.nix` (или каталог `theme{parts}/`, если тема
 разрастётся на palette/constants/font, как было в снесённом `lib/style/`). Тег
 `{parts}` — чтобы module-discovery её не подхватил: это **данные, читаемые через
 special arg**, а не модуль.
 
 **Ссылаться на файл из [flake.nix](../flake.nix) строкой под `config-root`**
-(`"${config-root}/infrastructure/theme{parts}.nix"`), не path-литералом — `{` в имени
+(`"${config-root}/meta/theme{parts}.nix"`), не path-литералом — `{` в имени
 сломал бы имя нового store-объекта (см. [gotchas.md](gotchas.md)).
 
 ## Источник правды: один Nix-атрибутсет
 
-`infrastructure/theme{parts}.nix` — плоский attrset:
+`meta/theme{parts}.nix` — плоский attrset:
 
 ```nix
 {
@@ -63,12 +63,12 @@ special arg**, а не модуль.
 Прокидывается в `module-args` в [flake.nix](../flake.nix) (рядом с `username`/`host`,
 строка ~65). Тогда он разом попадает и в `specialArgs` (NixOS-модули), и в
 `extraSpecialArgs` (Home Manager). Отдельно — прокинуть в args пайплайна в
-[pipeline{parts}/nix.nix](../infrastructure/dotfile-symlinking%7Bmodules:user%7D/pipeline%7Bparts%7D/nix.nix),
+[pipeline{parts}/nix.nix](../meta/dotfile-symlinking%7Bmodules:user%7D/pipeline%7Bparts%7D/nix.nix),
 где `.nix`-дотфайлы импортируются в `expr`.
 
 **Канал `host`→дотфайлы уже открыт.** При выносе `nproc` из IFD в
 [waybar config.nix](../src/desktop-environment/user%7Bmodules:user%7D/applications/waybar/config%7Bdotfiles:.config%7Cwaybar%7D/config%7Bconvert:json%7D%7Bext:jsonc%7D.nix)
-в [nix.nix](../infrastructure/dotfile-symlinking%7Bmodules:user%7D/pipeline%7Bparts%7D/nix.nix)
+в [nix.nix](../meta/dotfile-symlinking%7Bmodules:user%7D/pipeline%7Bparts%7D/nix.nix)
 уже добавлен `host` в args импорта дотфайла (был только `{lib, pkgs, file-dir}`).
 `theme` добавляется туда же **одной строкой** — `inherit lib pkgs host theme;` — и
 прокидывается из entrypoint так же, как `host` (entrypoint — HM-модуль, все
@@ -103,12 +103,12 @@ special arg**, а не модуль.
 
 ## TODO при реализации
 
-1. Создать `infrastructure/theme{parts}.nix` (значения — из [HARDCODED-VALUES.txt](HARDCODED-VALUES.txt),
+1. Создать `meta/theme{parts}.nix` (значения — из [HARDCODED-VALUES.txt](HARDCODED-VALUES.txt),
    бывшие `lib/style/palette.nix`, `constants.nix`, `font.nix`).
 2. Добавить `theme` в `module-args` в [flake.nix](../flake.nix) — читая файл строкой под
-   `config-root` (`"${config-root}/infrastructure/theme{parts}.nix"`), не path-литералом
+   `config-root` (`"${config-root}/meta/theme{parts}.nix"`), не path-литералом
    (см. [gotchas.md](gotchas.md)) — и добавить `theme` в args импорта дотфайла в
-   [pipeline{parts}/nix.nix](../infrastructure/dotfile-symlinking%7Bmodules:user%7D/pipeline%7Bparts%7D/nix.nix)
+   [pipeline{parts}/nix.nix](../meta/dotfile-symlinking%7Bmodules:user%7D/pipeline%7Bparts%7D/nix.nix)
    (`host` там уже проброшен).
 3. Отменить хардкод по местам из [HARDCODED-VALUES.txt](HARDCODED-VALUES.txt) (пункты 1–9),
    заменив локальные `let`-блоки на `theme.*`. Пункт 8 (nproc) уже решён отдельно через

@@ -3,7 +3,7 @@
   # - because the agent is designed to be a oneshot
   systemd.user.services.hyprpolkitagent = {
     Unit = {
-      Description = "Hyprland Polkit Authentication Agent";
+      Description = "hyprpolkit agent";
       PartOf = ["graphical-session.target"];
       After = ["graphical-session.target"];
       ConditionEnvironment = "WAYLAND_DISPLAY";

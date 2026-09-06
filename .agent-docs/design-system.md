@@ -1,10 +1,10 @@
 # Design system
 
-The active design system lives in [`infrastructure/design-system/`](../infrastructure/design-system/). It provides typed design tokens and renders every token for each supported consumer. The dotfile pipeline injects generated partials under the virtual `{dotfiles:.design-system}` subtree.
+The active design system lives in [`meta/design-system/`](../meta/design-system/). It provides typed design tokens and renders every token for each supported consumer. The dotfile pipeline injects generated partials under the virtual `{dotfiles:.design-system}` subtree.
 
 ## Data flow
 
-[`default.nix`](../infrastructure/design-system/default.nix) loads three classes of parts:
+[`default.nix`](../meta/design-system/default.nix) loads three classes of parts:
 
 | Class | Purpose |
 | --- | --- |
@@ -12,7 +12,7 @@ The active design system lives in [`infrastructure/design-system/`](../infrastru
 | `tokens/` | Define named colors, dimensions, fonts, and other design values. |
 | `partials/` | Flatten the token tree and generate consumer-native files. |
 
-A token has a type name, one source `value`, and a rendered `to` attribute set. The source value can contain other tokens when the type is composite. [`mk-type.nix`](../infrastructure/design-system/mk-type.nix) rejects a type when it does not render all registered consumers.
+A token has a type name, one source `value`, and a rendered `to` attribute set. The source value can contain other tokens when the type is composite. [`mk-type.nix`](../meta/design-system/mk-type.nix) rejects a type when it does not render all registered consumers.
 
 Supported consumers are `css`, `scss`, `lua`, `qml`, and `rasi`. Lua and QML renderings are available on tokens, but their partial generators have not been added yet.
 
