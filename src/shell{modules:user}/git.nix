@@ -1,24 +1,28 @@
 {osConfig, ...}: {
   programs.git = let
-    signature-key = osConfig.sops.secrets."ssh/personal-key-pub".path;
+    signing-key = osConfig.sops.secrets."git/signing-key".path;
+    name = "Terrame0";
+    email = "terrame_0@proton.me";
   in {
     enable = true;
     signing = {
       format = "ssh";
       signByDefault = true;
-      key = signature-key;
+      key = signing-key;
     };
     settings = {
       user = {
-        name = "Terrame0";
-        email = "terrame_0@proton.me";
-        signingKey = signature-key;
+        inherit name email;
+        signingKey = signing-key;
       };
       core = {
         editor = "code";
         autocrlf = "input";
       };
-      gpg.format = "ssh";
+      gpg = {
+        format = "ssh";
+        ssh.allowedSignersFile = osConfig.sops.secrets."git/allowed-signers".path;
+      };
       init.defaultBranch = "main";
       color.ui = true;
     };

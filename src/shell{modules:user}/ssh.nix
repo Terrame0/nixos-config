@@ -16,7 +16,7 @@
       };
       "github.com" = {
         user = "git";
-        identityFile = osConfig.sops.secrets."ssh/github-key".path;
+        identityFile = osConfig.sops.secrets."git/github-access-key".path;
         identitiesOnly = true;
         addKeysToAgent = "yes";
       };
