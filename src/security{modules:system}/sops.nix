@@ -4,6 +4,7 @@
   username,
   pkgs,
   config-root,
+  inputs,
   ...
 }: let
   secrets-src = "${config-root}/src/security{modules:system}/secrets";
@@ -18,6 +19,7 @@ in {
     # -- to not enter the key fingerprint manually when using sops cli
     SOPS_AGE_RECIPIENTS = "age1rh3ejm93aaawujhuhst4tezwneefkxhh0aede0wpqf86mpjhesks6rem3m";
   };
+  imports = [inputs.sops-nix.nixosModules.sops];
   sops = {
     age.keyFile = age-key-src;
     secrets = lib.pipe secrets-src [

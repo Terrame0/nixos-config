@@ -5,7 +5,7 @@ args @ {
   pkgs,
   ...
 }: let
-  pipeline-root = ./pipeline;
+  pipeline-root = ./${"pipeline{parts}"};
   pipeline = lib.pipe pipeline-root [
     sundry.vfs.dir.from-src
     (sundry.vfs.dir.collapse (path: file: import file.origin args))

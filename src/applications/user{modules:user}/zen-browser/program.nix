@@ -1,6 +1,11 @@
-args @ {pkgs, ...}: let
+args @ {
+  inputs,
+  pkgs,
+  ...
+}: let
   config-dir = ./${"config{parts}"};
 in {
+  imports = [inputs.zen-browser.homeModules.beta];
   programs.zen-browser = {
     enable = true;
     setAsDefaultBrowser = true;
