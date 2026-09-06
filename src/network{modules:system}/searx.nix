@@ -43,12 +43,34 @@
           ["wikipedia" "wikipedia" 2.0]
           ["google_us" "google" 1.5 "https://www.google.com"]
           ["google_uk" "google" 1.5 "https://www.google.co.uk"]
+          ["startpage" "startpage" 1.2]
           ["duckduckgo" "duckduckgo" 1.0]
           ["brave" "brave" 1.0]
           ["bing_com" "bing" 1.0 "https://www.bing.com"]
           ["bing_cn" "bing" 1.0 "https://cn.bing.com"]
+          ["qwant" "qwant" 1.0]
+          ["mojeek" "mojeek" 1.0]
+          ["yep" "yep" 0.8]
           ["yahoo" "yahoo" 0.7]
           ["dogpile" "dogpile" 0.7]
+          ["swisscows" "swisscows" 0.6]
+
+          ["github" "github" 1.2]
+          ["stackoverflow" "stackoverflow" 1.0]
+
+          ["openverse" "openverse" 1.0]
+          ["unsplash" "unsplash" 1.0]
+          ["flickr" "flickr_noapi" 0.8]
+
+          ["peertube" "peertube" 1.0 "https://tube.4aem.com"]
+          ["rumble" "rumble" 0.8]
+          ["dailymotion" "dailymotion" 0.7]
+          ["vimeo" "vimeo" 0.7]
+
+          ["wikidata" "wikidata" 1.5]
+          ["arxiv" "arxiv" 1.0]
+          ["semantic_scholar" "semantic_scholar" 0.8]
+          ["pubmed" "pubmed" 0.8]
         ];
       enabled_plugins = [
         "Infinite scroll"

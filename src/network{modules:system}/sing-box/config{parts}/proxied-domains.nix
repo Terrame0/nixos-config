@@ -81,4 +81,5 @@
   "firefox.com"
   "pinterest.com"
   "searx.space"
+  "warframe.com"
 ]
