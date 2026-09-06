@@ -8,7 +8,7 @@
   };
   use_ansi_coloring = true;
   table = {
-    missing_value_symbol = "<>";
+    missing_value_symbol = "";
     mode = "restructured";
     trim = {
       methodology = "wrapping";
