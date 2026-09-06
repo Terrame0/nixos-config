@@ -20,8 +20,7 @@
     "jnoortheen.nix-ide"
     "dlasagno.rasi"
 
-    # -- codex
-    # "openai.chatgpt"
+    "thenuprojectcontributors.vscode-nushell-lang"
 
     # -- html live preview
     "ms-vscode.live-server"
