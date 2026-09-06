@@ -17,7 +17,6 @@ in {
       sundry.vfs.dir.load-nix
       (sundry.vfs.dir.collapse (path: file: file.expr args))
       sundry.attrs.merge.recursive.no-collision
-      sundry.debug
     ];
   };
 }
