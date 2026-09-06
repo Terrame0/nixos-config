@@ -13,7 +13,7 @@
   table = {
     show_empty = false;
     missing_value_symbol = "";
-    mode = "psql";
+    mode = "markdown";
     trim = {
       methodology = "wrapping";
       wrapping_try_keep_words = false;
