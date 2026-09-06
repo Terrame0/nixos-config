@@ -1,6 +1,6 @@
 {osConfig, ...}: {
   programs.git = let
-    signature-key = osConfig.sops.secrets."ssh/github-key-pub".path;
+    signature-key = osConfig.sops.secrets."ssh/personal-key-pub".path;
   in {
     enable = true;
     signing = {
