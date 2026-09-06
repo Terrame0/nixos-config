@@ -13,7 +13,7 @@
         isNormalUser = true;
         description = "${username}";
         hashedPasswordFile =
-          config.sops.secrets."password-hashes/terrame".path;
+          config.sops.secrets."password-hashes/${username}".path;
         extraGroups = [
           "networkmanager"
           "wheel"

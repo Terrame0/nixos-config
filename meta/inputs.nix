@@ -35,6 +35,7 @@
       home-manager.follows = "home-manager";
     };
   };
+
   # -- do not override nixpkgs input (per their README.md)
   nix-cachyos-kernel.url = "github:xddxdd/nix-cachyos-kernel/release";
   # -- does not have a nixpkgs input
