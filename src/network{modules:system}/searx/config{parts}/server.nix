@@ -6,8 +6,8 @@
     image_proxy = true;
   };
   outgoing = {
-    pool_connections = 20;
-    request_timeout = 10.0;
-    max_request_timeout = 15.0;
+    pool_connections = 100;
+    request_timeout = 3.0;
+    max_request_timeout = 7.0;
   };
 }
