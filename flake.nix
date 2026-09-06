@@ -17,6 +17,13 @@
         sundry = sundry-input.mk-lib {inherit pkgs;};
         lib = pkgs.lib;
         design-system = import ./meta/design-system meta-args;
+        settings = lib.pipe ./meta/settings [
+          sundry.vfs.dir.from-src
+          sundry.vfs.dir.load-nix
+          (sundry.vfs.dir.collapse
+            (path: file: {${sundry.vfs.path.get.stem path} = file.expr;}))
+          sundry.attrs.merge.recursive.no-collision
+        ];
         module-args = {
           inherit
             design-system
@@ -39,13 +46,6 @@
             lib
             ;
         };
-        settings = lib.pipe ./meta/settings [
-          sundry.vfs.dir.from-src
-          sundry.vfs.dir.load-nix
-          (sundry.vfs.dir.collapse
-            (path: file: {${sundry.vfs.path.get.stem path} = file.expr;}))
-          sundry.attrs.merge.recursive.no-collision
-        ];
       in {
         ${host.name} =
           nixpkgs.lib.nixosSystem
