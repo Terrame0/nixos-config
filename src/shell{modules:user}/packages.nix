@@ -6,7 +6,6 @@
 
     # -- dev tools
     python3
-    # clang-tools
     gtk3.dev
     jq
 
@@ -18,5 +17,7 @@
     tree
     ouch
     htop
+    tokei
+    pwgen
   ];
 }

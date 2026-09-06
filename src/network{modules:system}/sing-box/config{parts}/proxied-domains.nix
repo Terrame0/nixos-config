@@ -80,4 +80,5 @@
   "virtualpiano.net"
   "firefox.com"
   "pinterest.com"
+  "searx.space"
 ]

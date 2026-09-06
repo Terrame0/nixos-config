@@ -2,8 +2,6 @@
   home.packages = with pkgs; [
     # -- games
     lutris
-    wine-wayland
-    winetricks
     pcsx2
 
     # -- basic desktop utilities
@@ -15,6 +13,5 @@
     baobab
     inkscape
     rawtherapee
-    legendary-gl
   ];
 }
