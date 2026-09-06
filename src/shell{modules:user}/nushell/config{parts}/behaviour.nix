@@ -7,9 +7,13 @@
     isolation = false;
   };
   use_ansi_coloring = true;
+  use_kitty_protocol = true;
+  highlight_resolved_externals = true;
+  auto_cd_implicit = true;
   table = {
+    show_empty = false;
     missing_value_symbol = "";
-    mode = "restructured";
+    mode = "light";
     trim = {
       methodology = "wrapping";
       wrapping_try_keep_words = false;
