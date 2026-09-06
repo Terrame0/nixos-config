@@ -1,5 +1,5 @@
 {...}: {
-  settings.completions = {
+  completions = {
     quick = true;
     partial = true;
     algorithm = "fuzzy";
