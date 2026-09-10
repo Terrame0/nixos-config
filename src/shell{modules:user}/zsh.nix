@@ -29,8 +29,6 @@
 
     # -- configuration
     initContent = ''
-      ${lib.getExe pkgs.any-nix-shell} zsh | source /dev/stdin
-
       # -- emacs-like key bindings
       bindkey -e
 

@@ -82,4 +82,5 @@
   "pinterest.com"
   "searx.space"
   "warframe.com"
+  "gitingest.com"
 ]

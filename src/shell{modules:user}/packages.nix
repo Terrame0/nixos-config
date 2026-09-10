@@ -12,7 +12,6 @@
     # -- utilities
     treefmt
     alejandra
-    any-nix-shell
     fastfetch
     tree
     ouch
