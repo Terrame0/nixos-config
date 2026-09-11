@@ -13,6 +13,7 @@
     treefmt
     alejandra
     fastfetch
+    fd
     tree
     ouch
     htop

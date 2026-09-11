@@ -53,8 +53,8 @@ It is linked into place by `programs.opencode.context` in `program.nix`, not by 
 Reach for the purpose-built tool before a generic workaround.
 
 - Options: `nixos option <name>` (nixos-cli) looks up NixOS and Home Manager options. Keep the default option cache; `--no-cache` rebuilds the list via `builtins.getFlake` and is unreliable.
-- File search: nushell `glob` (`fd` is not installed). Content search: `rg`.
-- Structured data: nushell (`open`, `from json` / `from yaml` / `from toml`) before `jq` or a scripting language.
+- File search: `fd`. Content search: `rg`.
+- Structured data: `jq` for JSON; for YAML/TOML pipe through nushell with `nu -c 'open ...'` (the `nu` binary is still installed even though the harness shell is not nushell).
 - Nix lint: `statix` reports anti-patterns; `nixd` surfaces diagnostics inline.
 - Diffs: `delta` as a git pager.
 - Build output: `nom` wraps `nix build` and rebuild commands with a live tree.
