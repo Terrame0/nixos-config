@@ -100,9 +100,7 @@ local main_mod = "SUPER"
 
 hl.gesture({ fingers = 3, direction = "swipe", mods = "ALT SHIFT", action = "resize" })
 hl.gesture({ fingers = 3, direction = "swipe", mods = main_mod .. " SHIFT", action = "move" })
-hl.gesture({ fingers = 4, direction = "down", mods = main_mod .. " SHIFT", action = "close" })
 hl.gesture({ fingers = 3, direction = "horizontal", action = "workspace" })
-hl.gesture({ fingers = 3, direction = "up", action = function() hl.dispatch(hl.dsp.exec_cmd(menu)) end })
 
 hl.bind(main_mod .. " + SPACE", hl.dsp.exec_cmd("hyprctl switchxkblayout next"))
 hl.bind(main_mod .. " + Q", hl.dsp.exec_cmd(terminal))
