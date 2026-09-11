@@ -1,0 +1,12 @@
+<action>
+  <icon>/usr/share/pixmaps/code.png</icon>
+  <name>Open with VS Code Here</name>
+  <submenu></submenu>
+  <unique-id>1730698877632197-2</unique-id>
+  <command>code %f</command>
+  <description>Open this folder in VS Code</description>
+  <range></range>
+  <patterns>*</patterns>
+  <startup-notify/>
+  <directories/>
+</action>
