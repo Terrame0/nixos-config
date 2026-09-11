@@ -20,6 +20,14 @@ nix-store -r "$DRV"   # now the out path exists
 
 Do not chain `nix build --no-link` then read the path — with `--no-link` the GC can remove it before the next command runs.
 
+## `builtins.getFlake` on a plain path fails on this repo
+
+`builtins.getFlake "/abs/path/to/nixos-config"` fails with `the contents of the file '/nix/store/…/.git/index' cannot be represented as a Nix string`. The `git+file://` form succeeds, as do ordinary `nix build .#…` and the default `nixos option` cache.
+
+**Why:** a plain path makes `getFlake` copy the working tree including `.git`, and evaluating the config then touches the git index. A `git+file://` ref and flake commands evaluate the git-tracked tree, which omits `.git`.
+
+**Avoid:** call `getFlake` with a `git+file://` ref, not a plain path. `nixos option --no-cache` fails for this reason — it rebuilds the option list with a plain-path `getFlake` — so keep nixos-cli's default option cache.
+
 ## A flake only sees git-tracked files
 
 `builtins.readFile ./foo.sh` and path interpolation `${./foo.jq}` fail at build time if the referenced file is new and untracked — the flake copies the git tree into the store, and untracked files are absent.

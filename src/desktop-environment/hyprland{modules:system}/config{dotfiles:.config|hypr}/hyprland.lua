@@ -8,9 +8,9 @@ hl.monitor({ output = "eDP-2", mode = "1920x1080@144", position = "auto", scale 
 
 local terminal = "alacritty"
 local file_manager = "thunar"
-local shell = "zsh"
+local shell = "nu"
 local menu = shell .. " -c 'flock -n /tmp/wofi.lock wofi --show drun'"
-local exit = shell .. " -c 'command -v hyprshutdown >/dev/null 2>&1 && hyprshutdown || hyprctl dispatch exit'"
+local exit = shell .. " -c 'if (which hyprshutdown | is-not-empty) { hyprshutdown } else { hyprctl dispatch exit }'"
 
 hl.on("hyprland.start", function()
     hl.exec_cmd("waybar")
@@ -109,7 +109,7 @@ hl.bind(main_mod .. " + Q", hl.dsp.exec_cmd(terminal))
 hl.bind(main_mod .. " + M", hl.dsp.exec_cmd(exit))
 hl.bind(main_mod .. " + E", hl.dsp.exec_cmd(file_manager))
 hl.bind(main_mod .. " + R", hl.dsp.exec_cmd(menu))
-hl.bind("CTRL + ALT + S", hl.dsp.exec_cmd(shell .. " -c \"$HOME/.config/hypr/screenshot.sh\""))
+hl.bind("CTRL + ALT + S", hl.dsp.exec_cmd(shell .. " -c '^$\"($env.HOME)/.config/hypr/screenshot.sh\"'"))
 
 hl.bind(main_mod .. " + SHIFT + C", hl.dsp.window.close())
 hl.bind(main_mod .. " + SHIFT + F", hl.dsp.window.fullscreen())

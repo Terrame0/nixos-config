@@ -22,7 +22,7 @@
   };
   "terminal.integrated.defaultProfile.linux" = "Nushell";
   "terminal.integrated.automationProfile.linux" = {
-    path = lib.getExe pkgs.zsh;
+    path = "/bin/sh";
   };
   "security.workspace.trust.untrustedFiles" = "open";
 

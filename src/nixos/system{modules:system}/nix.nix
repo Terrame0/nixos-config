@@ -1,13 +1,8 @@
-{
-  inputs,
-  pkgs,
-  ...
-}: {
+{inputs, ...}: {
   nix = {
     registry = {
       default.flake = inputs.nixpkgs;
     };
-    package = inputs.nix-super.packages.${pkgs.system}.default;
     gc = {
       automatic = true;
       persistent = true;

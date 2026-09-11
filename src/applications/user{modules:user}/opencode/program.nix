@@ -20,6 +20,7 @@ in {
     settings = {
       autoupdate = true;
       lsp = true;
+      shell = "${pkgs.nushell}/bin/nu";
       provider = {
         deepseek = {
           npm = "@ai-sdk/anthropic";
