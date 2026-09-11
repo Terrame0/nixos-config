@@ -19,7 +19,6 @@
     "a5huynh.vscode-ron"
     "jnoortheen.nix-ide"
     "dlasagno.rasi"
-
     "thenuprojectcontributors.vscode-nushell-lang"
 
     # -- html live preview
@@ -27,6 +26,9 @@
 
     # -- plantuml
     "jebbs.plantuml"
+
+    # -- opencode integration (requires system opencode)
+    "sst-dev.opencode"
   ];
 
   # -- needed for plantuml rendering to work
