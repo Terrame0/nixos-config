@@ -2,9 +2,19 @@
   pkgs,
   osConfig,
   ...
-}: {
+}: let
+  opencode = pkgs.symlinkJoin {
+    name = "opencode-with-experimental";
+    paths = [pkgs.opencode];
+    nativeBuildInputs = [pkgs.makeWrapper];
+    postBuild = ''
+      wrapProgram $out/bin/opencode --set OPENCODE_EXPERIMENTAL_LSP_TOOL true
+    '';
+  };
+in {
   programs.opencode = {
     enable = true;
+    package = opencode;
     settings = {
       autoupdate = true;
       lsp = true;
