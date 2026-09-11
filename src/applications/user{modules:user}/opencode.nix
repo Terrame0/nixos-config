@@ -7,6 +7,7 @@
     enable = true;
     settings = {
       autoupdate = true;
+      lsp = true;
       provider = {
         deepseek = {
           npm = "@ai-sdk/anthropic";
