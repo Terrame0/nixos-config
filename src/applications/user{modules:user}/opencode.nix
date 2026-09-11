@@ -1,27 +1,26 @@
 {
   pkgs,
-  config,
+  osConfig,
   ...
 }: {
   programs.opencode = {
     enable = true;
-    enableMcpIntegration = true;
     settings = {
       autoupdate = true;
       provider = {
-        deepseekv4 = {
+        deepseek = {
           npm = "@ai-sdk/anthropic";
           name = "DeepSeek";
           options = {
             baseURL = "https://api.deepseek.com/anthropic";
-            apiKey = "{file:${config.sops.secrets."deepseek-api/key".path}}";
+            apiKey = "{file:${osConfig.sops.secrets."deepseek-api/key".path}}";
           };
           models = {
-            "deepseek-v4-pro" = {
-              name = "DeepSeek-V4-Pro";
+            "deepseek-flash" = {
+              name = "DeepSeek V4.1 Flash";
               limit = {
-                context = 1048576;
-                output = 262144;
+                context = 1000000;
+                output = 384000;
               };
               options = {
                 thinking = {
@@ -33,7 +32,7 @@
           };
         };
       };
-      model = "deepseekv4/deepseek-v4-pro";
+      model = "deepseek/deepseek-flash";
     };
     extraPackages = [pkgs.uv];
   };
