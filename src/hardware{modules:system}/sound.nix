@@ -33,6 +33,16 @@
             }
           ];
         };
+        "60-g435-full-hardware-volume" = {
+          "monitor.alsa.rules" = [
+            {
+              matches = [
+                {"device.name" = "~alsa_card.usb-Logitech_G_series_G435.*";}
+              ];
+              actions.update-props."device.routes.default-sink-volume" = 1.0;
+            }
+          ];
+        };
       };
     };
   };
