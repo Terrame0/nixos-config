@@ -59,7 +59,7 @@
           sundry.vfs.dir.from-src
           sundry.vfs.dir.load-nix
           (sundry.vfs.dir.collapse
-            (path: file: {${sundry.vfs.path.get.stem path} = file.expr;}))
+            (path: file: {${sundry.vfs.path.get.stem path} = file.expr meta-args;}))
           sundry.attrs.merge.recursive.no-collision
         ];
         module-args = {

@@ -1,4 +1,4 @@
-{
+{...}: {
   # -- Tomorrow Night (original) --
   black = "#1d1f21";
   dark-gray = "#282a2e";
