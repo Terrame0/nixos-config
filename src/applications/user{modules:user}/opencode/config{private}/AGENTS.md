@@ -41,12 +41,12 @@ It is linked into place by `programs.opencode.context` in `program.nix`, not by 
 
 ### Shell and tools
 
-- Shell: zsh. opencode's harness shell is zsh too (the login shell).
-- Write POSIX/zsh-compatible commands — `&&`, `$(...)`, `;`, and `2>&1` all work.
+- Shell: zsh. `nu` (nushell) is installed as a binary for interactive user shells.
+- opencode harness shell: zsh (the login shell). Write POSIX/zsh-compatible commands — `&&`, `$(...)`, `;`, and `2>&1` all work.
 - Formatter: alejandra (Nix)
 - LSP: nixd
 - Editor: VS Code (user settings managed by Home Manager)
-- opencode `extraPackages`: `statix` and `delta` on opencode's PATH only.
+- opencode `extraPackages`: `statix` and `fd` on opencode's PATH only.
 
 ### Choosing a tool
 
@@ -54,9 +54,9 @@ Reach for the purpose-built tool before a generic workaround.
 
 - Options: `nixos option <name>` (nixos-cli) looks up NixOS and Home Manager options. Keep the default option cache; `--no-cache` rebuilds the list via `builtins.getFlake` and is unreliable.
 - File search: `fd`. Content search: `rg`.
-- Structured data: `jq` for JSON; for YAML/TOML pipe through nushell with `nu -c 'open ...'` (the `nu` binary is still installed even though the harness shell is not nushell).
+- Structured data: nushell via `nu -c 'open ...'` for JSON, YAML, and TOML; convert with `to json` / `to yaml` / `to toml`.
 - Nix lint: `statix` reports anti-patterns; `nixd` surfaces diagnostics inline.
-- Diffs: `delta` as a git pager.
+- Diffs: `delta`, configured globally as git's `core.pager`.
 - Build output: `nom` wraps `nix build` and rebuild commands with a live tree.
 
 ### Harness capabilities

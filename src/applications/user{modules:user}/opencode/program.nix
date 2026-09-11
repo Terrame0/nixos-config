@@ -62,7 +62,6 @@ in {
     };
     extraPackages = with pkgs; [
       statix
-      delta
       fd
     ];
   };

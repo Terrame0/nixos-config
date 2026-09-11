@@ -18,6 +18,7 @@
       core = {
         editor = "code";
         autocrlf = "input";
+        pager = "delta";
       };
       gpg = {
         format = "ssh";

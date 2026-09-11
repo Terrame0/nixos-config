@@ -13,8 +13,8 @@
     treefmt
     alejandra
     fastfetch
-    fd
     tree
+    delta
     ouch
     htop
     tokei
