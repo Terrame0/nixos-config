@@ -42,7 +42,7 @@ It is linked into place by `programs.opencode.context` in `program.nix`, not by 
 ### Shell and tools
 
 - Shell: nushell (experimental transition).
-- opencode harness shell: nushell, via `settings.shell`. Commands run as `nu -c`, so write nushell, not POSIX: no `&&` (use `;`), no `$(...)` (use `(...)`), no `2>&1` (use `out+err>`).
+- opencode harness shell: the login shell (`$SHELL`), not nushell. opencode's shell tool rejects `nu` and falls back, so write POSIX/bash-compatible commands — `&&`, `$(...)`, `;`, and `2>&1` all work.
 - Formatter: alejandra (Nix)
 - LSP: nixd
 - Editor: VS Code (user settings managed by Home Manager)

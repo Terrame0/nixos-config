@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 # -- behaviour of shift with selection rectangles is broken
 # windows_json=$(hyprctl clients -j)
 # current_ws=$(hyprctl activeworkspace -j | jq -r '.id')

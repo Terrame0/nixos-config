@@ -1,4 +1,5 @@
 {
+  host,
   pkgs,
   osConfig,
   ...
@@ -19,8 +20,19 @@ in {
     context = config-dir + "/AGENTS.md";
     settings = {
       autoupdate = true;
-      lsp = true;
-      shell = "${pkgs.nushell}/bin/nu";
+      lsp = {
+        nixd = {
+          command = ["${pkgs.nixd}/bin/nixd"];
+          initialization.nixd = {
+            nixpkgs.expr = "import (builtins.getFlake (toString ./.)).inputs.nixpkgs { }";
+            options = {
+              nixos.expr = "(builtins.getFlake (toString ./.)).nixosConfigurations.${host.name}.options";
+              home-manager.expr = "(builtins.getFlake (toString ./.)).nixosConfigurations.${host.name}.options.home-manager.users.type.getSubOptions []";
+            };
+            formatting.command = ["alejandra"];
+          };
+        };
+      };
       provider = {
         deepseek = {
           npm = "@ai-sdk/anthropic";
