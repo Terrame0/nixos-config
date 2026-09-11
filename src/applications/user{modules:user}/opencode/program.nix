@@ -60,6 +60,10 @@ in {
       };
       model = "deepseek/deepseek-flash";
     };
-    extraPackages = [pkgs.statix pkgs.delta];
+    extraPackages = with pkgs; [
+      statix
+      delta
+      fd
+    ];
   };
 }
