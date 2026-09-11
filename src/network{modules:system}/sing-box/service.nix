@@ -6,7 +6,7 @@ args' @ {
   ...
 }: let
   args = args' // {inherit config-dir paths skeleton;};
-  config-dir = ./${"config{parts}"};
+  config-dir = ./${"config{private}"};
   paths = rec {
     base-dir = "sing-box";
     state-dir = "/var/lib/${base-dir}";

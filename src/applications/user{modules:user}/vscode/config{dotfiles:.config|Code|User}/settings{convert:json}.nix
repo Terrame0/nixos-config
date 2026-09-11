@@ -4,7 +4,7 @@ args @ {
   lib,
   ...
 }:
-lib.pipe "${file-dir}/settings{parts}" [
+lib.pipe "${file-dir}/settings{private}" [
   sundry.vfs.dir.from-src
   (sundry.vfs.dir.filter (path: file: sundry.vfs.path.get.ext path == "nix"))
   (sundry.vfs.dir.collapse (path: file: import file.origin args))

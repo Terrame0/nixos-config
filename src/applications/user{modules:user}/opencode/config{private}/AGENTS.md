@@ -1,4 +1,4 @@
-# Codex global config
+# opencode global config
 
 Global conventions that apply across all repositories and sessions on this machine.
 
@@ -31,23 +31,23 @@ All projects live under the home directory (`~/`). Project-specific durable cont
 
 ## Simplified Technical English
 
-STE reference files are managed as Codex dotfiles next to this file:
+STE reference files are managed as opencode dotfiles next to this file:
 
-- `~/.codex/ste-writing-guidelines.md` — condensed writing rules.
-- `~/.codex/allowed.md` — approved words and meanings.
-- `~/.codex/prohibited.md` — prohibited words and approved alternatives.
+- `~/.config/opencode/ste-writing-guidelines.md` — condensed writing rules.
+- `~/.config/opencode/allowed.md` — approved words and meanings.
+- `~/.config/opencode/prohibited.md` — prohibited words and approved alternatives.
 
 For STE checking, rewriting, or rule explanations, read the relevant STE files before answering or changing code.
 
-## Editing global Codex config
+## Editing global opencode config
 
-This file (`~/.codex/AGENTS.md`) is managed as a dotfile in `~/nixos-config`. Edit the source at:
+This file (`~/.config/opencode/AGENTS.md`) is managed in `~/nixos-config`. Edit the source at:
 
 ```text
-~/nixos-config/src/applications/user{modules:user}/codex/config{dotfiles:.codex}/AGENTS.md
+~/nixos-config/src/applications/user{modules:user}/opencode/config{private}/AGENTS.md
 ```
 
-After editing, run the usual system rebuild flow to symlink the updated file into `~/.codex/`.
+It is linked into place by `programs.opencode.context` in `program.nix`, not by the dotfile pipeline. After editing, run the usual system rebuild flow to symlink the updated file into `~/.config/opencode/`.
 
 ## Shell and tools
 
@@ -74,17 +74,17 @@ To make a tool permanent, add it to the Home Manager config instead.
 
 # Repository Setup
 
-Conventions that apply whenever Codex operates inside a git repository.
+Conventions that apply whenever opencode operates inside a git repository.
 
 ## `.agent-docs/`
 
-Every git repository should have an `.agent-docs/` directory at its root. It holds project-specific context that Codex reads when the task calls for it. Maintain it according to the writing docs conventions below.
+Every git repository should have an `.agent-docs/` directory at its root. It holds project-specific context that opencode reads when the task calls for it. Maintain it according to the writing docs conventions below.
 
 Project-specific information belongs in the project's `.agent-docs/`, not in the global cross-project memory store. The memory store is for facts that hold across every repo. Anything tied to one project, such as architecture, ongoing work, design decisions, tag models, or gotchas, goes in that project's `.agent-docs/`.
 
 ## `AGENTS.md`
 
-An `AGENTS.md` should exist at the repository root. It is the entry point Codex reads automatically. It should contain:
+An `AGENTS.md` should exist at the repository root. It is the entry point opencode reads automatically. It should contain:
 
 1. Project description — one short paragraph: what the project is and how it is structured.
 2. Doc index — a bullet list of every file in `.agent-docs/`, each with a one-line summary.
@@ -118,7 +118,7 @@ An `AGENTS.md` that lists a doc that no longer exists is worse than no `AGENTS.m
 
 # Writing Code
 
-Conventions for code Codex writes, as opposed to docs about it.
+Conventions for code opencode writes, as opposed to docs about it.
 
 ## Do Not Comment Code Inline
 

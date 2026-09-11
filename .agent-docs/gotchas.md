@@ -91,7 +91,7 @@ Setting `experimental.cache_file.store_selected = true` makes `sing-box check` f
 Prefer a relative path over a string assembled from `config-root`. If a relative segment contains a `{…}` tag, interpolate only that segment into the path literal, keep the result as a path, and extend it with `+` before passing it to the final consumer:
 
 ```nix
-config-dir = ./${"config{parts}"};
+config-dir = ./${"config{private}"};
 
 config = import (config-dir + "/sing-box-config") args;
 domains = import (config-dir + "/proxied-domains.nix");
@@ -103,7 +103,7 @@ Do not stringify the intermediate tagged path:
 "${config-dir}/sing-box-config"
 ```
 
-**Why:** the relative form follows the source file when its containing tree moves, while a `"${config-root}/src/…"` prefix must be updated by hand. The interpolated segment also avoids Nix's path-literal grammar treating `{` as syntax. Keeping the value as a path until a safe final name prevents Nix from trying to create a store object named after an intermediate `config{parts}` segment; store-object names forbid `{`.
+**Why:** the relative form follows the source file when its containing tree moves, while a `"${config-root}/src/…"` prefix must be updated by hand. The interpolated segment also avoids Nix's path-literal grammar treating `{` as syntax. Keeping the value as a path until a safe final name prevents Nix from trying to create a store object named after an intermediate `config{private}` segment; store-object names forbid `{`.
 
 **Use `config-root` only when the final consumer needs a string rooted in the already-copied flake source.** This applies when scanning the whole repository and when a VFS pipeline can later stringify an origin whose final file name itself carries a tag, such as `password-hashes{for-users}.yaml`. A `{` inside the existing `config-root` store path is safe because it is not the store object's name. `sundry.vfs.dir.from-src` therefore receives a `config-root` string for the module, dotfile, and secret trees that can emit tagged origins.
 

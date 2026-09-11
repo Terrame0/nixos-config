@@ -25,7 +25,7 @@
               e.tag {include = [];}
               || e.tag {build = [];}
               || e.tag {convert = [];}
-              || e.tag {parts = [];}
+              || e.tag {private = [];}
             )))
       ];
   };

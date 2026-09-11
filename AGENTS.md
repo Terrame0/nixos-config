@@ -4,7 +4,7 @@ NixOS + Home Manager configuration for three hosts (`legion-y520`, `desktop`, `t
 
 ## Before working, read the relevant doc in `.agent-docs/`
 
-Codex loads this file automatically. The topic docs below are not auto-imported by Codex, so read the relevant files before making changes.
+opencode loads this file automatically. The topic docs below are not auto-imported, so read the relevant files before making changes.
 
 - [structure.md](.agent-docs/structure.md) — overall repo layout, multi-host setup, special args, flake inputs.
 - [dotfile-symlinking.md](.agent-docs/dotfile-symlinking.md) — how dotfiles are managed: pipeline stages, tag syntax, adding new dotfiles.

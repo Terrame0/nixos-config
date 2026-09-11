@@ -6,15 +6,15 @@ Dotfiles are produced by a custom pipeline under [meta/dotfile-symlinking/](../m
 
 [entrypoint.nix](../meta/dotfile-symlinking%7Bmodules:user%7D/entrypoint.nix) drives it:
 
-1. It reads every `.nix` file under `pipeline{parts}/` and imports each with shared args.
+1. It reads every `.nix` file under `pipeline{private}/` and imports each with shared args.
 2. The stages are merged and run through `sundry.attrs.resolve-deps` — a dependency-aware evaluator that orders stages by their declared `deps`.
 3. The final `home-files` key is assigned to `home.file`.
 
-The pipeline directory is tagged `{parts}` so its own files are never mistaken for dotfile sources or modules.
+The pipeline directory is tagged `{private}` so its own files are never mistaken for dotfile sources or modules.
 
 ## Source: the module tree
 
-`dotfile-sources` scans the whole repo from `config-root` and keeps only `{dotfiles:…}` subtrees ([imports.nix](../meta/dotfile-symlinking%7Bmodules:user%7D/pipeline%7Bparts%7D/imports.nix)):
+`dotfile-sources` scans the whole repo from `config-root` and keeps only `{dotfiles:…}` subtrees ([imports.nix](../meta/dotfile-symlinking%7Bmodules:user%7D/pipeline%7Bprivate%7D/imports.nix)):
 
 | Root | Selection | Destination path comes from |
 |---|---|---|
@@ -37,14 +37,14 @@ The tag vocabulary splits along one axis:
 
 | Stage | File | What it does |
 |---|---|---|
-| `dotfile-sources` | [imports.nix](../meta/dotfile-symlinking%7Bmodules:user%7D/pipeline%7Bparts%7D/imports.nix) | Scans from `config-root`, injects design-system partials, resolves tags, and selects `{dotfiles}` subtrees. **Paths stay as-is** — no home-relative rewrite here. |
-| `raw-dotfiles` | same file | Drops `{include}`, `{build}`, `{convert}`, `{parts}` files — the raw-copy set. |
-| `evaluated-nix-dotfiles` | [nix.nix](../meta/dotfile-symlinking%7Bmodules:user%7D/pipeline%7Bparts%7D/nix.nix) | Imports every `.nix`, evaluating it with the pipeline's module args plus `file-dir` into `.expr`; this includes `host` and `design-system`. |
+| `dotfile-sources` | [imports.nix](../meta/dotfile-symlinking%7Bmodules:user%7D/pipeline%7Bprivate%7D/imports.nix) | Scans from `config-root`, injects design-system partials, resolves tags, and selects `{dotfiles}` subtrees. **Paths stay as-is** — no home-relative rewrite here. |
+| `raw-dotfiles` | same file | Drops `{include}`, `{build}`, `{convert}`, `{private}` files — the raw-copy set. |
+| `evaluated-nix-dotfiles` | [nix.nix](../meta/dotfile-symlinking%7Bmodules:user%7D/pipeline%7Bprivate%7D/nix.nix) | Imports every `.nix`, evaluating it with the pipeline's module args plus `file-dir` into `.expr`; this includes `host` and `design-system`. |
 | `converted-nix-dotfiles` | same file | Serialises `{convert:json}` / `{convert:ini}` files' `.expr` to text via `lib.generators`. |
-| `sass-build-tree` | [sass.nix](../meta/dotfile-symlinking%7Bmodules:user%7D/pipeline%7Bparts%7D/sass.nix) | Materialises all `.scss` into one clean source tree in a derivation and keeps both `{ drv, dir }`. |
+| `sass-build-tree` | [sass.nix](../meta/dotfile-symlinking%7Bmodules:user%7D/pipeline%7Bprivate%7D/sass.nix) | Materialises all `.scss` into one clean source tree in a derivation and keeps both `{ drv, dir }`. |
 | `sass-load-flags` | same file | Collects `{include:sass}` dirs as ready-to-use `--load-path` flags. |
 | `built-sass-dotfiles` | same file | Compiles `{build:sass}` entry points to `.css` via `dart-sass`. |
-| `home-files` | [result.nix](../meta/dotfile-symlinking%7Bmodules:user%7D/pipeline%7Bparts%7D/result.nix) | Merges all stages; applies `{ext:…}` renames; **rewrites each path to its `~`-relative home path** (`to-home-path`); collapses to `home.file`. |
+| `home-files` | [result.nix](../meta/dotfile-symlinking%7Bmodules:user%7D/pipeline%7Bprivate%7D/result.nix) | Merges all stages; applies `{ext:…}` renames; **rewrites each path to its `~`-relative home path** (`to-home-path`); collapses to `home.file`. |
 
 ### Where the home-relative rewrite happens — and why it's last
 
@@ -63,7 +63,7 @@ Tags are embedded in path segments as `{key}` or `{key:value}`; multiple values 
 | `{ext:ext}` | file | Overrides the output extension. Bare `{ext}` strips the extension entirely. |
 | `{build:sass}` | file | This `.scss` is a Sass entry point — compile to `.css`. |
 | `{include:sass}` | directory | Sass include path. The `--load-path` is the dir **above** the tagged segment (`lib.take tag-pos path` in the Sass build tree derivation). |
-| `{parts}` | file or dir | Source-only helper, excluded from all discovery (module *and* dotfile). E.g. `settings{parts}/`, the `pipeline{parts}/` dir, sing-box's `config{parts}/`. |
+| `{private}` | file or dir | Source-only helper, excluded from all discovery (module *and* dotfile). E.g. `settings{private}/`, the `pipeline{private}/` dir, sing-box's `config{private}/`. |
 | `{hosts:name}` | file or dir | Only built for the named host. |
 
 ## Example: VS Code settings
@@ -75,10 +75,10 @@ applications/user{modules:user}/vscode/
   config{dotfiles:.config|Code|User}/
     settings{convert:json}.nix                      → ~/.config/Code/User/settings.json
     keybindings{convert:json}.nix                   → ~/.config/Code/User/keybindings.json
-    settings{parts}/                                → excluded; imported by settings.nix via file-dir
+    settings{private}/                                → excluded; imported by settings.nix via file-dir
 ```
 
-`{dotfiles:.config|Code|User}` pins the destination. `settings.nix` imports the `{parts}`-tagged helpers manually with `file-dir`; `{parts}` keeps them out of the output.
+`{dotfiles:.config|Code|User}` pins the destination. `settings.nix` imports the `{private}`-tagged helpers manually with `file-dir`; `{private}` keeps them out of the output.
 
 ## Example: waybar
 

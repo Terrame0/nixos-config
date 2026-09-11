@@ -3,7 +3,7 @@ args @ {
   pkgs,
   ...
 }: let
-  config-dir = ./${"config{parts}"};
+  config-dir = ./${"config{private}"};
 in {
   imports = [inputs.zen-browser.homeModules.beta];
   programs.zen-browser = {

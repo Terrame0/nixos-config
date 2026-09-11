@@ -5,7 +5,7 @@ args' @ {
   ...
 }: let
   args = args' // {inherit config-dir;};
-  config-dir = ./${"config{parts}"};
+  config-dir = ./${"config{private}"};
 in {
   services.searx = {
     enable = true;

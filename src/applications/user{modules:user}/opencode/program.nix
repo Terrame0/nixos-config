@@ -3,6 +3,7 @@
   osConfig,
   ...
 }: let
+  config-dir = ./${"config{private}"};
   opencode = pkgs.symlinkJoin {
     name = "opencode-with-experimental";
     paths = [pkgs.opencode];
@@ -15,6 +16,7 @@ in {
   programs.opencode = {
     enable = true;
     package = opencode;
+    context = config-dir + "/AGENTS.md";
     settings = {
       autoupdate = true;
       lsp = true;
@@ -45,6 +47,6 @@ in {
       };
       model = "deepseek/deepseek-flash";
     };
-    extraPackages = [pkgs.uv];
+    extraPackages = [pkgs.statix pkgs.delta];
   };
 }

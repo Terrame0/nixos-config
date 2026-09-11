@@ -16,7 +16,7 @@
       (sundry.vfs.dir.select-by-tag
         (e:
           (e.tag {modules = [];})
-          && !(e.tag {parts = [];} || e.tag {dotfiles = [];})
+          && !(e.tag {private = [];} || e.tag {dotfiles = [];})
           && (e.tag {hosts = host.name;} || !e.tag {hosts = [];})))
       (sundry.vfs.dir.select-by-tag (e: e.deepest-tag {modules = tag-value;}))
       (sundry.vfs.dir.collapse (path: file: file.origin))

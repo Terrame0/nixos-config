@@ -51,7 +51,7 @@ This asymmetry (tag-on-domain vs tag-on-subfolder) is deliberate: mono-domains n
 `flake.nix` scans the whole repo from `config-root` and keeps a `.nix` file as a module when it:
 
 1. carries a `{modules:…}` tag somewhere in its path (presence check), **and**
-2. is not `{parts}` (source-only helper) or `{dotfiles}` (a dotfile, not a module), **and**
+2. is not `{private}` (source-only helper) or `{dotfiles}` (a dotfile, not a module), **and**
 3. passes the host gate: `{hosts:name}` matching the current host, or no `{hosts}` tag at all.
 
 `filter-modules "system"` / `filter-modules "user"` then split the survivors by their deepest `{modules}` value into the NixOS module list and the Home Manager `imports`. Home Manager runs as a NixOS module, not standalone — apply all changes with `nixos-rebuild switch`.
