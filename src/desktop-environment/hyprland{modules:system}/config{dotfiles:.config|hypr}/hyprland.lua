@@ -9,7 +9,7 @@ hl.monitor({ output = "eDP-2", mode = "1920x1080@144", position = "auto", scale 
 local terminal = "alacritty"
 local file_manager = "thunar"
 local shell = "nu"
-local menu = shell .. " -c 'flock -n /tmp/wofi.lock wofi --show drun'"
+local menu = shell .. " -c 'rofi -show drun'"
 local exit = shell .. " -c 'if (which hyprshutdown | is-not-empty) { hyprshutdown } else { hyprctl dispatch exit }'"
 
 hl.on("hyprland.start", function()

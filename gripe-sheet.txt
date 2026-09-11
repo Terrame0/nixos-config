@@ -1,0 +1,3 @@
+desktop portal file picker theme is broken
+some context windows in zen are transparent (set theme export colors)
+some modal windows are not centered and/or floating (onlyoffice save prompt)
