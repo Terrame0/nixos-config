@@ -1,4 +1,5 @@
 {...}: {
+  # -- gives audio servers higher scheduling priority
   security.rtkit.enable = true;
   services.pipewire = {
     enable = true;
@@ -30,16 +31,6 @@
                 {"node.name" = "~alsa_output.pci-.*hdmi.*";}
               ];
               actions.update-props."priority.session" = 50;
-            }
-          ];
-        };
-        "60-g435-full-hardware-volume" = {
-          "monitor.alsa.rules" = [
-            {
-              matches = [
-                {"device.name" = "~alsa_card.usb-Logitech_G_series_G435.*";}
-              ];
-              actions.update-props."device.routes.default-sink-volume" = 1.0;
             }
           ];
         };

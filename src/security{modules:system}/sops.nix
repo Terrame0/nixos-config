@@ -3,11 +3,10 @@
   sundry,
   username,
   pkgs,
-  config-root,
   inputs,
   ...
 }: let
-  secrets-src = "${config-root}/src/security{modules:system}/secrets";
+  secrets-src = ./secrets;
   age-key-src = "/etc/sops/age/master.txt";
 in {
   environment.systemPackages = with pkgs; [
@@ -40,7 +39,7 @@ in {
               path-str = sundry.vfs.path.get.str sanitized-path;
             in {
               "${path-str}/${key}" = {
-                sopsFile = file.origin;
+                sopsFile = sundry.path.to-store file.origin;
                 neededForUsers = (sundry.attrs.merge.no-collision file.tag-list) ? "for-users";
                 inherit key;
                 owner = username;

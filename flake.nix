@@ -33,6 +33,10 @@
         home-manager.follows = "home-manager";
       };
     };
+    nuenv = {
+      url = "github:xav-ie/nuenv";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     microsoft-fonts.url = "github:kugland/nix-ttf-ms-win11-auto";
     # -- do not override nixpkgs input (per their README.md)
     nix-cachyos-kernel.url = "github:xddxdd/nix-cachyos-kernel/release";

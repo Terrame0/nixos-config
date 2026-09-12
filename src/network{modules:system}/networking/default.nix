@@ -1,6 +1,7 @@
 {
   host,
   pkgs,
+  lib,
   ...
 }: {
   networking = {
@@ -18,20 +19,11 @@
       dispatcherScripts = [
         {
           type = "basic";
-          source = pkgs.writeShellScript "70-wifi-wired-exclusive" ''
-            export LC_ALL=C
-
-            case "$2" in
-              up|down)
-                if ${pkgs.networkmanager}/bin/nmcli -t -f TYPE,STATE device status \
-                  | ${pkgs.gnugrep}/bin/grep -qx 'ethernet:connected'; then
-                  ${pkgs.networkmanager}/bin/nmcli radio wifi off
-                else
-                  ${pkgs.networkmanager}/bin/nmcli radio wifi on
-                fi
-                ;;
-            esac
-          '';
+          source = lib.getExe (pkgs.nuenv.writeShellApplication {
+            name = "70-wifi-wired-excl";
+            runtimeInputs = [pkgs.networkmanager];
+            text = builtins.readFile ./wifi-wired-excl.nu;
+          });
         }
       ];
     };
