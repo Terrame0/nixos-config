@@ -1,7 +1,6 @@
-desktop portal file picker theme is broken
-some context windows in zen are transparent (set theme export colors)
-some modal windows are not centered and/or floating (onlyoffice save prompt)
-thunar is missing a context menu entry for launching vscode here
-xdg home directories are not configured 
-(i.e. "projects", "documents" etc., maybe would like to define them in "settings" to avoid duplication)
 rofi is missing fulltext search
+some modal windows are not centered and/or floating (onlyoffice save prompt)
+thunar is missing a context menu entry for launching vscode here (still doesnt work)
+xdg home directories are not configured (i.e. "projects", "documents" etc., maybe would like to define them in "settings" to avoid duplication)
+some context windows in zen are transparent (set theme export colors)
+desktop portal file picker theme is broken
