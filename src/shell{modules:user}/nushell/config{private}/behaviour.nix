@@ -19,6 +19,7 @@
       wrapping_try_keep_words = false;
     };
   };
+  hooks.display_output = "table";
   display_errors = {
     termination_signal = true;
     exit_code = true;
