@@ -1,5 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<actions>
 <action>
-  <icon>/usr/share/pixmaps/code.png</icon>
+  <icon>vscode</icon>
   <name>Open with VS Code Here</name>
   <submenu></submenu>
   <unique-id>1730698877632197-2</unique-id>
@@ -10,3 +12,4 @@
   <startup-notify/>
   <directories/>
 </action>
+</actions>
