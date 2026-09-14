@@ -5,6 +5,14 @@
     email = "terrame_0@proton.me";
   in {
     enable = true;
+    ignores = [
+      "__pycache__/"
+      "*.py[cod]"
+      "build/"
+      ".direnv/"
+      ".clangd"
+      ".cache/"
+    ];
     signing = {
       format = "ssh";
       signByDefault = true;
