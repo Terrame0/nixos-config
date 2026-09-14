@@ -57,12 +57,12 @@ work="$(mktemp -d)"
 trap 'rm -rf "$work"' EXIT
 
 pandoc --print-default-data-file reference.docx > "$work/base.docx"
-python3 "$self/gost_reference.py" "$work/reference_gost.docx" "$work/base.docx"
+python3 -B "$self/gost_reference.py" "$work/reference_gost.docx" "$work/base.docx"
 pandoc "${inputs[@]}" --reference-doc="$work/reference_gost.docx" -o "$work/out.docx"
 if [ -n "$titlepage_docx" ]; then
-  python3 "$self/gost_postprocess.py" "$work/out.docx" "$out" --titlepage "$titlepage_docx"
+  python3 -B "$self/gost_postprocess.py" "$work/out.docx" "$out" --titlepage "$titlepage_docx"
 else
-  python3 "$self/gost_postprocess.py" "$work/out.docx" "$out"
+  python3 -B "$self/gost_postprocess.py" "$work/out.docx" "$out"
 fi
 
 echo "written: $out"

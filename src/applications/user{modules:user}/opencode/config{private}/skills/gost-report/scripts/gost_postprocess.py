@@ -31,7 +31,7 @@ TITLE_PPR = (
     '<w:ind w:left="0" w:right="0" w:firstLine="0"/>'
 )
 BODY_ELEMENT_RE = re.compile(
-    r"<w:p\b[^>]*/>|<w:p\b.*?</w:p>|<w:tbl\b[^>]*/>|<w:tbl\b.*?</w:tbl>", re.S
+    r"<w:p\b[^>]*/>|<w:p\b.*?</w:p>|<w:tbl\b[^>]*/>|<w:tbl\b.*?</w:tbl>", re.DOTALL
 )
 KEEP_TABLE_MAX_ROWS = 15
 
@@ -51,7 +51,7 @@ def process_headings(document, num_id, skip_first_break=False):
             state["seen_h1"] = True
             if not (first and skip_first_break):
                 insert += "<w:pageBreakBefore/>"
-        texts = list(re.finditer(r"(<w:t[^>]*>)(.*?)(</w:t>)", para, re.S))
+        texts = list(re.finditer(r"(<w:t[^>]*>)(.*?)(</w:t>)", para, re.DOTALL))
         if texts:
             first_text = texts[0]
             value = first_text.group(2)
@@ -74,7 +74,7 @@ def process_headings(document, num_id, skip_first_break=False):
             para = STYLE_RE.sub(lambda m: m.group(0) + insert, para, count=1)
         return para
 
-    return re.sub(r"<w:p\b.*?</w:p>", fix, document, flags=re.S)
+    return re.sub(r"<w:p\b.*?</w:p>", fix, document, flags=re.DOTALL)
 
 
 def fix_code_paragraphs(document):
@@ -86,7 +86,7 @@ def fix_code_paragraphs(document):
             lambda m: m.group(0) + CODE_PPR, para, count=1
         )
 
-    return re.sub(r"<w:p\b.*?</w:p>", fix, document, flags=re.S)
+    return re.sub(r"<w:p\b.*?</w:p>", fix, document, flags=re.DOTALL)
 
 
 def fix_table_styles(document):
@@ -95,7 +95,7 @@ def fix_table_styles(document):
             '<w:pStyle w:val="Compact" />', '<w:pStyle w:val="TableText" />'
         )
 
-    return re.sub(r"<w:tbl>.*?</w:tbl>", fix_table, document, flags=re.S)
+    return re.sub(r"<w:tbl>.*?</w:tbl>", fix_table, document, flags=re.DOTALL)
 
 
 def add_keep_next(element):
@@ -111,7 +111,7 @@ def add_keep_next(element):
             r"(<w:p\b[^>]*>)", r"\1<w:pPr><w:keepNext/></w:pPr>", para, count=1
         )
 
-    return re.sub(r"<w:p\b.*?</w:p>", fix_para, element, flags=re.S)
+    return re.sub(r"<w:p\b.*?</w:p>", fix_para, element, flags=re.DOTALL)
 
 
 def add_cant_split(row):
@@ -127,7 +127,7 @@ def add_cant_split(row):
 def keep_tables_together(document):
     def fix_table(match):
         table = match.group(0)
-        rows = re.findall(r"<w:tr\b.*?</w:tr>", table, re.S)
+        rows = re.findall(r"<w:tr\b.*?</w:tr>", table, re.DOTALL)
         keep_all = len(rows) <= KEEP_TABLE_MAX_ROWS
         for i, row in enumerate(rows):
             new = add_cant_split(row)
@@ -136,16 +136,16 @@ def keep_tables_together(document):
             table = table.replace(row, new, 1)
         return table
 
-    document = re.sub(r"<w:tbl>.*?</w:tbl>", fix_table, document, flags=re.S)
+    document = re.sub(r"<w:tbl>.*?</w:tbl>", fix_table, document, flags=re.DOTALL)
     return re.sub(
         r"((?:<w:p\b[^>]*>)(?:(?!</w:p>).)*?</w:p>)(\s*<w:tbl>)",
         lambda m: add_keep_next(m.group(1)) + m.group(2),
-        document, flags=re.S,
+        document, flags=re.DOTALL,
     )
 
 
 def title_docdefaults_spacing(tdoc):
-    block = re.search(r"<w:pPrDefault>(.*?)</w:pPrDefault>", tdoc, re.S)
+    block = re.search(r"<w:pPrDefault>(.*?)</w:pPrDefault>", tdoc, re.DOTALL)
     if block:
         spacing = re.search(r"<w:spacing [^>]*/>", block.group(1))
         if spacing:
@@ -176,7 +176,7 @@ def normalize_title_element(element, doc_spacing):
         return re.sub(
             r"<w:p\b[^>]*/>|<w:p\b.*?</w:p>",
             lambda m: normalize_title_paragraph(m.group(0), doc_spacing),
-            element, flags=re.S,
+            element, flags=re.DOTALL,
         )
     return normalize_title_paragraph(element, doc_spacing)
 
@@ -188,7 +188,7 @@ def title_sectpr(sectpr):
     for tag in ("headerReference", "footerReference"):
         inner = re.sub(rf"<w:{tag}[^>]*/>", "", inner)
     for tag in ("footnotePr", "endnotePr"):
-        inner = re.sub(rf"<w:{tag}\b.*?</w:{tag}>", "", inner, flags=re.S)
+        inner = re.sub(rf"<w:{tag}\b.*?</w:{tag}>", "", inner, flags=re.DOTALL)
     return f'<w:sectPr><w:type w:val="nextPage"/>{inner}</w:sectPr>'
 
 
@@ -201,7 +201,7 @@ def merge_styles(styles, titlepage_path):
     existing = set(re.findall(r'w:styleId="([^"]+)"', styles))
     defaults = set(re.findall(r'w:type="(\w+)" w:default="1"', styles))
     added = []
-    for match in re.finditer(r"<w:style\b.*?</w:style>", tstyles, re.S):
+    for match in re.finditer(r"<w:style\b.*?</w:style>", tstyles, re.DOTALL):
         block = match.group(0)
         sid = re.search(r'w:styleId="([^"]+)"', block)
         stype = re.search(r'w:type="(\w+)"', block)
@@ -220,14 +220,14 @@ def merge_styles(styles, titlepage_path):
 def inject_titlepage(document, titlepage_path):
     tz = zipfile.ZipFile(titlepage_path)
     tdoc = tz.read("word/document.xml").decode("utf-8")
-    body = re.search(r"<w:body>(.*)</w:body>", tdoc, re.S).group(1)
-    body = re.sub(r"<w:sectPr\b.*?</w:sectPr>", "", body, flags=re.S)
+    body = re.search(r"<w:body>(.*)</w:body>", tdoc, re.DOTALL).group(1)
+    body = re.sub(r"<w:sectPr\b.*?</w:sectPr>", "", body, flags=re.DOTALL)
     doc_spacing = title_docdefaults_spacing(tdoc)
     elements = [
         normalize_title_element(el, doc_spacing)
         for el in BODY_ELEMENT_RE.findall(body)
     ]
-    source_sectpr = re.search(r"<w:sectPr\b.*?</w:sectPr>", tdoc, re.S)
+    source_sectpr = re.search(r"<w:sectPr\b.*?</w:sectPr>", tdoc, re.DOTALL)
     if source_sectpr and elements:
         break_sectpr = title_sectpr(source_sectpr.group(0))
         if elements[-1].startswith("<w:p"):

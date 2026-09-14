@@ -19,7 +19,7 @@ def select(elements, until, count):
     if until is not None:
         selected = []
         for el in elements:
-            text = "".join(re.findall(r"<w:t[^>]*>(.*?)</w:t>", el, re.S))
+            text = "".join(re.findall(r"<w:t[^>]*>(.*?)</w:t>", el, re.DOTALL))
             if until in text:
                 break
             selected.append(el)
@@ -45,9 +45,9 @@ def main():
 
     zin = zipfile.ZipFile(src)
     document = zin.read("word/document.xml").decode("utf-8")
-    body = re.search(r"<w:body>(.*)</w:body>", document, re.S).group(1)
-    body = re.sub(r"<w:sectPr\b.*?</w:sectPr>", "", body, flags=re.S)
-    sectpr = re.search(r"<w:sectPr\b.*?</w:sectPr>", document, re.S)
+    body = re.search(r"<w:body>(.*)</w:body>", document, re.DOTALL).group(1)
+    body = re.sub(r"<w:sectPr\b.*?</w:sectPr>", "", body, flags=re.DOTALL)
+    sectpr = re.search(r"<w:sectPr\b.*?</w:sectPr>", document, re.DOTALL)
     elements = BODY_ELEMENT_RE.findall(body)
     kept = select(elements, until, count)
     fragment = "".join(kept)

@@ -63,7 +63,7 @@ CODE_RPR = (
 
 def replace_style(xml, style_id, new_style):
     pattern = re.compile(
-        r'<w:style [^>]*w:styleId="' + re.escape(style_id) + r'".*?</w:style>', re.S
+        r'<w:style [^>]*w:styleId="' + re.escape(style_id) + r'".*?</w:style>', re.DOTALL
     )
     if not pattern.search(xml):
         return xml, False
@@ -106,7 +106,7 @@ def patch_table_borders(xml):
         return block.replace("<w:tblPr>", "<w:tblPr>" + borders, 1)
 
     return re.sub(
-        r'<w:style [^>]*w:styleId="Table".*?</w:style>', patch, xml, flags=re.S
+        r'<w:style [^>]*w:styleId="Table".*?</w:style>', patch, xml, flags=re.DOTALL
     )
 
 
@@ -166,7 +166,7 @@ def build_styles(xml):
     )
     tabletext = style(
         "TableText", "Table Text",
-        ppr=f'<w:spacing w:before="0" w:after="0" w:line="240" w:lineRule="auto"/>'
+        ppr='<w:spacing w:before="0" w:after="0" w:line="240" w:lineRule="auto"/>'
             '<w:ind w:left="0" w:right="0" w:firstLine="0"/>'
             '<w:jc w:val="left"/>',
         rpr=f'<w:rFonts w:ascii="{FONT}" w:hAnsi="{FONT}" w:eastAsia="{FONT}" w:cs="{FONT}"/>'
@@ -220,7 +220,7 @@ def build_styles(xml):
     for sid in ids:
         xml = re.sub(
             r'<w:style [^>]*w:styleId="' + re.escape(sid) + r'".*?</w:style>',
-            "", xml, flags=re.S,
+            "", xml, flags=re.DOTALL,
         )
     xml = re.sub(r"(<w:styles\b[^>]*>)", lambda m: m.group(1) + new, xml, count=1)
     xml = patch_table_borders(xml)
@@ -236,7 +236,7 @@ def main():
     zin = zipfile.ZipFile(base)
     styles = build_styles(zin.read("word/styles.xml").decode("utf-8"))
     document = zin.read("word/document.xml").decode("utf-8")
-    document = re.sub(r"<w:sectPr>.*?</w:sectPr>", SECT_PR, document, flags=re.S)
+    document = re.sub(r"<w:sectPr>.*?</w:sectPr>", SECT_PR, document, flags=re.DOTALL)
     if "<w:sectPr" not in document:
         document = document.replace("</w:body>", SECT_PR + "</w:body>")
     with zipfile.ZipFile(out, "w", zipfile.ZIP_DEFLATED) as zout:
