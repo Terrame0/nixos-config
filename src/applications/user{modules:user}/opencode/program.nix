@@ -66,6 +66,11 @@ in {
     extraPackages = with pkgs; [
       statix
       fd
+      # gost-report skill: pandoc pipeline, PlantUML diagrams
+      pandoc
+      plantuml
+      graphviz
+      python3
     ];
   };
 }

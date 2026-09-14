@@ -47,6 +47,19 @@ BODY_PPR = (
     "<w:jc w:val=\"both\"/>"
 )
 
+CODE_FONT = "Courier New"
+CODE_HALF_PT = 22
+CODE_PPR = (
+    '<w:spacing w:before="0" w:after="0" w:line="240" w:lineRule="auto"/>'
+    '<w:ind w:left="0" w:right="0" w:firstLine="0"/>'
+    '<w:jc w:val="left"/>'
+)
+CODE_RPR = (
+    f'<w:rFonts w:ascii="{CODE_FONT}" w:hAnsi="{CODE_FONT}"'
+    f' w:eastAsia="{CODE_FONT}" w:cs="{CODE_FONT}"/>'
+    f'<w:sz w:val="{CODE_HALF_PT}"/><w:szCs w:val="{CODE_HALF_PT}"/>'
+)
+
 
 def replace_style(xml, style_id, new_style):
     pattern = re.compile(
@@ -161,6 +174,11 @@ def build_styles(xml):
         based="Normal", custom=True,
     )
     styles = [normal, body, first, compact, h1, h2, h3, caption, tabletext]
+    for sid in ("SourceCode", "Verbatim"):
+        styles.append(style(
+            sid, sid if sid == "SourceCode" else "Verbatim",
+            ppr=CODE_PPR, rpr=CODE_RPR, based="Normal", custom=True,
+        ))
     for sid, name in (("Heading4", "heading 4"), ("Heading5", "heading 5"),
                       ("Heading6", "heading 6")):
         lvl = int(sid[-1]) - 1
@@ -173,6 +191,19 @@ def build_styles(xml):
         styles.append(style(
             sid, name, ppr='<w:jc w:val="center"/>',
             rpr=f'{RUN_FONT}<w:b/>', based="Normal",
+        ))
+    for sid, name, jc, bold in (
+        ("TitleCenter", "Title Center", "center", False),
+        ("TitleCenterBold", "Title Center Bold", "center", True),
+        ("TitleLeft", "Title Left", "left", False),
+        ("TitleRight", "Title Right", "right", False),
+    ):
+        styles.append(style(
+            sid, name,
+            ppr=f'<w:spacing w:before="0" w:after="0" w:line="{LINE}" w:lineRule="auto"/>'
+                f'<w:ind w:firstLine="0"/><w:jc w:val="{jc}"/>',
+            rpr=RUN_FONT + ("<w:b/><w:bCs/>" if bold else ""),
+            based="Normal", custom=True,
         ))
     new = "".join(styles)
     ids = re.findall(r'w:styleId="([^"]+)"', new)

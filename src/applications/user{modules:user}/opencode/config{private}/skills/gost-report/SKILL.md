@@ -24,6 +24,7 @@ formatting.
 | New section | starts on a new page |
 | Figure | caption below, centred, 12 pt, `Рисунок N – Название` |
 | Table | `Таблица N – Название` above, 9–12 pt body |
+| Code listing | monospace 11 pt, single spacing, flush left, no indent |
 | Lists | dash `–` or `а)`, `б)`, `в)` |
 
 A headline must not be the last line on a page; keep it with at least three
@@ -36,10 +37,14 @@ report.md ──pandoc + reference_gost.docx──▶ out.docx ──gost_postpr
 diagrams/*.puml ──plantuml──▶ diagrams/*.png  (referenced from the markdown)
 ```
 
-1. Write the report as markdown (`#` = section, `##` = subsection). Number
-   sections in the text (`# 1. Цель работы`); the post-processor converts the
-   number into GOST form and uppercases the heading. Do **not** number the
-   title page or an unnumbered preamble — only real sections.
+1. Write the report as markdown (`#` = section, `##` = subsection). Prefix
+   every numbered heading with its intended number (`# 1. Цель работы`,
+   `## 4.1. Организационная структура`). The post-processor strips the literal
+   number and installs a native Word numbered-list field, so deleting a section
+   renumbers the rest automatically; level-1 headings are uppercased. A heading
+   **without** a leading number (an appendix, a preamble, a title-page line) is
+   left unnumbered. Do **not** number the title page or an unnumbered preamble —
+   only real sections.
 
 2. Render diagrams:
 
@@ -47,9 +52,11 @@ diagrams/*.puml ──plantuml──▶ diagrams/*.png  (referenced from the mar
    scripts/render_diagrams.sh diagrams
    ```
 
-   One `.puml` per figure, always `left to right direction`. Embed the PNG in
-   the markdown with the caption as the alt text (pandoc turns it into a
-   centred caption under the image):
+   One `.puml` per figure. Structural diagrams (component, use case) start with
+   `left to right direction`; activity diagrams (`start`/`stop`) must not — that
+   keyword makes plantuml reject the file. Embed the PNG in the markdown with
+   the caption as the alt text (pandoc turns it into a centred caption under the
+   image):
 
    ```markdown
    ![Рисунок 1 – Организационная структура объекта](diagrams/org.png){ width=15cm }
@@ -62,22 +69,58 @@ diagrams/*.puml ──plantuml──▶ diagrams/*.png  (referenced from the mar
 
    ```bash
    scripts/build.sh report.md
+   scripts/build.sh report.md out.docx --titlepage titlepages/kamchatgtu-blank.docx
    ```
 
    The script fetches pandoc's default reference, rewrites its styles and page
    setup to the rules above, runs pandoc, then post-processes heading case and
    page breaks. Output defaults to `report.docx` (same stem as the input).
 
+   The title page is a separate file passed with `--titlepage`. Two kinds are
+   accepted:
+
+   - a `.docx` — its paragraphs are spliced in **verbatim** after pandoc, with
+     the source document's section (margins), default table style, and paragraph
+     spacing merged in. This reproduces the source one-to-one and is the
+     reliable option; the university's blank form is kept at
+     `~/titlepages/kamchatgtu-blank.docx`. Crop a title out of a real report
+     with `scripts/extract_titlepage.py src.docx out.docx --until "Задание 1."`.
+   - a `.md` — a markdown fragment with `custom-style` divs, concatenated in
+     front of the report before pandoc. Handy for a quick title, but exact
+     line breaks and spacing are not guaranteed.
+
+   For the markdown form, keep the fragment outside the read-only skill tree
+   (a `titlepages/` directory in the project or in `~`) and write it with the
+   dedicated paragraph styles so it centers without raw XML:
+
+   ```markdown
+   ::: {custom-style="TitleCenterBold"}
+   «КАМЧАТСКИЙ ГОСУДАРСТВЕННЫЙ ТЕХНИЧЕСКИЙ УНИВЕРСИТЕТ»
+   :::
+   ```
+
+   Available title styles: `TitleCenter`, `TitleCenterBold`, `TitleLeft`,
+   `TitleRight`. Use `&#160;` on its own line inside a `TitleCenter` div for a
+   blank line; an empty div disappears.
+
 ## What the scripts do
 
 - `scripts/gost_reference.py` — takes pandoc's default `reference.docx` and
   rewrites `word/styles.xml` (Normal, BodyText, FirstParagraph, Compact,
-  Heading1–3, Caption, TableText, Title/Author/Date) plus `word/sectPr` page
-  setup. Tables get `tblBorders`. Called by `build.sh`; call directly only to
-  produce a reusable `reference_gost.docx`.
-- `scripts/gost_postprocess.py` — after pandoc: uppercases `Heading1` text and
-  turns `N. Title` into `N TITLE`, starts each section on a new page, and
-  switches table cell paragraphs from `Compact` to `TableText`.
+  Heading1–3, Caption, TableText, SourceCode/Verbatim, TitleCenter/TitleLeft/
+  TitleRight, Title/Author/Date) plus `word/sectPr` page setup. Tables get
+  `tblBorders`. Called by `build.sh`; call directly only to produce a reusable
+  `reference_gost.docx`.
+- `scripts/gost_postprocess.py` — after pandoc: strips the literal number from
+  `Heading1`–`Heading3`, adds a `numPr` pointing at a heading numbering
+  definition it appends to `word/numbering.xml`, uppercases `Heading1`, puts
+  `<w:pageBreakBefore/>` on every section heading (skipped for the first one
+  when a title page is present), switches table cell paragraphs from `Compact`
+  to `TableText`, forces code paragraphs (`SourceCode`/`Verbatim`) to flush
+  left with single spacing, and — with `--titlepage <file.docx>` — splices in
+  the title page's body, section properties and styles.
+- `scripts/extract_titlepage.py` — crops the leading body of a report `.docx`
+  into a standalone title-page `.docx` (`--until <text>` or `--count <n>`).
 - `scripts/build.sh` — end-to-end `.md → .docx`.
 - `scripts/render_diagrams.sh` — `diagrams/*.puml → *.png`.
 
@@ -95,9 +138,33 @@ the binaries are missing, so they work on a bare NixOS host.
   injects `tblBorders`; without them the table prints as guide lines only.
 - **Images with a width in braces** need the `{ width=15cm }` attribute form;
   a bare `![alt](path)` scales to natural size and can overflow the page.
-- **Section numbers are literal text in the markdown**, not Word
-  auto-numbering. Deleting a section means renumbering the rest by hand. That
-  is intentional — real Word numbering fights pandoc's heading styles.
+- **A `SourceCode` style in `reference.docx` is not enough to keep code flush
+  left.** Pandoc's default `SourceCode` does not set `jc`, so once `Normal` is
+  justified the code inherits `both` and stretches each line. The post-processor
+  therefore injects the alignment directly into every code paragraph; do not
+  remove that step in favour of the style alone.
+- **Pandoc regenerates `word/numbering.xml` and discards the reference's
+  copy.** Do not put the heading numbering definition in `gost_reference.py`;
+  append it to the pandoc output in `gost_postprocess.py`, picking ids above
+  the ones pandoc already used.
+- **Only headings with a leading number get auto-numbering.** The
+  post-processor keys off the literal prefix (`1`, `4.1`), so an appendix or a
+  preamble heading written without one stays unnumbered — which is what you
+  want, but also means a section you forget to prefix silently loses its
+  number.
+- **A page break must be `<w:pageBreakBefore/>` on the heading, not a
+  `<w:br w:type="page"/>` run.** With auto-numbering the number is rendered
+  before the runs, so a break run lands between the number and the heading text
+  and sends them to different pages (and the number miscounts).
+- **A `.docx` title page only renders faithfully if its styles come along.**
+  The form's two-column "Выполнил / Принял" block is a layout table that needs
+  the source's default table style, and its vertical rhythm comes from the
+  source's `docDefaults` spacing. The post-processor merges the missing styles
+  and bakes the source spacing into title paragraphs; without that the columns
+  collapse and the title spills onto a second page.
+- **An empty `custom-style` div vanishes before the docx is written.** For a
+  blank line in a markdown title page, put `&#160;` inside the div rather than
+  leaving the body empty; pandoc drops a div whose only content is whitespace.
 - The layout is tuned for this university's guide; different faculties may
   vary margins or fonts. Recheck `MARGINS`, `FONT`, `HALF_PT`, `LINE` at the
   top of `gost_reference.py`.
