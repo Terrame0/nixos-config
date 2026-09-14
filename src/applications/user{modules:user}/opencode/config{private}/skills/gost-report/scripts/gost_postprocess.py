@@ -6,6 +6,8 @@
     renumbers the rest; level-1 headings are uppercased
   - every level-1 heading starts on a new page
   - table cell paragraphs switch from `Compact` to `TableText`
+  - table rows never split across pages, and a table up to
+    `KEEP_TABLE_MAX_ROWS` rows is kept on one page together with its caption
   - a `--titlepage <file.docx>` splices a source title page in verbatim, with
     its section, styles and paragraph spacing, so the layout is reproduced
 """
@@ -31,6 +33,7 @@ TITLE_PPR = (
 BODY_ELEMENT_RE = re.compile(
     r"<w:p\b[^>]*/>|<w:p\b.*?</w:p>|<w:tbl\b[^>]*/>|<w:tbl\b.*?</w:tbl>", re.S
 )
+KEEP_TABLE_MAX_ROWS = 15
 
 
 def process_headings(document, num_id, skip_first_break=False):
@@ -93,6 +96,52 @@ def fix_table_styles(document):
         )
 
     return re.sub(r"<w:tbl>.*?</w:tbl>", fix_table, document, flags=re.S)
+
+
+def add_keep_next(element):
+    def fix_para(match):
+        para = match.group(0)
+        if "<w:keepNext/>" in para:
+            return para
+        if "<w:pStyle " in para:
+            return para.replace("<w:pStyle ", "<w:keepNext/><w:pStyle ", 1)
+        if "<w:pPr>" in para:
+            return para.replace("<w:pPr>", "<w:pPr><w:keepNext/>", 1)
+        return re.sub(
+            r"(<w:p\b[^>]*>)", r"\1<w:pPr><w:keepNext/></w:pPr>", para, count=1
+        )
+
+    return re.sub(r"<w:p\b.*?</w:p>", fix_para, element, flags=re.S)
+
+
+def add_cant_split(row):
+    if "<w:cantSplit/>" in row:
+        return row
+    if "<w:trPr>" in row:
+        return row.replace("<w:trPr>", "<w:trPr><w:cantSplit/>", 1)
+    return re.sub(
+        r"(<w:tr\b[^>]*>)", r"\1<w:trPr><w:cantSplit/></w:trPr>", row, count=1
+    )
+
+
+def keep_tables_together(document):
+    def fix_table(match):
+        table = match.group(0)
+        rows = re.findall(r"<w:tr\b.*?</w:tr>", table, re.S)
+        keep_all = len(rows) <= KEEP_TABLE_MAX_ROWS
+        for i, row in enumerate(rows):
+            new = add_cant_split(row)
+            if keep_all and i < len(rows) - 1:
+                new = add_keep_next(new)
+            table = table.replace(row, new, 1)
+        return table
+
+    document = re.sub(r"<w:tbl>.*?</w:tbl>", fix_table, document, flags=re.S)
+    return re.sub(
+        r"((?:<w:p\b[^>]*>)(?:(?!</w:p>).)*?</w:p>)(\s*<w:tbl>)",
+        lambda m: add_keep_next(m.group(1)) + m.group(2),
+        document, flags=re.S,
+    )
 
 
 def title_docdefaults_spacing(tdoc):
@@ -248,6 +297,7 @@ def main():
     abstract_id, num_id = next_free_ids(numbering)
     numbering = add_heading_numbering(numbering, abstract_id, num_id)
     doc = fix_table_styles(doc)
+    doc = keep_tables_together(doc)
     doc = fix_code_paragraphs(doc)
     doc = process_headings(doc, num_id, skip_first_break=bool(titlepage))
     styles = zin.read("word/styles.xml").decode("utf-8")

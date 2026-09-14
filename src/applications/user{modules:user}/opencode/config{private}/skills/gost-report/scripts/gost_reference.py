@@ -205,6 +205,16 @@ def build_styles(xml):
             rpr=RUN_FONT + ("<w:b/><w:bCs/>" if bold else ""),
             based="Normal", custom=True,
         ))
+    styles.append(style(
+        "PageBreak", "Page Break",
+        ppr='<w:pageBreakBefore/>'
+            '<w:spacing w:before="0" w:after="0" w:line="240" w:lineRule="auto"/>'
+            '<w:ind w:left="0" w:right="0" w:firstLine="0"/>',
+        rpr=f'<w:rFonts w:ascii="{FONT}" w:hAnsi="{FONT}"'
+            f' w:eastAsia="{FONT}" w:cs="{FONT}"/>'
+            '<w:sz w:val="4"/><w:szCs w:val="4"/>',
+        based="Normal", custom=True,
+    ))
     new = "".join(styles)
     ids = re.findall(r'w:styleId="([^"]+)"', new)
     for sid in ids:

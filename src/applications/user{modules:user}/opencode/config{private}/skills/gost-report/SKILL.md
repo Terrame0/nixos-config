@@ -103,22 +103,36 @@ diagrams/*.puml ──plantuml──▶ diagrams/*.png  (referenced from the mar
    `TitleRight`. Use `&#160;` on its own line inside a `TitleCenter` div for a
    blank line; an empty div disappears.
 
+   To force a table (or any block) onto a fresh page when page-flow heuristics
+   let it split, drop a `PageBreak` paragraph in front of it:
+
+   ```markdown
+   ::: {custom-style="PageBreak"}
+   &#160;
+   :::
+   ```
+
+   This is a hard `pageBreakBefore`, honored by every renderer — unlike the
+   automatic row-keeping below.
+
 ## What the scripts do
 
 - `scripts/gost_reference.py` — takes pandoc's default `reference.docx` and
   rewrites `word/styles.xml` (Normal, BodyText, FirstParagraph, Compact,
   Heading1–3, Caption, TableText, SourceCode/Verbatim, TitleCenter/TitleLeft/
-  TitleRight, Title/Author/Date) plus `word/sectPr` page setup. Tables get
-  `tblBorders`. Called by `build.sh`; call directly only to produce a reusable
-  `reference_gost.docx`.
+  TitleRight, PageBreak, Title/Author/Date) plus `word/sectPr` page setup.
+  Tables get `tblBorders`. Called by `build.sh`; call directly only to produce a
+  reusable `reference_gost.docx`.
 - `scripts/gost_postprocess.py` — after pandoc: strips the literal number from
   `Heading1`–`Heading3`, adds a `numPr` pointing at a heading numbering
   definition it appends to `word/numbering.xml`, uppercases `Heading1`, puts
   `<w:pageBreakBefore/>` on every section heading (skipped for the first one
   when a title page is present), switches table cell paragraphs from `Compact`
   to `TableText`, forces code paragraphs (`SourceCode`/`Verbatim`) to flush
-  left with single spacing, and — with `--titlepage <file.docx>` — splices in
-  the title page's body, section properties and styles.
+  left with single spacing, keeps table rows from splitting and a table up to
+  `KEEP_TABLE_MAX_ROWS` rows together with its caption, and — with
+  `--titlepage <file.docx>` — splices in the title page's body, section
+  properties and styles.
 - `scripts/extract_titlepage.py` — crops the leading body of a report `.docx`
   into a standalone title-page `.docx` (`--until <text>` or `--count <n>`).
 - `scripts/build.sh` — end-to-end `.md → .docx`.
@@ -162,6 +176,26 @@ the binaries are missing, so they work on a bare NixOS host.
   source's `docDefaults` spacing. The post-processor merges the missing styles
   and bakes the source spacing into title paragraphs; without that the columns
   collapse and the title spills onto a second page.
+- **A table that does not fit the remaining space is moved whole to the next
+  page, not split.** The post-processor stamps `<w:cantSplit/>` on every row
+  and `<w:keepNext/>` on all but the last row of a table when it has at most
+  `KEEP_TABLE_MAX_ROWS` (15) rows, and keeps the caption paragraph with the
+  table. A longer table is allowed to split, and pandoc's header row repeats on
+  each page. Raise or lower the constant to change the cutoff.
+- **`cantSplit` on a row does not keep the whole table together.** It only
+  stops a single row from breaking mid-height. Whole-table retention needs
+  `keepNext` on the preceding rows as well.
+- **OnlyOffice does not honor `keepNext` on table cells.** Rows still split
+  across pages there while Word and LibreOffice keep them together — ONLYOFFICE
+  issue #3641, a confirmed bug (fix not merged). When a table must not split and
+  the output will be opened in OnlyOffice, put a `PageBreak` paragraph in front
+  of it instead of trusting the automatic keep. The `keepNext`/`cantSplit`
+  stamps are still worth adding for Word and LibreOffice.
+- **`<w:pPr>` children must stay in schema order** — `pStyle`, then `keepNext`,
+  then `keepLines`, `pageBreakBefore`, `numPr`, `spacing`, `ind`, `jc`. Word
+  and OnlyOffice silently drop out-of-order properties, so a `keepNext` inserted
+  before `pStyle` looks right in LibreOffice (lenient) but does nothing in Word.
+  Insert `keepNext` right after `pStyle`, not at the start of `pPr`.
 - **An empty `custom-style` div vanishes before the docx is written.** For a
   blank line in a markdown title page, put `&#160;` inside the div rather than
   leaving the body empty; pandoc drops a div whose only content is whitespace.
