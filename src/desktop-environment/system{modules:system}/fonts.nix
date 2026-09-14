@@ -1,6 +1,7 @@
 {
   pkgs,
   inputs,
+  username,
   ...
 }: {
   fonts = {
@@ -15,4 +16,6 @@
       ttf-ms-win11-auto
     ];
   };
+
+  home-manager.users.${username}.home.file.".local/share/fonts".source = "${inputs.microsoft-fonts.packages.${pkgs.system}.ttf-ms-win11-auto}/share/fonts";
 }

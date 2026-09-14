@@ -1,5 +1,29 @@
 @import "~/.design-system/partial.rasi"
 
 * {
-  font: @ds-font-body;
+  font: "JetBrainsMono NFP 14";
+}
+
+configuration {
+  show-icons: true;
+  icon-theme: "Papirus";
+  drun-display-format: "{name}";
+  display-drun: "apps";
+  display-run: "run";
+  display-window: "windows";
+  display-filebrowser: "files";
+  matching: "fuzzy";
+  sort: true;
+  case-sensitive: false;
+  sidebar-mode: false;
+  cycle: true;
+}
+window {
+  width: 40%;
+  height: 40%;
+  location: center;
+}
+
+mainbox {
+  children: [inputbar, listview, message];
 }

@@ -18,6 +18,9 @@ in {
     enable = true;
     package = opencode;
     context = config-dir + "/AGENTS.md";
+    skills = {
+      gost-report = config-dir + "/skills/gost-report";
+    };
     settings = {
       autoupdate = true;
       lsp = {
