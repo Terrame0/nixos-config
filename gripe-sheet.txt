@@ -4,3 +4,4 @@ thunar is missing a context menu entry for launching vscode here (still doesnt w
 xdg home directories are not configured (i.e. "projects", "documents" etc., maybe would like to define them in "settings" to avoid duplication)
 some context windows in zen are transparent (set theme export colors)
 desktop portal file picker theme is broken
+there is no touchpad switch
