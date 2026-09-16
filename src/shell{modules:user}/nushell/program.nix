@@ -30,5 +30,7 @@ in {
       units # -- broken
     ];
   };
-  nu_plugin_units.meta.broken = false;
+  problems.handlers = {
+    nu_plugin_units.broken = "warn"; # or "ignore"
+  };
 }
