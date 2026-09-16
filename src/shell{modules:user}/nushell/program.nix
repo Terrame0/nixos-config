@@ -30,7 +30,4 @@ in {
       units # -- broken
     ];
   };
-  problems.handlers = {
-    nu_plugin_units.broken = "warn"; # or "ignore"
-  };
 }
