@@ -27,7 +27,7 @@ in {
       gstat
       polars
       skim
-      units # -- broken
+      # units # -- broken
     ];
   };
 }
