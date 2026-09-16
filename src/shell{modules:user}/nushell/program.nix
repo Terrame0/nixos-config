@@ -30,4 +30,5 @@ in {
       units # -- broken
     ];
   };
+  nu_plugin_units.meta.broken = false;
 }
