@@ -228,12 +228,12 @@ flake, not nixpkgs.
   the parser takes the last such word as the verb. Keep such words out of nouns,
   or write the noun in Cyrillic.
 - **A named `.idef0` that fails to parse aborts the whole render and leaves a
-  0-byte `.svg`.** `schematic` exits with a Ruby stack trace partway through the
-  `.idef0` loop, so diagrams listed after the bad one are not rendered; `resvg`
-  then fails on the empty `.svg` and the script exits non-zero. Because the
-  script takes an explicit file list rather than globbing, only a file you name
-  can trigger this — keep scratch models out of the list, not out of the
-  directory.
+  0-byte `.svg`.** `schematic` exits with a Ruby stack trace, nushell's `o>`
+  redirect has already created an empty `.svg`, and the pipeline stops there —
+  `resvg` never runs, so no `.png` is written and the script exits non-zero.
+  IDEF0 diagrams listed after the bad one are not rendered; PlantUML ones are
+  unaffected because they render first. Because the script takes an explicit
+  file list rather than globbing, only a file you name can trigger this.
 - **`Times New Roman` is not installed on Linux.** The figure's font stack falls
   back to `Liberation Serif`, which is metric-compatible and covers Cyrillic.
   `resvg` resolves this through system fonts, so the diagram inherits the
