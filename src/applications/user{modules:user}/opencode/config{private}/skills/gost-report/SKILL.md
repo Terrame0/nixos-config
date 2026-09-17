@@ -34,8 +34,8 @@ lines of the following text.
 
 ```
 report.md ──pandoc + reference_gost.docx──▶ out.docx ──gost_postprocess──▶ report.docx
-diagrams/*.puml  ──plantuml──▶ diagrams/*.png              (referenced from the markdown)
-diagrams/*.idef0 ──schematic──▶ *.svg ──resvg──▶ *.png     (referenced from the markdown)
+*.puml  ──plantuml──▶ *.png              (source paths named on the command line)
+*.idef0 ──schematic──▶ *.svg ──resvg──▶ *.png
 ```
 
 1. Write the report as markdown (`#` = section, `##` = subsection). Prefix
@@ -47,13 +47,16 @@ diagrams/*.idef0 ──schematic──▶ *.svg ──resvg──▶ *.png     (
    left unnumbered. Do **not** number the title page or an unnumbered preamble —
    only real sections.
 
-2. Render diagrams:
+2. Render the diagrams, naming every source file explicitly:
 
    ```nu
-   scripts/render_diagrams.nu diagrams
+   scripts/render_diagrams.nu diagrams/org.puml diagrams/usecase.puml diagrams/context.idef0
    ```
 
-   The script handles two source types, one figure each:
+   The script takes a list of `.puml` and `.idef0` paths and writes each output
+   next to its source. It never scans a directory, so a scratch model left in
+   `diagrams/` is ignored unless you name it. The script handles two source
+   types, one figure each:
 
    - **`.puml` → `.png`** via PlantUML. Structural diagrams (component, use case)
      start with `left to right direction`; activity diagrams (`start`/`stop`)
@@ -67,15 +70,18 @@ diagrams/*.idef0 ──schematic──▶ *.svg ──resvg──▶ *.png     (
      `schematic`. The model itself is a small DSL, one statement per line:
 
      ```
-     Управление хостелом receives Заявки гостей
-     Управление хостелом respects Правила хостела
-     Управление хостелом requires Персонал хостела
-     Управление хостелом produces Размещённые гости
+     Обработка заявок receives Заявки клиентов
+     Обработка заявок respects Регламент обработки
+     Обработка заявок requires Специалисты
+     Обработка заявок produces Обработанные заявки
      ```
 
      Predicates are `receives` (input, left), `respects` (control, top),
      `requires` (mechanism, bottom), `produces` (output, right), and
-     `is composed of` (sub-function).
+     `is composed of` (sub-function). Every statement is `Noun Verb Noun`;
+     blank lines and lines starting with `#` are ignored. Nouns are free-form
+     (any text without `;`), including lowercase Latin words, though their first
+     letter is uppercased in the label — see the gotchas.
 
    Embed the PNG in the markdown with the caption as the alt text (pandoc turns
    it into a centred caption under the image):
@@ -181,9 +187,10 @@ diagrams/*.idef0 ──schematic──▶ *.svg ──resvg──▶ *.png     (
 - `scripts/extract_titlepage.py` — crops the leading body of a report `.docx`
   into a standalone title-page `.docx` (`--until <text>` or `--count <n>`).
 - `scripts/build.nu` — end-to-end `.md → .docx`.
-- `scripts/render_diagrams.nu` — `diagrams/*.puml → *.png` at `PLANTUML_DPI`
-  (default 300), and `diagrams/*.idef0 → *.svg + *.png` at `IDEF0_DPI`
-  (default 300) via `schematic` then `resvg`.
+- `scripts/render_diagrams.nu` — takes a list of `.puml`/`.idef0` paths and
+  renders each to a sibling output: `.puml → .png` at `PLANTUML_DPI` (default
+  300), `.idef0 → .svg + .png` at `IDEF0_DPI` (default 300) via `schematic`
+  then `resvg`. It does not glob a directory; every source must be named.
 
 All scripts pull `pandoc`, `python3`, `plantuml`, `graphviz`, `resvg`, and the
 `schematic` binary through `nix shell` when the tools are missing, so they work
@@ -211,6 +218,22 @@ flake, not nixpkgs.
   engine reorders boxes to reduce line crossings, so `A2` can appear left of
   `A1`. Only the single-process context diagram (exactly one box, `A0`) is
   unaffected — which is the common report case.
+- **The DSL parser uppercases the first letter of every Latin word.** Lowercase
+  Latin is accepted, but the label is normalised: `requires Навык gost-report`
+  renders as `Навык Gost-report`. There is no way to keep an all-lowercase Latin
+  word in a figure.
+- **A noun must not contain a connective word.** The verb is identified by
+  matching one of the five connectives, so a noun that itself contains
+  `receives`, `respects`, `requires`, `produces`, or `is composed of` mis-splits:
+  the parser takes the last such word as the verb. Keep such words out of nouns,
+  or write the noun in Cyrillic.
+- **A named `.idef0` that fails to parse aborts the whole render and leaves a
+  0-byte `.svg`.** `schematic` exits with a Ruby stack trace partway through the
+  `.idef0` loop, so diagrams listed after the bad one are not rendered; `resvg`
+  then fails on the empty `.svg` and the script exits non-zero. Because the
+  script takes an explicit file list rather than globbing, only a file you name
+  can trigger this — keep scratch models out of the list, not out of the
+  directory.
 - **`Times New Roman` is not installed on Linux.** The figure's font stack falls
   back to `Liberation Serif`, which is metric-compatible and covers Cyrillic.
   `resvg` resolves this through system fonts, so the diagram inherits the
