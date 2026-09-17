@@ -10,7 +10,7 @@
     graphviz
     resvg
     python3
-    inputs.idef0-svg-gost.packages.${pkgs.system}.default
+    inputs.idef0-svg-gost.packages.${pkgs.stdenv.hostPlatform.system}.default
   ];
   programs.opencode.skills.gost-report = ./.;
 }

@@ -7,7 +7,7 @@
   fonts = {
     fontconfig.enable = true;
     packages = with pkgs;
-    with inputs.microsoft-fonts.packages.${pkgs.system}; [
+    with inputs.microsoft-fonts.packages.${pkgs.stdenv.hostPlatform.system}; [
       monocraft
       nerd-fonts.jetbrains-mono
       noto-fonts
@@ -17,5 +17,5 @@
     ];
   };
 
-  home-manager.users.${username}.home.file.".local/share/fonts".source = "${inputs.microsoft-fonts.packages.${pkgs.system}.ttf-ms-win11-auto}/share/fonts";
+  home-manager.users.${username}.home.file.".local/share/fonts".source = "${inputs.microsoft-fonts.packages.${pkgs.stdenv.hostPlatform.system}.ttf-ms-win11-auto}/share/fonts";
 }
