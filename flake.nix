@@ -42,6 +42,10 @@
     nix-cachyos-kernel.url = "github:xddxdd/nix-cachyos-kernel/release";
     # -- does not have a nixpkgs input
     sundry-input.url = "github:Terrame0/sundry";
+    idef0-svg-gost = {
+      url = "github:Terrame0/IDEF0-SVG-GOST-wrapped";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
   outputs = inputs @ {
     self,

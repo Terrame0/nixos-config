@@ -39,6 +39,10 @@ This file (`~/.config/opencode/AGENTS.md`) is managed in `~/nixos-config`. Edit 
 
 It is linked into place by `programs.opencode.context` in `program.nix`, not by the dotfile pipeline. After editing, run the usual system rebuild flow to symlink the updated file into `~/.config/opencode/`.
 
+### Skills
+
+Each skill is a self-contained directory under `config{private}/skills/<name>/`, holding `SKILL.md`, its scripts, and a `module.nix`. The module declares everything the skill needs — its tooling in `programs.opencode.extraPackages` and its registration in `programs.opencode.skills` — so the whole folder can be lifted into a separate skills repo later. `opencode/program.nix` imports each skill module; it keeps only general opencode extras itself. Files under `config{private}` are not picked up by the dotfile/module globbing, so importing a skill module is explicit.
+
 ### Shell and tools
 
 - Shell: zsh. `nu` (nushell) is installed as a binary for interactive user shells.
@@ -46,7 +50,7 @@ It is linked into place by `programs.opencode.context` in `program.nix`, not by 
 - Formatter: alejandra (Nix)
 - LSP: nixd
 - Editor: VS Code (user settings managed by Home Manager)
-- opencode `extraPackages`: `statix` and `fd` on opencode's PATH only.
+- opencode `extraPackages`: `statix` and `fd` from `program.nix`, plus per-skill tooling from each skill's `module.nix` (`nushell`, `pandoc`, `plantuml`, `graphviz`, `python3` for `gost-report`) — all on opencode's PATH only.
 
 ### Choosing a tool
 

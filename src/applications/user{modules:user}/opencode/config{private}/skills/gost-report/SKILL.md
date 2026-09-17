@@ -48,8 +48,8 @@ diagrams/*.puml ──plantuml──▶ diagrams/*.png  (referenced from the mar
 
 2. Render diagrams:
 
-   ```bash
-   scripts/render_diagrams.sh diagrams
+   ```nu
+   scripts/render_diagrams.nu diagrams
    ```
 
    One `.puml` per figure. Structural diagrams (component, use case) start with
@@ -86,9 +86,9 @@ diagrams/*.puml ──plantuml──▶ diagrams/*.png  (referenced from the mar
 
 4. Build the `.docx`:
 
-   ```bash
-   scripts/build.sh report.md
-   scripts/build.sh report.md out.docx --titlepage titlepages/kamchatgtu-blank.docx
+   ```nu
+   scripts/build.nu report.md
+   scripts/build.nu report.md out.docx --titlepage titlepages/kamchatgtu-blank.docx
    ```
 
    The script fetches pandoc's default reference, rewrites its styles and page
@@ -146,7 +146,7 @@ diagrams/*.puml ──plantuml──▶ diagrams/*.png  (referenced from the mar
   TitleCenter/TitleLeft/TitleRight, PageBreak, Title/Author/Date) plus
   `word/sectPr` page setup. Tables get `tblBorders`; the document and Normal
   style are pinned to `ru-RU` so spell-check does not flag every word. Called
-  by `build.sh`; call directly only to produce a reusable `reference_gost.docx`.
+  by `build.nu`; call directly only to produce a reusable `reference_gost.docx`.
 - `scripts/gost_postprocess.py` — after pandoc: strips the literal number from
   `Heading1`-`Heading3`, adds a `numPr` pointing at a heading numbering
   definition it appends to `word/numbering.xml`, uppercases `Heading1`, puts
@@ -159,12 +159,12 @@ diagrams/*.puml ──plantuml──▶ diagrams/*.png  (referenced from the mar
   splices in the title page's body, section properties and styles.
 - `scripts/extract_titlepage.py` — crops the leading body of a report `.docx`
   into a standalone title-page `.docx` (`--until <text>` or `--count <n>`).
-- `scripts/build.sh` — end-to-end `.md → .docx`.
-- `scripts/render_diagrams.sh` — `diagrams/*.puml → *.png`, at
+- `scripts/build.nu` — end-to-end `.md → .docx`.
+- `scripts/render_diagrams.nu` — `diagrams/*.puml → *.png`, at
   `PLANTUML_DPI` (default 300).
 
-All scripts pull `pandoc`, `plantuml`, and `graphviz` through `nix shell` when
-the binaries are missing, so they work on a bare NixOS host.
+All scripts pull `pandoc`, `python3`, `plantuml`, and `graphviz` through
+`nix shell` when the binaries are missing, so they work on a bare NixOS host.
 
 ## Gotchas
 
@@ -178,7 +178,7 @@ the binaries are missing, so they work on a bare NixOS host.
 - **Images with a width in braces** need the `{ width=15cm }` attribute form;
   a bare `![alt](path)` scales to natural size and can overflow the page.
 - **PlantUML's default PNG is ~89 DPI and pixelates at page width.**
-  `render_diagrams.sh` passes `-Sdpi=300`; the `scale` directive does not help
+  `render_diagrams.nu` passes `-Sdpi=300`; the `scale` directive does not help
   because it only applies to SVG output. Raise `PLANTUML_DPI` if a figure is
   still soft.
 - **A `SourceCode` style in `reference.docx` is not enough to keep code flush

@@ -6,7 +6,7 @@
 Selects the leading body paragraphs of <src.docx> up to (excluding) the first
 one containing <text>, or the first <n> paragraphs, and writes them to
 <out.docx> with the same package, so the result opens in Word and can be fed to
-build.sh via --titlepage. Without --until/--count the whole source body is kept.
+build.nu via --titlepage. Without --until/--count the whole source body is kept.
 """
 import re
 import sys

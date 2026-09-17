@@ -1,5 +1,4 @@
 {
-  host,
   pkgs,
   osConfig,
   ...
@@ -14,28 +13,16 @@
     '';
   };
 in {
+  imports = [
+    (config-dir + "/skills/gost-report/module.nix")
+  ];
+
   programs.opencode = {
     enable = true;
     package = opencode;
     context = config-dir + "/AGENTS.md";
-    skills = {
-      gost-report = config-dir + "/skills/gost-report";
-    };
     settings = {
       autoupdate = true;
-      lsp = {
-        nixd = {
-          command = ["${pkgs.nixd}/bin/nixd"];
-          initialization.nixd = {
-            nixpkgs.expr = "import (builtins.getFlake (toString ./.)).inputs.nixpkgs { }";
-            options = {
-              nixos.expr = "(builtins.getFlake (toString ./.)).nixosConfigurations.${host.name}.options";
-              home-manager.expr = "(builtins.getFlake (toString ./.)).nixosConfigurations.${host.name}.options.home-manager.users.type.getSubOptions []";
-            };
-            formatting.command = ["alejandra"];
-          };
-        };
-      };
       provider = {
         deepseek = {
           npm = "@ai-sdk/anthropic";
@@ -66,11 +53,6 @@ in {
     extraPackages = with pkgs; [
       statix
       fd
-      # gost-report skill: pandoc pipeline, PlantUML diagrams
-      pandoc
-      plantuml
-      graphviz
-      python3
     ];
   };
 }
