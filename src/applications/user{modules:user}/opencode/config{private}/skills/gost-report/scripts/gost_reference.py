@@ -27,6 +27,7 @@ FONT = "Times New Roman"
 HALF_PT = 28
 LINE = 360
 FIRST_INDENT = round(12.5 * TWIP_PER_MM)
+LANG = '<w:lang w:val="ru-RU" w:eastAsia="ru-RU"/>'
 SECT_PR = (
     "<w:sectPr>"
     f'<w:pgSz w:w="11906" w:h="16838"/>'
@@ -40,6 +41,7 @@ RUN_FONT = (
     f'<w:rFonts w:ascii="{FONT}" w:hAnsi="{FONT}"'
     f' w:eastAsia="{FONT}" w:cs="{FONT}"/>'
     f'<w:sz w:val="{HALF_PT}"/><w:szCs w:val="{HALF_PT}"/>'
+    + LANG
 )
 BODY_PPR = (
     f'<w:spacing w:before="0" w:after="0" w:line="{LINE}" w:lineRule="auto"/>'
@@ -110,6 +112,18 @@ def patch_table_borders(xml):
     )
 
 
+def patch_doc_lang(xml):
+    def patch(match):
+        block = match.group(0)
+        if "<w:lang " in block:
+            return re.sub(r"<w:lang [^>]*/>", LANG, block, count=1)
+        return block.replace("<w:rPr>", "<w:rPr>" + LANG, 1)
+
+    return re.sub(
+        r"<w:rPrDefault>.*?</w:rPrDefault>", patch, xml, count=1, flags=re.DOTALL
+    )
+
+
 def build_styles(xml):
     normal = style("Normal", "Normal", ppr=BODY_PPR, rpr=RUN_FONT)
     body = style(
@@ -173,7 +187,12 @@ def build_styles(xml):
             '<w:sz w:val="24"/><w:szCs w:val="24"/>',
         based="Normal", custom=True,
     )
-    styles = [normal, body, first, compact, h1, h2, h3, caption, tabletext]
+    tablecaption = style(
+        "TableCaption", "Table Caption",
+        ppr='<w:keepNext/>', based="Caption", custom=True,
+    )
+    styles = [normal, body, first, compact, h1, h2, h3, caption, tabletext,
+              tablecaption]
     for sid in ("SourceCode", "Verbatim"):
         styles.append(style(
             sid, sid if sid == "SourceCode" else "Verbatim",
@@ -224,6 +243,7 @@ def build_styles(xml):
         )
     xml = re.sub(r"(<w:styles\b[^>]*>)", lambda m: m.group(1) + new, xml, count=1)
     xml = patch_table_borders(xml)
+    xml = patch_doc_lang(xml)
     return xml
 
 

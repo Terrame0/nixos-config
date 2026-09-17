@@ -8,6 +8,8 @@
   - table cell paragraphs switch from `Compact` to `TableText`
   - table rows never split across pages, and a table up to
     `KEEP_TABLE_MAX_ROWS` rows is kept on one page together with its caption
+  - a centred page-number footer is added to the body section; the title-page
+    section keeps none, so the title is counted but not numbered
   - a `--titlepage <file.docx>` splices a source title page in verbatim, with
     its section, styles and paragraph spacing, so the layout is reproduced
 """
@@ -34,6 +36,42 @@ BODY_ELEMENT_RE = re.compile(
     r"<w:p\b[^>]*/>|<w:p\b.*?</w:p>|<w:tbl\b[^>]*/>|<w:tbl\b.*?</w:tbl>", re.DOTALL
 )
 KEEP_TABLE_MAX_ROWS = 15
+FOOTER_TYPE = (
+    "http://schemas.openxmlformats.org/officeDocument/2006/relationships/footer"
+)
+FOOTER_CT = (
+    "application/vnd.openxmlformats-officedocument."
+    "wordprocessingml.footer+xml"
+)
+FOOTER_PART = "word/footer1.xml"
+FOOTER_XML = (
+    '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>\n'
+    '<w:ftr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main">'
+    '<w:p><w:pPr><w:spacing w:after="0" w:line="240" w:lineRule="auto"/>'
+    '<w:jc w:val="center"/></w:pPr>'
+    '<w:r><w:rPr><w:rFonts w:ascii="Times New Roman" w:hAnsi="Times New Roman"'
+    ' w:eastAsia="Times New Roman" w:cs="Times New Roman"/>'
+    '<w:sz w:val="28"/><w:szCs w:val="28"/><w:lang w:val="ru-RU"'
+    ' w:eastAsia="ru-RU"/></w:rPr><w:fldChar w:fldCharType="begin"/></w:r>'
+    '<w:r><w:rPr><w:rFonts w:ascii="Times New Roman" w:hAnsi="Times New Roman"'
+    ' w:eastAsia="Times New Roman" w:cs="Times New Roman"/>'
+    '<w:sz w:val="28"/><w:szCs w:val="28"/><w:lang w:val="ru-RU"'
+    ' w:eastAsia="ru-RU"/></w:rPr>'
+    '<w:instrText xml:space="preserve"> PAGE </w:instrText></w:r>'
+    '<w:r><w:rPr><w:rFonts w:ascii="Times New Roman" w:hAnsi="Times New Roman"'
+    ' w:eastAsia="Times New Roman" w:cs="Times New Roman"/>'
+    '<w:sz w:val="28"/><w:szCs w:val="28"/><w:lang w:val="ru-RU"'
+    ' w:eastAsia="ru-RU"/></w:rPr><w:fldChar w:fldCharType="separate"/></w:r>'
+    '<w:r><w:rPr><w:rFonts w:ascii="Times New Roman" w:hAnsi="Times New Roman"'
+    ' w:eastAsia="Times New Roman" w:cs="Times New Roman"/>'
+    '<w:sz w:val="28"/><w:szCs w:val="28"/><w:lang w:val="ru-RU"'
+    ' w:eastAsia="ru-RU"/></w:rPr><w:t>1</w:t></w:r>'
+    '<w:r><w:rPr><w:rFonts w:ascii="Times New Roman" w:hAnsi="Times New Roman"'
+    ' w:eastAsia="Times New Roman" w:cs="Times New Roman"/>'
+    '<w:sz w:val="28"/><w:szCs w:val="28"/><w:lang w:val="ru-RU"'
+    ' w:eastAsia="ru-RU"/></w:rPr><w:fldChar w:fldCharType="end"/></w:r>'
+    "</w:p></w:ftr>"
+)
 
 
 def process_headings(document, num_id, skip_first_break=False):
@@ -283,6 +321,32 @@ def add_heading_numbering(numbering, abstract_id, num_id):
     return numbering.replace("</w:numbering>", num + "</w:numbering>")
 
 
+def add_page_numbers(document, rels, content_types):
+    ids = [int(x) for x in re.findall(r'Id="rId(\d+)"', rels)]
+    rel_id = f"rId{max(ids, default=0) + 1}"
+    rels = rels.replace(
+        "</Relationships>",
+        f'<Relationship Id="{rel_id}" Type="{FOOTER_TYPE}"'
+        f' Target="footer1.xml"/></Relationships>',
+        1,
+    )
+    sects = list(re.finditer(r"<w:sectPr\b[^>]*>", document))
+    if sects:
+        last = sects[-1]
+        document = (
+            document[: last.start()]
+            + last.group(0)
+            + f'<w:footerReference w:type="default" r:id="{rel_id}"/>'
+            + document[last.end():]
+        )
+    content_types = content_types.replace(
+        "</Types>",
+        f'<Override PartName="/word/footer1.xml" ContentType="{FOOTER_CT}"/></Types>',
+        1,
+    )
+    return document, rels, content_types
+
+
 def main():
     args = [a for a in sys.argv[1:]]
     titlepage = None
@@ -304,6 +368,10 @@ def main():
     if titlepage:
         doc = inject_titlepage(doc, titlepage)
         styles = merge_styles(styles, titlepage)
+    rels = zin.read("word/_rels/document.xml.rels").decode("utf-8")
+    content_types = zin.read("[Content_Types].xml").decode("utf-8")
+    doc, rels, content_types = add_page_numbers(doc, rels, content_types)
+    names = [item.filename for item in zin.infolist()]
     with zipfile.ZipFile(dst, "w", zipfile.ZIP_DEFLATED) as zout:
         for item in zin.infolist():
             data = zin.read(item.filename)
@@ -313,7 +381,13 @@ def main():
                 data = numbering.encode("utf-8")
             elif item.filename == "word/styles.xml":
                 data = styles.encode("utf-8")
+            elif item.filename == "word/_rels/document.xml.rels":
+                data = rels.encode("utf-8")
+            elif item.filename == "[Content_Types].xml":
+                data = content_types.encode("utf-8")
             zout.writestr(item, data)
+        if FOOTER_PART not in names:
+            zout.writestr(FOOTER_PART, FOOTER_XML.encode("utf-8"))
 
 
 if __name__ == "__main__":

@@ -65,7 +65,24 @@ diagrams/*.puml ──plantuml──▶ diagrams/*.png  (referenced from the mar
    Do **not** add a separate `Рисунок …` paragraph after the image — it
    duplicates the caption.
 
-3. Build the `.docx`:
+3. Title tables with pandoc's native caption syntax — a `Table:` line directly
+   above the pipe table. Pandoc emits a centred `TableCaption` paragraph, and
+   the post-processor keeps it with the table:
+
+   ```markdown
+   Table: Таблица 1 – Кадровая структура объекта
+
+   | Сотрудник | Деятельность |
+   |---|---|
+   ```
+
+   Number table titles by hand (`Таблица N – …`), the same way figures are
+   numbered. A `::: {custom-style="Caption"}` div renders the same style, but
+   the native form marks the paragraph as a table caption and is preferred. Do
+   **not** add a separate caption paragraph after the table — the title goes
+   above it.
+
+4. Build the `.docx`:
 
    ```bash
    scripts/build.sh report.md
@@ -73,8 +90,9 @@ diagrams/*.puml ──plantuml──▶ diagrams/*.png  (referenced from the mar
    ```
 
    The script fetches pandoc's default reference, rewrites its styles and page
-   setup to the rules above, runs pandoc, then post-processes heading case and
-   page breaks. Output defaults to `report.docx` (same stem as the input).
+   setup to the rules above, runs pandoc, then post-processes heading case,
+   page breaks and page numbers. Output defaults to `report.docx` (same stem as
+   the input).
 
    The title page is a separate file passed with `--titlepage`. Two kinds are
    accepted:
@@ -119,10 +137,11 @@ diagrams/*.puml ──plantuml──▶ diagrams/*.png  (referenced from the mar
 
 - `scripts/gost_reference.py` — takes pandoc's default `reference.docx` and
   rewrites `word/styles.xml` (Normal, BodyText, FirstParagraph, Compact,
-  Heading1–3, Caption, TableText, SourceCode/Verbatim, TitleCenter/TitleLeft/
-  TitleRight, PageBreak, Title/Author/Date) plus `word/sectPr` page setup.
-  Tables get `tblBorders`. Called by `build.sh`; call directly only to produce a
-  reusable `reference_gost.docx`.
+  Heading1–3, Caption, TableCaption, TableText, SourceCode/Verbatim,
+  TitleCenter/TitleLeft/TitleRight, PageBreak, Title/Author/Date) plus
+  `word/sectPr` page setup. Tables get `tblBorders`; the document and Normal
+  style are pinned to `ru-RU` so spell-check does not flag every word. Called
+  by `build.sh`; call directly only to produce a reusable `reference_gost.docx`.
 - `scripts/gost_postprocess.py` — after pandoc: strips the literal number from
   `Heading1`–`Heading3`, adds a `numPr` pointing at a heading numbering
   definition it appends to `word/numbering.xml`, uppercases `Heading1`, puts
@@ -130,9 +149,9 @@ diagrams/*.puml ──plantuml──▶ diagrams/*.png  (referenced from the mar
   when a title page is present), switches table cell paragraphs from `Compact`
   to `TableText`, forces code paragraphs (`SourceCode`/`Verbatim`) to flush
   left with single spacing, keeps table rows from splitting and a table up to
-  `KEEP_TABLE_MAX_ROWS` rows together with its caption, and — with
-  `--titlepage <file.docx>` — splices in the title page's body, section
-  properties and styles.
+  `KEEP_TABLE_MAX_ROWS` rows together with its caption, adds a centred
+  page-number footer to the body section, and — with `--titlepage <file.docx>` —
+  splices in the title page's body, section properties and styles.
 - `scripts/extract_titlepage.py` — crops the leading body of a report `.docx`
   into a standalone title-page `.docx` (`--until <text>` or `--count <n>`).
 - `scripts/build.sh` — end-to-end `.md → .docx`.
@@ -199,6 +218,16 @@ the binaries are missing, so they work on a bare NixOS host.
 - **An empty `custom-style` div vanishes before the docx is written.** For a
   blank line in a markdown title page, put `&#160;` inside the div rather than
   leaving the body empty; pandoc drops a div whose only content is whitespace.
+- **A document left in `en-US` gets every Russian word underlined by
+  spell-check.** Pandoc's default `docDefaults` declares `en-US`; Word and
+  OnlyOffice then flag the whole report, which looks like an error in a
+  printed screenshot. `gost_reference.py` sets `<w:lang w:val="ru-RU">` in both
+  `docDefaults` and `Normal`; do not drop it.
+- **Page numbers live in a footer part, not in `document.xml`.** The
+  post-processor adds `word/footer1.xml`, its relationship and content type,
+  and a `<w:footerReference>` on the last section only. Because the title-page
+  section keeps none, the title is counted but not printed. The reference must
+  be the **first** child of `<w:sectPr>` — before `pgSz` — or Word ignores it.
 - The layout is tuned for this university's guide; different faculties may
   vary margins or fonts. Recheck `MARGINS`, `FONT`, `HALF_PT`, `LINE` at the
   top of `gost_reference.py`.
