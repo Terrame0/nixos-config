@@ -45,6 +45,7 @@
     idef0-svg-gost = {
       url = "github:Terrame0/IDEF0-SVG-GOST-wrapped";
       inputs.nixpkgs.follows = "nixpkgs";
+      inputs.sundry-input.follows = "sundry-input";
     };
   };
   outputs = inputs @ {

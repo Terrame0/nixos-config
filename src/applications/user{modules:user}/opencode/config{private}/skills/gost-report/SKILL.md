@@ -1,6 +1,6 @@
 ---
 name: gost-report
-description: Use when writing, formatting, or converting a Russian university report — отчёт по лабораторной работе, курсовая, ВКР, ГОСТ 7.32 — into a .docx with Times New Roman 14, 1.5 spacing, margins 25/10/20/20 mm, uppercase numbered sections, titled tables and figures. Covers the pandoc markdown→docx pipeline and PlantUML diagram rendering, with helper scripts for the formatting that pandoc cannot express.
+description: Use when writing, formatting, or converting a Russian university report — отчёт по лабораторной работе, курсовая, ВКР, ГОСТ 7.32 — into a .docx with Times New Roman 14, 1.5 spacing, margins 25/10/20/20 mm, uppercase numbered sections, titled tables and figures. Covers the pandoc markdown→docx pipeline and PlantUML / IDEF0 diagram rendering, with helper scripts for the formatting that pandoc cannot express.
 ---
 
 # GOST-formatted reports
@@ -34,7 +34,8 @@ lines of the following text.
 
 ```
 report.md ──pandoc + reference_gost.docx──▶ out.docx ──gost_postprocess──▶ report.docx
-diagrams/*.puml ──plantuml──▶ diagrams/*.png  (referenced from the markdown)
+diagrams/*.puml  ──plantuml──▶ diagrams/*.png              (referenced from the markdown)
+diagrams/*.idef0 ──schematic──▶ *.svg ──resvg──▶ *.png     (referenced from the markdown)
 ```
 
 1. Write the report as markdown (`#` = section, `##` = subsection). Prefix
@@ -52,20 +53,40 @@ diagrams/*.puml ──plantuml──▶ diagrams/*.png  (referenced from the mar
    scripts/render_diagrams.nu diagrams
    ```
 
-   One `.puml` per figure. Structural diagrams (component, use case) start with
-   `left to right direction`; activity diagrams (`start`/`stop`) must not — that
-   keyword makes plantuml reject the file. The script renders at
-   `PLANTUML_DPI` (default 300) because plantuml's native PNG is ~89 DPI and
-   pixelates once scaled to the page width; set `PLANTUML_DPI=600` for a
-   larger image. Embed the PNG in the markdown with the caption as the alt text
-   (pandoc turns it into a centred caption under the image):
+   The script handles two source types, one figure each:
+
+   - **`.puml` → `.png`** via PlantUML. Structural diagrams (component, use case)
+     start with `left to right direction`; activity diagrams (`start`/`stop`)
+     must not — that keyword makes plantuml reject the file. Renders at
+     `PLANTUML_DPI` (default 300) because plantuml's native PNG is ~89 DPI and
+     pixelates once scaled to the page width; set `PLANTUML_DPI=600` for a
+     larger image.
+   - **`.idef0` → `.svg` + `.png`** via `schematic` (IDEF0-SVG-GOST-wrapped),
+     then `resvg`. Renders at `IDEF0_DPI` (default 300). The `.svg` is kept next
+     to the model so the PNG can be re-rendered at another DPI without re-running
+     `schematic`. The model itself is a small DSL, one statement per line:
+
+     ```
+     Управление хостелом receives Заявки гостей
+     Управление хостелом respects Правила хостела
+     Управление хостелом requires Персонал хостела
+     Управление хостелом produces Размещённые гости
+     ```
+
+     Predicates are `receives` (input, left), `respects` (control, top),
+     `requires` (mechanism, bottom), `produces` (output, right), and
+     `is composed of` (sub-function).
+
+   Embed the PNG in the markdown with the caption as the alt text (pandoc turns
+   it into a centred caption under the image):
 
    ```markdown
    ![Рисунок 1 — Организационная структура объекта](diagrams/org.png){ width=15cm }
    ```
 
-   Do **not** add a separate `Рисунок …` paragraph after the image — it
-   duplicates the caption.
+   A wide landscape figure such as an IDEF0 context diagram needs a larger
+   width than the default; 17 cm is a good starting point. Do **not** add a
+   separate `Рисунок …` paragraph after the image — it duplicates the caption.
 
 3. Title tables with pandoc's native caption syntax — a `Table:` line directly
    above the pipe table. Pandoc emits a centred `TableCaption` paragraph, and
@@ -160,11 +181,15 @@ diagrams/*.puml ──plantuml──▶ diagrams/*.png  (referenced from the mar
 - `scripts/extract_titlepage.py` — crops the leading body of a report `.docx`
   into a standalone title-page `.docx` (`--until <text>` or `--count <n>`).
 - `scripts/build.nu` — end-to-end `.md → .docx`.
-- `scripts/render_diagrams.nu` — `diagrams/*.puml → *.png`, at
-  `PLANTUML_DPI` (default 300).
+- `scripts/render_diagrams.nu` — `diagrams/*.puml → *.png` at `PLANTUML_DPI`
+  (default 300), and `diagrams/*.idef0 → *.svg + *.png` at `IDEF0_DPI`
+  (default 300) via `schematic` then `resvg`.
 
-All scripts pull `pandoc`, `python3`, `plantuml`, and `graphviz` through
-`nix shell` when the binaries are missing, so they work on a bare NixOS host.
+All scripts pull `pandoc`, `python3`, `plantuml`, `graphviz`, `resvg`, and the
+`schematic` binary through `nix shell` when the tools are missing, so they work
+on a bare NixOS host. `schematic` comes from the
+[IDEF0-SVG-GOST-wrapped](https://github.com/Terrame0/IDEF0-SVG-GOST-wrapped)
+flake, not nixpkgs.
 
 ## Gotchas
 
@@ -181,6 +206,18 @@ All scripts pull `pandoc`, `python3`, `plantuml`, and `graphviz` through
   `render_diagrams.nu` passes `-Sdpi=300`; the `scale` directive does not help
   because it only applies to SVG output. Raise `PLANTUML_DPI` if a figure is
   still soft.
+- **IDEF0 box numbers follow model order, not the picture.** `schematic` numbers
+  children `A1`, `A2`, … by their order in the `.idef0` file, but the layout
+  engine reorders boxes to reduce line crossings, so `A2` can appear left of
+  `A1`. Only the single-process context diagram (exactly one box, `A0`) is
+  unaffected — which is the common report case.
+- **`Times New Roman` is not installed on Linux.** The figure's font stack falls
+  back to `Liberation Serif`, which is metric-compatible and covers Cyrillic.
+  `resvg` resolves this through system fonts, so the diagram inherits the
+  desktop's font configuration.
+- **Do not reach for PlantUML, Graphviz, or d2 for IDEF0.** None can put ports
+  on all four sides of the box. IDEF0-SVG is the only CLI renderer that does;
+  `schematic` is the entry point for it.
 - **A `SourceCode` style in `reference.docx` is not enough to keep code flush
   left.** Pandoc's default `SourceCode` does not set `jc`, so once `Normal` is
   justified the code inherits `both` and stretches each line. The post-processor

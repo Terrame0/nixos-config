@@ -530,14 +530,17 @@
         "flake-utils": "flake-utils",
         "nixpkgs": [
           "nixpkgs"
+        ],
+        "sundry-input": [
+          "sundry-input"
         ]
       },
       "locked": {
-        "lastModified": 1789639360,
-        "narHash": "sha256-AIoqUQziSJiHJ8D6YD2NTc2rJutc/+gl/f6bw1iOvU0=",
+        "lastModified": 1789641121,
+        "narHash": "sha256-JhciSjXQHLsP+Qzqe4JhqdwUjXjTjB4il6GWYARLEyQ=",
         "owner": "Terrame0",
         "repo": "IDEF0-SVG-GOST-wrapped",
-        "rev": "8c065a597d64cf34461ad51aabb656413637fe16",
+        "rev": "98386ae886e3330004ecfb2949cb1b0abc61c184",
         "type": "github"
       },
       "original": {

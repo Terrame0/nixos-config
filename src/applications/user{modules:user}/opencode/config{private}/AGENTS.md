@@ -50,7 +50,7 @@ Each skill is a self-contained directory under `config{private}/skills/<name>/`,
 - Formatter: alejandra (Nix)
 - LSP: nixd
 - Editor: VS Code (user settings managed by Home Manager)
-- opencode `extraPackages`: `statix` and `fd` from `program.nix`, plus per-skill tooling from each skill's `module.nix` (`nushell`, `pandoc`, `plantuml`, `graphviz`, `python3` for `gost-report`) — all on opencode's PATH only.
+- opencode `extraPackages`: `statix` and `fd` from `program.nix`, plus per-skill tooling from each skill's `module.nix` (`nushell`, `pandoc`, `plantuml`, `graphviz`, `python3`, `resvg`, and the `idef0-svg-gost` flake package for `gost-report`) — all on opencode's PATH only.
 
 ### Choosing a tool
 

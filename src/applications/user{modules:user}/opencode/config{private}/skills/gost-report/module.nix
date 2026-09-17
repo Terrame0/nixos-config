@@ -8,6 +8,7 @@
     pandoc
     plantuml
     graphviz
+    resvg
     python3
     inputs.idef0-svg-gost.packages.${pkgs.system}.default
   ];
