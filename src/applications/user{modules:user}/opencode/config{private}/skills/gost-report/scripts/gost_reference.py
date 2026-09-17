@@ -245,7 +245,7 @@ def build_styles(xml):
     )
     toc_heading = style(
         "TOCHeading", "TOC Heading",
-        ppr='<w:pageBreakBefore/><w:keepNext/>'
+        ppr='<w:keepNext/>'
             f'<w:spacing w:before="0" w:after="{LINE}" w:line="{LINE}" w:lineRule="auto"/>'
             '<w:ind w:firstLine="0"/><w:jc w:val="center"/>'
             '<w:outlineLvl w:val="9"/>',

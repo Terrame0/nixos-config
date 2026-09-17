@@ -91,9 +91,22 @@ report.md ──pandoc + reference_gost.docx──▶ out.docx ──gost_postpr
    ![Рисунок 1 — Организационная структура объекта](diagrams/org.png){ width=15cm }
    ```
 
-   A wide landscape figure such as an IDEF0 context diagram needs a larger
-   width than the default; 17 cm is a good starting point. Do **not** add a
-   separate `Рисунок …` paragraph after the image — it duplicates the caption.
+   Pick the width from the image's aspect ratio `h/w` (height ÷ width of the
+   rendered PNG). The text column is 17.5 cm wide and 25.7 cm tall, so a figure
+   can never exceed 17.5 cm, and its rendered height `width × h/w` must leave
+   room for the heading and caption above and below — budget about 22 cm.
+
+   | Aspect `h/w` | Width | Example |
+   |---|---|---|
+   | ≤ 0.4 (wide landscape) | 17 cm | IDEF0 context diagram |
+   | 0.4–1.0 | 15 cm | component / architecture |
+   | > 1.0 (portrait) | `min(15, 22 / (h/w))` cm | tall use-case diagram |
+
+   A portrait figure taller than ~22 cm at 15 cm (i.e. any `h/w > 1.5`) will not
+   fit alongside other content and gets pushed down, leaving a gap. Size it with
+   the formula and put a `PageBreak` div in front so it starts at the top of a
+   page. Do **not** add a separate `Рисунок …` paragraph after the image — it
+   duplicates the caption.
 
 3. Title tables with pandoc's native caption syntax — a `Table:` line directly
    above the pipe table. Pandoc emits a centred `TableCaption` paragraph, and
@@ -181,6 +194,51 @@ report.md ──pandoc + reference_gost.docx──▶ out.docx ──gost_postpr
 
    This is a hard `pageBreakBefore`, honored by every renderer — unlike the
    automatic row-keeping below.
+
+## Importing an existing .docx
+
+When the source is a `.docx` rather than markdown — a previous report, a
+teammate's draft — convert it to GOST markdown first, then run the normal
+[Pipeline](#pipeline). There is no script for this; it is one pandoc call plus
+a cleanup pass:
+
+```bash
+pandoc src.docx -t gfm --wrap=none --extract-media=. -o report.md
+```
+
+`--extract-media=.` writes the embedded images to `./media/`; without it the
+output references files that do not exist. Then fix, in order:
+
+1. **Title page.** Drop the imported title block from the markdown and keep the
+   original title page instead — pass it through `--titlepage`, either an
+   already-cropped `.docx` or one cut out of `src.docx` with
+   `scripts/extract_titlepage.py`. gfm turns the two-column «Выполнил / Принял»
+   layout table into raw `<table>` HTML, which does not render.
+2. **Figures.** gfm emits each figure as a `<figure>` block: the `<img>` carries
+   the size in its `style` (`width:5.90551in` is 15 cm) and the `<figcaption>`
+   repeats the alt text, so a naive import shows the caption twice. Replace the
+   whole block with a single image line:
+
+   ```markdown
+   ![Рисунок 1 — Организационная структура объекта](media/rId17.png){ width=15cm }
+   ```
+
+   Keep the source width or re-derive it from the image's aspect ratio.
+3. **Tables.** gfm puts each `Таблица N – …` caption on its own paragraph
+   *after* the table. Move it above and rewrite it as a native
+   `Table: Таблица N — …` line. A source that used an en dash (`Таблица N – …`)
+   keeps it through the round-trip, but the GOST convention is an em dash.
+4. **Numbering.** Word heading numbers are a `numPr` field, not text, so gfm
+   returns bare headings. Prefix every section heading with its number
+   (`# 5. Отчёт об обследовании`) or the whole document stays unnumbered.
+5. **Cross-references.** Inserting captions and renumbering shifts table and
+   figure numbers. Renumber to a single sequence, then grep the prose for
+   `таблиц` and `рисун` to fix the references.
+6. **Contents.** A `СОДЕРЖАНИЕ` page comes back as a bare paragraph where the TOC
+   field was. Delete it and pass `--toc` to regenerate the field.
+
+Do not try to carry over the source document's margins, fonts or styles — the
+GOST reference replaces them wholesale.
 
 ## Structural elements
 
@@ -304,6 +362,16 @@ flake, not nixpkgs.
 
 ## Gotchas
 
+- **`pandoc -t gfm` moves a table caption below its table.** A caption that was
+  correctly above the table in the source `.docx` comes back as a plain
+  paragraph *after* it, so the round-trip does not preserve position. Move it up
+  and restore the `Table:` prefix, or the rebuild emits an unnumbered caption
+  under the table.
+- **There is no safe default width for a portrait figure.** The 15 cm default is
+  calibrated for landscape images; a tall use-case diagram (`h/w` ≈ 1.9) renders
+  about 28 cm high and overflows a 25.7 cm text column. Size it with
+  `width ≤ 22 / (h/w)` cm and give it a `PageBreak`, or the renderer clips or
+  floats it.
 - **Table cells use `Compact` by default**, which inherits the 1.25 cm
   first-line indent and 1.5 spacing; in narrow columns this breaks words
   mid-syllable (`Сопроти\вл ение`). The post-processor rewrites cell
@@ -322,6 +390,12 @@ flake, not nixpkgs.
   `F9`. The `TOC1`-`TOC3` styles are in place, so the entries get the GOST dot
   leaders once populated. Do not try to pre-render page numbers — page layout is
   the renderer's job.
+- **A `.docx` title page plus `--toc` used to leave page 2 blank.** The title
+  page's `nextPage` section break already opens a new page, and the `TOCHeading`
+  style carried its own `pageBreakBefore`, so `СОДЕРЖАНИЕ` skipped to page 3 and
+  page 2 stayed empty. The `TOCHeading` style no longer sets a page break: the
+  TOC is always the first block after the title, so the section break alone is
+  enough. If you reintroduce a break there, expect the empty page back.
 - **ГОСТ 7.32 contradicts itself on the bibliography dot.** Clause 6.16 says to
   number entries "арабскими цифрами с точкой" (`1.`), while the worked example
   in Appendix Д shows no dot (`1`). The post-processor follows the clause text
