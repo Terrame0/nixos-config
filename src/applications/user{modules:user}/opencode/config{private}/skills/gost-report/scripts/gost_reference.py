@@ -49,6 +49,13 @@ BODY_PPR = (
     "<w:jc w:val=\"both\"/>"
 )
 
+WHERE_HANG = round(10 * TWIP_PER_MM)
+TEXT_WIDTH = 11906 - MARGINS["left"] - MARGINS["right"]
+FORMULA_TABS = (
+    f'<w:tabs><w:tab w:val="center" w:pos="{TEXT_WIDTH // 2}"/>'
+    f'<w:tab w:val="right" w:pos="{TEXT_WIDTH}"/></w:tabs>'
+)
+
 CODE_FONT = "Courier New"
 CODE_HALF_PT = 22
 CODE_PPR = (
@@ -191,8 +198,73 @@ def build_styles(xml):
         "TableCaption", "Table Caption",
         ppr='<w:keepNext/>', based="Caption", custom=True,
     )
+    h1c = style(
+        "Heading1Center", "heading 1 centered",
+        ppr='<w:pageBreakBefore/><w:keepNext/><w:keepLines/>'
+            f'<w:spacing w:before="0" w:after="{LINE}" w:line="{LINE}" w:lineRule="auto"/>'
+            '<w:ind w:firstLine="0"/><w:jc w:val="center"/>'
+            '<w:outlineLvl w:val="0"/>',
+        rpr=f"{RUN_FONT}<w:b/><w:bCs/>",
+        based="Heading1", next_="BodyText", custom=True,
+    )
+    apptitle = style(
+        "AppendixTitle", "Appendix Title",
+        ppr='<w:keepNext/><w:keepLines/>'
+            f'<w:spacing w:before="0" w:after="{LINE}" w:line="{LINE}" w:lineRule="auto"/>'
+            '<w:ind w:firstLine="0"/><w:jc w:val="center"/>'
+            '<w:outlineLvl w:val="9"/>',
+        rpr=f"{RUN_FONT}<w:b/><w:bCs/>",
+        based="Normal", next_="BodyText", custom=True,
+    )
+    sourcelist = style(
+        "SourceList", "Source List",
+        ppr=f'<w:ind w:left="0" w:right="0" w:firstLine="{FIRST_INDENT}"/>'
+            '<w:jc w:val="left"/>',
+        rpr=RUN_FONT, based="Normal", custom=True,
+    )
+    abbrev = style(
+        "Abbrev", "Abbreviation",
+        ppr='<w:ind w:left="0" w:right="0" w:firstLine="0"/>'
+            '<w:jc w:val="left"/>',
+        rpr=RUN_FONT, based="Normal", custom=True,
+    )
+    formula = style(
+        "Formula", "Formula",
+        ppr='<w:spacing w:before="240" w:after="240"'
+            f' w:line="{LINE}" w:lineRule="auto"/>'
+            '<w:ind w:left="0" w:right="0" w:firstLine="0"/>'
+            + FORMULA_TABS
+            + '<w:jc w:val="left"/>',
+        rpr=RUN_FONT, based="Normal", custom=True,
+    )
+    where = style(
+        "Where", "Where",
+        ppr=f'<w:ind w:left="{FIRST_INDENT + WHERE_HANG}" w:hanging="{WHERE_HANG}"/>'
+            '<w:jc w:val="both"/>',
+        rpr=RUN_FONT, based="Normal", custom=True,
+    )
+    toc_heading = style(
+        "TOCHeading", "TOC Heading",
+        ppr='<w:pageBreakBefore/><w:keepNext/>'
+            f'<w:spacing w:before="0" w:after="{LINE}" w:line="{LINE}" w:lineRule="auto"/>'
+            '<w:ind w:firstLine="0"/><w:jc w:val="center"/>'
+            '<w:outlineLvl w:val="9"/>',
+        rpr=f"{RUN_FONT}<w:b/><w:bCs/>",
+        based="Normal", next_="BodyText",
+    )
     styles = [normal, body, first, compact, h1, h2, h3, caption, tabletext,
-              tablecaption]
+              tablecaption, h1c, apptitle, sourcelist, abbrev, formula, where,
+              toc_heading]
+    for lvl in range(1, 4):
+        styles.append(style(
+            f"TOC{lvl}", f"toc {lvl}",
+            ppr=f'<w:tabs><w:tab w:val="right" w:leader="dot"'
+                f' w:pos="{TEXT_WIDTH}"/></w:tabs>'
+                f'<w:ind w:left="{FIRST_INDENT * (lvl - 1)}" w:firstLine="0"/>'
+                f'<w:spacing w:before="0" w:after="0" w:line="{LINE}" w:lineRule="auto"/>'
+                '<w:jc w:val="left"/>',
+            rpr=RUN_FONT, based="Normal",
+        ))
     for sid in ("SourceCode", "Verbatim"):
         styles.append(style(
             sid, sid if sid == "SourceCode" else "Verbatim",

@@ -43,9 +43,10 @@ report.md ──pandoc + reference_gost.docx──▶ out.docx ──gost_postpr
    `## 4.1. Организационная структура`). The post-processor strips the literal
    number and installs a native Word numbered-list field, so deleting a section
    renumbers the rest automatically; level-1 headings are uppercased. A heading
-   **without** a leading number (an appendix, a preamble, a title-page line) is
-   left unnumbered. Do **not** number the title page or an unnumbered preamble —
-   only real sections.
+   **without** a leading number is left unnumbered — that is how structural
+   elements and appendices are written, and the post-processor centres and
+   restyles them (see [Structural elements](#structural-elements)). Do **not**
+   number the title page, a preamble, a structural element, or an appendix.
 
 2. Render the diagrams, naming every source file explicitly:
 
@@ -111,16 +112,32 @@ report.md ──pandoc + reference_gost.docx──▶ out.docx ──gost_postpr
    **not** add a separate caption paragraph after the table — the title goes
    above it.
 
-4. Build the `.docx`:
+   Number the objects inside an appendix with the appendix letter as prefix —
+   `Рисунок А.3`, `Таблица А.1`, `(В.1)`. The heading `# Приложение А. Название`
+   is rewritten into a centred `ПРИЛОЖЕНИЕ А` line (own page) plus a bold centred
+   title; a status in parentheses (`# Приложение А (обязательное). Название`) is
+   emitted as its own centred line. Use only allowed letters: Cyrillic without
+   `Ё З Й О Ч Ъ Ы Ь`, or Latin without `I O`.
+
+5. Build the `.docx`:
 
    ```nu
    scripts/build.nu report.md
    scripts/build.nu report.md out.docx --titlepage titlepages/kamchatgtu-blank.docx
+   scripts/build.nu report.md out.docx --toc
    ```
+
+   `--toc` (`-T`) inserts a `СОДЕРЖАНИЕ` page carrying a native Word TOC field.
+   The field is stored with `w:dirty="true"`, so the reader's editor fills it in
+   on open; the entries then pick up the `TOC1`-`TOC3` styles, which carry the
+   GOST dot-leader right tab. Without `--toc` no contents page is produced. When
+   a title page is combined with `--toc`, the body's first section still starts a
+   new page (the title page's `pageBreakBefore` is deliberately not skipped).
 
    The script fetches pandoc's default reference, rewrites its styles and page
    setup to the rules above, runs pandoc, then post-processes heading case,
-   page breaks and page numbers. Output defaults to `report.docx` (same stem as
+   page breaks, page numbers, the bibliography list, abbreviations, appendix
+   headings and formula numbers. Output defaults to `report.docx` (same stem as
    the input).
 
    The title page is a separate file passed with `--titlepage`. Two kinds are
@@ -165,23 +182,110 @@ report.md ──pandoc + reference_gost.docx──▶ out.docx ──gost_postpr
    This is a hard `pageBreakBefore`, honored by every renderer — unlike the
    automatic row-keeping below.
 
+## Structural elements
+
+`ВВЕДЕНИЕ`, `ЗАКЛЮЧЕНИЕ`, `СОДЕРЖАНИЕ`, `СПИСОК ИСПОЛЬЗОВАННЫХ ИСТОЧНИКОВ`,
+`ПЕРЕЧЕНЬ СОКРАЩЕНИЙ И ОБОЗНАЧЕНИЙ`, `РЕФЕРАТ` and `ТЕРМИНЫ И ОПРЕДЕЛЕНИЯ` are
+structural elements: they carry no section number, are centred, uppercased, and
+start on a new page. Write them as a plain `#` heading **without** a number:
+
+```markdown
+# Введение
+
+# Список использованных источников
+```
+
+The post-processor recognises exactly that set, switches the heading to
+`Heading1Center`, and uppercases it. A structural element written **with** a
+number (`# 6. Заключение`) is treated as an ordinary numbered section — left
+aligned, with a number — so drop the number when you mean the structural form.
+
+## Список использованных источников
+
+Write the entries as a normal markdown ordered list directly under the
+structural heading. The post-processor detects that heading and rewrites the
+whole contiguous list: each item becomes a `SourceList` paragraph with the
+number as literal text (`1. `), left-aligned with a 1.25 cm first-line indent.
+This is what makes the list reorderable and keeps the numbers out of a Word
+field.
+
+```markdown
+# Список использованных источников
+
+1. Иванов И. И. Методы обработки данных // Вестник науки. — 2020. — Т. 5, № 3. — С. 12–25.
+2. Петров П. П. Основы проектирования информационных систем. — М.: Наука, 2019. — 320 с.
+3. ГОСТ 7.32-2017. Отчёт о научно-исследовательской работе. — М.: Стандартинформ, 2017. — 32 с.
+```
+
+Order the entries by first citation in the text; cite them as `[1]`, `[1]—[4]`,
+`в работе [9]`. The number is typed by hand, not cross-referenced — this is the
+one place the skill does not automate Word fields. Description templates per
+source type (article, book, conference, patent, URL, standard) are in
+ГОСТ 7.32-2017 Appendix Е.
+
+## Перечень сокращений и обозначений
+
+Write each entry on its own line as `СОКРАЩЕНИЕ — расшифровка` with an em dash.
+Any paragraph starting with an uppercase token followed by `—` is switched to
+the `Abbrev` style: no first-line indent, flush left, so the dash column lines
+up. The list is only required when there are more than three designations.
+
+```markdown
+# Перечень сокращений и обозначений
+
+ПО — программное обеспечение
+
+АСУ — автоматизированная система управления
+```
+
+## Формулы
+
+Put each numbered formula in a `Formula` div, with the number at the end of the
+line. The post-processor moves the number to a right-aligned tab at the margin,
+so it sits on the same line as the equation. Explanations go in a `Where` div,
+one symbol per line.
+
+```markdown
+::: {custom-style="Formula"}
+$P = U \cdot I$ (1)
+:::
+
+::: {custom-style="Where"}
+где $P$ — мощность, Вт;
+
+$U$ — напряжение, В;
+:::
+```
+
+The `Formula` style centres the equation via a centre tab and right-aligns the
+number; the `Where` style gives `где` a first-line indent with a hanging
+explanation. Numbers and cross-references (`в формуле (1)`) are typed by hand.
+
 ## What the scripts do
 
 - `scripts/gost_reference.py` — takes pandoc's default `reference.docx` and
   rewrites `word/styles.xml` (Normal, BodyText, FirstParagraph, Compact,
   Heading1-3, Caption, TableCaption, TableText, SourceCode/Verbatim,
-  TitleCenter/TitleLeft/TitleRight, PageBreak, Title/Author/Date) plus
-  `word/sectPr` page setup. Tables get `tblBorders`; the document and Normal
-  style are pinned to `ru-RU` so spell-check does not flag every word. Called
-  by `build.nu`; call directly only to produce a reusable `reference_gost.docx`.
-- `scripts/gost_postprocess.py` — after pandoc: strips the literal number from
-  `Heading1`-`Heading3`, adds a `numPr` pointing at a heading numbering
-  definition it appends to `word/numbering.xml`, uppercases `Heading1`, puts
-  `<w:pageBreakBefore/>` on every section heading (skipped for the first one
-  when a title page is present), switches table cell paragraphs from `Compact`
-  to `TableText`, forces code paragraphs (`SourceCode`/`Verbatim`) to flush
-  left with single spacing, keeps table rows from splitting and a table up to
-  `KEEP_TABLE_MAX_ROWS` rows together with its caption, adds a centred
+  TitleCenter/TitleLeft/TitleRight, PageBreak, Title/Author/Date) plus the
+  feature styles (Heading1Center, AppendixTitle, SourceList, Abbrev, Formula,
+  Where, TOCHeading, TOC1-3) and `word/sectPr` page setup. Tables get
+  `tblBorders`; the document and Normal style are pinned to `ru-RU` so
+  spell-check does not flag every word. Called by `build.nu`; call directly only
+  to produce a reusable `reference_gost.docx`.
+- `scripts/gost_postprocess.py` — after pandoc, in order: rewrites the
+  bibliography ordered list under `СПИСОК ИСПОЛЬЗОВАННЫХ ИСТОЧНИКОВ` into
+  `SourceList` paragraphs with literal numbers; switches `СОКРАЩЕНИЕ — …`
+  paragraphs to `Abbrev`; centres the recognised structural-element headings
+  (`Heading1Center`, uppercased); splits `# Приложение А. Название` into a
+  centred `ПРИЛОЖЕНИЕ А` heading plus an `AppendixTitle`; right-aligns hand-typed
+  formula numbers in `Formula` paragraphs via a tab. Then: strips the literal
+  number from `Heading1`-`Heading3`, adds a `numPr` pointing at a heading
+  numbering definition it appends to `word/numbering.xml`, uppercases `Heading1`,
+  puts `<w:pageBreakBefore/>` on every section heading (skipped for the first one
+  when a title page is present and no `--toc`), switches table cell paragraphs
+  from `Compact` to `TableText`, forces code paragraphs (`SourceCode`/`Verbatim`)
+  to flush left with single spacing, keeps table rows from splitting and a table
+  up to `KEEP_TABLE_MAX_ROWS` rows together with its caption, adds a centred
   page-number footer to the body section, and — with `--titlepage <file.docx>` —
   splices in the title page's body, section properties and styles.
 - `scripts/extract_titlepage.py` — crops the leading body of a report `.docx`
@@ -207,6 +311,35 @@ flake, not nixpkgs.
   that mapping, keep the `ind firstLine=0`.
 - **The Table style has no borders** out of the box. `gost_reference.py`
   injects `tblBorders`; without them the table prints as guide lines only.
+- **Pandoc wraps a figure in a single-cell `FigureTable`.** When the image
+  cannot be fetched it puts the alt text in that cell, and a naive
+  "every `Compact` inside `w:tbl` becomes `TableText`" rule then mis-styles the
+  caption cell. Both table passes skip tables whose `tblStyle` is
+  `FigureTable`; keep that guard when adding table rewriting.
+- **The contents page is an unpopulated field until the editor refreshes it.**
+  Pandoc stores the TOC with `w:dirty="true"`, so Word and LibreOffice fill it
+  in on open (Word prompts), but OnlyOffice can show it empty until you press
+  `F9`. The `TOC1`-`TOC3` styles are in place, so the entries get the GOST dot
+  leaders once populated. Do not try to pre-render page numbers — page layout is
+  the renderer's job.
+- **ГОСТ 7.32 contradicts itself on the bibliography dot.** Clause 6.16 says to
+  number entries "арабскими цифрами с точкой" (`1.`), while the worked example
+  in Appendix Д shows no dot (`1`). The post-processor follows the clause text
+  and emits `1.`; change `convert_source_list` if your department wants the
+  example's form.
+- **A structural element written with a number is not centred.** Centring keys
+  off an unnumbered `Heading1` whose text matches the fixed set, so
+  `# 6. Заключение` stays an ordinary left-aligned numbered section. Write
+  `# Заключение` to get the centred structural form.
+- **The abbreviation pass is a text heuristic.** Any paragraph whose text starts
+  with an uppercase token followed by an em dash (`ПО — …`) is switched to
+  `Abbrev`, wherever it appears. A body sentence beginning that way is caught
+  too; keep such sentences from opening with a bare uppercase token and a dash.
+- **The bibliography pass keys off the heading text, not a marker.** It matches
+  `СПИСОК ИСПОЛЬЗОВАННЫХ ИСТОЧНИКОВ` (case-insensitive, so a numbered
+  `# 2 Список использованных источников` works) and rewrites the contiguous
+  list that follows. A list elsewhere in the document is left alone; a
+  bibliography not under that heading is not converted.
 - **Images with a width in braces** need the `{ width=15cm }` attribute form;
   a bare `![alt](path)` scales to natural size and can overflow the page.
 - **PlantUML's default PNG is ~89 DPI and pixelates at page width.**
@@ -313,13 +446,19 @@ flake, not nixpkgs.
 
 ```
 Title page
+СОДЕРЖАНИЕ            (build --toc; unnumbered structural element)
 <UNNUMBERED preamble: role distribution / состав отчёта>
 1 ЦЕЛЬ РАБОТЫ
 2 ПОСТАНОВКА ЗАДАЧИ
 …
-N ЗАКЛЮЧЕНИЕ
-Приложение А …
+ЗАКЛЮЧЕНИЕ            (unnumbered structural element)
+СПИСОК ИСПОЛЬЗОВАННЫХ ИСТОЧНИКОВ   (unnumbered; ordered list follows)
+Приложение А …        (unnumbered; split into ПРИЛОЖЕНИЕ А + title)
 ```
+
+Structural elements (`СОДЕРЖАНИЕ`, `ЗАКЛЮЧЕНИЕ`, `СПИСОК …`) are written without
+a number so the post-processor centres and uppercases them; see
+[Structural elements](#structural-elements).
 
 Keep prose in the body and tabular data in pipe tables. Attribute parts to
 their authors with a short italic line under the heading when the report is a

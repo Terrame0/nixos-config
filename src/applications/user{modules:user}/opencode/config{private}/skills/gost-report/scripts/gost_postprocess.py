@@ -127,9 +127,192 @@ def fix_code_paragraphs(document):
     return re.sub(r"<w:p\b.*?</w:p>", fix, document, flags=re.DOTALL)
 
 
+RUN_RPR = (
+    '<w:rFonts w:ascii="Times New Roman" w:hAnsi="Times New Roman"'
+    ' w:eastAsia="Times New Roman" w:cs="Times New Roman"/>'
+    '<w:sz w:val="28"/><w:szCs w:val="28"/>'
+    '<w:lang w:val="ru-RU" w:eastAsia="ru-RU"/>'
+)
+SOURCE_HEADING_RE = re.compile(
+    r"СПИСОК\s+ИСПОЛЬЗОВАННЫХ\s+ИСТОЧНИКОВ", re.IGNORECASE
+)
+NUMPR_RE = re.compile(r"<w:numPr>.*?</w:numPr>", re.DOTALL)
+PSTYLE_RE = re.compile(r'<w:pStyle w:val="[^"]+"\s*/>')
+APPENDIX_RE = re.compile(
+    r"^\s*Приложение\s+([А-ЯЁA-Z])\s*(\([^)]*\))?\s*\.?\s*(.*?)\s*$",
+    re.IGNORECASE,
+)
+ABBREV_RE = re.compile(r"^\s*([A-ZА-ЯЁ][A-ZА-ЯЁ0-9]{1,9})\s+—\s+\S")
+STRUCTURAL_HEADINGS = {
+    "ВВЕДЕНИЕ",
+    "ЗАКЛЮЧЕНИЕ",
+    "РЕФЕРАТ",
+    "СОДЕРЖАНИЕ",
+    "СПИСОК ИСПОЛЬЗОВАННЫХ ИСТОЧНИКОВ",
+    "ПЕРЕЧЕНЬ СОКРАЩЕНИЙ И ОБОЗНАЧЕНИЙ",
+    "ОПРЕДЕЛЕНИЯ, ОБОЗНАЧЕНИЯ И СОКРАЩЕНИЯ",
+    "ТЕРМИНЫ И ОПРЕДЕЛЕНИЯ",
+}
+
+
+def para_text(para):
+    return "".join(re.findall(r"<w:t[^>]*>(.*?)</w:t>", para, re.DOTALL))
+
+
+def para_style(para):
+    match = re.search(r'<w:pStyle w:val="([^"]+)"', para)
+    return match.group(1) if match else ""
+
+
+def set_style(para, style_id):
+    if PSTYLE_RE.search(para):
+        return PSTYLE_RE.sub(f'<w:pStyle w:val="{style_id}" />', para, count=1)
+    if "<w:pPr>" in para:
+        return para.replace(
+            "<w:pPr>", f'<w:pPr><w:pStyle w:val="{style_id}" />', 1
+        )
+    return re.sub(
+        r"(<w:p\b[^>]*>)",
+        r'\1<w:pPr><w:pStyle w:val="' + style_id + r'" /></w:pPr>',
+        para, count=1,
+    )
+
+
+def convert_source_list(document):
+    state = {"in_section": False, "index": 0}
+
+    def fix(match):
+        para = match.group(0)
+        text = para_text(para)
+        style = para_style(para)
+        if style.startswith("Heading"):
+            state["in_section"] = bool(SOURCE_HEADING_RE.search(text))
+            state["index"] = 0
+            return para
+        if not state["in_section"]:
+            return para
+        if "<w:numPr>" not in para:
+            if text.strip():
+                state["in_section"] = False
+            return para
+        state["index"] += 1
+        para = NUMPR_RE.sub("", para, count=1)
+        para = set_style(para, "SourceList")
+        run = (
+            f'<w:r><w:rPr>{RUN_RPR}</w:rPr>'
+            f'<w:t xml:space="preserve">{state["index"]}. </w:t></w:r>'
+        )
+        if "</w:pPr>" in para:
+            return para.replace("</w:pPr>", "</w:pPr>" + run, 1)
+        return re.sub(r"(<w:p\b[^>]*>)", r"\1" + run, para, count=1)
+
+    return re.sub(r"<w:p\b.*?</w:p>", fix, document, flags=re.DOTALL)
+
+
+def style_abbreviations(document):
+    def fix(match):
+        para = match.group(0)
+        style = para_style(para)
+        if style.startswith("Heading") or style in ("SourceList", "Formula"):
+            return para
+        if ABBREV_RE.match(para_text(para)):
+            return set_style(para, "Abbrev")
+        return para
+
+    return re.sub(r"<w:p\b.*?</w:p>", fix, document, flags=re.DOTALL)
+
+
+def center_structural_headings(document):
+    def fix(match):
+        para = match.group(0)
+        if para_style(para) != "Heading1":
+            return para
+        text = para_text(para).strip()
+        if NUMBER_PREFIX.match(text) or text.upper() not in STRUCTURAL_HEADINGS:
+            return para
+        para = set_style(para, "Heading1Center")
+        texts = list(re.finditer(r"(<w:t[^>]*>)(.*?)(</w:t>)", para, re.DOTALL))
+        if texts:
+            first = texts[0]
+            upper = first.group(2).upper()
+            para = (
+                para[: first.start()]
+                + first.group(1) + upper + first.group(3)
+                + para[first.end():]
+            )
+        return para
+
+    return re.sub(r"<w:p\b.*?</w:p>", fix, document, flags=re.DOTALL)
+
+
+def convert_appendices(document):
+    def fix(match):
+        para = match.group(0)
+        if para_style(para) != "Heading1":
+            return para
+        text = para_text(para).strip()
+        found = APPENDIX_RE.match(text)
+        if not found:
+            return para
+        letter, status, title = found.group(1), found.group(2), found.group(3)
+        head = f'<w:p><w:pPr><w:pStyle w:val="Heading1Center" />' \
+               f"<w:keepNext/></w:pPr>" \
+               f'<w:r><w:rPr>{RUN_RPR}<w:b/><w:bCs/></w:rPr>' \
+               f'<w:t xml:space="preserve">ПРИЛОЖЕНИЕ {letter.upper()}</w:t>' \
+               f"</w:r></w:p>"
+        if status:
+            head += (
+                f'<w:p><w:pPr><w:pStyle w:val="AppendixTitle" />'
+                f"<w:keepNext/></w:pPr>"
+                f'<w:r><w:rPr>{RUN_RPR}</w:rPr>'
+                f'<w:t xml:space="preserve">{status}</w:t></w:r></w:p>'
+            )
+        if title:
+            head += (
+                f'<w:p><w:pPr><w:pStyle w:val="AppendixTitle" /></w:pPr>'
+                f'<w:r><w:rPr>{RUN_RPR}<w:b/><w:bCs/></w:rPr>'
+                f'<w:t xml:space="preserve">{title}</w:t></w:r></w:p>'
+            )
+        return head
+
+    return re.sub(r"<w:p\b.*?</w:p>", fix, document, flags=re.DOTALL)
+
+
+def fix_formula_numbers(document):
+    def fix(match):
+        para = match.group(0)
+        if para_style(para) != "Formula":
+            return para
+        texts = list(re.finditer(r"(<w:t[^>]*>)(.*?)(</w:t>)", para, re.DOTALL))
+        if not texts:
+            return para
+        last = texts[-1]
+        value = last.group(2)
+        number = re.search(r"\(\s*\d+\s*\)\s*$", value)
+        if not number:
+            return para
+        stripped = value[: number.start()].rstrip()
+        para = (
+            para[: last.start()]
+            + last.group(1) + stripped + last.group(3)
+            + para[last.end():]
+        )
+        tail = (
+            '<w:r><w:tab/></w:r>'
+            f'<w:r><w:rPr>{RUN_RPR}</w:rPr>'
+            f'<w:t xml:space="preserve">{number.group(0).strip()}</w:t></w:r>'
+        )
+        return para.replace("</w:p>", tail + "</w:p>", 1)
+
+    return re.sub(r"<w:p\b.*?</w:p>", fix, document, flags=re.DOTALL)
+
+
 def fix_table_styles(document):
     def fix_table(match):
-        return match.group(0).replace(
+        table = match.group(0)
+        if "FigureTable" in table:
+            return table
+        return table.replace(
             '<w:pStyle w:val="Compact" />', '<w:pStyle w:val="TableText" />'
         )
 
@@ -165,6 +348,8 @@ def add_cant_split(row):
 def keep_tables_together(document):
     def fix_table(match):
         table = match.group(0)
+        if "FigureTable" in table:
+            return table
         rows = re.findall(r"<w:tr\b.*?</w:tr>", table, re.DOTALL)
         keep_all = len(rows) <= KEEP_TABLE_MAX_ROWS
         for i, row in enumerate(rows):
@@ -350,6 +535,9 @@ def add_page_numbers(document, rels, content_types):
 def main():
     args = [a for a in sys.argv[1:]]
     titlepage = None
+    has_toc = "--toc" in args
+    if has_toc:
+        args.remove("--toc")
     if "--titlepage" in args:
         i = args.index("--titlepage")
         titlepage = args[i + 1]
@@ -361,9 +549,16 @@ def main():
     abstract_id, num_id = next_free_ids(numbering)
     numbering = add_heading_numbering(numbering, abstract_id, num_id)
     doc = fix_table_styles(doc)
+    doc = convert_source_list(doc)
+    doc = style_abbreviations(doc)
+    doc = center_structural_headings(doc)
+    doc = convert_appendices(doc)
+    doc = fix_formula_numbers(doc)
     doc = keep_tables_together(doc)
     doc = fix_code_paragraphs(doc)
-    doc = process_headings(doc, num_id, skip_first_break=bool(titlepage))
+    doc = process_headings(
+        doc, num_id, skip_first_break=bool(titlepage) and not has_toc
+    )
     styles = zin.read("word/styles.xml").decode("utf-8")
     if titlepage:
         doc = inject_titlepage(doc, titlepage)

@@ -67,6 +67,17 @@ Reach for the purpose-built tool before a generic workaround.
 
 - LSP is available as a tool, not only as editor annotations. Prefer it over text search for symbol-level work: `goToDefinition`, `findReferences`, `hover`, `documentSymbol`, `workspaceSymbol`, `goToImplementation`, and call hierarchy.
 - Reading a file also surfaces LSP diagnostics as annotations. Treat them as findings to address, not decoration.
+- Subagents are available through the `task` tool, in two roles: `explore` for read-only codebase search, `general` for autonomous multi-step work (research, measurements, edits). Launch several in one message to run them in parallel. Each starts with a fresh context, so the prompt must carry everything needed; the result comes back as one message and is not shown to the user.
+- `todowrite` keeps a visible task list for multi-step work. Use it whenever the work spans three or more distinct steps, not just as a final checklist: mark a task `in_progress` before starting it and `completed` only once it is actually done and verified, and update it as new steps surface. It is the running record the user reads to see where the work is.
+
+Reach for a subagent when the work is **wide or independent**, not when it is deep in files already open:
+
+- parallel research — "read this standard and extract the rules for X, Y, Z" while the main thread keeps editing;
+- scratch measurement — "build these five fixtures on the current code and report what each produces";
+- broad sweeps — "find every call site of F across several trees";
+- isolating noisy work — a long build/test run whose output would otherwise flood context.
+
+Keep in the main thread anything that touches files the main thread is editing (two writers on one file conflict), anything that needs the conversation's history, and anything small enough that the prompt would cost more than the work. Verify subagent output against the real artifacts — a subagent reports what it did, not proof that it is correct.
 
 ### sudo
 
