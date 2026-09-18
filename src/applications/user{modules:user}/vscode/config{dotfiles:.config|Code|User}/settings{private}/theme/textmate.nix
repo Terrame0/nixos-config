@@ -130,7 +130,7 @@ in {
         };
       }
 
-      # -- orange (functions / strings / regexp bodies)
+      # -- orange (functions / regexp bodies)
       {
         scope = [
           "meta.function" # function meta
@@ -139,11 +139,6 @@ in {
           "entity.name.function.preprocessor" # preprocessor macros
           "storage.type.struct" # struct
           "storage.type.class" # class
-          "string" # strings
-          "string.quoted" # quoted strings
-          "string.template" # template strings
-          "string.interpolated" # interpolated strings
-          "string.regexp" # regexp literals
           "source.regexp" # regexp source
           "constant.regexp" # regexp constants
           "markup.inline.raw" # inline code
@@ -152,6 +147,18 @@ in {
           foreground = palette.orange;
           fontStyle = "bold";
         };
+      }
+
+      # -- orange (strings, not bold)
+      {
+        scope = [
+          "string" # strings
+          "string.quoted" # quoted strings
+          "string.template" # template strings
+          "string.interpolated" # interpolated strings
+          "string.regexp" # regexp literals
+        ];
+        settings.foreground = palette.orange;
       }
 
       # -- aqua (namespaces / css selectors / quotes)
