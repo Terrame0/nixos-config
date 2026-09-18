@@ -78,7 +78,10 @@ in {
           "support.constant.dom" # DOM constants
           "support.constant.json" # json constants
         ];
-        settings.foreground = palette.purple;
+        settings = {
+          foreground = palette.purple;
+          fontStyle = "bold";
+        };
       }
       {
         scope = "meta.diff.range";
@@ -114,7 +117,10 @@ in {
           "meta.separator" # diff separator
           "meta.output" # diff output
         ];
-        settings.foreground = palette.blue;
+        settings = {
+          foreground = palette.blue;
+          fontStyle = "bold";
+        };
       }
       {
         scope = ["markup.heading" "markup.heading entity.name"];
@@ -142,7 +148,10 @@ in {
           "constant.regexp" # regexp constants
           "markup.inline.raw" # inline code
         ];
-        settings.foreground = palette.orange;
+        settings = {
+          foreground = palette.orange;
+          fontStyle = "bold";
+        };
       }
 
       # -- aqua (namespaces / css selectors / quotes)
@@ -154,7 +163,10 @@ in {
           "entity.other.attribute-name.class.css" # .class
           "markup.quote" # blockquotes
         ];
-        settings.foreground = palette.aqua;
+        settings = {
+          foreground = palette.aqua;
+          fontStyle = "bold";
+        };
       }
 
       # -- red (special operators / escapes / invalid / errors / deletions)
@@ -180,7 +192,10 @@ in {
           "markup.deleted" # removed lines
           "meta.diff.header.from-file" # diff from-file
         ];
-        settings.foreground = palette.red;
+        settings = {
+          foreground = palette.red;
+          fontStyle = "bold";
+        };
       }
 
       # -- green (insertions)
