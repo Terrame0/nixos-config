@@ -52,7 +52,7 @@ in {
         };
       }
 
-      # -- purple (keywords / numbers / constants / language literals)
+      # -- purple (keywords)
       {
         scope = [
           "keyword" # keywords
@@ -61,6 +61,17 @@ in {
           "keyword.other.operator" # operator keywords
           "keyword.other.using" # using/import
           "keyword.other.unit" # units
+          "variable.language" # this / self / super
+        ];
+        settings = {
+          foreground = palette.purple;
+          fontStyle = "bold";
+        };
+      }
+
+      # -- purple (literals, not bold)
+      {
+        scope = [
           "constant.numeric.float.suffix" # float suffix
           "constant.numeric" # numbers
           "keyword.other.unit.suffix.floating-point" # float units
@@ -72,16 +83,12 @@ in {
           "entity.name.constant" # named constants
           "variable.other.constant" # const vars
           "variable.other.enummember" # enum members
-          "variable.language" # this / self / super
           "support.constant" # built-in constants
           "support.constant.math" # Math.*
           "support.constant.dom" # DOM constants
           "support.constant.json" # json constants
         ];
-        settings = {
-          foreground = palette.purple;
-          fontStyle = "bold";
-        };
+        settings.foreground = palette.purple;
       }
       {
         scope = "meta.diff.range";
