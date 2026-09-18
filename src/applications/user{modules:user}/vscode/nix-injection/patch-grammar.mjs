@@ -33,16 +33,20 @@ const interpolation = {
   patterns: [{ include: "source.nix" }],
 };
 
-// `# -- <lang> --` on the line directly above the string opening
+// `# -<lang>-` on its own line between the function call and the string opener.
+// The opener is alone on its line, so it must be claimed by the nested rule
+// (patterns win ties via applyEndPatternLast); the closing `''` carries a
+// trailing token, so the outer end takes it.
 for (const lang of languages) {
   grammar.patterns.push({
-    begin: `(#\\s*--\\s*${triggerAlt(lang.triggers)}\\s*--\\s*)$`,
+    begin: `(#\\s*-<\\s*${triggerAlt(lang.triggers)}\\s*>-\\s*)$`,
     beginCaptures: { 1: { name: `comment.line.number-sign.nix ${HINT}` } },
     end: "^\\s*''(?!')",
     endCaptures: { 0: { name: "punctuation.definition.string.end.nix" } },
+    applyEndPatternLast: true,
     patterns: [
       {
-        begin: "''",
+        begin: "^\\s*''(?=\\s*$)",
         beginCaptures: { 0: { name: "punctuation.definition.string.begin.nix" } },
         end: "(?=^\\s*''(?!'))",
         contentName: `meta.embedded.block.${lang.key}`,
