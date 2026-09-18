@@ -38,6 +38,9 @@ in {
     # -- html live preview
     "ms-vscode.live-server"
 
+    # -- icons
+    "yusifaliyevpro.vscicons"
+
     # -- plantuml
     "jebbs.plantuml"
 
