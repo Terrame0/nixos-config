@@ -23,12 +23,7 @@
 in {
   "barsikus007.nix-injection".vsix =
     pkgs.runCommand "nix-injection-${version}.vsix"
-    {
-      nativeBuildInputs = [
-        pkgs.bun
-        pkgs.zip
-      ];
-    }
+    { nativeBuildInputs = [ pkgs.bun pkgs.zip ]; }
     ''
       cp -r ${src}/. .
       chmod -R u+w .
