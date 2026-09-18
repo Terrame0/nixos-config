@@ -200,7 +200,7 @@ in {
         scope = "meta.embedded.hint.nix";
         settings = {
           foreground = palette.aqua;
-          fontStyle = "italic";
+          fontStyle = "bold";
         };
       }
 
