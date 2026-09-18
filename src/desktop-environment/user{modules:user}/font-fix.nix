@@ -5,13 +5,13 @@
   lib,
   osConfig,
   ...
-}: let
-  paths = map (package: "${package}/share/fonts") osConfig.fonts.packages;
-  dir = pkgs.nuenv.mkDerivation {
+}: {
+  # -- needed for onlyoffice to pick up fonts
+  home.file.".local/share/fonts".source = pkgs.nuenv.mkDerivation {
     name = "flat-fonts";
     src = pkgs.symlinkJoin {
       name = "fonts";
-      inherit paths;
+      paths = map (package: "${package}/share/fonts") osConfig.fonts.packages;
     };
     build =
       /**/
@@ -24,7 +24,4 @@
         }
       '';
   };
-in {
-  # -- needed for onlyoffice to pick up fonts
-  home.file.".local/share/fonts".source = dir; #"${inputs.microsoft-fonts.packages.${pkgs.stdenv.hostPlatform.system}.ttf-ms-win11-auto}/share/fonts";
 }
