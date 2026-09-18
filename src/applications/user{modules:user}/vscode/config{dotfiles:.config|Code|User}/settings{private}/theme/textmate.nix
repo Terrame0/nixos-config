@@ -63,13 +63,10 @@ in {
           "keyword.other.unit" # units
           "variable.language" # this / self / super
         ];
-        settings = {
-          foreground = palette.purple;
-          fontStyle = "bold";
-        };
+        settings.foreground = palette.purple;
       }
 
-      # -- purple (literals, not bold)
+      # -- purple (literals)
       {
         scope = [
           "constant.numeric.float.suffix" # float suffix
@@ -92,10 +89,7 @@ in {
       }
       {
         scope = "meta.diff.range";
-        settings = {
-          foreground = palette.purple;
-          fontStyle = "bold";
-        };
+        settings.foreground = palette.purple;
       }
 
       # -- blue (types / classes / storage / keys / diff & markdown headers)
@@ -124,17 +118,11 @@ in {
           "meta.separator" # diff separator
           "meta.output" # diff output
         ];
-        settings = {
-          foreground = palette.blue;
-          fontStyle = "bold";
-        };
+        settings.foreground = palette.blue;
       }
       {
         scope = ["markup.heading" "markup.heading entity.name"];
-        settings = {
-          foreground = palette.blue;
-          fontStyle = "bold";
-        };
+        settings.foreground = palette.blue;
       }
 
       # -- orange (functions / regexp bodies)
@@ -150,13 +138,10 @@ in {
           "constant.regexp" # regexp constants
           "markup.inline.raw" # inline code
         ];
-        settings = {
-          foreground = palette.orange;
-          fontStyle = "bold";
-        };
+        settings.foreground = palette.orange;
       }
 
-      # -- orange (strings, not bold)
+      # -- orange (strings)
       {
         scope = [
           "string" # strings
@@ -177,10 +162,7 @@ in {
           "entity.other.attribute-name.class.css" # .class
           "markup.quote" # blockquotes
         ];
-        settings = {
-          foreground = palette.aqua;
-          fontStyle = "bold";
-        };
+        settings.foreground = palette.aqua;
       }
 
       # -- red (special operators / escapes / invalid / errors / deletions)
@@ -206,10 +188,7 @@ in {
           "markup.deleted" # removed lines
           "meta.diff.header.from-file" # diff from-file
         ];
-        settings = {
-          foreground = palette.red;
-          fontStyle = "bold";
-        };
+        settings.foreground = palette.red;
       }
 
       # -- green (insertions)
@@ -227,10 +206,7 @@ in {
       # -- aqua (embedded language hint comments)
       {
         scope = "meta.embedded.hint.nix";
-        settings = {
-          foreground = palette.aqua;
-          fontStyle = "bold";
-        };
+        settings.foreground = palette.aqua;
       }
 
       # -- yellow (escape sequences)
