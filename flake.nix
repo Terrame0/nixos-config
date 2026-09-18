@@ -96,7 +96,7 @@
       in {
         ${host.name} =
           nixpkgs.lib.nixosSystem
-          ({inherit (host) system;} // (import ./meta/module-globbing meta-args));
+          ({inherit (host) system;} // (import ./meta/module-globbing.nix meta-args));
       })
       hosts
     );

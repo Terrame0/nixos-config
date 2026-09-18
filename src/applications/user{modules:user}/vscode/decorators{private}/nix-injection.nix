@@ -19,24 +19,21 @@
   keys = map (l: l.key) additions;
   merged = additions ++ builtins.filter (l: !(builtins.elem l.key keys)) upstream;
 in {
-  "barsikus007.nix-injection".vsix =
-    pkgs.runCommand "nix-injection-${version}.vsix"
-    {
-      nativeBuildInputs = [
-        pkgs.bun
-        pkgs.zip
-      ];
-    }
-    # -< bash >-
-    ''
-      cp -r ${src}/. .
-      chmod -R u+w .
-      cp ${pkgs.writeText "languages.json" (builtins.toJSON merged)} languages.json
-      bun scripts/generate.js
-      cp ${../patches/patch-grammar.mjs} patch-grammar.mjs
-      bun patch-grammar.mjs
-      mkdir extension
-      cp -r package.json README.md LICENSE languages.json syntaxes extension/
-      zip -r $out extension
-    '';
+  "barsikus007.nix-injection".vsix = pkgs.nuenv.mkDerivation {
+    name = "nix-injection-${version}.vsix";
+    inherit src;
+    packages = [pkgs.bun pkgs.zip pkgs.coreutils];
+    build =
+      # -< nushell >-
+      ''
+        ^chmod -R u+w .
+        cp ${pkgs.writeText "languages.json" (builtins.toJSON merged)} languages.json
+        bun scripts/generate.js
+        cp ${./patches/patch-grammar.mjs} patch-grammar.mjs
+        bun patch-grammar.mjs
+        mkdir extension
+        cp -r package.json README.md LICENSE languages.json syntaxes extension/
+        ^zip -r $env.out extension
+      '';
+  };
 }
