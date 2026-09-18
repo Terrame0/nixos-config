@@ -1,7 +1,9 @@
 {mk-partial, ...}:
 mk-partial {
   file-path = ["partial.rasi"];
-  body-fn = body: ''
+  body-fn = body:
+  # -< rasi >-
+  ''
     * {
     ${body}
     }

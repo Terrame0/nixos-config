@@ -14,7 +14,7 @@
       paths = map (package: "${package}/share/fonts") osConfig.fonts.packages;
     };
     build =
-      /**/
+      # -< nushell >-
       ''
         mkdir $env.out
         let files = glob $"($env.src)/**/*" --no-dir

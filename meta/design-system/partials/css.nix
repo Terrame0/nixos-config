@@ -1,7 +1,9 @@
 {mk-partial, ...}:
 mk-partial {
   file-path = ["partial.css"];
-  body-fn = body: ''
+  body-fn = body:
+  # -< css >-
+  ''
     :root {
     ${body}
     }

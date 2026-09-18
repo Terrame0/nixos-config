@@ -1,8 +1,6 @@
 {...}: {
   programs.zsh.loginExtra =
-    /*
-    bash
-    */
+    # -< shell >-
     ''
       if uwsm check may-start; then
         exec uwsm start hyprland-uwsm.desktop

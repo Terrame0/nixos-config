@@ -37,10 +37,16 @@ const interpolation = {
 // The opener is alone on its line, so it must be claimed by the nested rule
 // (patterns win ties via applyEndPatternLast); the closing `''` carries a
 // trailing token, so the outer end takes it.
+// The delimiters stay plain comment scopes (grey); only the language name gets
+// the hint scope so it renders yellow.
 for (const lang of languages) {
   grammar.patterns.push({
-    begin: `(#\\s*-<\\s*${triggerAlt(lang.triggers)}\\s*>-\\s*)$`,
-    beginCaptures: { 1: { name: `comment.line.number-sign.nix ${HINT}` } },
+    begin: `(#\\s*-<\\s*)(${triggerAlt(lang.triggers)})(\\s*>-\\s*)$`,
+    beginCaptures: {
+      1: { name: "comment.line.number-sign.nix" },
+      2: { name: `comment.line.number-sign.nix ${HINT}` },
+      3: { name: "comment.line.number-sign.nix" },
+    },
     end: "^\\s*''(?!')",
     endCaptures: { 0: { name: "punctuation.definition.string.end.nix" } },
     applyEndPatternLast: true,
