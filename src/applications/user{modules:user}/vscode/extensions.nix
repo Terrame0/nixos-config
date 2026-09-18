@@ -20,6 +20,8 @@
     "jnoortheen.nix-ide"
     "dlasagno.rasi"
     "thenuprojectcontributors.vscode-nushell-lang"
+    # "atomicspirit.nix-embedded-highlighter"
+    "coopermaruyama.nix-embedded-languages"
 
     # -- html live preview
     "ms-vscode.live-server"

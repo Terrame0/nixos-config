@@ -34,7 +34,7 @@
       };
     };
     nuenv = {
-      url = "github:xav-ie/nuenv";
+      url = "github:philocalyst/nuenv";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     microsoft-fonts.url = "github:kugland/nix-ttf-ms-win11-auto";
