@@ -3,7 +3,9 @@ import path from "node:path";
 
 const ROOT = process.cwd();
 const GRAMMAR = path.join(ROOT, "syntaxes", "nix-inline-injection.tmLanguage.json");
+const INTERPOLATION_GRAMMAR = path.join(ROOT, "syntaxes", "nix-inline-interpolation.tmLanguage.json");
 const LANGUAGES = path.join(ROOT, "languages.json");
+const PACKAGE = path.join(ROOT, "package.json");
 
 const HINT = "meta.embedded.hint.nix";
 const RE_META_ESCAPE = /[.*+?^${}()|[\]\\]/g;
@@ -23,15 +25,6 @@ for (const rule of Object.values(grammar.repository ?? {})) {
     capture.name = `${capture.name} ${HINT}`;
   }
 }
-
-const interpolation = {
-  begin: "(?<!'')\\$\\{",
-  beginCaptures: { 0: { name: "punctuation.section.embedded.begin.nix" } },
-  end: "\\}",
-  endCaptures: { 0: { name: "punctuation.section.embedded.end.nix" } },
-  contentName: "meta.embedded.expression.nix",
-  patterns: [{ include: "source.nix" }],
-};
 
 // `# -<lang>-` on its own line between the function call and the string opener.
 // The opener is alone on its line, so it must be claimed by the nested rule
@@ -56,7 +49,7 @@ for (const lang of languages) {
         beginCaptures: { 0: { name: "punctuation.definition.string.begin.nix" } },
         end: "(?=^\\s*''(?!'))",
         contentName: `meta.embedded.block.${lang.key}`,
-        patterns: [interpolation, { include: lang.scope }],
+        patterns: [{ include: lang.scope }],
       },
     ],
   });
@@ -64,3 +57,45 @@ for (const lang of languages) {
 
 fs.writeFileSync(GRAMMAR, JSON.stringify(grammar, null, 2) + "\n");
 console.log(`patched ${path.relative(ROOT, GRAMMAR)}`);
+
+// `${...}` inside an embedded block must be highlighted as Nix, not as the
+// embedded language. The language grammar regularly runs long rules which
+// swallow the `$` (e.g. a CSS selector spanning several lines), and an outer
+// rule's `end` is not consulted while such a rule is on top of the stack. A
+// separate injection grammar is evaluated alongside whichever rule is active,
+// so its `${` wins the tie.
+const interpolationGrammar = {
+  $schema: "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+  scopeName: "nix.inline-interpolation",
+  injectionSelector: "L:source.nix meta.embedded.block",
+  patterns: [
+    {
+      begin: "(?<!'')\\$\\{",
+      beginCaptures: { 0: { name: "punctuation.section.embedded.begin.nix" } },
+      end: "\\}",
+      endCaptures: { 0: { name: "punctuation.section.embedded.end.nix" } },
+      contentName: "meta.embedded.expression.nix",
+      patterns: [{ include: "source.nix" }],
+    },
+  ],
+  repository: {},
+};
+fs.writeFileSync(INTERPOLATION_GRAMMAR, JSON.stringify(interpolationGrammar, null, 2) + "\n");
+console.log(`wrote ${path.relative(ROOT, INTERPOLATION_GRAMMAR)}`);
+
+const pkg = JSON.parse(fs.readFileSync(PACKAGE, "utf8"));
+const grammars = (pkg.contributes && pkg.contributes.grammars) || [];
+const interpolationGrammarContribution = {
+  scopeName: "nix.inline-interpolation",
+  path: "./syntaxes/nix-inline-interpolation.tmLanguage.json",
+  injectTo: ["source.nix"],
+};
+const existing = grammars.findIndex((g) => g.scopeName === "nix.inline-interpolation");
+if (existing === -1) {
+  grammars.push(interpolationGrammarContribution);
+} else {
+  grammars[existing] = interpolationGrammarContribution;
+}
+pkg.contributes.grammars = grammars;
+fs.writeFileSync(PACKAGE, JSON.stringify(pkg, null, 2) + "\n");
+console.log(`updated ${path.relative(ROOT, PACKAGE)} (nix.inline-interpolation)`);
