@@ -13,5 +13,6 @@
     baobab
     inkscape
     rawtherapee
+    pinta
   ];
 }

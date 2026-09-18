@@ -16,4 +16,4 @@ args @ {
   types = load-parts ./types;
   tokens = load-parts ./tokens;
   partials = load-parts ./partials;
-in {inherit partials tokens types;}
+in {inherit partials;}
