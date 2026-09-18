@@ -5,7 +5,7 @@
     rev = "f367ed0935a21b6850f72dbefcb6550a0fee3bae";
     hash = "sha256-f83lGXuUm8HBVanMOGmkLK8la2V0HIFSQMar/9z2IFA=";
   };
-  # -- json --
+  # -< json >-
   additions = builtins.fromJSON ''
     [
       { "key": "nushell", "triggers": ["nushell", "nu"], "scope": "source.nushell", "langId": "nushell" },
