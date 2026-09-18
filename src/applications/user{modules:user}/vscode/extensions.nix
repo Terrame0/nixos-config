@@ -32,8 +32,8 @@ in {
     "jnoortheen.nix-ide"
     "dlasagno.rasi"
     "thenuprojectcontributors.vscode-nushell-lang"
-    # "atomicspirit.nix-embedded-highlighter"
     "barsikus007.nix-injection"
+    "bbenoist.qml"
 
     # -- html live preview
     "ms-vscode.live-server"
