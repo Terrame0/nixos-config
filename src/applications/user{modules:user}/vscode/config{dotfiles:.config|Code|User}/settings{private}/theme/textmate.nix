@@ -195,6 +195,12 @@ in {
         settings.foreground = palette.yellow;
       }
 
+      # -- yellow (embedded language hint comments)
+      {
+        scope = "meta.embedded.hint.nix";
+        settings.foreground = palette.yellow;
+      }
+
       # -- yellow (escape sequences)
       {
         scope = [
