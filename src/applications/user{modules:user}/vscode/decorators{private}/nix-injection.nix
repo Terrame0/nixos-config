@@ -29,7 +29,7 @@ in {
         ^chmod -R u+w .
         cp ${pkgs.writeText "languages.json" (builtins.toJSON merged)} languages.json
         bun scripts/generate.js
-        cp ${./patches/patch-grammar.mjs} patch-grammar.mjs
+        cp ${../patches/patch-grammar.mjs} patch-grammar.mjs
         bun patch-grammar.mjs
         mkdir extension
         cp -r package.json README.md LICENSE languages.json syntaxes extension/
