@@ -195,10 +195,13 @@ in {
         settings.foreground = palette.yellow;
       }
 
-      # -- yellow (embedded language hint comments)
+      # -- aqua (embedded language hint comments)
       {
         scope = "meta.embedded.hint.nix";
-        settings.foreground = palette.yellow;
+        settings = {
+          foreground = palette.aqua;
+          fontStyle = "italic";
+        };
       }
 
       # -- yellow (escape sequences)
