@@ -39,12 +39,8 @@ in {
     "ms-vscode.live-server"
 
     # -- icons
-    "yusifaliyevpro.vscicons"
-    "miguelsolorio.fluent-icons"
-    "vscode-icons-team.vscode-icons"
-    "emmanuelbeziat.vscode-great-icons"
-    "pkief.material-product-icons"
-    "jtlowe.vscode-icon-theme"
+    "miguelsolorio.fluent-icons" # -- product icons
+    "jtlowe.vscode-icon-theme" # -- visual studio file icons
 
     # -- plantuml
     "jebbs.plantuml"

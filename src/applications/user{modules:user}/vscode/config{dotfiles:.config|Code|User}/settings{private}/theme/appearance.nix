@@ -4,7 +4,8 @@
   "editor.fontLigatures" = true;
   "terminal.integrated.fontFamily" = settings.font.mono;
   "workbench.colorTheme" = "Dark Modern";
-  "workbench.iconTheme" = "vscode-icons";
+  "workbench.iconTheme" = "vscode-icon-theme";
+  "workbench.productIconTheme" = "fluent-icons";
 
   # -- cursor
   "editor.cursorStyle" = "line";
