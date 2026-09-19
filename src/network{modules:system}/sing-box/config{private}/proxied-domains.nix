@@ -32,7 +32,7 @@
   "cloudflare.com"
 
   # -- nix resources often get blocked
-  # for some unknown reason
+  # - for some unknown reason
   "extranix.com"
   "nixos.org"
   "nix.dev"
@@ -83,4 +83,5 @@
   "searx.space"
   "warframe.com"
   "gitingest.com"
+  "doc.qt.io"
 ]
