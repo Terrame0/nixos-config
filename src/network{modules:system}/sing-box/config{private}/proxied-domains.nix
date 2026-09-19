@@ -84,4 +84,5 @@
   "warframe.com"
   "gitingest.com"
   "doc.qt.io"
+  "cloudfront.net"
 ]
