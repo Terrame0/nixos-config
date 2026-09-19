@@ -39,7 +39,8 @@ in {
     "ms-vscode.live-server"
 
     # -- icons
-    "yusifaliyevpro.vscicons"
+    #"yusifaliyevpro.vscicons"
+    "vscode-icons-team.vscode-icons"
 
     # -- plantuml
     "jebbs.plantuml"
