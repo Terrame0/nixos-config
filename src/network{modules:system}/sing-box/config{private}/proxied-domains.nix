@@ -85,4 +85,5 @@
   "gitingest.com"
   "doc.qt.io"
   "cloudfront.net"
+  "quickshell.org"
 ]
