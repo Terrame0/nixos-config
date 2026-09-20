@@ -20,7 +20,7 @@
   dim-gray = "#3d3b39";
   gray = "#4e4b49";
   light-gray = "#83807d";
-  white = "#cfcec9";
+  white = "#c5c4bf";
   red = "#d54e53";
   orange = "#e78c45";
   yellow = "#e7c547";
