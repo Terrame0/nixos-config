@@ -21,7 +21,7 @@
   gray = "#4e4b49";
   light-gray = "#83807d";
   white = "#c5c4bf";
-  red = "#e1594c";
+  red = "#e14c4c";
   orange = "#ed7347";
   yellow = "#f6ae43";
   green = "#bacb4a";
