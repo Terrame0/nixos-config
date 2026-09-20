@@ -24,7 +24,7 @@
   red = "#e14c4c";
   orange = "#ed8947";
   yellow = "#f6ae43";
-  green = "#a9cb4a";
+  green = "#b3cb4a";
   aqua = "#81c4c9";
   blue = "#6180d4";
   purple = "#bc72cb";
