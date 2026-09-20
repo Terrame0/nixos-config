@@ -14,20 +14,20 @@
   # blue = "#7aa6da";
   # purple = "#c397d8";
 
-  # -- v5 (muted warm grays, original accents) --
+  # -- v6 (muted warm grays, accents derived from #E84D23 orange) --
   black = "#1e1c1b";
   dark-gray = "#2d2b2a";
   dim-gray = "#3d3b39";
   gray = "#4e4b49";
   light-gray = "#83807d";
   white = "#c5c4bf";
-  red = "#d54e53";
-  orange = "#e78c45";
-  yellow = "#e7c547";
-  green = "#b9ca4a";
-  aqua = "#70c0b1";
-  blue = "#7aa6da";
-  purple = "#c397d8";
+  red = "#ff2121";
+  orange = "#ff4e1d";
+  yellow = "#ffaa00";
+  green = "#b9cd00";
+  aqua = "#00d2ba";
+  blue = "#4e95e7";
+  purple = "#c641ff";
 
   # -- Kanagawa (wave) --
   # black = "#1f1f28"; # sumiInk1 (bg)
