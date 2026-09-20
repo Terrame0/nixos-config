@@ -24,10 +24,10 @@
   red = "#e14c4c";
   orange = "#ed8947";
   yellow = "#f6ae43";
-  green = "#88cb4a";
+  green = "#a9cb4a";
   aqua = "#81c4c9";
   blue = "#6180d4";
-  purple = "#aa72cb";
+  purple = "#bc72cb";
 
   # saturated to the sRGB gamut edge
   # intense-red = "#ff2121";
