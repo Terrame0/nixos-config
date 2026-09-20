@@ -5,6 +5,7 @@
     pcsx2
 
     # -- basic desktop utilities
+    freecad
     eog
     gedit
     prismlauncher
