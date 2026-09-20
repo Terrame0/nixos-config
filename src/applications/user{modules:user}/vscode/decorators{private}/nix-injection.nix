@@ -11,7 +11,14 @@
     ''
       [
         { "key": "nushell", "triggers": ["nushell", "nu"], "scope": "source.nushell", "langId": "nushell" },
-        { "key": "rasi", "triggers": ["rasi"], "scope": "source.rasi", "langId": "rasi" }
+        { "key": "rasi", "triggers": ["rasi"], "scope": "source.rasi", "langId": "rasi" },
+        { "key": "qml", "triggers": ["qml"], "scope": "source.qml", "langId": "qml" },
+        { "key": "ron", "triggers": ["ron"], "scope": "source.ron", "langId": "ron" },
+        { "key": "plantuml", "triggers": ["plantuml", "puml", "wsd"], "scope": "source.wsd", "langId": "plantuml" },
+        { "key": "jq", "triggers": ["jq"], "scope": "source.jq", "langId": "jq" },
+        { "key": "meson", "triggers": ["meson"], "scope": "source.meson", "langId": "meson" },
+        { "key": "cmake", "triggers": ["cmake"], "scope": "source.cmake", "langId": "cmake" },
+        { "key": "requirements", "triggers": ["requirements", "pip"], "scope": "source.pip-requirements", "langId": "pip-requirements" }
       ]
     '';
   upstream = builtins.fromJSON (builtins.readFile "${src}/languages.json");
