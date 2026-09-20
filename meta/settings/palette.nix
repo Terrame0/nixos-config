@@ -1,11 +1,26 @@
 {...}: {
   # -- Tomorrow Night (original) --
-  black = "#1d1f21";
-  dark-gray = "#282a2e";
-  dim-gray = "#373b41";
-  gray = "#4d5057";
-  light-gray = "#969896";
-  white = "#c5c8c6";
+  # black = "#1d1f21";
+  # dark-gray = "#282a2e";
+  # dim-gray = "#373b41";
+  # gray = "#4d5057";
+  # light-gray = "#969896";
+  # white = "#c5c8c6";
+  # red = "#d54e53";
+  # orange = "#e78c45";
+  # yellow = "#e7c547";
+  # green = "#b9ca4a";
+  # aqua = "#70c0b1";
+  # blue = "#7aa6da";
+  # purple = "#c397d8";
+
+  # -- v4 (warm grays, original accents) --
+  black = "#201c1a";
+  dark-gray = "#2f2b28";
+  dim-gray = "#3f3b37";
+  gray = "#504b47";
+  light-gray = "#85807a";
+  white = "#d0cec4";
   red = "#d54e53";
   orange = "#e78c45";
   yellow = "#e7c547";
