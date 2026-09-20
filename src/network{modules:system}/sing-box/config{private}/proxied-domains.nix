@@ -86,4 +86,5 @@
   "doc.qt.io"
   "cloudfront.net"
   "quickshell.org"
+  "deepseek.com"
 ]
