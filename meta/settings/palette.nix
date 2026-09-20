@@ -21,13 +21,13 @@
   gray = "#4e4b49";
   light-gray = "#83807d";
   white = "#c5c4bf";
-  red = "#e14c4c";
-  orange = "#ed8947";
-  yellow = "#f6ae43";
-  green = "#b3cb4a";
-  aqua = "#88c0c4";
-  blue = "#6193d4";
-  purple = "#bc72cb";
+  red = "#d84949";
+  orange = "#df8245";
+  yellow = "#dd9d3d";
+  green = "#a8be44";
+  aqua = "#78aaad";
+  blue = "#5987c4";
+  purple = "#aa67b8";
 
   # saturated to the sRGB gamut edge
   # intense-red = "#ff2121";
