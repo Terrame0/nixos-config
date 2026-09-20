@@ -14,20 +14,29 @@
   # blue = "#7aa6da";
   # purple = "#c397d8";
 
-  # -- v6 (muted warm grays, accents derived from #E84D23 orange) --
+  # -- v7 (muted warm grays, Tomorrow Night saturation, intense variants) --
   black = "#1e1c1b";
   dark-gray = "#2d2b2a";
   dim-gray = "#3d3b39";
   gray = "#4e4b49";
   light-gray = "#83807d";
   white = "#c5c4bf";
-  red = "#ff2121";
-  orange = "#ff611d";
-  yellow = "#ffaa00";
-  green = "#b9cd00";
-  aqua = "#00d2ba";
-  blue = "#4e95e7";
-  purple = "#c641ff";
+  red = "#e1594c";
+  orange = "#ed7347";
+  yellow = "#f6ae43";
+  green = "#bacb4a";
+  aqua = "#75c8b8";
+  blue = "#6196d4";
+  purple = "#ad72cb";
+
+  # saturated to the sRGB gamut edge
+  intense-red = "#ff2121";
+  intense-orange = "#ff611d";
+  intense-yellow = "#ffaa00";
+  intense-green = "#b9cd00";
+  intense-aqua = "#00d2ba";
+  intense-blue = "#4e95e7";
+  intense-purple = "#c641ff";
 
   # -- Kanagawa (wave) --
   # black = "#1f1f28"; # sumiInk1 (bg)
