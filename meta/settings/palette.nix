@@ -22,21 +22,21 @@
   light-gray = "#83807d";
   white = "#c5c4bf";
   red = "#e14c4c";
-  orange = "#ed7347";
+  orange = "#ed8947";
   yellow = "#f6ae43";
-  green = "#bacb4a";
-  aqua = "#75c8b8";
-  blue = "#6196d4";
-  purple = "#ad72cb";
+  green = "#88cb4a";
+  aqua = "#81c4c9";
+  blue = "#6180d4";
+  purple = "#aa72cb";
 
   # saturated to the sRGB gamut edge
-  intense-red = "#ff2121";
-  intense-orange = "#ff611d";
-  intense-yellow = "#ffaa00";
-  intense-green = "#b9cd00";
-  intense-aqua = "#00d2ba";
-  intense-blue = "#4e95e7";
-  intense-purple = "#c641ff";
+  # intense-red = "#ff2121";
+  # intense-orange = "#ff611d";
+  # intense-yellow = "#ffaa00";
+  # intense-green = "#b9cd00";
+  # intense-aqua = "#00d2ba";
+  # intense-blue = "#4e95e7";
+  # intense-purple = "#c641ff";
 
   # -- Kanagawa (wave) --
   # black = "#1f1f28"; # sumiInk1 (bg)
