@@ -14,13 +14,13 @@
   # blue = "#7aa6da";
   # purple = "#c397d8";
 
-  # -- v4 (warm grays, original accents) --
-  black = "#201c1a";
-  dark-gray = "#2f2b28";
-  dim-gray = "#3f3b37";
-  gray = "#504b47";
-  light-gray = "#85807a";
-  white = "#d0cec4";
+  # -- v5 (muted warm grays, original accents) --
+  black = "#1e1c1b";
+  dark-gray = "#2d2b2a";
+  dim-gray = "#3d3b39";
+  gray = "#4e4b49";
+  light-gray = "#83807d";
+  white = "#cfcec9";
   red = "#d54e53";
   orange = "#e78c45";
   yellow = "#e7c547";
