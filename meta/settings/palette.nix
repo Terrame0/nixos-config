@@ -22,7 +22,7 @@
   light-gray = "#83807d";
   white = "#c5c4bf";
   red = "#ff2121";
-  orange = "#ff4e1d";
+  orange = "#ff611d";
   yellow = "#ffaa00";
   green = "#b9cd00";
   aqua = "#00d2ba";
