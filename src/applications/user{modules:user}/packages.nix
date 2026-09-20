@@ -14,5 +14,6 @@
     inkscape
     rawtherapee
     pinta
+    aria2
   ];
 }
