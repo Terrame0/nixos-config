@@ -25,8 +25,8 @@
   orange = "#ed8947";
   yellow = "#f6ae43";
   green = "#b3cb4a";
-  aqua = "#81c4c9";
-  blue = "#6180d4";
+  aqua = "#8dc5c9";
+  blue = "#6193d4";
   purple = "#bc72cb";
 
   # saturated to the sRGB gamut edge
