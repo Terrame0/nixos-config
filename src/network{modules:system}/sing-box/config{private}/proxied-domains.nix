@@ -87,4 +87,5 @@
   "cloudfront.net"
   "quickshell.org"
   "deepseek.com"
+  "lk.kstu.su"
 ]
