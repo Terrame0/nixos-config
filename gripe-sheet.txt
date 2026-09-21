@@ -7,4 +7,3 @@ desktop portal file picker theme is broken
 there is no touchpad switch
 there are no modal windows for sound, brightness, kb layout switches, mic muting etc.
 missing menus for network, bluetooth, sound management
-language tooling is not colocated: lsp servers, editor extensions and cli tools for the same language live in unrelated files

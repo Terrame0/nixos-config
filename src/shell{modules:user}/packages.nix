@@ -9,6 +9,8 @@
     gtk3.dev
     jq
     nasm
+    clang
+    clang-tools
 
     # -- utilities
     treefmt
