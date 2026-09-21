@@ -34,6 +34,7 @@ in {
     "thenuprojectcontributors.vscode-nushell-lang"
     "barsikus007.nix-injection"
     "bbenoist.qml"
+    "13xforever.language-x86-64-assembly"
 
     # -- html live preview
     "ms-vscode.live-server"

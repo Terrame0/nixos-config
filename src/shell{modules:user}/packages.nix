@@ -8,6 +8,7 @@
     python3
     gtk3.dev
     jq
+    nasm
 
     # -- utilities
     treefmt
