@@ -22,7 +22,7 @@ in {
     package = opencode;
     context = config-dir + "/AGENTS.md";
     settings = {
-      autoupdate = true;
+      autoupdate = false;
       provider = {
         deepseek = {
           npm = "@ai-sdk/anthropic";

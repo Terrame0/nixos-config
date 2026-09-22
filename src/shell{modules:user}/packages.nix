@@ -9,6 +9,7 @@
     gtk3.dev
     jq
     nasm
+    gef
     clang
     clang-tools
 
