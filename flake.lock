@@ -944,11 +944,11 @@
     },
     "sundry-input": {
       "locked": {
-        "lastModified": 1790229018,
-        "narHash": "sha256-+skoH3GnF7kb9vvmaj4DCwvQ/4aImbOwZ3XrMuv5Pno=",
+        "lastModified": 1790230331,
+        "narHash": "sha256-RbCFAQU+MBfR2aJ/dWpwlzMO8wrd/XA5PZANAd668Es=",
         "owner": "Terrame0",
         "repo": "sundry",
-        "rev": "c8d1a06f75f6810b408c9baea991a4626d49d01a",
+        "rev": "a5789d5d7815fd7b0728cad7061168bf48ab5253",
         "type": "github"
       },
       "original": {

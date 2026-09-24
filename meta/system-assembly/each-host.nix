@@ -15,7 +15,9 @@ builtins.foldl' (
       import files-vfs.meta.design-system."default.nix".origin {inherit sundry lib;};
     root-vfs = sundry.vfs.dir.merge files-vfs design-system.partials-vfs;
     meta-args = {
-      inherit host inputs pkgs sundry lib root-vfs;
+      inherit host inputs;
+      inherit pkgs sundry lib;
+      inherit root-vfs;
     };
   in
     sundry.attrs.merge.recursive.no-collision [attrs-acc (f meta-args)]
