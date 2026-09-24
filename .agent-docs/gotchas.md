@@ -110,11 +110,11 @@ error: path '…-config{dotfiles:.config|Code|User}' is not a valid store path:
 **Avoid:** extend a path with `+`, which keeps it a path:
 
 ```nix
-lib.pipe (file-dir + "/settings{private}") [ … ]   # safe — still a path
-lib.pipe "${file-dir}/settings{private}" [ … ]     # copies, aborts
+lib.pipe (dirOf file.origin + "/settings{private}") [ … ]   # safe — still a path
+lib.pipe "${dirOf file.origin}/settings{private}" [ … ]     # copies, aborts
 ```
 
-This surfaced when the repo root became a path. `sundry.vfs.file.from-src` stores each file's raw `fs-path` as `origin`, so `dirOf file.origin` in the `{convert:json}` pipeline is a **path** whose basename is a `{…}` tag. While the root was the context-carrying string `self.outPath`, `dirOf` yielded a string and interpolation was harmless.
+`sundry.vfs.file.from-src` stores each file's raw `fs-path` as `origin`, so `dirOf file.origin` is a **path** whose basename can be a `{…}` tag. Extending it with `+` keeps it a path; interpolating it copies and aborts.
 
 A `{` written directly in a path literal is a separate grammar error: write `./${"config{private}"}`, never `./config{private}`.
 
@@ -126,4 +126,12 @@ A `{` written directly in a path literal is a separate grammar error: write `./$
 
 **Why:** it is a one-way resolution pass, not a normalisation pass — the tags live in the very path syntax that resolution deletes.
 
-**Avoid:** resolve each raw tree exactly once, then merge the resolved trees with `sundry.vfs.dir.merge`. Assembly does two independent passes — `files-vfs` in [`meta/system-assembly/each-host.nix`](../meta/system-assembly/each-host.nix) and `partials-vfs` in [`meta/design-system/default.nix`](../meta/design-system/default.nix) — and merges the results into `root-vfs`. Never call `resolve-tags` on `root-vfs` or on any other merged/already-resolved tree. See [design-system.md](design-system.md).
+**Avoid:** resolve each raw tree exactly once, then merge the resolved trees with `sundry.vfs.dir.merge`. Assembly does two independent passes — `repo-vfs` in [`meta/system-assembly/each-host.nix`](../meta/system-assembly/each-host.nix) and `partials-vfs` in [`meta/design-system/default.nix`](../meta/design-system/default.nix) — and merges the results into `root-vfs`. Never call `resolve-tags` on `root-vfs` or on any other merged/already-resolved tree. See [design-system.md](design-system.md).
+
+## Global `load-nix` attaches a lazy `expr` to every `.nix` leaf
+
+`each-host.nix` pipes the whole repo tree through `sundry.vfs.dir.load-nix`, which sets `expr = import <origin>` on every `.nix` leaf. That `import` is a thunk — it does not run until `expr` is forced. Forcing `expr` on a **non-`.nix`** leaf fails: it has no valid import (the attribute is absent, or points at `import <non-nix>`).
+
+**Why:** `load-nix` is applied uniformly to the resolved tree, so the attribute lands on `.nix` leaves whether or not anyone reads them; only Nix's laziness keeps hundreds of unattached module imports unevaluated.
+
+**Avoid:** force `.expr` only on `.nix` leaves; read `.md`, `.yaml`, and tag-only leaves through `origin` or `text`, not `.expr`. The laziness is also the benefit — attaching `expr` to every module is free, and only forcing a leaf pays for its `import`.

@@ -1,9 +1,9 @@
 {
   pkgs,
   osConfig,
+  root-vfs,
   ...
 }: let
-  config-dir = ./${"config{private}"};
   opencode = pkgs.symlinkJoin {
     name = "opencode-with-experimental";
     paths = [pkgs.opencode];
@@ -14,13 +14,13 @@
   };
 in {
   imports = [
-    (config-dir + "/skills/gost-report/module.nix")
+    root-vfs.src.applications.user.opencode.config.skills.gost-report."module.nix".origin
   ];
 
   programs.opencode = {
     enable = true;
     package = opencode;
-    context = config-dir + "/AGENTS.md";
+    context = root-vfs.src.applications.user.opencode.config."AGENTS.md".origin;
     settings = {
       autoupdate = false;
       provider = {

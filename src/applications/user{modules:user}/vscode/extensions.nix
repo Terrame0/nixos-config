@@ -2,11 +2,10 @@ args @ {
   pkgs,
   sundry,
   lib,
+  root-vfs,
   ...
 }: let
-  decorators = lib.pipe ./${"decorators{private}"} [
-    sundry.vfs.dir.from-src
-    sundry.vfs.dir.load-nix
+  decorators = lib.pipe root-vfs.src.applications.user.vscode.decorators [
     (sundry.vfs.dir.collapse (path: file: file.expr args))
     sundry.attrs.merge.recursive.no-collision
   ];

@@ -1,4 +1,4 @@
-{config-dir, ...}: {
+{config-subtree, ...}: {
   route = {
     rules = [
       {action = "sniff";}
@@ -17,7 +17,7 @@
         outbound = "direct";
       }
       {
-        domain_suffix = import (config-dir + "/proxied-domains.nix");
+        domain_suffix = config-subtree."proxied-domains.nix".expr;
         outbound = "proxy";
       }
       {

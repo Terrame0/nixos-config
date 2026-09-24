@@ -1,20 +1,17 @@
-args' @ {
+args @ {
   config,
   sundry,
   lib,
+  root-vfs,
   ...
-}: let
-  args = args' // {inherit config-dir;};
-  config-dir = ./${"config{private}"};
-in {
+}: {
   services.searx = {
     enable = true;
     environmentFile = config.sops.secrets."searx/secret".path;
     redisCreateLocally = true;
     configureUwsgi = false;
-    settings = lib.pipe config-dir [
-      sundry.vfs.dir.from-src
-      sundry.vfs.dir.load-nix
+    settings = lib.pipe root-vfs.src.network.searx.config [
+      (sundry.vfs.dir.filter (path: file: sundry.vfs.path.get.ext path == "nix"))
       (sundry.vfs.dir.collapse (path: file: file.expr args))
       sundry.attrs.merge.recursive.no-collision
     ];

@@ -6,11 +6,11 @@ Dotfiles are produced by a custom pipeline under [src/dotfile-symlinking{modules
 
 [default.nix](../src/dotfile-symlinking%7Bmodules:user%7D/default.nix) drives it:
 
-1. It reads every `.nix` file under `pipeline{private}/` and imports each with shared args.
+1. It collapses `root-vfs.src.dotfile-symlinking.pipeline` and evaluates each stage file as `file.expr args`, using the `expr` the global `load-nix` already attached.
 2. The stages are merged and run through `sundry.attrs.resolve-deps` — a dependency-aware evaluator that orders stages by their declared `deps`.
 3. The final `home-files` key is assigned to `home.file`.
 
-The pipeline directory is tagged `{private}` so its own files are never mistaken for dotfile sources or modules.
+The pipeline no longer touches the `root` path — it starts from the `root-vfs.src.dotfile-symlinking.pipeline` subtree, where `.expr` is already present. The pipeline directory is tagged `{private}` so its own files are never mistaken for dotfile sources or modules.
 
 ## Source: the module tree
 
@@ -41,7 +41,7 @@ The tag vocabulary splits along one axis:
 |---|---|---|
 | `dotfile-sources` | [imports.nix](../src/dotfile-symlinking%7Bmodules:user%7D/pipeline%7Bprivate%7D/imports.nix) | Selects `{dotfiles}` subtrees from `root-vfs` (already resolved; design-system partials included). **Paths stay as-is** — no home-relative rewrite here. |
 | `raw-dotfiles` | same file | Drops `{include}`, `{build}`, `{convert}`, `{private}` files — the raw-copy set. |
-| `evaluated-nix-dotfiles` | [nix.nix](../src/dotfile-symlinking%7Bmodules:user%7D/pipeline%7Bprivate%7D/nix.nix) | Imports every `.nix`, evaluating it with the pipeline's module args plus `file-dir` into `.expr`; this includes `host` and `root-vfs`. |
+| `evaluated-nix-dotfiles` | [nix.nix](../src/dotfile-symlinking%7Bmodules:user%7D/pipeline%7Bprivate%7D/nix.nix) | Walks the `.nix` leaves of the `{dotfiles}` set and re-binds each already-attached `expr` with the pipeline's module args (`file.expr args`); no `file-dir` is threaded. |
 | `converted-nix-dotfiles` | same file | Serialises `{convert:json}` / `{convert:ini}` files' `.expr` to text via `lib.generators`. |
 | `sass-build-tree` | [sass.nix](../src/dotfile-symlinking%7Bmodules:user%7D/pipeline%7Bprivate%7D/sass.nix) | Materialises all `.scss` into one clean source tree in a derivation and keeps both `{ drv, dir }`. |
 | `sass-load-flags` | same file | Collects `{include:sass}` dirs as ready-to-use `--load-path` flags. |
@@ -77,10 +77,10 @@ applications/user{modules:user}/vscode/
   config{dotfiles:.config|Code|User}/
     settings{convert:json}.nix                      → ~/.config/Code/User/settings.json
     keybindings{convert:json}.nix                   → ~/.config/Code/User/keybindings.json
-    settings{private}/                                → excluded; imported by settings.nix via file-dir
+    settings{private}/                                → excluded; read by settings.nix through root-vfs
 ```
 
-`{dotfiles:.config|Code|User}` pins the destination. `settings.nix` imports the `{private}`-tagged helpers manually with `file-dir`; `{private}` keeps them out of the output.
+`{dotfiles:.config|Code|User}` pins the destination. `settings.nix` reads the `{private}`-tagged helpers from `root-vfs.src.applications.user.vscode.config.settings` itself; `{private}` keeps them out of the output.
 
 ## Example: waybar
 

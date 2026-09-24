@@ -1,9 +1,10 @@
 args @ {
   inputs,
   pkgs,
+  root-vfs,
   ...
 }: let
-  config-dir = ./${"config{private}"};
+  config-subtree = root-vfs.src.applications.user.zen-browser.config;
 in {
   imports = [inputs.zen-browser.homeModules.beta];
   programs.zen-browser = {
@@ -14,9 +15,9 @@ in {
       default = {
         name = "default";
         isDefault = true;
-        search = import (config-dir + "/search.nix") args;
+        search = config-subtree."search.nix".expr args;
       };
     };
-    policies = import (config-dir + "/policies.nix") args;
+    policies = config-subtree."policies.nix".expr args;
   };
 }

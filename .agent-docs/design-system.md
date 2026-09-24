@@ -12,6 +12,8 @@ The active design system lives in [`meta/design-system/`](../meta/design-system/
 | `tokens/` | Define named colors, dimensions, fonts, and other design values. |
 | `partials/` | Flatten the token tree and generate consumer-native files. |
 
+[`default.nix`](../meta/design-system/default.nix) receives its own subtree as the `vfs` argument and reads each part through the lazy `.expr` the global `load-nix` attached — e.g. `vfs."mk-type.nix".expr args`. `load-parts` collapses a `vfs.<sub>` subtree and evaluates each leaf as `file.expr args`; it no longer builds the tree with `from-src`.
+
 A token has a type name, one source `value`, and a rendered `to` attribute set. The source value can contain other tokens when the type is composite. [`mk-type.nix`](../meta/design-system/mk-type.nix) rejects a type when it does not render all registered consumers.
 
 Supported consumers are `css`, `scss`, `lua`, `qml`, and `rasi`. Lua and QML renderings are available on tokens, but their partial generators have not been added yet.

@@ -19,7 +19,6 @@ args @ {
       (sundry.vfs.dir.collapse (path: file: file.origin))
     ];
   settings = lib.pipe root-vfs.meta.settings [
-    sundry.vfs.dir.load-nix
     (sundry.vfs.dir.collapse
       (path: file: {${sundry.vfs.path.get.stem path} = file.expr args;}))
     sundry.attrs.merge.recursive.no-collision

@@ -67,12 +67,14 @@ Three hosts are declared in [`meta/system-assembly/hosts.nix`](../meta/system-as
 | Arg | Value |
 |---|---|
 | `host` | host record from `meta/system-assembly/hosts.nix`: `{ name, username, system, system-state-version, cores }` |
-| `root-vfs` | the repo's single resolved VFS tree: `{src, meta.settings, partials, …}` |
+| `root-vfs` | the repo's one resolved and loaded VFS tree: `{src, meta.settings, partials, …}` |
 | `sundry` | library functions from the `sundry` flake input |
 | `settings` | shared meta settings from `meta/settings/` |
 | `inputs` | the flake's inputs |
 
-`root` (the Nix path `./.`) is not a special arg: it is an internal parameter of [`meta/system-assembly/each-host.nix`](../meta/system-assembly/each-host.nix), used only to build `root-vfs`. Assembly code reaches `meta/…` through `root-vfs` (e.g. `root-vfs.meta.settings` in [glob-modules.nix](../meta/system-assembly/glob-modules.nix)), never through `root + "/…"`.
+`root` (the Nix path `./.`) is not a special arg: it is an internal parameter of [`meta/system-assembly/each-host.nix`](../meta/system-assembly/each-host.nix), used only as the input to the repo's single `sundry.vfs.dir.from-src`. `each-host.nix` builds the tree once — `from-src`, `resolve-tags`, then `load-nix` produce `repo-vfs`; the design system is evaluated from its own subtree; and `design-system.partials-vfs` is merged in to form `root-vfs`.
+
+`load-nix` attaches a lazy `expr = import <origin>` to every `.nix` leaf, so a module reads a Nix expression by mirroring the source directory path and forcing `.expr` with its args — e.g. `root-vfs.src.shell.nushell.config` for `src/shell{modules:user}/nushell/config`, then `file.expr args` per leaf. Modules never build their own trees or paths; they navigate the shared `root-vfs`. Assembly code reaches `meta/…` through `root-vfs` (e.g. `root-vfs.meta.settings` in [glob-modules.nix](../meta/system-assembly/glob-modules.nix)), never through `root + "/…"`.
 
 The username is no longer a top-level arg; modules read it as `host.username`.
 

@@ -3,10 +3,11 @@ args' @ {
   config,
   pkgs,
   lib,
+  root-vfs,
   ...
 }: let
-  args = args' // {inherit config-dir paths skeleton;};
-  config-dir = ./${"config{private}"};
+  config-subtree = root-vfs.src.network.sing-box.config;
+  args = args' // {inherit config-subtree paths skeleton;};
   paths = rec {
     base-dir = "sing-box";
     state-dir = "/var/lib/${base-dir}";
@@ -15,14 +16,12 @@ args' @ {
     stored-config = "${state-dir}/config.json";
     runtime-config = "${runtime-dir}/config.json";
   };
-  skeleton = lib.pipe (config-dir + "/sing-box-config") [
-    sundry.vfs.dir.from-src
-    sundry.vfs.dir.load-nix
+  skeleton = lib.pipe config-subtree.sing-box-config [
     (sundry.vfs.dir.collapse (path: file: file.expr args))
     sundry.attrs.merge.recursive.no-collision
     ((pkgs.formats.json {}).generate "sing-box-config.json")
   ];
-  update-script = import (config-dir + "/updater") args;
+  update-script = config-subtree.updater."default.nix".expr args;
 in {
   systemd.services.sing-box = {
     description = "a sing-box proxy client";

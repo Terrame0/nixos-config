@@ -1,12 +1,11 @@
 args @ {
-  file-dir,
   sundry,
   lib,
+  root-vfs,
   ...
 }:
-lib.pipe (file-dir + "/settings{private}") [
-  sundry.vfs.dir.from-src
+lib.pipe root-vfs.src.applications.user.vscode.config.settings [
   (sundry.vfs.dir.filter (path: file: sundry.vfs.path.get.ext path == "nix"))
-  (sundry.vfs.dir.collapse (path: file: import file.origin args))
+  (sundry.vfs.dir.collapse (path: file: file.expr args))
   sundry.attrs.merge.recursive.no-collision
 ]

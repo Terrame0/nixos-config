@@ -4,9 +4,9 @@
   host,
   pkgs,
   inputs,
+  root-vfs,
   ...
 }: let
-  secrets-src = ./secrets;
   age-key-src = "/etc/sops/age/master.txt";
 in {
   environment.systemPackages = with pkgs; [
@@ -21,9 +21,7 @@ in {
   imports = [inputs.sops-nix.nixosModules.sops];
   sops = {
     age.keyFile = age-key-src;
-    secrets = lib.pipe secrets-src [
-      sundry.vfs.dir.from-src
-      sundry.vfs.dir.resolve-tags
+    secrets = lib.pipe root-vfs.src.security.secrets [
       (sundry.vfs.dir.filter (path: file: sundry.vfs.path.get.ext path == "yaml"))
       (sundry.vfs.dir.collapse (
         path: file:
