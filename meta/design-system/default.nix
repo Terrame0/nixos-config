@@ -16,7 +16,10 @@ args @ {
   types = load-parts ./types;
   tokens = load-parts ./tokens;
   partials = load-parts ./partials;
+  partials-vfs = sundry.vfs.dir.resolve-tags {
+    "partials{dotfiles:.design-system}" = partials;
+  };
   native = lib.pipe tokens [
     (sundry.attrs.walk-until is-token (path: attrs: attrs.value))
   ];
-in {inherit partials native;}
+in {inherit partials-vfs native;}

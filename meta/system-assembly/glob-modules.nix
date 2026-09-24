@@ -2,15 +2,14 @@ args @ {
   host,
   sundry,
   lib,
-  root,
+  inputs,
+  root-vfs,
   ...
 }: let
   filter-modules = tag-value:
-    lib.pipe (root + "/src") [
-      sundry.vfs.dir.from-src
+    lib.pipe root-vfs.src [
       (sundry.vfs.dir.filter
         (path: file: sundry.vfs.path.get.ext path == "nix"))
-      sundry.vfs.dir.resolve-tags
       (sundry.vfs.dir.select-by-tag
         (e:
           (e.tag {modules = [];})
@@ -19,17 +18,15 @@ args @ {
       (sundry.vfs.dir.select-by-tag (e: e.deepest-tag {modules = tag-value;}))
       (sundry.vfs.dir.collapse (path: file: file.origin))
     ];
-  design-system = import (root + "/meta/design-system") args;
-  settings = lib.pipe (root + "/meta/settings") [
-    sundry.vfs.dir.from-src
+  settings = lib.pipe root-vfs.meta.settings [
     sundry.vfs.dir.load-nix
     (sundry.vfs.dir.collapse
       (path: file: {${sundry.vfs.path.get.stem path} = file.expr args;}))
     sundry.attrs.merge.recursive.no-collision
   ];
   module-args = {
-    inherit (args) inputs host sundry root;
-    inherit design-system settings;
+    inherit (args) inputs host sundry root-vfs;
+    inherit settings;
   };
 in {
   specialArgs = module-args;

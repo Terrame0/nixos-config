@@ -119,3 +119,11 @@ This surfaced when the repo root became a path. `sundry.vfs.file.from-src` store
 A `{` written directly in a path literal is a separate grammar error: write `./${"config{private}"}`, never `./config{private}`.
 
 **sundry note.** A leaf `origin` may be a path, a string, or a derivation; `is-leaf` accepts all three, and `file.from-src` keeps the raw `fs-path` you pass. `sundry.path.to-store` leaves a store-resident path in place — returning a context-carrying string that points at the top-level store object, without copying — and copies only paths outside the store. The flake source is copied to the store as one hash-named object, so a `{…}` segment inside it is never itself a store-object name; only a path *outside* the store whose basename carries `{` triggers the abort above.
+
+## `resolve-tags` is not idempotent — run it exactly once per subtree
+
+`sundry.vfs.dir.resolve-tags` derives each node's `tag-list` from the `{…}` syntax in its `path`, then strips the braces from `path`. Run it a second time over an already-resolved tree and there are no tags left to read, so it overwrites every `tag-list` with empty tag sets (an untagged segment resolves to `[{}]`).
+
+**Why:** it is a one-way resolution pass, not a normalisation pass — the tags live in the very path syntax that resolution deletes.
+
+**Avoid:** resolve each raw tree exactly once, then merge the resolved trees with `sundry.vfs.dir.merge`. Assembly does two independent passes — `files-vfs` in [`meta/system-assembly/each-host.nix`](../meta/system-assembly/each-host.nix) and `partials-vfs` in [`meta/design-system/default.nix`](../meta/design-system/default.nix) — and merges the results into `root-vfs`. Never call `resolve-tags` on `root-vfs` or on any other merged/already-resolved tree. See [design-system.md](design-system.md).

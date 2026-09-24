@@ -14,11 +14,13 @@ The pipeline directory is tagged `{private}` so its own files are never mistaken
 
 ## Source: the module tree
 
-`dotfile-sources` scans the whole repo from `root` and keeps only `{dotfiles:…}` subtrees ([imports.nix](../src/dotfile-symlinking%7Bmodules:user%7D/pipeline%7Bprivate%7D/imports.nix)):
+`dotfile-sources` selects only the `{dotfiles:…}` subtrees from `root-vfs`, the repo's already-resolved VFS tree ([imports.nix](../src/dotfile-symlinking%7Bmodules:user%7D/pipeline%7Bprivate%7D/imports.nix)):
 
 | Root | Selection | Destination path comes from |
 |---|---|---|
-| `root` (whole repo) | only subtrees tagged `{dotfiles:…}` | the `{dotfiles:PATH}` tag value |
+| `root-vfs` (whole repo) | only subtrees tagged `{dotfiles:…}` | the `{dotfiles:PATH}` tag value |
+
+`root-vfs` already contains the design-system partials: [`meta/system-assembly/each-host.nix`](../meta/system-assembly/each-host.nix) merges `design-system.partials-vfs` (tagged `{dotfiles:.design-system}`) into the tree before any pipeline stage runs, so `dotfile-sources` sees them as ordinary `{dotfiles}` subtrees. Tag resolution happens when `root-vfs` is built, not in the pipeline.
 
 The tree also holds real modules, so a dotfile there **must** carry `{dotfiles:PATH}` both to opt in and to state where it lands. This lets a feature keep its module and its dotfiles side by side (e.g. `waybar/package.nix` next to `waybar/config{dotfiles:.config|waybar}/`).
 
@@ -37,9 +39,9 @@ The tag vocabulary splits along one axis:
 
 | Stage | File | What it does |
 |---|---|---|
-| `dotfile-sources` | [imports.nix](../src/dotfile-symlinking%7Bmodules:user%7D/pipeline%7Bprivate%7D/imports.nix) | Scans from `root`, injects design-system partials, resolves tags, and selects `{dotfiles}` subtrees. **Paths stay as-is** — no home-relative rewrite here. |
+| `dotfile-sources` | [imports.nix](../src/dotfile-symlinking%7Bmodules:user%7D/pipeline%7Bprivate%7D/imports.nix) | Selects `{dotfiles}` subtrees from `root-vfs` (already resolved; design-system partials included). **Paths stay as-is** — no home-relative rewrite here. |
 | `raw-dotfiles` | same file | Drops `{include}`, `{build}`, `{convert}`, `{private}` files — the raw-copy set. |
-| `evaluated-nix-dotfiles` | [nix.nix](../src/dotfile-symlinking%7Bmodules:user%7D/pipeline%7Bprivate%7D/nix.nix) | Imports every `.nix`, evaluating it with the pipeline's module args plus `file-dir` into `.expr`; this includes `host` and `design-system`. |
+| `evaluated-nix-dotfiles` | [nix.nix](../src/dotfile-symlinking%7Bmodules:user%7D/pipeline%7Bprivate%7D/nix.nix) | Imports every `.nix`, evaluating it with the pipeline's module args plus `file-dir` into `.expr`; this includes `host` and `root-vfs`. |
 | `converted-nix-dotfiles` | same file | Serialises `{convert:json}` / `{convert:ini}` files' `.expr` to text via `lib.generators`. |
 | `sass-build-tree` | [sass.nix](../src/dotfile-symlinking%7Bmodules:user%7D/pipeline%7Bprivate%7D/sass.nix) | Materialises all `.scss` into one clean source tree in a derivation and keeps both `{ drv, dir }`. |
 | `sass-load-flags` | same file | Collects `{include:sass}` dirs as ready-to-use `--load-path` flags. |

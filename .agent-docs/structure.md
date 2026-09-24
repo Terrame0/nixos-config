@@ -50,7 +50,7 @@ This asymmetry (tag-on-domain vs tag-on-subfolder) is deliberate: mono-domains n
 
 ## Module discovery
 
-`flake.nix` delegates to [`meta/system-assembly/glob-modules.nix`](../meta/system-assembly/glob-modules.nix), which scans the repo from `root` (a Nix path) and keeps a `.nix` file as a module when it:
+`flake.nix` delegates to [`meta/system-assembly/glob-modules.nix`](../meta/system-assembly/glob-modules.nix), which scans the resolved VFS tree `root-vfs.src` and keeps a `.nix` file as a module when it:
 
 1. carries a `{modules:…}` tag somewhere in its path (presence check), **and**
 2. is not `{private}` (source-only helper) or `{dotfiles}` (a dotfile, not a module), **and**
@@ -67,11 +67,12 @@ Three hosts are declared in [`meta/system-assembly/hosts.nix`](../meta/system-as
 | Arg | Value |
 |---|---|
 | `host` | host record from `meta/system-assembly/hosts.nix`: `{ name, username, system, system-state-version, cores }` |
-| `root` | repo root as a Nix path (`./.`) |
+| `root-vfs` | the repo's single resolved VFS tree: `{src, meta.settings, partials, …}` |
 | `sundry` | library functions from the `sundry` flake input |
-| `design-system` | typed design tokens and generated partials |
 | `settings` | shared meta settings from `meta/settings/` |
 | `inputs` | the flake's inputs |
+
+`root` (the Nix path `./.`) is not a special arg: it is an internal parameter of [`meta/system-assembly/each-host.nix`](../meta/system-assembly/each-host.nix), used only to build `root-vfs`. Assembly code reaches `meta/…` through `root-vfs` (e.g. `root-vfs.meta.settings` in [glob-modules.nix](../meta/system-assembly/glob-modules.nix)), never through `root + "/…"`.
 
 The username is no longer a top-level arg; modules read it as `host.username`.
 

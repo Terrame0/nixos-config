@@ -1,6 +1,6 @@
 # Design system
 
-The active design system lives in [`meta/design-system/`](../meta/design-system/). It provides typed design tokens and renders every token for each supported consumer. The dotfile pipeline injects generated partials under the virtual `{dotfiles:.design-system}` subtree.
+The active design system lives in [`meta/design-system/`](../meta/design-system/). It provides typed design tokens and renders every token for each supported consumer. It exports the generated partials as a resolved VFS subtree tagged `{dotfiles:.design-system}`, which the assembly merges into the repo's shared `root-vfs`.
 
 ## Data flow
 
@@ -15,6 +15,18 @@ The active design system lives in [`meta/design-system/`](../meta/design-system/
 A token has a type name, one source `value`, and a rendered `to` attribute set. The source value can contain other tokens when the type is composite. [`mk-type.nix`](../meta/design-system/mk-type.nix) rejects a type when it does not render all registered consumers.
 
 Supported consumers are `css`, `scss`, `lua`, `qml`, and `rasi`. Lua and QML renderings are available on tokens, but their partial generators have not been added yet.
+
+## Export: `partials-vfs`
+
+[`default.nix`](../meta/design-system/default.nix) exports `native` (the walked token values) and `partials-vfs`. `partials-vfs` is the resolved VFS subtree of the generated partials, tagged `{dotfiles:.design-system}` by its own `resolve-tags`:
+
+```nix
+partials-vfs = sundry.vfs.dir.resolve-tags {
+  "partials{dotfiles:.design-system}" = partials;
+};
+```
+
+The tag makes the partials indistinguishable from any other `{dotfiles}` subtree downstream. [`meta/system-assembly/each-host.nix`](../meta/system-assembly/each-host.nix) merges `partials-vfs` into `root-vfs`, so the dotfile pipeline picks them up without special-casing them. Previously `default.nix` exported the raw `partials` attrset and the dotfile pipeline injected it itself; that responsibility now belongs to the assembly, and `resolve-tags` runs on the partials tree exactly once — see [gotchas.md](gotchas.md).
 
 ## Generated partials
 
