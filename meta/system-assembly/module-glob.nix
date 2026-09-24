@@ -1,14 +1,13 @@
-{
-  config-root,
-  module-args,
-  username,
+args @ {
+  meta-root,
+  src-root,
   host,
   sundry,
   lib,
   ...
 }: let
   filter-modules = tag-value:
-    lib.pipe config-root [
+    lib.pipe src-root [
       sundry.vfs.dir.from-src
       (sundry.vfs.dir.filter
         (path: file: sundry.vfs.path.get.ext path == "nix"))
@@ -21,6 +20,18 @@
       (sundry.vfs.dir.select-by-tag (e: e.deepest-tag {modules = tag-value;}))
       (sundry.vfs.dir.collapse (path: file: file.origin))
     ];
+  design-system = import (meta-root + "/design-system") args;
+  settings = lib.pipe (meta-root + "/settings") [
+    sundry.vfs.dir.from-src
+    sundry.vfs.dir.load-nix
+    (sundry.vfs.dir.collapse
+      (path: file: {${sundry.vfs.path.get.stem path} = file.expr args;}))
+    sundry.attrs.merge.recursive.no-collision
+  ];
+  module-args = {
+    inherit (args) config-root inputs host sundry;
+    inherit design-system settings;
+  };
 in {
   specialArgs = module-args;
   modules =
@@ -29,7 +40,7 @@ in {
       {
         home-manager = {
           extraSpecialArgs = module-args;
-          users.${username}.imports = filter-modules "user";
+          users.${host.username}.imports = filter-modules "user";
         };
       }
     ];

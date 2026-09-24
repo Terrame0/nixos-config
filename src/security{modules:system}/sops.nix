@@ -1,7 +1,7 @@
 {
   lib,
   sundry,
-  username,
+  host,
   pkgs,
   inputs,
   ...
@@ -42,7 +42,7 @@ in {
                 sopsFile = sundry.path.to-store file.origin;
                 neededForUsers = (sundry.attrs.merge.no-collision file.tag-list) ? "for-users";
                 inherit key;
-                owner = username;
+                owner = host.username;
                 mode = "0400";
               };
             }))

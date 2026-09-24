@@ -1,6 +1,6 @@
 {
   pkgs,
-  username,
+  host,
   config,
   ...
 }: {
@@ -9,11 +9,11 @@
     mutableUsers = false;
     defaultUserShell = pkgs.zsh;
     users = {
-      ${username} = {
+      ${host.username} = {
         isNormalUser = true;
-        description = "${username}";
+        description = "${host.username}";
         hashedPasswordFile =
-          config.sops.secrets."password-hashes/${username}".path;
+          config.sops.secrets."password-hashes/${host.username}".path;
         extraGroups = [
           "networkmanager"
           "wheel"

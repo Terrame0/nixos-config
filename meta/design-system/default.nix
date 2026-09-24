@@ -16,4 +16,7 @@ args @ {
   types = load-parts ./types;
   tokens = load-parts ./tokens;
   partials = load-parts ./partials;
-in {inherit partials;}
+  native = lib.pipe tokens [
+    (sundry.attrs.walk-until is-token (path: attrs: attrs.value))
+  ];
+in {inherit partials native;}

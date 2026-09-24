@@ -48,57 +48,61 @@
       inputs.sundry-input.follows = "sundry-input";
     };
   };
-  outputs = inputs @ {
-    self,
-    nixpkgs,
-    sundry-input,
-    ...
-  }: let
-    username = "terrame";
-    hosts = import ./meta/hosts.nix;
-  in {
-    nixosConfigurations = builtins.foldl' (acc: x: acc // x) {} (
-      map (host: let
-        config-root = self.outPath;
-        pkgs = import nixpkgs {inherit (host) system;};
-        sundry = sundry-input.mk-lib {inherit pkgs;};
-        lib = pkgs.lib;
-        design-system = import ./meta/design-system meta-args;
-        settings = lib.pipe ./meta/settings [
-          sundry.vfs.dir.from-src
-          sundry.vfs.dir.load-nix
-          (sundry.vfs.dir.collapse
-            (path: file: {${sundry.vfs.path.get.stem path} = file.expr meta-args;}))
-          sundry.attrs.merge.recursive.no-collision
-        ];
-        module-args = {
-          inherit
-            design-system
-            config-root
-            settings
-            username
-            host
-            sundry
-            inputs
-            ;
-        };
-        meta-args = {
-          inherit
-            module-args
-            config-root
-            username
-            host
-            sundry
-            pkgs
-            lib
-            ;
-        };
-      in {
-        ${host.name} =
-          nixpkgs.lib.nixosSystem
-          ({inherit (host) system;} // (import ./meta/module-globbing.nix meta-args));
-      })
-      hosts
-    );
-  };
+  outputs = inputs:
+    (import ./meta/system-assembly/each-host.nix inputs)
+    (args @ {
+      host,
+      inputs,
+      ...
+    }: {
+      nixosConfigurations.${host.name} =
+        inputs.nixpkgs.lib.nixosSystem
+        ({inherit (host) system;} // (import ./meta/system-assembly/module-glob.nix args));
+    });
+
+  # {
+  #   nixosConfigurations = builtins.foldl' (acc: x: acc // x) {} (
+  #     map (host: let
+  #       config-root = self.outPath;
+  #       pkgs = import nixpkgs {inherit (host) system;};
+  #       sundry = sundry-input.mk-lib {inherit pkgs;};
+  #       lib = pkgs.lib;
+  #       design-system = import ./meta/design-system meta-args;
+  #       settings = lib.pipe ./meta/settings [
+  #         sundry.vfs.dir.from-src
+  #         sundry.vfs.dir.load-nix
+  #         (sundry.vfs.dir.collapse
+  #           (path: file: {${sundry.vfs.path.get.stem path} = file.expr meta-args;}))
+  #         sundry.attrs.merge.recursive.no-collision
+  #       ];
+  #       module-args = {
+  #         inherit
+  #           design-system
+  #           config-root
+  #           settings
+  #           username
+  #           host
+  #           sundry
+  #           inputs
+  #           ;
+  #       };
+  #       meta-args = {
+  #         inherit
+  #           module-args
+  #           config-root
+  #           username
+  #           host
+  #           sundry
+  #           pkgs
+  #           lib
+  #           ;
+  #       };
+  #     in {
+  #       ${host.name} =
+  #         nixpkgs.lib.nixosSystem
+  #         ({inherit (host) system;} // (import ./meta/module-globbing.nix meta-args));
+  #     })
+  #     hosts
+  #   );
+  # };
 }
