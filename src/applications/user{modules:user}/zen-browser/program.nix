@@ -1,10 +1,11 @@
 args @ {
   inputs,
   pkgs,
+  sundry,
   root-vfs,
   ...
 }: let
-  config-subtree = root-vfs.src.applications.user.zen-browser.config;
+  config-subtree = sundry.vfs.dir.get ./config root-vfs;
 in {
   imports = [inputs.zen-browser.homeModules.beta];
   programs.zen-browser = {

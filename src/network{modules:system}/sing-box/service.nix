@@ -6,7 +6,7 @@ args' @ {
   root-vfs,
   ...
 }: let
-  config-subtree = root-vfs.src.network.sing-box.config;
+  config-subtree = sundry.vfs.dir.get ./config root-vfs;
   args = args' // {inherit config-subtree paths skeleton;};
   paths = rec {
     base-dir = "sing-box";

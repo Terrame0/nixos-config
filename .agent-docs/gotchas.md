@@ -135,3 +135,11 @@ A `{` written directly in a path literal is a separate grammar error: write `./$
 **Why:** `load-nix` is applied uniformly to the resolved tree, so the attribute lands on `.nix` leaves whether or not anyone reads them; only Nix's laziness keeps hundreds of unattached module imports unevaluated.
 
 **Avoid:** force `.expr` only on `.nix` leaves; read `.md`, `.yaml`, and tag-only leaves through `origin` or `text`, not `.expr`. The laziness is also the benefit — attaching `expr` to every module is free, and only forcing a leaf pays for its `import`.
+
+## `vfs.dir.get` matches a tag-free path against a `{…}`-tagged directory
+
+`vfs.dir.get ./config root-vfs` finds the subtree whose path segment is written `config{private}` — the `.nix` file only ever needs to name `config`. A path literal is resolved relative to the **importing file**, so `./config` means "the `config*` node beside this module", not "`config` at the repo root".
+
+**Why:** `vfs.dir.get` resolves the path to segments, strips `{…}` blocks from each segment (`strip-between`), and looks up the cleaned path first, falling back to the literal path. So `./config` from `src/shell{modules:user}/nushell/program.nix` lands on `.../nushell/config{private}`.
+
+**Avoid:** when a module owns a tagged subtree, reach it with `sundry.vfs.dir.get ./<untagged-name> root-vfs` rather than spelling the full `root-vfs.src...` chain — the chain must encode tags (`root-vfs.src.shell.nushell."config{private}"`) and breaks when the tag changes, while the literal only names the directory. The lookup needs `sundry` in scope, so add it to the module's arguments when it is not already there.

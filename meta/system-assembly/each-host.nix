@@ -12,9 +12,10 @@ builtins.foldl' (
       sundry.vfs.dir.resolve-tags
       sundry.vfs.dir.load-nix
     ];
-    design-system = repo-vfs.meta.design-system."default.nix".expr {
+    design-system-subtree = sundry.vfs.dir.get ../design-system repo-vfs;
+    design-system = design-system-subtree."default.nix".expr {
       inherit sundry lib;
-      vfs = repo-vfs.meta.design-system;
+      vfs = design-system-subtree;
     };
     root-vfs = sundry.vfs.dir.merge repo-vfs design-system.partials-vfs;
     meta-args = {

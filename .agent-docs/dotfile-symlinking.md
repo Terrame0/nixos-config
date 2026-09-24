@@ -6,11 +6,11 @@ Dotfiles are produced by a custom pipeline under [src/dotfile-symlinking{modules
 
 [default.nix](../src/dotfile-symlinking%7Bmodules:user%7D/default.nix) drives it:
 
-1. It collapses `root-vfs.src.dotfile-symlinking.pipeline` and evaluates each stage file as `file.expr args`, using the `expr` the global `load-nix` already attached.
+1. It collapses `sundry.vfs.dir.get ./pipeline root-vfs` and evaluates each stage file as `file.expr args`, using the `expr` the global `load-nix` already attached.
 2. The stages are merged and run through `sundry.attrs.resolve-deps` — a dependency-aware evaluator that orders stages by their declared `deps`.
 3. The final `home-files` key is assigned to `home.file`.
 
-The pipeline no longer touches the `root` path — it starts from the `root-vfs.src.dotfile-symlinking.pipeline` subtree, where `.expr` is already present. The pipeline directory is tagged `{private}` so its own files are never mistaken for dotfile sources or modules.
+The pipeline no longer touches the `root` path — it starts from its own subtree, obtained with `sundry.vfs.dir.get ./pipeline root-vfs`, where `.expr` is already present. The `./pipeline` path literal resolves tag-insensitively, matching `pipeline{private}`. The pipeline directory is tagged `{private}` so its own files are never mistaken for dotfile sources or modules.
 
 ## Source: the module tree
 
@@ -80,7 +80,7 @@ applications/user{modules:user}/vscode/
     settings{private}/                                → excluded; read by settings.nix through root-vfs
 ```
 
-`{dotfiles:.config|Code|User}` pins the destination. `settings.nix` reads the `{private}`-tagged helpers from `root-vfs.src.applications.user.vscode.config.settings` itself; `{private}` keeps them out of the output.
+`{dotfiles:.config|Code|User}` pins the destination. `settings.nix` reads the `{private}`-tagged helpers itself with `sundry.vfs.dir.get ./settings root-vfs` (the `./settings` literal matches `settings{private}`); `{private}` keeps them out of the output.
 
 ## Example: waybar
 

@@ -10,7 +10,7 @@ args @ {
     environmentFile = config.sops.secrets."searx/secret".path;
     redisCreateLocally = true;
     configureUwsgi = false;
-    settings = lib.pipe root-vfs.src.network.searx.config [
+    settings = lib.pipe (sundry.vfs.dir.get ./config root-vfs) [
       (sundry.vfs.dir.filter (path: file: sundry.vfs.path.get.ext path == "nix"))
       (sundry.vfs.dir.collapse (path: file: file.expr args))
       sundry.attrs.merge.recursive.no-collision

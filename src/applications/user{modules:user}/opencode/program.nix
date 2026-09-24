@@ -1,9 +1,11 @@
 {
   pkgs,
   osConfig,
+  sundry,
   root-vfs,
   ...
 }: let
+  config-subtree = sundry.vfs.dir.get ./config root-vfs;
   opencode = pkgs.symlinkJoin {
     name = "opencode-with-experimental";
     paths = [pkgs.opencode];
@@ -14,13 +16,13 @@
   };
 in {
   imports = [
-    root-vfs.src.applications.user.opencode.config.skills.gost-report."module.nix".origin
+    config-subtree.skills.gost-report."module.nix".origin
   ];
 
   programs.opencode = {
     enable = true;
     package = opencode;
-    context = root-vfs.src.applications.user.opencode.config."AGENTS.md".origin;
+    context = config-subtree."AGENTS.md".origin;
     settings = {
       autoupdate = false;
       provider = {

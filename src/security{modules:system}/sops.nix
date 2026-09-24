@@ -21,7 +21,7 @@ in {
   imports = [inputs.sops-nix.nixosModules.sops];
   sops = {
     age.keyFile = age-key-src;
-    secrets = lib.pipe root-vfs.src.security.secrets [
+    secrets = lib.pipe (sundry.vfs.dir.get ./secrets root-vfs) [
       (sundry.vfs.dir.filter (path: file: sundry.vfs.path.get.ext path == "yaml"))
       (sundry.vfs.dir.collapse (
         path: file:

@@ -7,7 +7,7 @@ args @ {
   ...
 }: let
   filter-modules = tag-value:
-    lib.pipe root-vfs.src [
+    lib.pipe (sundry.vfs.dir.get ../../src root-vfs) [
       (sundry.vfs.dir.filter
         (path: file: sundry.vfs.path.get.ext path == "nix"))
       (sundry.vfs.dir.select-by-tag
@@ -18,7 +18,7 @@ args @ {
       (sundry.vfs.dir.select-by-tag (e: e.deepest-tag {modules = tag-value;}))
       (sundry.vfs.dir.collapse (path: file: file.origin))
     ];
-  settings = lib.pipe root-vfs.meta.settings [
+  settings = lib.pipe (sundry.vfs.dir.get ../settings root-vfs) [
     (sundry.vfs.dir.collapse
       (path: file: {${sundry.vfs.path.get.stem path} = file.expr args;}))
     sundry.attrs.merge.recursive.no-collision
