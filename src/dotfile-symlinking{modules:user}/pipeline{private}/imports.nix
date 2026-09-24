@@ -1,13 +1,13 @@
 {
   sundry,
-  config-root,
+  root,
   design-system,
   lib,
   ...
 }: {
   dotfile-sources = {
     transform = _:
-      lib.pipe config-root [
+      lib.pipe root [
         sundry.vfs.dir.from-src
         (sundry.vfs.dir.merge {"partials{dotfiles:.design-system}" = design-system.partials;})
         sundry.vfs.dir.resolve-tags

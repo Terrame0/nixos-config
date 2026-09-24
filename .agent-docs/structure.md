@@ -6,7 +6,7 @@ Modules live in one tree, grouped by **domain** (what a feature *is*), not by pr
 
 ```
 nixos-config/
-├── flake.nix          — entry point; declares hosts, discovers modules by tag, wires inputs
+├── flake.nix          — entry point; wires inputs, delegates host/module assembly to meta/system-assembly/
 ├── src/               — feature modules, grouped by domain
 │   ├── nixos/         — OS foundation: nix, nixpkgs, locale, state-version, update-script
 │   ├── hardware/      — boot, graphics, sound, bluetooth, networking, swap, per-host, asusd, keyd
@@ -14,24 +14,26 @@ nixos-config/
 │   ├── network/       — sing-box (VPN, see sing-box.md), throne, ssh-daemon
 │   ├── applications/  — steam, nix-ld, dbus, thunar (sys); alacritty, firefox, mpv, vscode, yt-dlp (user)
 │   ├── desktop-environment/ — hyprland, uwsm, fonts (sys); waybar, wofi, gtk-theme, cliphist, autostart, xdg (user)
-│   └── shell/         — zsh, starship, git, ssh, direnv (user)
+│   ├── shell/         — zsh, starship, git, ssh, direnv (user)
+│   └── dotfile-symlinking/ — the dotfile pipeline, as a user module (see dotfile-symlinking.md)
 └── meta/    — foundation for modules, but not itself a module
-    ├── dotfile-symlinking/ — the dotfile pipeline: machinery that *runs* (see dotfile-symlinking.md)
-    └── design-system/     — typed tokens and consumer-native partials (see design-system.md)
+    ├── system-assembly/ — host table and tag-based module discovery, wired by flake.nix
+    ├── design-system/   — typed tokens and consumer-native partials (see design-system.md)
+    └── settings/        — shared meta settings, read as a special arg
 ```
 
 ## What `meta/` is — and the two kinds inside it
 
-`meta/` holds everything that is **foundation for modules but not itself a module** — it never declares a NixOS/HM option, so module discovery skips it. This is a wider axis than "build machinery"; it spans two different kinds:
+`meta/` holds everything that is **foundation for modules but not itself a module** — it declares no NixOS/HM option, so module discovery skips it. It spans two different kinds:
 
 | Kind | Example | Nature |
 |---|---|---|
-| Machinery that **runs** | [dotfile-symlinking/](../meta/dotfile-symlinking%7Bmodules:user%7D/) | code executed to produce artifacts (`home.file`) |
-| Data that is **read** | [`design-system/`](../meta/design-system/) | cross-domain typed tokens and generated consumer renderings |
+| Machinery that **runs** | [system-assembly/](../meta/system-assembly/) | host table plus tag-based module discovery, invoked by `flake.nix` |
+| Data that is **read** | [`design-system/`](../meta/design-system/), [`settings/`](../meta/settings/) | cross-domain tokens and shared settings |
 
-Both are foundation, neither is a module. The design system is **cross-domain** — `applications/` and `desktop-environment/` can ingest the same tokens — so it belongs to no single `src/` domain; it sits above them in `meta/`. See [design-system.md](design-system.md).
+The design system is **cross-domain** — `applications/` and `desktop-environment/` ingest the same tokens — so it belongs to no single `src/` domain; it sits above them in `meta/`. See [design-system.md](design-system.md).
 
-Dotfiles live inline next to the module they belong to, tagged `{dotfiles:PATH}` — a feature's module and its dotfiles share one folder. See [dotfile-symlinking.md](dotfile-symlinking.md).
+Dotfiles live inline next to the module they belong to, tagged `{dotfiles:PATH}` — a feature's module and its dotfiles share one folder. The pipeline that emits them is itself a user module at `src/dotfile-symlinking{modules:user}/`. See [dotfile-symlinking.md](dotfile-symlinking.md).
 
 ## The `{modules:…}` level tag
 
@@ -48,7 +50,7 @@ This asymmetry (tag-on-domain vs tag-on-subfolder) is deliberate: mono-domains n
 
 ## Module discovery
 
-`flake.nix` scans the whole repo from `config-root` and keeps a `.nix` file as a module when it:
+`flake.nix` delegates to [`meta/system-assembly/glob-modules.nix`](../meta/system-assembly/glob-modules.nix), which scans the repo from `root` (a Nix path) and keeps a `.nix` file as a module when it:
 
 1. carries a `{modules:…}` tag somewhere in its path (presence check), **and**
 2. is not `{private}` (source-only helper) or `{dotfiles}` (a dotfile, not a module), **and**
@@ -58,18 +60,20 @@ This asymmetry (tag-on-domain vs tag-on-subfolder) is deliberate: mono-domains n
 
 ## Multi-host setup
 
-Three hosts are declared in `flake.nix`: `legion-y520`, `desktop`, and `tuf-f17`. They build from the same tree; host-specific files are gated with `{hosts:name}` in their path, and discovery selects only the matching host's files.
+Three hosts are declared in [`meta/system-assembly/hosts.nix`](../meta/system-assembly/hosts.nix): `legion-y520`, `desktop`, and `tuf-f17`. They build from the same tree; host-specific files are gated with `{hosts:name}` in their path, and discovery selects only the matching host's files.
 
 ## Special args available in every module
 
 | Arg | Value |
 |---|---|
-| `username` | `"terrame"` |
-| `host` | `{ name, system, system-state-version }` |
-| `config-root` | absolute path to repo root in the Nix store |
+| `host` | host record from `meta/system-assembly/hosts.nix`: `{ name, username, system, system-state-version, cores }` |
+| `root` | repo root as a Nix path (`./.`) |
 | `sundry` | library functions from the `sundry` flake input |
 | `design-system` | typed design tokens and generated partials |
 | `settings` | shared meta settings from `meta/settings/` |
+| `inputs` | the flake's inputs |
+
+The username is no longer a top-level arg; modules read it as `host.username`.
 
 ## Inputs
 

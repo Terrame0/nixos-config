@@ -94,25 +94,28 @@ Setting `experimental.cache_file.store_selected = true` makes `sing-box check` f
 
 **Avoid:** don't add it to persist the manual selector choice — it doesn't exist here. Worse, if the updater's fallback swallows the `check` output, this bug is invisible: the service silently runs the last stored config forever while the new one is rejected on every restart. The updater now prints the `check` output on failure and validates the skeleton up front precisely so this class of bug fails loud (see [sing-box.md](sing-box.md)).
 
-## Keep a tagged relative path as a path until it reaches a safe leaf
+## Keep a `{…}`-tagged path a path — never hand it to a string builtin
 
-Prefer a relative path over a string assembled from `config-root`. If a relative segment contains a `{…}` tag, interpolate only that segment into the path literal, keep the result as a path, and extend it with `+` before passing it to the final consumer:
+A path whose final segment carries a tag — for example `config{dotfiles:.config|Code|User}` — must stay a Nix path. Do not interpolate it, and do not pass it to `lib.hasSuffix` / `hasPrefix` / `hasInfix`, `lib.concatStrings*`, `builtins.toJSON`, `builtins.stringLength`, or `lib.substring`.
 
-```nix
-config-dir = ./${"config{private}"};
+**Why:** Nix coerces a path to a string by copying it into the store **under its basename**. When that basename contains `{`, the copy aborts:
 
-config = import (config-dir + "/sing-box-config") args;
-domains = import (config-dir + "/proxied-domains.nix");
+```
+error: path '…-config{dotfiles:.config|Code|User}' is not a valid store path:
+       name 'config{dotfiles:.config|Code|User}' contains illegal character '{'
 ```
 
-Do not stringify the intermediate tagged path:
+`builtins.toString path` is the one path→string conversion that does not copy; interpolation `"${path}"` does.
+
+**Avoid:** extend a path with `+`, which keeps it a path:
 
 ```nix
-"${config-dir}/sing-box-config"
+lib.pipe (file-dir + "/settings{private}") [ … ]   # safe — still a path
+lib.pipe "${file-dir}/settings{private}" [ … ]     # copies, aborts
 ```
 
-**Why:** the relative form follows the source file when its containing tree moves, while a `"${config-root}/src/…"` prefix must be updated by hand. The interpolated segment also avoids Nix's path-literal grammar treating `{` as syntax. Keeping the value as a path until a safe final name prevents Nix from trying to create a store object named after an intermediate `config{private}` segment; store-object names forbid `{`.
+This surfaced when the repo root became a path. `sundry.vfs.file.from-src` stores each file's raw `fs-path` as `origin`, so `dirOf file.origin` in the `{convert:json}` pipeline is a **path** whose basename is a `{…}` tag. While the root was the context-carrying string `self.outPath`, `dirOf` yielded a string and interpolation was harmless.
 
-**Use `config-root` only when the final consumer needs a string rooted in the already-copied flake source.** This applies when scanning the whole repository and when a VFS pipeline can later stringify an origin whose final file name itself carries a tag, such as `password-hashes{for-users}.yaml`. A `{` inside the existing `config-root` store path is safe because it is not the store object's name. `sundry.vfs.dir.from-src` therefore receives a `config-root` string for the module, dotfile, and secret trees that can emit tagged origins.
+A `{` written directly in a path literal is a separate grammar error: write `./${"config{private}"}`, never `./config{private}`.
 
-For an untagged local tree whose origins are consumed directly during evaluation, pass the relative path to `sundry.vfs.dir.from-src`; this keeps the code resilient to directory moves. Before changing a VFS root from `config-root` to a relative path, check both the root and every origin that escapes the pipeline: any origin that is later stringified and ends in a tagged name still requires the `config-root` form.
+**sundry note.** A leaf `origin` may be a path, a string, or a derivation; `is-leaf` accepts all three, and `file.from-src` keeps the raw `fs-path` you pass. `sundry.path.to-store` leaves a store-resident path in place — returning a context-carrying string that points at the top-level store object, without copying — and copies only paths outside the store. The flake source is copied to the store as one hash-named object, so a `{…}` segment inside it is never itself a store-object name; only a path *outside* the store whose basename carries `{` triggers the abort above.

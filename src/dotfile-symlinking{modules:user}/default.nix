@@ -1,8 +1,8 @@
 args @ {
   sundry,
   lib,
-  config-root,
   pkgs,
+  root,
   ...
 }: let
   pipeline-root = ./${"pipeline{private}"};

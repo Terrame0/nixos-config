@@ -48,8 +48,12 @@
       inputs.sundry-input.follows = "sundry-input";
     };
   };
-  outputs = inputs:
-    (import ./meta/system-assembly/each-host.nix inputs)
+  outputs = inputs: let
+    glob-modules = import ./meta/system-assembly/glob-modules.nix;
+    each-host = import ./meta/system-assembly/each-host.nix;
+    root = ./.;
+  in
+    each-host {inherit root inputs;}
     (args @ {
       host,
       inputs,
@@ -57,6 +61,6 @@
     }: {
       nixosConfigurations.${host.name} =
         inputs.nixpkgs.lib.nixosSystem
-        ({inherit (host) system;} // (import ./meta/system-assembly/module-glob.nix args));
+        ({inherit (host) system;} // (glob-modules args));
     });
 }
