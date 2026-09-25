@@ -472,6 +472,14 @@ flake, not nixpkgs.
   source's `docDefaults` spacing. The post-processor merges the missing styles
   and bakes the source spacing into title paragraphs; without that the columns
   collapse and the title spills onto a second page.
+- **A run whose text starts or ends with a space needs `xml:space="preserve"`**
+  or Word and OnlyOffice collapse the space on open (`от университета` renders
+  as `отуниверситета`, and a save then bakes the loss in). Title-page forms
+  split text across runs at arbitrary points, so the leading space often lands
+  inside the run. Pandoc marks its own runs, but a spliced title page does not
+  pass through pandoc; `preserve_run_spaces` in the post-processor tags any
+  `<w:t>` whose text has edge whitespace. Match real `<w:t>` elements only —
+  a loose `<w:t[^>]*>` also matches `<w:tbl>`, `<w:tc>` and friends.
 - **A `.md` title page gets no section break of its own.** Unlike the `.docx`
   form, the fragment is just concatenated, so the title is separated only by
   the `pageBreakBefore` on the report's first `Heading1`. If the body starts

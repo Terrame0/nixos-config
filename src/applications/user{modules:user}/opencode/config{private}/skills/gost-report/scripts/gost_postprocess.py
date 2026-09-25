@@ -440,6 +440,21 @@ def merge_styles(styles, titlepage_path):
     return styles
 
 
+WT_SPACE_RE = re.compile(
+    r"<w:t(?P<attrs>(?:\s[^>]*)?)>(?P<text>.*?)</w:t>", re.DOTALL
+)
+
+
+def preserve_run_spaces(fragment):
+    def fix(match):
+        text = match.group("text")
+        if text and text != text.strip() and "xml:space" not in match.group("attrs"):
+            return f'<w:t{match.group("attrs")} xml:space="preserve">{text}</w:t>'
+        return match.group(0)
+
+    return WT_SPACE_RE.sub(fix, fragment)
+
+
 def inject_titlepage(document, titlepage_path):
     tz = zipfile.ZipFile(titlepage_path)
     tdoc = tz.read("word/document.xml").decode("utf-8")
@@ -465,7 +480,7 @@ def inject_titlepage(document, titlepage_path):
             elements[-1] = last
         else:
             elements.append(f"<w:p><w:pPr>{break_sectpr}</w:pPr></w:p>")
-    fragment = "".join(elements)
+    fragment = preserve_run_spaces("".join(elements))
     return document.replace("<w:body>", "<w:body>" + fragment, 1)
 
 
