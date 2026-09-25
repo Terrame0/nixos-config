@@ -440,6 +440,25 @@ def merge_styles(styles, titlepage_path):
     return styles
 
 
+def merge_namespaces(document, tdoc):
+    target = re.search(r"<w:document\b[^>]*>", document)
+    source = re.search(r"<w:document\b[^>]*>", tdoc)
+    if not target or not source:
+        return document
+    declared = set(re.findall(r"xmlns:([A-Za-z0-9]+)=", target.group(0)))
+    add = "".join(
+        f' xmlns:{prefix}="{uri}"'
+        for prefix, uri in re.findall(
+            r'xmlns:([A-Za-z0-9]+)=["\']([^"\']*)["\']', source.group(0)
+        )
+        if prefix not in declared
+    )
+    if not add:
+        return document
+    root = target.group(0)[:-1] + add + ">"
+    return document[: target.start()] + root + document[target.end():]
+
+
 WT_SPACE_RE = re.compile(
     r"<w:t(?P<attrs>(?:\s[^>]*)?)>(?P<text>.*?)</w:t>", re.DOTALL
 )
@@ -481,7 +500,8 @@ def inject_titlepage(document, titlepage_path):
         else:
             elements.append(f"<w:p><w:pPr>{break_sectpr}</w:pPr></w:p>")
     fragment = preserve_run_spaces("".join(elements))
-    return document.replace("<w:body>", "<w:body>" + fragment, 1)
+    spliced = document.replace("<w:body>", "<w:body>" + fragment, 1)
+    return merge_namespaces(spliced, tdoc)
 
 
 def next_free_ids(numbering):
