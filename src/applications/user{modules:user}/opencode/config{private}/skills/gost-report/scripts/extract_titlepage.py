@@ -12,15 +12,14 @@ import re
 import sys
 import zipfile
 
-from gost_postprocess import BODY_ELEMENT_RE
+from gost_postprocess import BODY_ELEMENT_RE, para_text
 
 
 def select(elements, until, count):
     if until is not None:
         selected = []
         for el in elements:
-            text = "".join(re.findall(r"<w:t[^>]*>(.*?)</w:t>", el, re.DOTALL))
-            if until in text:
+            if until in para_text(el):
                 break
             selected.append(el)
         return selected

@@ -59,7 +59,7 @@ def main [
   try {
     ^pandoc --print-default-data-file reference.docx o> $base_docx
     ^python3 -B $reference_py $ref_docx $base_docx
-    ^pandoc ...$inputs ...$toc_args --reference-doc $ref_docx -o $raw_docx
+    ^pandoc ...$inputs ...$toc_args --no-highlight --reference-doc $ref_docx -o $raw_docx
     if $is_docx {
       ^python3 -B $postprocess_py $raw_docx $final --titlepage $titlepage ...$post_toc
     } else {

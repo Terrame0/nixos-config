@@ -348,7 +348,9 @@ explanation. Numbers and cross-references (`в формуле (1)`) are typed by
   splices in the title page's body, section properties and styles.
 - `scripts/extract_titlepage.py` — crops the leading body of a report `.docx`
   into a standalone title-page `.docx` (`--until <text>` or `--count <n>`).
-- `scripts/build.nu` — end-to-end `.md → .docx`.
+- `scripts/build.nu` — end-to-end `.md → .docx`. Runs pandoc with
+  `--no-highlight`, so code listings stay black monospace (pandoc's default
+  syntax highlighting colours them, which is wrong for a printed report).
 - `scripts/render_diagrams.nu` — takes a list of `.puml`/`.idef0` paths and
   renders each to a sibling output: `.puml → .png` at `PLANTUML_DPI` (default
   300), `.idef0 → .svg + .png` at `IDEF0_DPI` (default 300) via `schematic`

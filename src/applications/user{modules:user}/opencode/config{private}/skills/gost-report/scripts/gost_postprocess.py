@@ -35,6 +35,10 @@ TITLE_PPR = (
 BODY_ELEMENT_RE = re.compile(
     r"<w:p\b[^>]*/>|<w:p\b.*?</w:p>|<w:tbl\b[^>]*/>|<w:tbl\b.*?</w:tbl>", re.DOTALL
 )
+# `<w:t>` runs only: a bare `<w:t[^>]*>` also matches `<w:tab/>`, `<w:tbl>`,
+# `<w:tc>` and the self-closing `<w:t/>`, swallowing the text that follows.
+WT_RUN_RE = re.compile(r"(<w:t(?![^>]*/>)[^>]*>)(.*?)(</w:t>)", re.DOTALL)
+WT_TEXT_RE = re.compile(r"<w:t(?![^>]*/>)[^>]*>(.*?)</w:t>", re.DOTALL)
 KEEP_TABLE_MAX_ROWS = 15
 FOOTER_TYPE = (
     "http://schemas.openxmlformats.org/officeDocument/2006/relationships/footer"
@@ -89,7 +93,7 @@ def process_headings(document, num_id, skip_first_break=False):
             state["seen_h1"] = True
             if not (first and skip_first_break):
                 insert += "<w:pageBreakBefore/>"
-        texts = list(re.finditer(r"(<w:t[^>]*>)(.*?)(</w:t>)", para, re.DOTALL))
+        texts = list(WT_RUN_RE.finditer(para))
         if texts:
             first_text = texts[0]
             value = first_text.group(2)
@@ -156,7 +160,7 @@ STRUCTURAL_HEADINGS = {
 
 
 def para_text(para):
-    return "".join(re.findall(r"<w:t[^>]*>(.*?)</w:t>", para, re.DOTALL))
+    return "".join(WT_TEXT_RE.findall(para))
 
 
 def para_style(para):
@@ -231,7 +235,7 @@ def center_structural_headings(document):
         if NUMBER_PREFIX.match(text) or text.upper() not in STRUCTURAL_HEADINGS:
             return para
         para = set_style(para, "Heading1Center")
-        texts = list(re.finditer(r"(<w:t[^>]*>)(.*?)(</w:t>)", para, re.DOTALL))
+        texts = list(WT_RUN_RE.finditer(para))
         if texts:
             first = texts[0]
             upper = first.group(2).upper()
@@ -283,7 +287,7 @@ def fix_formula_numbers(document):
         para = match.group(0)
         if para_style(para) != "Formula":
             return para
-        texts = list(re.finditer(r"(<w:t[^>]*>)(.*?)(</w:t>)", para, re.DOTALL))
+        texts = list(WT_RUN_RE.finditer(para))
         if not texts:
             return para
         last = texts[-1]
@@ -460,7 +464,7 @@ def merge_namespaces(document, tdoc):
 
 
 WT_SPACE_RE = re.compile(
-    r"<w:t(?P<attrs>(?:\s[^>]*)?)>(?P<text>.*?)</w:t>", re.DOTALL
+    r"<w:t(?![^>]*/>)(?P<attrs>[^>]*)>(?P<text>.*?)</w:t>", re.DOTALL
 )
 
 
