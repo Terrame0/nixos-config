@@ -40,6 +40,8 @@
     };
     firewall = {
       trustedInterfaces = ["tun0"];
+      # -- MoIP (Morse over IP) chat server
+      allowedUDPPorts = [7890];
     };
   };
 }
