@@ -14,6 +14,7 @@
         desc = "must be a validation predicate";
       };
       native-repr = {
+        default = _: lib.id;
         check = value: lib.isFunction value;
         desc = "must be a function returning the native value";
       };

@@ -7,7 +7,6 @@
     mk-type {
       name = "dimension.${unit}";
       value-check = value: lib.isInt value || lib.isFloat value;
-      native-repr = lib.id;
       consumer-repr = value: {
         css = "${toString value}${unit}";
         scss = "${toString value}${unit}";

@@ -14,7 +14,14 @@ The active design system lives in [`meta/design-system/`](../meta/design-system/
 
 [`default.nix`](../meta/design-system/default.nix) receives its own subtree as the `vfs` argument and reads each part through the lazy `.expr` the global `load-nix` attached — e.g. `vfs."mk-type.nix".expr args`. `load-parts` collapses a `vfs.<sub>` subtree and evaluates each leaf as `file.expr args`; it no longer builds the tree with `from-src`.
 
-A token has a type name, one source `value`, and a rendered `to` attribute set. The source value can contain other tokens when the type is composite. [`mk-type.nix`](../meta/design-system/mk-type.nix) rejects a type when it does not render all registered consumers.
+A token has a type name and two representations produced from one source value by [`mk-type.nix`](../meta/design-system/mk-type.nix):
+
+| Field | Produced by | Consumer |
+| --- | --- | --- |
+| `native` | `native-repr` | Nix code, via `ds-tokens` |
+| `to` | `consumer-repr` | partial generators |
+
+The source value is validated by `value-check` and is **not** stored on the token — a type that never renders a consumer does not exist. For a non-composite type `native-repr` defaults to `lib.id`; a composite overrides it to project its parts. `consumer-repr` must return a value for every registered consumer, or `mk-type` throws.
 
 Supported consumers are `css`, `scss`, `lua`, `qml`, and `rasi`. Lua and QML renderings are available on tokens, but their partial generators have not been added yet.
 
@@ -30,19 +37,23 @@ partials-vfs = sundry.vfs.dir.resolve-tags {
 };
 ```
 
-`ds-tokens` is the token tree flattened to native values. It is not `walk-until is-token (attrs: attrs.value)` — that stops at a composite token and returns its `value`, which still holds the part **tokens**. A composite's `value` holds tokens by design: rendering a part for a specific consumer needs the part's `to`, not just its `value` (e.g. a `color` renders to `#rrggbbaa` in css but byte-reordered `#aarrggbb` in qml). So the flattener must recurse through `value`:
+`ds-tokens` is the token tree flattened to native values. The flattener reads each token's `native`; nothing recurses into a `value` because the token no longer carries one:
 
 ```nix
-resolve = attrs:
-  if is-token [] attrs
-  then resolve attrs.value
-  else if lib.isAttrs attrs
-  then lib.mapAttrs (_: resolve) attrs
-  else attrs;
-ds-tokens = resolve tokens;
+ds-tokens =
+  sundry.attrs.walk-until is-token
+  (path: attrs: attrs.native)
+  tokens;
 ```
 
-A composite flattens to its parts' native values — `ds-tokens.font.body` is `{ family = "JetBrainsMono NFP"; size = 16; }`, not a pair of token objects.
+A composite contributes its own `native` — `ds-tokens.font.body` is `{ family = "JetBrainsMono NFP"; size = 16; }`. Its `native-repr` projects each part's `native`, so no generic token-walking is needed:
+
+```nix
+native-repr = value: {
+  family = value.family.native;
+  size = value.size.native;
+};
+```
 
 The tag makes the partials indistinguishable from any other `{dotfiles}` subtree downstream. [`meta/system-assembly/each-host.nix`](../meta/system-assembly/each-host.nix) merges `partials-vfs` into `root-vfs`, so the dotfile pipeline picks them up without special-casing them. Previously `default.nix` exported the raw `partials` attrset and the dotfile pipeline injected it itself; that responsibility now belongs to the assembly, and `resolve-tags` runs on the partials tree exactly once — see [gotchas.md](gotchas.md).
 
@@ -85,6 +96,6 @@ Its Rasi representation is `"JetBrainsMono NFP 16"`, while its SCSS representati
 ## Extending the system
 
 - Add a token in `tokens/` by constructing it through an existing type.
-- Add a type in `types/` and render every consumer registered in `mk-type.nix`.
-- Add a composite type when one logical consumer value is assembled from multiple tokens.
-- Add a consumer by registering its name in `mk-type.nix`, extending every type, and adding a partial generator when the consumer needs an emitted file.
+- Add a type in `types/` with a `value-check` and a `consumer-repr` covering every consumer registered in `mk-type.nix`. `native-repr` defaults to `lib.id`; override it only for a composite.
+- Add a composite type when one logical consumer value is assembled from multiple tokens; its `native-repr` projects the parts' `native`.
+- Add a consumer by registering its name in `mk-type.nix`, extending every type's `consumer-repr`, and adding a partial generator when the consumer needs an emitted file.

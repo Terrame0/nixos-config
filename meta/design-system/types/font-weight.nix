@@ -9,7 +9,6 @@
       lib.isInt value
       && value >= 1
       && value <= 1000;
-    native-repr = lib.id;
     consumer-repr = value: {
       css = toString value;
       scss = toString value;
