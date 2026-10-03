@@ -6,12 +6,12 @@
 with tokens.colors; {
   colors = {
     base = {
-      black = types.color "#1d1f21ff";
-      dark-gray = types.color "#282a2eff";
-      dim-gray = types.color "#373b41ff";
-      gray = types.color "#4d5057ff";
-      light-gray = types.color "#969896ff";
-      white = types.color "#c5c8c6ff";
+      black = types.color "#1e1c1bff";
+      dark-gray = types.color "#2d2b2aff";
+      dim-gray = types.color "#3d3b39ff";
+      gray = types.color "#4e4b49ff";
+      light-gray = types.color "#83807dff";
+      white = types.color "#c5c4bfff";
       red = types.color "#d54e53ff";
       orange = types.color "#e78c45ff";
       yellow = types.color "#e7c547ff";

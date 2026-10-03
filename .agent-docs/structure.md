@@ -18,8 +18,7 @@ nixos-config/
 │   └── dotfile-symlinking/ — the dotfile pipeline, as a user module (see dotfile-symlinking.md)
 └── meta/    — foundation for modules, but not itself a module
     ├── system-assembly/ — host table and tag-based module discovery, wired by flake.nix
-    ├── design-system/   — typed tokens and consumer-native partials (see design-system.md)
-    └── settings/        — shared meta settings, read as a special arg
+    └── design-system/   — typed tokens and consumer-native partials (see design-system.md)
 ```
 
 ## What `meta/` is — and the two kinds inside it
@@ -29,7 +28,7 @@ nixos-config/
 | Kind | Example | Nature |
 |---|---|---|
 | Machinery that **runs** | [system-assembly/](../meta/system-assembly/) | host table plus tag-based module discovery, invoked by `flake.nix` |
-| Data that is **read** | [`design-system/`](../meta/design-system/), [`settings/`](../meta/settings/) | cross-domain tokens and shared settings |
+| Data that is **read** | [`design-system/`](../meta/design-system/) | cross-domain typed tokens and generated consumer renderings |
 
 The design system is **cross-domain** — `applications/` and `desktop-environment/` ingest the same tokens — so it belongs to no single `src/` domain; it sits above them in `meta/`. See [design-system.md](design-system.md).
 
@@ -67,14 +66,14 @@ Three hosts are declared in [`meta/system-assembly/hosts.nix`](../meta/system-as
 | Arg | Value |
 |---|---|
 | `host` | host record from `meta/system-assembly/hosts.nix`: `{ name, username, system, system-state-version, cores }` |
-| `root-vfs` | the repo's one resolved and loaded VFS tree: `{src, meta.settings, partials, …}` |
+| `root-vfs` | the repo's one resolved and loaded VFS tree: `{src, meta.design-system, partials, …}` |
+| `design-tokens` | the design system's native token values, e.g. `colors.base.blue`, `font.family.mono` |
 | `sundry` | library functions from the `sundry` flake input |
-| `settings` | shared meta settings from `meta/settings/` |
 | `inputs` | the flake's inputs |
 
 `root` (the Nix path `./.`) is not a special arg: it is an internal parameter of [`meta/system-assembly/each-host.nix`](../meta/system-assembly/each-host.nix), used only as the input to the repo's single `sundry.vfs.dir.from-src`. `each-host.nix` builds the tree once — `from-src`, `resolve-tags`, then `load-nix` produce `repo-vfs`; the design system is evaluated from its own subtree; and `design-system.partials-vfs` is merged in to form `root-vfs`.
 
-`load-nix` attaches a lazy `expr = import <origin>` to every `.nix` leaf, so a module reads a Nix expression by forcing `.expr` with its args. A module reaches its own subtree with `sundry.vfs.dir.get <path> root-vfs`, passing a **path literal relative to the module file** (e.g. `sundry.vfs.dir.get ./config root-vfs` from `src/shell{modules:user}/nushell/program.nix`), then `file.expr args` per leaf. `vfs.dir.get` strips `{…}` tags from both a path literal and a string, so `./config` also matches `config{private}`. Modules never build their own trees or paths; they navigate the shared `root-vfs`. Assembly code does the same (e.g. `sundry.vfs.dir.get ../../src root-vfs` and `sundry.vfs.dir.get ../settings root-vfs` in [glob-modules.nix](../meta/system-assembly/glob-modules.nix)), never through `root + "/…"`.
+`load-nix` attaches a lazy `expr = import <origin>` to every `.nix` leaf, so a module reads a Nix expression by forcing `.expr` with its args. A module reaches its own subtree with `sundry.vfs.dir.get <path> root-vfs`, passing a **path literal relative to the module file** (e.g. `sundry.vfs.dir.get ./config root-vfs` from `src/shell{modules:user}/nushell/program.nix`), then `file.expr args` per leaf. `vfs.dir.get` strips `{…}` tags from both a path literal and a string, so `./config` also matches `config{private}`. Modules never build their own trees or paths; they navigate the shared `root-vfs`. Assembly code does the same (e.g. `sundry.vfs.dir.get ../../src root-vfs` in [glob-modules.nix](../meta/system-assembly/glob-modules.nix)), never through `root + "/…"`.
 
 The username is no longer a top-level arg; modules read it as `host.username`.
 

@@ -1,8 +1,8 @@
-{settings, ...}: {
+{design-tokens, ...}: {
   # -- appearance
-  "editor.fontFamily" = settings.font.propo;
+  "editor.fontFamily" = design-tokens.font.family.propo;
   "editor.fontLigatures" = true;
-  "terminal.integrated.fontFamily" = settings.font.mono;
+  "terminal.integrated.fontFamily" = design-tokens.font.family.mono;
   "workbench.colorTheme" = "Dark Modern";
   "workbench.iconTheme" = "vscode-icon-theme";
   "workbench.productIconTheme" = "fluent-icons";

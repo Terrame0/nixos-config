@@ -18,16 +18,16 @@ A token has a type name and two representations produced from one source value b
 
 | Field | Produced by | Consumer |
 | --- | --- | --- |
-| `native` | `native-repr` | Nix code, via `ds-tokens` |
+| `native` | `native-repr` | Nix code, via `native-tokens` |
 | `to` | `consumer-repr` | partial generators |
 
 The source value is validated by `value-check` and is **not** stored on the token — a type that never renders a consumer does not exist. For a non-composite type `native-repr` defaults to `lib.id`; a composite overrides it to project its parts. `consumer-repr` must return a value for every registered consumer, or `mk-type` throws.
 
 Supported consumers are `css`, `scss`, `lua`, `qml`, and `rasi`. Lua and QML renderings are available on tokens, but their partial generators have not been added yet.
 
-## Export: `partials-vfs` and `ds-tokens`
+## Export: `partials-vfs` and `native-tokens`
 
-[`default.nix`](../meta/design-system/default.nix) exports `partials-vfs` and `ds-tokens`.
+[`default.nix`](../meta/design-system/default.nix) exports `partials-vfs` and `native-tokens`.
 
 `partials-vfs` is the resolved VFS subtree of the generated partials, tagged `{dotfiles:.design-system}` by its own `resolve-tags`:
 
@@ -37,16 +37,16 @@ partials-vfs = sundry.vfs.dir.resolve-tags {
 };
 ```
 
-`ds-tokens` is the token tree flattened to native values. The flattener reads each token's `native`; nothing recurses into a `value` because the token no longer carries one:
+`native-tokens` is the token tree flattened to native values. The flattener reads each token's `native`; nothing recurses into a `value` because the token no longer carries one:
 
 ```nix
-ds-tokens =
+native-tokens =
   sundry.attrs.walk-until is-token
   (path: attrs: attrs.native)
   tokens;
 ```
 
-A composite contributes its own `native` — `ds-tokens.font.body` is `{ family = "JetBrainsMono NFP"; size = 16; }`. Its `native-repr` projects each part's `native`, so no generic token-walking is needed:
+A composite contributes its own `native` — `native-tokens.font.body` is `{ family = "JetBrainsMono NFP"; size = 16; }`. Its `native-repr` projects each part's `native`, so no generic token-walking is needed:
 
 ```nix
 native-repr = value: {
@@ -54,6 +54,8 @@ native-repr = value: {
   size = value.size.native;
 };
 ```
+
+A color's native value is the full 8-digit `#rrggbbaa`; a consumer that wants an opaque 6-digit hex — or must append its own alpha, as VS Code does — slices the base with `sundry.str.slice color [7]`. The assembly does not pre-slice, so `native-tokens.colors.base.blue` stays `#7aa6daff` and each consumer decides.
 
 The tag makes the partials indistinguishable from any other `{dotfiles}` subtree downstream. [`meta/system-assembly/each-host.nix`](../meta/system-assembly/each-host.nix) merges `partials-vfs` into `root-vfs`, so the dotfile pipeline picks them up without special-casing them. Previously `default.nix` exported the raw `partials` attrset and the dotfile pipeline injected it itself; that responsibility now belongs to the assembly, and `resolve-tags` runs on the partials tree exactly once — see [gotchas.md](gotchas.md).
 

@@ -57,11 +57,11 @@
     (args @ {
       host,
       inputs,
-      ds-tokens,
+      design-tokens,
       sundry,
       ...
     }: {
-      tokens.${host.name} = sundry.str.pretty ds-tokens;
+      tokens.${host.name} = sundry.str.pretty design-tokens;
       nixosConfigurations.${host.name} =
         inputs.nixpkgs.lib.nixosSystem
         ({inherit (host) system;} // (glob-modules args));

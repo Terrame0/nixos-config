@@ -16,13 +16,12 @@ args @ {
     ];
   types = load-parts "types";
   tokens = load-parts "tokens";
+in {
   partials-vfs =
     sundry.vfs.dir.resolve-tags
     {"partials{dotfiles:.design-system}" = load-parts "partials";};
-  ds-tokens =
+  native-tokens =
     sundry.attrs.walk-until is-token
     (path: attrs: attrs.native)
     tokens;
-in {
-  inherit partials-vfs ds-tokens;
 }

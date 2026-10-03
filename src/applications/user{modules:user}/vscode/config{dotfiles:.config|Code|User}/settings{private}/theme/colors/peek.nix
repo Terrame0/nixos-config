@@ -1,5 +1,9 @@
-{settings, ...}: let
-  inherit (settings) palette;
+{
+  design-tokens,
+  sundry,
+  ...
+}: let
+  palette = builtins.mapAttrs (_: color: sundry.str.slice [7] color) design-tokens.colors.base;
 in {
   "workbench.colorCustomizations" = {
     "peekView.border" = palette.blue;

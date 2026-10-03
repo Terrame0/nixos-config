@@ -18,14 +18,8 @@ args @ {
       (sundry.vfs.dir.select-by-tag (e: e.deepest-tag {modules = tag-value;}))
       (sundry.vfs.dir.collapse (path: file: file.origin))
     ];
-  settings = lib.pipe (sundry.vfs.dir.get ../settings root-vfs) [
-    (sundry.vfs.dir.collapse
-      (path: file: {${sundry.vfs.path.get.stem path} = file.expr args;}))
-    sundry.attrs.merge.recursive.no-collision
-  ];
   module-args = {
-    inherit (args) inputs host sundry root-vfs;
-    inherit settings;
+    inherit (args) inputs host sundry root-vfs design-tokens;
   };
 in {
   specialArgs = module-args;
