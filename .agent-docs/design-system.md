@@ -18,15 +18,31 @@ A token has a type name, one source `value`, and a rendered `to` attribute set. 
 
 Supported consumers are `css`, `scss`, `lua`, `qml`, and `rasi`. Lua and QML renderings are available on tokens, but their partial generators have not been added yet.
 
-## Export: `partials-vfs`
+## Export: `partials-vfs` and `ds-tokens`
 
-[`default.nix`](../meta/design-system/default.nix) exports `native` (the walked token values) and `partials-vfs`. `partials-vfs` is the resolved VFS subtree of the generated partials, tagged `{dotfiles:.design-system}` by its own `resolve-tags`:
+[`default.nix`](../meta/design-system/default.nix) exports `partials-vfs` and `ds-tokens`.
+
+`partials-vfs` is the resolved VFS subtree of the generated partials, tagged `{dotfiles:.design-system}` by its own `resolve-tags`:
 
 ```nix
 partials-vfs = sundry.vfs.dir.resolve-tags {
   "partials{dotfiles:.design-system}" = partials;
 };
 ```
+
+`ds-tokens` is the token tree flattened to native values. It is not `walk-until is-token (attrs: attrs.value)` — that stops at a composite token and returns its `value`, which still holds the part **tokens**. A composite's `value` holds tokens by design: rendering a part for a specific consumer needs the part's `to`, not just its `value` (e.g. a `color` renders to `#rrggbbaa` in css but byte-reordered `#aarrggbb` in qml). So the flattener must recurse through `value`:
+
+```nix
+resolve = attrs:
+  if is-token [] attrs
+  then resolve attrs.value
+  else if lib.isAttrs attrs
+  then lib.mapAttrs (_: resolve) attrs
+  else attrs;
+ds-tokens = resolve tokens;
+```
+
+A composite flattens to its parts' native values — `ds-tokens.font.body` is `{ family = "JetBrainsMono NFP"; size = 16; }`, not a pair of token objects.
 
 The tag makes the partials indistinguishable from any other `{dotfiles}` subtree downstream. [`meta/system-assembly/each-host.nix`](../meta/system-assembly/each-host.nix) merges `partials-vfs` into `root-vfs`, so the dotfile pipeline picks them up without special-casing them. Previously `default.nix` exported the raw `partials` attrset and the dotfile pipeline injected it itself; that responsibility now belongs to the assembly, and `resolve-tags` runs on the partials tree exactly once — see [gotchas.md](gotchas.md).
 

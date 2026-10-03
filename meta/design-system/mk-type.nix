@@ -13,7 +13,11 @@
         check = value: lib.isFunction value;
         desc = "must be a validation predicate";
       };
-      rendered-values = {
+      native-repr = {
+        check = value: lib.isFunction value;
+        desc = "must be a function returning the native value";
+      };
+      consumer-repr = {
         default = _: value: {};
         check = value: lib.isFunction value;
         desc = "must be a function returning a set of rendered values";
@@ -23,11 +27,11 @@
 in
   if defs.value-check value
   then {
-    inherit value;
     type = defs.name;
+    native = defs.native-repr value;
     to = let
       consumers = ["css" "scss" "lua" "qml" "rasi"];
-      result = defs.rendered-values value;
+      result = defs.consumer-repr value;
       comparison =
         sundry.attrs.compare
         result (lib.genAttrs consumers (_: "..."));

@@ -9,7 +9,8 @@
     value-check = value:
       lib.isString value
       && lib.match "#[0-9a-fA-F]{8}" value != null;
-    rendered-values = value: let
+    native-repr = lib.id;
+    consumer-repr = value: let
       rgba = lib.pipe value [
         (color: offset: lib.substring (offset * 2 + 1) 2 color)
         (lib.forEach (sundry.range [4]))

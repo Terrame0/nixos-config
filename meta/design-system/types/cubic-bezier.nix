@@ -15,7 +15,8 @@ in {
       && lib.elemAt value 0 <= 1
       && lib.elemAt value 2 >= 0
       && lib.elemAt value 2 <= 1;
-    rendered-values = value: let
+    native-repr = lib.id;
+    consumer-repr = value: let
       points = map toString value;
       x1 = lib.elemAt points 0;
       y1 = lib.elemAt points 1;

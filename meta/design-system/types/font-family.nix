@@ -11,7 +11,8 @@
       && !lib.any
       ((lib.flip lib.hasInfix) value)
       ["\"" "\\" "\n" "\r"];
-    rendered-values = value: {
+    native-repr = lib.id;
+    consumer-repr = value: {
       css = "\"${value}\"";
       scss = "\"${value}\"";
       qml = "\"${value}\"";

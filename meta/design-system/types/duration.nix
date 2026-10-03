@@ -9,7 +9,8 @@
       value-check = value:
         (lib.isInt value || lib.isFloat value)
         && value >= 0;
-      rendered-values = value: let
+      native-repr = lib.id;
+      consumer-repr = value: let
         milliseconds = lib.floor (
           (
             if unit == "s"
