@@ -3,68 +3,68 @@
   sundry,
   ...
 }: let
-  palette = builtins.mapAttrs (_: color: sundry.str.slice [7] color) design-tokens.colors.base;
+  palette = builtins.mapAttrs (_: color: sundry.str.slice [7] color) design-tokens.palette;
   invisible = "#ffffff00";
 in {
   "workbench.colorCustomizations" = {
     "contrastBorder" = invisible;
     "focusBorder" = invisible;
 
-    "foreground" = palette.white;
-    "descriptionForeground" = palette.light-gray;
-    "disabledForeground" = palette.light-gray;
-    "icon.foreground" = palette.light-gray;
-    "keybindingLabel.foreground" = palette.white;
+    "foreground" = palette.neutral-0;
+    "descriptionForeground" = palette.neutral-200;
+    "disabledForeground" = palette.neutral-200;
+    "icon.foreground" = palette.neutral-200;
+    "keybindingLabel.foreground" = palette.neutral-0;
 
-    "editor.background" = palette.black;
-    "editor.foreground" = palette.white;
+    "editor.background" = palette.neutral-1000;
+    "editor.foreground" = palette.neutral-0;
     "editor.errorDecoration" = "underline";
     "editor.warningDecoration" = "underline";
     "editor.infoDecoration" = "underline";
 
     "editor.findMatchBackground" = palette.green;
     "editor.findMatchBorder" = invisible;
-    "editor.findMatchForeground" = palette.black;
-    "editor.findMatchHighlightBackground" = palette.white;
+    "editor.findMatchForeground" = palette.neutral-1000;
+    "editor.findMatchHighlightBackground" = palette.neutral-0;
     "editor.findMatchHighlightBorder" = invisible;
-    "editor.findMatchHighlightForeground" = palette.black;
-    "editor.findRangeHighlightBackground" = palette.black;
+    "editor.findMatchHighlightForeground" = palette.neutral-1000;
+    "editor.findRangeHighlightBackground" = palette.neutral-1000;
 
-    "editor.hoverHighlightBackground" = palette.black;
+    "editor.hoverHighlightBackground" = palette.neutral-1000;
     "editor.inactiveSelectionBackground" = "${palette.blue}1a";
-    "editor.lineHighlightBackground" = palette.dark-gray;
-    "editor.rangeHighlightBackground" = palette.black;
-    "editor.selectionBackground" = palette.dim-gray;
-    "editor.selectionForeground" = palette.white;
-    "editor.selectionHighlightBackground" = palette.dim-gray;
+    "editor.lineHighlightBackground" = palette.neutral-800;
+    "editor.rangeHighlightBackground" = palette.neutral-1000;
+    "editor.selectionBackground" = palette.neutral-600;
+    "editor.selectionForeground" = palette.neutral-0;
+    "editor.selectionHighlightBackground" = palette.neutral-600;
     "editor.selectionHighlightBorder" = invisible;
     "editor.wordHighlightBackground" = "${palette.blue}2E";
     "editor.wordHighlightStrongBackground" = "${palette.blue}2E";
 
-    "editorCursor.background" = palette.black;
-    "editorCursor.foreground" = palette.white;
+    "editorCursor.background" = palette.neutral-1000;
+    "editorCursor.foreground" = palette.neutral-0;
 
-    "editorLineNumber.activeForeground" = palette.white;
-    "editorLineNumber.foreground" = palette.gray;
+    "editorLineNumber.activeForeground" = palette.neutral-0;
+    "editorLineNumber.foreground" = palette.neutral-400;
 
-    "editorIndentGuide.activeBackground1" = palette.gray;
-    "editorIndentGuide.background1" = palette.dark-gray;
+    "editorIndentGuide.activeBackground1" = palette.neutral-400;
+    "editorIndentGuide.background1" = palette.neutral-800;
 
-    "editorWhitespace.foreground" = "${palette.light-gray}40";
-    "editorRuler.foreground" = palette.dim-gray;
+    "editorWhitespace.foreground" = "${palette.neutral-200}40";
+    "editorRuler.foreground" = palette.neutral-600;
 
-    "editorCodeLens.foreground" = palette.light-gray;
+    "editorCodeLens.foreground" = palette.neutral-200;
     "editorLink.activeForeground" = palette.blue;
 
-    "editorCommentsWidget.rangeActiveBackground" = palette.black;
-    "editorCommentsWidget.rangeBackground" = palette.black;
+    "editorCommentsWidget.rangeActiveBackground" = palette.neutral-1000;
+    "editorCommentsWidget.rangeBackground" = palette.neutral-1000;
 
-    "editorStickyScroll.border" = palette.dark-gray;
+    "editorStickyScroll.border" = palette.neutral-800;
     "editorStickyScroll.shadow" = invisible;
-    "editorStickyScrollHover.background" = palette.black;
+    "editorStickyScrollHover.background" = palette.neutral-1000;
 
-    "minimapSlider.activeBackground" = "${palette.gray}55";
-    "minimapSlider.background" = "${palette.gray}26";
-    "minimapSlider.hoverBackground" = "${palette.gray}40";
+    "minimapSlider.activeBackground" = "${palette.neutral-400}55";
+    "minimapSlider.background" = "${palette.neutral-400}26";
+    "minimapSlider.hoverBackground" = "${palette.neutral-400}40";
   };
 }

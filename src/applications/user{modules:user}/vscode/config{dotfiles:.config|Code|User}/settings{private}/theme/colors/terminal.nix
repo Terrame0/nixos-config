@@ -3,43 +3,43 @@
   sundry,
   ...
 }: let
-  palette = builtins.mapAttrs (_: color: sundry.str.slice [7] color) design-tokens.colors.base;
+  palette = builtins.mapAttrs (_: color: sundry.str.slice [7] color) design-tokens.palette;
   invisible = "#ffffff00";
 in {
   "workbench.colorCustomizations" = {
-    "terminal.background" = palette.black;
-    "terminal.border" = palette.dark-gray;
-    "terminal.foreground" = palette.white;
-    "terminal.inactiveSelectionBackground" = palette.black;
-    "terminal.selectionBackground" = palette.dim-gray;
+    "terminal.background" = palette.neutral-1000;
+    "terminal.border" = palette.neutral-800;
+    "terminal.foreground" = palette.neutral-0;
+    "terminal.inactiveSelectionBackground" = palette.neutral-1000;
+    "terminal.selectionBackground" = palette.neutral-600;
 
-    "terminal.ansiBlack" = palette.light-gray;
+    "terminal.ansiBlack" = palette.neutral-200;
     "terminal.ansiBlue" = palette.blue;
     "terminal.ansiCyan" = palette.aqua;
     "terminal.ansiGreen" = palette.green;
     "terminal.ansiMagenta" = palette.purple;
     "terminal.ansiRed" = palette.red;
-    "terminal.ansiWhite" = palette.white;
+    "terminal.ansiWhite" = palette.neutral-0;
     "terminal.ansiYellow" = palette.yellow;
-    "terminal.ansiBrightBlack" = palette.light-gray;
+    "terminal.ansiBrightBlack" = palette.neutral-200;
     "terminal.ansiBrightBlue" = palette.blue;
     "terminal.ansiBrightCyan" = palette.aqua;
     "terminal.ansiBrightGreen" = palette.green;
     "terminal.ansiBrightMagenta" = palette.purple;
     "terminal.ansiBrightRed" = palette.red;
-    "terminal.ansiBrightWhite" = palette.white;
+    "terminal.ansiBrightWhite" = palette.neutral-0;
     "terminal.ansiBrightYellow" = palette.yellow;
 
-    "terminal.tab.activeBackground" = palette.dark-gray;
-    "terminal.tab.activeBorder" = palette.dark-gray;
-    "terminal.tab.activeBorderTop" = palette.dark-gray;
-    "terminal.tab.activeForeground" = palette.white;
+    "terminal.tab.activeBackground" = palette.neutral-800;
+    "terminal.tab.activeBorder" = palette.neutral-800;
+    "terminal.tab.activeBorderTop" = palette.neutral-800;
+    "terminal.tab.activeForeground" = palette.neutral-0;
     "terminal.tab.activeIconForeground" = invisible;
-    "terminal.tab.inactiveBackground" = palette.black;
-    "terminal.tab.inactiveForeground" = palette.light-gray;
+    "terminal.tab.inactiveBackground" = palette.neutral-1000;
+    "terminal.tab.inactiveForeground" = palette.neutral-200;
     "terminal.tab.inactiveIconForeground" = invisible;
 
-    "terminalCursor.background" = palette.black;
-    "terminalCursor.foreground" = palette.white;
+    "terminalCursor.background" = palette.neutral-1000;
+    "terminalCursor.foreground" = palette.neutral-0;
   };
 }

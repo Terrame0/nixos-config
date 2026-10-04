@@ -55,7 +55,7 @@ native-repr = value: {
 };
 ```
 
-A color's native value is the full 8-digit `#rrggbbaa`; a consumer that wants an opaque 6-digit hex — or must append its own alpha, as VS Code does — slices the base with `sundry.str.slice color [7]`. The assembly does not pre-slice, so `native-tokens.colors.base.blue` stays `#7aa6daff` and each consumer decides.
+A color's native value is the full 8-digit `#rrggbbaa`; a consumer that wants an opaque 6-digit hex — or must append its own alpha, as VS Code does — slices the base with `sundry.str.slice color [7]`. The assembly does not pre-slice, so `native-tokens.palette.blue` stays `#7aa6daff` and each consumer decides.
 
 The tag makes the partials indistinguishable from any other `{dotfiles}` subtree downstream. [`meta/system-assembly/each-host.nix`](../meta/system-assembly/each-host.nix) merges `partials-vfs` into `root-vfs`, so the dotfile pipeline picks them up without special-casing them. Previously `default.nix` exported the raw `partials` attrset and the dotfile pipeline injected it itself; that responsibility now belongs to the assembly, and `resolve-tags` runs on the partials tree exactly once — see [gotchas.md](gotchas.md).
 
@@ -63,11 +63,11 @@ The tag makes the partials indistinguishable from any other `{dotfiles}` subtree
 
 | Consumer | Generated file | Use |
 | --- | --- | --- |
-| CSS | `~/.design-system/partial.css` | Load the stylesheet, then reference a token as `var(--ds-colors-base-blue)`. |
+| CSS | `~/.design-system/partial.css` | Load the stylesheet, then reference a token as `var(--palette-blue)`. |
 | SCSS | `partial{include:sass}.scss` | `@use "partial" as *;` in a `{build:sass}` entry point. |
-| Rasi | `~/.design-system/partial.rasi` | `@import "~/.design-system/partial"`, then reference a token as `@ds-colors-base-blue`. |
+| Rasi | `~/.design-system/partial.rasi` | `@import "~/.design-system/partial"`, then reference a token as `@ds-palette-blue`. |
 
-All generators flatten nested token paths with hyphens. For example, `tokens.colors.base.blue` becomes `--ds-colors-base-blue` in the CSS `:root` block, `$colors-base-blue` in SCSS, and `ds-colors-base-blue` in the Rasi global `* { ... }` section.
+All generators flatten nested token paths with hyphens. For example, `tokens.palette.blue` becomes `--palette-blue` in the CSS `:root` block, `$palette-blue` in SCSS, and `ds-palette-blue` in the Rasi global `* { ... }` section.
 
 ## Rasi rendering
 

@@ -3,41 +3,41 @@
   sundry,
   ...
 }: let
-  palette = builtins.mapAttrs (_: color: sundry.str.slice [7] color) design-tokens.colors.base;
+  palette = builtins.mapAttrs (_: color: sundry.str.slice [7] color) design-tokens.palette;
   invisible = "#ffffff00";
 in {
   "workbench.colorCustomizations" = {
-    "button.background" = palette.dark-gray;
+    "button.background" = palette.neutral-800;
     "button.border" = invisible;
-    "button.foreground" = palette.white;
-    "button.hoverBackground" = palette.dim-gray;
+    "button.foreground" = palette.neutral-0;
+    "button.hoverBackground" = palette.neutral-600;
     "button.secondaryBackground" = invisible;
-    "button.secondaryForeground" = palette.white;
-    "button.secondaryHoverBackground" = palette.dark-gray;
+    "button.secondaryForeground" = palette.neutral-0;
+    "button.secondaryHoverBackground" = palette.neutral-800;
 
-    "extensionButton.background" = palette.dark-gray;
-    "extensionButton.foreground" = palette.white;
-    "extensionButton.hoverBackground" = palette.dim-gray;
-    "extensionButton.prominentBackground" = palette.dark-gray;
-    "extensionButton.prominentForeground" = palette.white;
+    "extensionButton.background" = palette.neutral-800;
+    "extensionButton.foreground" = palette.neutral-0;
+    "extensionButton.hoverBackground" = palette.neutral-600;
+    "extensionButton.prominentBackground" = palette.neutral-800;
+    "extensionButton.prominentForeground" = palette.neutral-0;
     "extensionButton.prominentHoverBackground" = palette.blue;
-    "extensionButton.separator" = palette.gray;
+    "extensionButton.separator" = palette.neutral-400;
 
-    "checkbox.background" = palette.dark-gray;
-    "checkbox.border" = palette.dark-gray;
-    "checkbox.foreground" = palette.light-gray;
+    "checkbox.background" = palette.neutral-800;
+    "checkbox.border" = palette.neutral-800;
+    "checkbox.foreground" = palette.neutral-200;
 
-    "badge.background" = palette.dark-gray;
-    "badge.foreground" = palette.white;
+    "badge.background" = palette.neutral-800;
+    "badge.foreground" = palette.neutral-0;
 
     "activityErrorBadge.background" = palette.red;
-    "activityErrorBadge.foreground" = palette.black;
+    "activityErrorBadge.foreground" = palette.neutral-1000;
 
     "activityWarningBadge.background" = palette.yellow;
-    "activityWarningBadge.foreground" = palette.white;
+    "activityWarningBadge.foreground" = palette.neutral-0;
 
     "progressBar.background" = palette.blue;
 
-    "actionBar.toggledBackground" = palette.dim-gray;
+    "actionBar.toggledBackground" = palette.neutral-600;
   };
 }

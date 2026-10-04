@@ -3,19 +3,19 @@
   sundry,
   ...
 }: let
-  palette = builtins.mapAttrs (_: color: sundry.str.slice [7] color) design-tokens.colors.base;
+  palette = builtins.mapAttrs (_: color: sundry.str.slice [7] color) design-tokens.palette;
   invisible = "#ffffff00";
 in {
   "workbench.colorCustomizations" = {
-    "editor.guides.bracketPairs" = palette.dim-gray;
-    "editor.guides.bracketPairsActive" = palette.dim-gray;
+    "editor.guides.bracketPairs" = palette.neutral-600;
+    "editor.guides.bracketPairsActive" = palette.neutral-600;
 
-    "editorBracketHighlight.foreground1" = palette.light-gray;
-    "editorBracketHighlight.foreground2" = palette.light-gray;
-    "editorBracketHighlight.foreground3" = palette.light-gray;
-    "editorBracketHighlight.foreground4" = palette.light-gray;
-    "editorBracketHighlight.foreground5" = palette.light-gray;
-    "editorBracketHighlight.foreground6" = palette.light-gray;
+    "editorBracketHighlight.foreground1" = palette.neutral-200;
+    "editorBracketHighlight.foreground2" = palette.neutral-200;
+    "editorBracketHighlight.foreground3" = palette.neutral-200;
+    "editorBracketHighlight.foreground4" = palette.neutral-200;
+    "editorBracketHighlight.foreground5" = palette.neutral-200;
+    "editorBracketHighlight.foreground6" = palette.neutral-200;
 
     "editorBracketMatch.background" = invisible;
     "editorBracketMatch.border" = invisible;

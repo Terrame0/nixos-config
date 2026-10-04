@@ -3,11 +3,11 @@
   sundry,
   ...
 }: let
-  palette = builtins.mapAttrs (_: color: sundry.str.slice [7] color) design-tokens.colors.base;
+  palette = builtins.mapAttrs (_: color: sundry.str.slice [7] color) design-tokens.palette;
 in {
   "editor.tokenColorCustomizations" = {
     textMateRules = [
-      # -- light-gray (punctuation / comments)
+      # -- neutral-200 (punctuation / comments)
       {
         scope = [
           "punctuation" # punctuation
@@ -19,10 +19,10 @@ in {
           "punctuation.definition.comment" # comment markers
           "string.comment" # embedded comments
         ];
-        settings.foreground = palette.light-gray;
+        settings.foreground = palette.neutral-200;
       }
 
-      # -- white (variables / attributes / language fallbacks)
+      # -- neutral-0 (variables / attributes / language fallbacks)
       {
         scope = [
           "variable.other.object" # object vars
@@ -39,19 +39,19 @@ in {
           "source.css" # css fallback
           "source.css.scss" # scss fallback
         ];
-        settings.foreground = palette.white;
+        settings.foreground = palette.neutral-0;
       }
       {
         scope = "markup.bold";
         settings = {
-          foreground = palette.white;
+          foreground = palette.neutral-0;
           fontStyle = "bold";
         };
       }
       {
         scope = "markup.italic";
         settings = {
-          foreground = palette.white;
+          foreground = palette.neutral-0;
           fontStyle = "italic";
         };
       }

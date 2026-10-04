@@ -9,7 +9,7 @@
   colors =
     sundry.attrs.walk
     (path: sundry.str.slice [7])
-    design-tokens.colors.base;
+    design-tokens.palette;
 in {
   programs.alacritty = {
     enable = true;
@@ -18,56 +18,56 @@ in {
         transparent_background_colors = false;
 
         primary = {
-          foreground = colors.white;
-          background = colors.black;
+          foreground = colors.neutral-0;
+          background = colors.neutral-1000;
         };
 
         search = {
           matches = {
-            foreground = colors.black;
+            foreground = colors.neutral-1000;
             background = colors.yellow;
           };
           focused_match = {
-            foreground = colors.black;
+            foreground = colors.neutral-1000;
             background = colors.green;
           };
         };
 
         line_indicator = {
           foreground = "None";
-          background = colors.dim-gray;
+          background = colors.neutral-600;
         };
 
         footer_bar = {
           foreground = colors.blue;
-          background = colors.dim-gray;
+          background = colors.neutral-600;
         };
 
         selection = {
           text = "CellForeground";
-          background = colors.dim-gray;
+          background = colors.neutral-600;
         };
 
         normal = {
-          black = colors.light-gray;
+          black = colors.neutral-200;
           red = colors.red;
           green = colors.green;
           yellow = colors.yellow;
           blue = colors.blue;
           magenta = colors.purple;
           cyan = colors.aqua;
-          white = colors.white;
+          white = colors.neutral-0;
         };
 
         bright = {
-          black = colors.light-gray;
+          black = colors.neutral-200;
           red = colors.red;
           green = colors.green;
           yellow = colors.yellow;
           blue = colors.blue;
           magenta = colors.purple;
           cyan = colors.aqua;
-          white = colors.white;
+          white = colors.neutral-0;
         };
       };
 

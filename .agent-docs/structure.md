@@ -67,7 +67,7 @@ Three hosts are declared in [`meta/system-assembly/hosts.nix`](../meta/system-as
 |---|---|
 | `host` | host record from `meta/system-assembly/hosts.nix`: `{ name, username, system, system-state-version, cores }` |
 | `root-vfs` | the repo's one resolved and loaded VFS tree: `{src, meta.design-system, partials, …}` |
-| `design-tokens` | the design system's native token values, e.g. `colors.base.blue`, `font.family.mono` |
+| `design-tokens` | the design system's native token values, e.g. `palette.blue`, `font.family.mono` |
 | `sundry` | library functions from the `sundry` flake input |
 | `inputs` | the flake's inputs |
 

@@ -1,8 +1,19 @@
-{types, ...}: let
-  font-family = types.font-family;
+{
+  types,
+  tokens,
+  ...
+}: let
   inherit (types.dimension) pt;
+  inherit (types) font-family;
+  inherit (tokens) palette;
 in {
   font = rec {
+    color = {
+      primary = palette.neutral-0;
+      secondary = palette.neutral-200;
+      link = palette.blue;
+      link-visited = palette.purple;
+    };
     family = {
       mono = font-family "JetBrainsMono NF";
       propo = font-family "JetBrainsMono NFP";

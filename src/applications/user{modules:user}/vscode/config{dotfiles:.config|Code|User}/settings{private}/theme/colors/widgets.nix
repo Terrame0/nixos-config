@@ -3,58 +3,58 @@
   sundry,
   ...
 }: let
-  palette = builtins.mapAttrs (_: color: sundry.str.slice [7] color) design-tokens.colors.base;
+  palette = builtins.mapAttrs (_: color: sundry.str.slice [7] color) design-tokens.palette;
   invisible = "#ffffff00";
 in {
   "workbench.colorCustomizations" = {
-    "editorHoverWidget.background" = palette.dark-gray;
+    "editorHoverWidget.background" = palette.neutral-800;
     "editorHoverWidget.border" = invisible;
-    "editorHoverWidget.foreground" = palette.white;
+    "editorHoverWidget.foreground" = palette.neutral-0;
 
-    "editorWidget.background" = palette.dark-gray;
-    "editorWidget.border" = palette.dim-gray;
-    "editorWidget.foreground" = palette.white;
+    "editorWidget.background" = palette.neutral-800;
+    "editorWidget.border" = palette.neutral-600;
+    "editorWidget.foreground" = palette.neutral-0;
 
-    "widget.border" = palette.dim-gray;
+    "widget.border" = palette.neutral-600;
     "widget.shadow" = invisible;
 
-    "quickInput.background" = palette.dark-gray;
-    "quickInput.foreground" = palette.white;
+    "quickInput.background" = palette.neutral-800;
+    "quickInput.foreground" = palette.neutral-0;
 
-    "quickInputList.focusBackground" = palette.dim-gray;
-    "quickInputList.focusForeground" = palette.white;
+    "quickInputList.focusBackground" = palette.neutral-600;
+    "quickInputList.focusForeground" = palette.neutral-0;
     "quickInputList.focusHighlightForeground" = palette.green;
-    "quickInputList.focusIconForeground" = palette.black;
+    "quickInputList.focusIconForeground" = palette.neutral-1000;
 
-    "quickInputTitle.background" = palette.dark-gray;
+    "quickInputTitle.background" = palette.neutral-800;
 
-    "pickerGroup.border" = palette.dark-gray;
-    "pickerGroup.foreground" = palette.white;
+    "pickerGroup.border" = palette.neutral-800;
+    "pickerGroup.foreground" = palette.neutral-0;
 
     "debugConsole.errorForeground" = palette.red;
     "debugConsole.infoForeground" = palette.blue;
     "debugConsole.warningForeground" = palette.yellow;
     "debugConsoleLink.foreground" = palette.blue;
 
-    "debugToolBar.background" = palette.dark-gray;
+    "debugToolBar.background" = palette.neutral-800;
     "debugToolBar.border" = invisible;
 
-    "settings.dropdownBackground" = palette.dark-gray;
-    "settings.dropdownBorder" = palette.dark-gray;
-    "settings.headerForeground" = palette.white;
+    "settings.dropdownBackground" = palette.neutral-800;
+    "settings.dropdownBorder" = palette.neutral-800;
+    "settings.headerForeground" = palette.neutral-0;
     "settings.modifiedItemIndicator" = "${palette.orange}66";
-    "settings.numberInputBorder" = palette.dark-gray;
-    "settings.textInputBorder" = palette.dark-gray;
+    "settings.numberInputBorder" = palette.neutral-800;
+    "settings.textInputBorder" = palette.neutral-800;
 
-    "searchEditor.textInputBorder" = palette.dark-gray;
+    "searchEditor.textInputBorder" = palette.neutral-800;
 
-    "symbolIcon.textForeground" = palette.white;
+    "symbolIcon.textForeground" = palette.neutral-0;
 
     "ports.iconRunningProcessForeground" = palette.green;
 
-    "toolbar.hoverBackground" = "${palette.gray}10";
-    "toolbar.activeBackground" = "${palette.gray}20";
+    "toolbar.hoverBackground" = "${palette.neutral-400}10";
+    "toolbar.activeBackground" = "${palette.neutral-400}20";
 
-    "welcomePage.tileBackground" = palette.black;
+    "welcomePage.tileBackground" = palette.neutral-1000;
   };
 }
