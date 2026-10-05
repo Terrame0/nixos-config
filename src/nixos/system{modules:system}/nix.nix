@@ -19,7 +19,7 @@
         "nix-command"
         "flakes"
       ];
-      connect-timeout = 5;
+      connect-timeout = 10;
       stalled-download-timeout = 20;
       extra-substituters = [
         "https://watersucks.cachix.org" # -- nixos cli

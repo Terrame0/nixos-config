@@ -9,14 +9,20 @@ builtins.foldl' (
     inherit (pkgs) lib;
     repo-vfs = lib.pipe root [
       sundry.vfs.dir.from-src
-      sundry.vfs.dir.resolve-tags
       sundry.vfs.dir.load-nix
+      sundry.vfs.dir.resolve-tags
     ];
     design-system =
       repo-vfs.meta.design-system."default.nix".expr
       {inherit sundry lib repo-vfs;};
     design-tokens = design-system.native-tokens;
-    root-vfs = sundry.vfs.dir.merge repo-vfs design-system.partials-vfs;
+    root-vfs =
+      lib.pipe [
+        {"partials{dotfiles:.design-system}" = design-system.partials-vfs;}
+      ] [
+        (map sundry.vfs.dir.resolve-tags)
+        (lib.foldl sundry.vfs.dir.merge repo-vfs)
+      ];
     meta-args = {
       inherit host inputs;
       inherit pkgs sundry lib;

@@ -17,9 +17,7 @@ args @ {
   types = load-parts "types";
   tokens = load-parts "tokens";
 in {
-  partials-vfs =
-    sundry.vfs.dir.resolve-tags
-    {"partials{dotfiles:.design-system}" = load-parts "partials";};
+  partials-vfs = load-parts "partials";
   native-tokens =
     sundry.attrs.walk-until is-token
     (path: attrs: attrs.native)
