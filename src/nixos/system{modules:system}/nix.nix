@@ -19,6 +19,8 @@
         "nix-command"
         "flakes"
       ];
+      connect-timeout = 5;
+      stalled-download-timeout = 20;
       extra-substituters = [
         "https://watersucks.cachix.org" # -- nixos cli
         "https://attic.xuyh0120.win/lantian" # -- cachyos kernels
