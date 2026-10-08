@@ -51,6 +51,7 @@ Each skill is a self-contained directory under `config{private}/skills/<name>/`,
 - LSP: nixd
 - Editor: VS Code (user settings managed by Home Manager)
 - opencode `extraPackages`: `statix` and `fd` from `program.nix`, plus per-skill tooling from each skill's `module.nix` (`nushell`, `pandoc`, `plantuml`, `graphviz`, `python3`, `resvg`, and the `idef0-svg-gost` flake package for `gost-report`) — all on opencode's PATH only.
+- Killing by pattern: `pkill -f <pattern>` matches the full command line and thus matches the wrapper that runs it (the `zsh -c '...pkill -f X...'` or remote `bash -c`), so it kills its own parent and appears to hang. Use a pattern that does not literally appear in the command line — `pkill -f '[X]'` — so the wrapper does not match itself.
 
 ### Choosing a tool
 
