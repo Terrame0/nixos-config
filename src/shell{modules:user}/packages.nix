@@ -12,6 +12,7 @@
     gef
     clang
     clang-tools
+    fpc
 
     # -- utilities
     treefmt

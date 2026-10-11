@@ -1,11 +1,10 @@
 {pkgs, ...}: {
   home.packages = with pkgs; [
-    # -- games
     lutris
     pcsx2
 
-    # -- basic desktop utilities
     freecad
+    lazarus-qt6
     eog
     gedit
     onlyoffice-desktopeditors
