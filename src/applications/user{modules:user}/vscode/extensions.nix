@@ -24,6 +24,8 @@ in {
     "charliermarsh.ruff"
 
     # -- syntax highlighters
+    "alefragnani.pascal"
+    "alefragnani.pascal-formatter"
     "jq-syntax-highlighting.jq-syntax-highlighting"
     "mads-hartmann.bash-ide-vscode"
     "tamasfe.even-better-toml"
