@@ -4,7 +4,7 @@
     pcsx2
 
     freecad
-    lazarus-qt6
+    lazarus
     eog
     gedit
     onlyoffice-desktopeditors
