@@ -34,8 +34,8 @@ lines of the following text.
 
 ```
 report.md ──pandoc + reference_gost.docx──▶ out.docx ──gost_postprocess──▶ report.docx
-*.puml  ──plantuml──▶ *.png              (source paths named on the command line)
-*.idef0 ──schematic──▶ *.svg ──resvg──▶ *.png
+*.puml  ──plantuml──▶ *.png                        (source paths named on the command line)
+*.idef0 ──schematic|decompose|focus──▶ *.svg ──resvg──▶ *.png
 ```
 
 1. Write the report as markdown (`#` = section, `##` = subsection). Prefix
@@ -51,13 +51,13 @@ report.md ──pandoc + reference_gost.docx──▶ out.docx ──gost_postpr
 2. Render the diagrams, naming every source file explicitly:
 
    ```nu
-   scripts/render_diagrams.nu diagrams/org.puml diagrams/usecase.puml diagrams/context.idef0
+   scripts/render_diagrams.nu diagrams/org.puml diagrams/usecase.puml diagrams/model.idef0 'diagrams/model.idef0#decompose=Заселение'
    ```
 
-   The script takes a list of `.puml` and `.idef0` paths and writes each output
+   The script takes a list of `.puml` and `.idef0` specs and writes each output
    next to its source. It never scans a directory, so a scratch model left in
    `diagrams/` is ignored unless you name it. The script handles two source
-   types, one figure each:
+   types:
 
    - **`.puml` → `.png`** via PlantUML. Structural diagrams (component, use case)
      start with `left to right direction`; activity diagrams (`start`/`stop`)
@@ -65,10 +65,24 @@ report.md ──pandoc + reference_gost.docx──▶ out.docx ──gost_postpr
      `PLANTUML_DPI` (default 300) because plantuml's native PNG is ~89 DPI and
      pixelates once scaled to the page width; set `PLANTUML_DPI=600` for a
      larger image.
-   - **`.idef0` → `.svg` + `.png`** via `schematic` (IDEF0-SVG-GOST-wrapped),
-     then `resvg`. Renders at `IDEF0_DPI` (default 300). The `.svg` is kept next
-     to the model so the PNG can be re-rendered at another DPI without re-running
-     `schematic`. The model itself is a small DSL, one statement per line:
+   - **`.idef0` → `.svg` + `.png`** via IDEF0-SVG-GOST-wrapped, then `resvg`.
+     Renders at `IDEF0_DPI` (default 300). The `.svg` is kept next to the model
+     so the PNG can be re-rendered at another DPI without re-running the
+     renderer. An IDEF0 spec may carry a level directive `#<verb>[=<process>]`:
+
+     | Spec | Verb | Output |
+     |---|---|---|
+     | `model.idef0` | `schematic` (every leaf) | `model.svg` |
+     | `model.idef0#focus` | `focus "<root>"` (A0 context) | `model-a0.svg` |
+     | `model.idef0#decompose` | `decompose "<root>"` (top level) | `model-decompose.svg` |
+     | `model.idef0#decompose=<name>` | `decompose "<name>"` (level 2+) | `model-decompose-<name>.svg` |
+     | `model.idef0#focus=<name>` | `focus "<name>"` (one box) | `model-focus-<name>.svg` |
+
+     `<name>` is a process name exactly as `toc` prints it; quote the whole
+     spec because it contains `#`, `=` and often spaces. See
+     [IDEF0 models are multi-level](#idef0-models-are-multi-level) for the
+     one-file-per-project rule. The model itself is a small DSL, one statement
+     per line:
 
      ```
      Обработка заявок receives Заявки клиентов
@@ -194,6 +208,30 @@ report.md ──pandoc + reference_gost.docx──▶ out.docx ──gost_postpr
 
    This is a hard `pageBreakBefore`, honored by every renderer — unlike the
    automatic row-keeping below.
+
+## IDEF0 models are multi-level
+
+Keep **one `.idef0` file per project**, not one per figure. The file is a flat
+list of statements in a single namespace, and every level of the model is
+derived from it by a different command. Splitting it into `context.idef0`,
+`decomp.idef0`, `a2.idef0`, … duplicates the statements, and the copies then
+drift out of sync — the classic agent failure. There is no per-level file to
+write; render the level you need from the one model:
+
+| Figure | Spec |
+|---|---|
+| A0 context (one box) | `model.idef0#focus` |
+| top-level breakdown (`A1`–`A7`) | `model.idef0#decompose` |
+| a level-2 diagram | `model.idef0#decompose=Заселение` |
+| a single process | `model.idef0#focus=Заселение` |
+| full flat schematic (every leaf) | `model.idef0` |
+
+`toc` prints the process names to use after `=`. A "context file" is not a
+separate artefact: it is just a model that happens to contain a single box, and
+`#focus` produces the same A0 picture from the full model. Two projects that
+share process names — an AS-IS and a TO-BE model of the same system — each keep
+their own file, because names are global within a file and merging them would
+fuse the two decompositions.
 
 ## Importing an existing .docx
 
@@ -351,14 +389,17 @@ explanation. Numbers and cross-references (`в формуле (1)`) are typed by
 - `scripts/build.nu` — end-to-end `.md → .docx`. Runs pandoc with
   `--no-highlight`, so code listings stay black monospace (pandoc's default
   syntax highlighting colours them, which is wrong for a printed report).
-- `scripts/render_diagrams.nu` — takes a list of `.puml`/`.idef0` paths and
+- `scripts/render_diagrams.nu` — takes a list of `.puml`/`.idef0` specs and
   renders each to a sibling output: `.puml → .png` at `PLANTUML_DPI` (default
-  300), `.idef0 → .svg + .png` at `IDEF0_DPI` (default 300) via `schematic`
-  then `resvg`. It does not glob a directory; every source must be named.
+  300), `.idef0 → .svg + .png` at `IDEF0_DPI` (default 300) via
+  `schematic`/`decompose`/`focus` then `resvg`. An `.idef0` spec may carry a
+  level directive `#<verb>[=<process>]` (`#focus` for A0, `#decompose=<name>`
+  for a level-2 diagram); the output name grows the directive suffix so levels
+  do not collide. It does not glob a directory; every source must be named.
 
 All scripts pull `pandoc`, `python3`, `plantuml`, `graphviz`, `resvg`, and the
-`schematic` binary through `nix shell` when the tools are missing, so they work
-on a bare NixOS host. `schematic` comes from the
+`schematic`/`decompose`/`focus` binaries through `nix shell` when the tools are
+missing, so they work on a bare NixOS host. The IDEF0 binaries come from the
 [IDEF0-SVG-GOST-wrapped](https://github.com/Terrame0/IDEF0-SVG-GOST-wrapped)
 flake, not nixpkgs.
 
@@ -422,11 +463,18 @@ flake, not nixpkgs.
   `render_diagrams.nu` passes `-Sdpi=300`; the `scale` directive does not help
   because it only applies to SVG output. Raise `PLANTUML_DPI` if a figure is
   still soft.
-- **IDEF0 box numbers follow model order, not the picture.** `schematic` numbers
-  children `A1`, `A2`, … by their order in the `.idef0` file, but the layout
-  engine reorders boxes to reduce line crossings, so `A2` can appear left of
-  `A1`. Only the single-process context diagram (exactly one box, `A0`) is
-  unaffected — which is the common report case.
+- **IDEF0 box numbers follow model order, not the picture.** Children are
+  numbered `A1`, `A2`, … by their order in the `.idef0` file, and a child of `A2`
+  becomes `A21`, `A22`, …, but the layout engine reorders boxes to reduce line
+  crossings, so `A2` can appear left of `A1`. Every level has its own picture —
+  `decompose "<name>"` — while the A0 context diagram (`focus "<root>"`) is
+  unaffected because it has exactly one box.
+- **A mechanism required by several processes is drawn once.** The renderer
+  merges bottom-entering mechanisms that share a name into a single trunk with
+  branch arrows, so seven `X requires PMS` lines produce one `PMS` label, not
+  seven. This is the GOST look; give the mechanisms distinct names if you want
+  them drawn separately. Only external mechanisms (bottom) are merged, not the
+  `produces`/`requires` internal arrows.
 - **The DSL parser uppercases the first letter of every Latin word.** Lowercase
   Latin is accepted, but the label is normalised: `requires Навык gost-report`
   renders as `Навык Gost-report`. There is no way to keep an all-lowercase Latin
@@ -437,7 +485,7 @@ flake, not nixpkgs.
   the parser takes the last such word as the verb. Keep such words out of nouns,
   or write the noun in Cyrillic.
 - **A named `.idef0` that fails to parse aborts the whole render and leaves a
-  0-byte `.svg`.** `schematic` exits with a Ruby stack trace, nushell's `o>`
+  0-byte `.svg`.** The IDEF0 verb exits with a Ruby stack trace, nushell's `o>`
   redirect has already created an empty `.svg`, and the pipeline stops there —
   `resvg` never runs, so no `.png` is written and the script exits non-zero.
   IDEF0 diagrams listed after the bad one are not rendered; PlantUML ones are
@@ -449,7 +497,7 @@ flake, not nixpkgs.
   desktop's font configuration.
 - **Do not reach for PlantUML, Graphviz, or d2 for IDEF0.** None can put ports
   on all four sides of the box. IDEF0-SVG is the only CLI renderer that does;
-  `schematic` is the entry point for it.
+  its `schematic`, `decompose`, and `focus` entry points are the ones to use.
 - **A `SourceCode` style in `reference.docx` is not enough to keep code flush
   left.** Pandoc's default `SourceCode` does not set `jc`, so once `Normal` is
   justified the code inherits `both` and stretches each line. The post-processor
