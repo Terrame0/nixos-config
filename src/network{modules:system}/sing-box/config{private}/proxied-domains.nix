@@ -63,6 +63,7 @@
   "minecraft.net"
 
   # -- misc
+  "travelpayouts.com"
   "web.archive.org"
   "ubistatic3-a.akamaihd.net"
   "kupibilet.ru"

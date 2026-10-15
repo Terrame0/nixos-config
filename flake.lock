@@ -554,11 +554,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1789643225,
-        "narHash": "sha256-KDhEW5kNrSbPsTMXoCqcG6S4+LQ3BHg5zajg7SdeMUI=",
+        "lastModified": 1792062699,
+        "narHash": "sha256-smPaBpEavuhb3DxYu3sXLODPZlf8ot5kCuBCRKUhvPg=",
         "owner": "Terrame0",
         "repo": "IDEF0-SVG-GOST-wrapped",
-        "rev": "4e4e8d53d9c65200993c52e68f0ff78078934437",
+        "rev": "3cbef9dcbfba5fcdfe8f576c0728a86db1fff93e",
         "type": "github"
       },
       "original": {
