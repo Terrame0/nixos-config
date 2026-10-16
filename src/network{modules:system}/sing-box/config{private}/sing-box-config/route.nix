@@ -1,5 +1,6 @@
 {
   config,
+  host,
   ...
 }: {
   route = {
@@ -20,7 +21,9 @@
         outbound = "direct";
       }
       {
-        domain_suffix = config.networking.proxied-domains;
+        domain_suffix =
+          config.sing-box.proxied-domains
+          ++ config.home-manager.users.${host.username}.sing-box.proxied-domains;
         outbound = "proxy";
       }
       {

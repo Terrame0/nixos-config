@@ -1,5 +1,5 @@
 {...}: {
-  networking.proxied-domains = [
+  sing-box.proxied-domains = [
     # -- nixos binary caches
     "cache.nixos.org"
     "attic.xuyh0120.win"
