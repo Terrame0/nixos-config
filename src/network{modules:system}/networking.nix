@@ -1,4 +1,6 @@
 {host, ...}: {
+  # -- cloudflare does not resolve sometimes
+  sing-box.proxied-domains = ["cloudflare.com"];
   networking = {
     hostName = host.name;
     nameservers = ["1.1.1.1" "8.8.8.8" "8.8.4.4"];

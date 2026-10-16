@@ -49,13 +49,31 @@ The skeleton is assembled from parts in [config{private}/sing-box-config/](../sr
 
 `route.nix` proxies every suffix collected under the `sing-box.proxied-domains` option. The option is declared twice, once per module system:
 
-| File | System | Contributes |
+| File | System | Role |
 |---|---|---|
 | `options.nix` | NixOS | declares the system-side option |
 | `home-options{modules:user}.nix` | Home Manager | declares the user-side option |
-| `domains.nix` | NixOS | the current central list |
+| `domains.nix` | NixOS | the unowned remainder |
 
-Because NixOS and Home Manager are separate module systems, the two lists do not merge automatically. `route.nix` unions them explicitly: `config.sing-box.proxied-domains` (system) plus `config.home-manager.users.${host.username}.sing-box.proxied-domains` (user). User modules that own a domain set the HM option.
+Because NixOS and Home Manager are separate module systems, the two lists do not merge automatically. `route.nix` unions them explicitly: `config.sing-box.proxied-domains` (system) plus `config.home-manager.users.${host.username}.sing-box.proxied-domains` (user).
+
+A feature module declares the suffixes it needs, rather than the sing-box skeleton learning which app a domain belongs to. Domains with a clear owning module live there; `domains.nix` keeps only the orphans.
+
+| Owner module | Suffixes |
+|---|---|
+| [nixos/system/nix.nix](../src/nixos/system%7Bmodules:system%7D/nix.nix) | nix binary caches and `nixos.org`/`nix.dev` |
+| [applications/system/steam.nix](../src/applications/system%7Bmodules:system%7D/steam.nix) | Steam Cloud backends |
+| [network/networking.nix](../src/network%7Bmodules:system%7D/networking.nix) | `cloudflare.com` |
+| [network/searx/service.nix](../src/network%7Bmodules:system%7D/searx/service.nix) | `searx.space` |
+| [applications/user/prismlauncher.nix](../src/applications/user%7Bmodules:user%7D/prismlauncher.nix) | Minecraft (`minecraft.net`, `modrinth.com`, `curseforge.com`) |
+| [applications/user/qbittorrent.nix](../src/applications/user%7Bmodules:user%7D/qbittorrent.nix) | torrent trackers |
+| [applications/user/lutris.nix](../src/applications/user%7Bmodules:user%7D/lutris.nix) | `lutris.net`, its CDN |
+| [applications/user/mpv/program.nix](../src/applications/user%7Bmodules:user%7D/mpv/program.nix) | `mpv.io` |
+| [shell/starship.nix](../src/shell%7Bmodules:user%7D/starship.nix) | `starship.rs` |
+| [shell/git.nix](../src/shell%7Bmodules:user%7D/git.nix) | GitHub (`github.com`, `githubusercontent.com`, …) |
+| [applications/user/opencode/program.nix](../src/applications/user%7Bmodules:user%7D/opencode/program.nix) | `deepseek.com` |
+
+The remainder in [domains.nix](../src/network%7Bmodules:system%7D/sing-box/domains.nix) is grouped by comment: trove, frontier, epic, misc — none of which has a dedicated module.
 
 ## Outbound selection
 

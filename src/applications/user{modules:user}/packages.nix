@@ -1,6 +1,5 @@
 {pkgs, ...}: {
   home.packages = with pkgs; [
-    lutris
     pcsx2
 
     freecad
@@ -8,7 +7,6 @@
     eog
     gedit
     onlyoffice-desktopeditors
-    qbittorrent
     baobab
     inkscape
     rawtherapee

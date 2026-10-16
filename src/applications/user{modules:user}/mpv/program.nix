@@ -1,4 +1,5 @@
 {pkgs, ...}: {
+  sing-box.proxied-domains = ["mpv.io"];
   programs.mpv = {
     enable = true;
     scripts = with pkgs.mpvScripts; [

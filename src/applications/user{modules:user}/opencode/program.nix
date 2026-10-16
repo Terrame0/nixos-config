@@ -15,6 +15,7 @@
     '';
   };
 in {
+  sing-box.proxied-domains = ["deepseek.com"];
   imports = [
     config-subtree.skills.gost-report."module.nix".origin
   ];

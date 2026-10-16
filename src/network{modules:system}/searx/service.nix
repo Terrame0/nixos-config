@@ -5,6 +5,7 @@ args @ {
   root-vfs,
   ...
 }: {
+  sing-box.proxied-domains = ["searx.space"];
   services.searx = {
     enable = true;
     environmentFile = config.sops.secrets."searx/secret".path;

@@ -1,4 +1,5 @@
 {...}: {
+  sing-box.proxied-domains = ["starship.rs"];
   programs.starship = {
     enable = true;
     enableZshIntegration = true;

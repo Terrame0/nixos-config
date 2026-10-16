@@ -1,4 +1,14 @@
 {inputs, ...}: {
+  # -- binary caches and nix resources get blocked often, for unknown reasons
+  sing-box.proxied-domains = [
+    "cache.nixos.org"
+    "attic.xuyh0120.win"
+    "hyprland.cachix.org"
+    "watersucks.cachix.org"
+    "extranix.com"
+    "nixos.org"
+    "nix.dev"
+  ];
   nix = {
     registry = {
       default.flake = inputs.nixpkgs;
