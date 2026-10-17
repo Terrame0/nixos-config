@@ -84,7 +84,7 @@ The username is no longer a top-level arg; modules read it as `host.username`.
 | `nixpkgs` | `nixos-26.05` |
 | `nixpkgs-unstable` | `nixos-unstable` |
 | `home-manager` | `release-26.05` (nixpkgs follows `nixpkgs`) |
-| `hyprland` | latest (nixpkgs follows `nixpkgs-unstable`) |
+| `hyprland` | latest; **keeps its own nixpkgs pin** (see [gotchas.md](gotchas.md)) |
 | `sundry-input` | private repo `Terrame0/sundry` |
 | `sops-nix` | latest (nixpkgs follows `nixpkgs`) |
 | `nix4vscode` | latest (nixpkgs follows `nixpkgs`) |

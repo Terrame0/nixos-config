@@ -4,8 +4,10 @@
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-26.05";
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
     hyprland = {
+      # -- keep Hyprland's own nixpkgs pin: its overlay mixes flake-provided
+      # - hyprutils with nixpkgs' hyprtoolkit, and a shared nixpkgs can pair
+      # - them across incompatible versions (see .agent-docs/gotchas.md)
       url = "github:hyprwm/Hyprland";
-      inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
     home-manager = {
       url = "github:nix-community/home-manager/release-26.05";

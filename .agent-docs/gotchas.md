@@ -86,6 +86,18 @@ Swapping one for the other is not refactor-neutral. `reform-within-tag pred f` t
 
 **Avoid:** query the *value* with `deepest-tag {modules = …}` (nearest-in-chain wins), which [`glob-modules.nix`](../meta/system-assembly/glob-modules.nix)'s `filter-modules` does. Keep the plain `tag {modules = [];}` only for the **presence** check ("is this a module at all") — presence is the same under both operands; only value discrimination differs. `{hosts}` is queried the same way: its host gate uses `deepest-tag` too, so an inner host tag overrides an outer one. See [structure.md](structure.md).
 
+## Hyprland must keep its own nixpkgs pin
+
+Setting `hyprland.inputs.nixpkgs.follows = "nixpkgs-unstable"` breaks the build. The Hyprland flake's `hyprland-packages` overlay provides `hyprutils` from its own flake input (at the time of writing, 0.14.1), while `hyprtoolkit` is **not** overlaid and comes from the followed nixpkgs. A newer nixpkgs ships `hyprtoolkit 0.6.0`, whose `CMakeLists.txt` requires `hyprutils >= 0.14.2`, so configuration dies with:
+
+```
+Requested 'hyprutils >= 0.14.2' but version of hyprutils is 0.14.1
+```
+
+**Why:** the Hyprland overlay and the nixpkgs package set must move together; following the shared nixpkgs decouples them.
+
+**Avoid:** leave `hyprland` without an `inputs.nixpkgs.follows` so it uses the nixpkgs snapshot from its own `flake.lock` (rev `2c423e03` pairs `hyprtoolkit 0.5.4` with `hyprutils 0.14.1`). If you do override it, pin a nixpkgs whose `hyprtoolkit` accepts the flake's `hyprutils` — do not point it at a moving branch.
+
 ## sing-box 1.13.x has no `cache_file.store_selected`
 
 Setting `experimental.cache_file.store_selected = true` makes `sing-box check` fail with `unknown field "store_selected"`. The field exists in newer sing-box schemas but not 1.13.x.
