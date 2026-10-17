@@ -5,13 +5,19 @@ args @ {
   ...
 }: let
   ds-subtree = repo-vfs.meta.design-system;
-  mk-type = ds-subtree."mk-type.nix".expr args;
+  consumers = ["css" "lua" "qml" "rasi" "scss"];
+  mk-type = ds-subtree."mk-type.nix".expr (args // {inherit consumers;});
   is-token = ds-subtree."is-token.nix".expr args;
-  mk-partial = ds-subtree."mk-partial.nix".expr (args // {inherit tokens is-token;});
+  mk-partial =
+    ds-subtree."mk-partial.nix".expr (args // {inherit tokens is-token consumers;});
   load-parts = sub:
     lib.pipe ds-subtree.${sub} [
       (sundry.vfs.dir.collapse
-        (path: file: file.expr (args // {inherit types tokens mk-type is-token mk-partial;})))
+        (path: file:
+          file.expr (args
+            // {
+              inherit types tokens mk-type is-token mk-partial consumers;
+            })))
       sundry.attrs.merge.recursive.no-collision
     ];
   types = load-parts "types";

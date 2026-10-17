@@ -3,6 +3,7 @@
   lib,
   is-token,
   tokens,
+  consumers,
   ...
 }: args': let
   args =
@@ -13,8 +14,8 @@
       };
       consumer = {
         default = self: sundry.vfs.path.get.ext self.file-path;
-        check = value: lib.isString value;
-        desc = "must be a consumer name string";
+        check = value: lib.isString value && lib.elem value consumers;
+        desc = "must be one of the registered consumers: ${lib.concatStringsSep ", " consumers}";
       };
       body-fn = {
         default = _: lib.id;

@@ -1,6 +1,8 @@
-local offset_in = 3
-local offset_out = 6
-local border_radius = 12
+local ds = dofile(os.getenv("HOME") .. "/.design-system/partial.lua")
+
+local offset_out = ds["grid-offset"]
+local offset_in = offset_out / 2
+local border_radius = ds["border-radius"]
 
 hl.monitor({ output = "", mode = "preferred", position = "auto", scale = 1.0 })
 hl.monitor({ output = "eDP-1", mode = "1920x1080@144", position = "auto", scale = 1.0 })
@@ -81,9 +83,9 @@ hl.layer_rule({ match = { namespace = "waybar" }, blur = true, ignore_alpha = 0.
 hl.layer_rule({ match = { namespace = "wofi" }, blur = true, ignore_alpha = 0.2 })
 hl.layer_rule({ match = { namespace = "selection" }, blur = true, ignore_alpha = 0.2 })
 
-hl.curve("ease-in-out", { type = "bezier", points = { { 0.8, 0 }, { 0.2, 1 } } })
-hl.curve("ease-in-out-overshoot", { type = "bezier", points = { { 0.8, 0 }, { 0.2, 1.1 } } })
-hl.curve("ease-out", { type = "bezier", points = { { 0.6, 0.5 }, { 0.2, 1 } } })
+hl.curve("ease-in-out", { type = "bezier", points = ds["motion-easing-standard"] })
+hl.curve("ease-in-out-overshoot", { type = "bezier", points = ds["motion-easing-overshoot"] })
+hl.curve("ease-out", { type = "bezier", points = ds["motion-easing-out"] })
 
 hl.animation({ leaf = "global", enabled = true, speed = 10, bezier = "ease-in-out" })
 hl.animation({ leaf = "border", enabled = true, speed = 3, bezier = "ease-in-out" })

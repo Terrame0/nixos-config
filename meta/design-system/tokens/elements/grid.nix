@@ -2,6 +2,7 @@
   inherit (types.dimension) px;
 in {
   grid = {
+    offset = px 6;
     spacing = px 4;
     step = {
       large = px 90;

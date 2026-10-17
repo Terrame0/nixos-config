@@ -6,6 +6,30 @@ args @ {
   root-vfs,
   ...
 }: let
+  assert-unique-stems = files: let
+    stems =
+      map (
+        file: let
+          file-str = toString file;
+        in
+          if baseNameOf file-str == "default.nix"
+          then dirOf file-str
+          else lib.removeSuffix ".nix" file-str
+      )
+      files;
+    duplicates =
+      lib.unique (lib.filter (stem: lib.count (candidate: candidate == stem) stems > 1) stems);
+  in
+    if duplicates == []
+    then true
+    else
+      throw ''
+        module discovery found both `<name>.nix` and `<name>/default.nix`:
+        ${lib.concatMapStringsSep "\n" (stem: "  ${stem}") duplicates}
+
+        delete the stale file so both copies cannot drift.
+      '';
+
   filter-modules = tag-value:
     lib.pipe (sundry.vfs.dir.get ../../src root-vfs) [
       (sundry.vfs.dir.filter
@@ -14,22 +38,24 @@ args @ {
         (e:
           (e.tag {modules = [];})
           && !(e.tag {private = [];} || e.tag {dotfiles = [];})
-          && (e.tag {hosts = host.name;} || !e.tag {hosts = [];})))
+          && (e.deepest-tag {hosts = host.name;} || !e.tag {hosts = [];})))
       (sundry.vfs.dir.select-by-tag (e: e.deepest-tag {modules = tag-value;}))
       (sundry.vfs.dir.collapse (path: file: file.origin))
     ];
   module-args = {
     inherit (args) inputs host sundry root-vfs design-tokens;
   };
+  system-modules = filter-modules "system";
+  user-modules = filter-modules "user";
 in {
   specialArgs = module-args;
-  modules =
-    (filter-modules "system")
+  modules = assert assert-unique-stems (system-modules ++ user-modules);
+    system-modules
     ++ [
       {
         home-manager = {
           extraSpecialArgs = module-args;
-          users.${host.username}.imports = filter-modules "user";
+          users.${host.username}.imports = user-modules;
         };
       }
     ];

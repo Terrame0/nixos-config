@@ -1,18 +1,23 @@
-ВНИМАНИЕ: захардкоженные значения интерполяций "#[...]"
+ИСТОРИЧЕСКАЯ ЗАПИСКА: файл описывает состояние до появления активной
+дизайн-системы (meta/design-system/, см. design-system.md). Он сохранён
+как список мест, где значения остаются захардкоженными. Возвращать
+синтаксис "#[...]" не нужно — новые потребители должны брать значения
+из дизайн-системы.
 ================================================================
 
-Система подстановки выражений "#[...]" ещё НЕ имплементирована в новом
-dotfile-symlinking pipeline (в старой системе это делала функция
-config.string.substitute-expressions из lib/utils/string/substitute-expressions.nix).
+ЗАХАРДКОЖЕННЫЕ ЗНАЧЕНИЯ
+================================================================
 
-Пока её нет, значения ниже подставлены ВРУЧНУЮ. Когда допишешь pipeline-шаг
-интерполяции — верни исходный синтаксис "#[...]" в эти файлы.
+Система подстановки выражений "#[...]" из старой библиотеки lib/ удалена
+вместе с lib/. Значения ниже перечислены для сверки при переводе
+потребителей на активную дизайн-систему; восстанавливать "#[...]"
+не нужно.
 
 Источники значений:
   - lib/style/palette.nix     (config.style.palette.*)
   - lib/style/constants.nix   (config.style.constants.*)
   - lib/utils/substitution/make-span.nix (config.make-span)
-  - username = "terrame" (flake.nix)
+  - username = "terrame" (meta/system-assembly/hosts.nix)
 
 ----------------------------------------------------------------
 1) includes{include:sass}/common/colors/palette.scss
@@ -23,10 +28,10 @@ config.string.substitute-expressions из lib/utils/string/substitute-expression
      light-gray #969896  white #c5c8c6  red #d54e53  orange #e78c45
      yellow #e7c547  green #b9ca4a  aqua #70c0b1  blue #7aa6da  purple #c397d8
 
-2) .config/hypr/hyprland.lua
-   offset_in     "#[config.style.constants.offset / 2]"   -> 3   (6 / 2)
-   offset_out    "#[config.style.constants.offset]"       -> 6
-   border_radius "#[config.style.constants.border-radius]" -> 12
+2) .config/hypr/hyprland.lua  [РЕШЕНО]
+   Больше не хардкод: файл читает ~/.design-system/partial.lua через
+   dofile и берёт grid-offset, border-radius и motion-easing-* из токенов.
+   Прежние значения: offset_in 3, offset_out 6, border_radius 12.
 
 3) .config/mpv/script-opts/webtorrent.conf
    /home/"#[username]"/Videos/webtorrent -> /home/terrame/Videos/webtorrent
@@ -45,8 +50,8 @@ config.string.substitute-expressions из lib/utils/string/substitute-expression
 Цель: полностью удалить локальную библиотеку lib/ — nix-файлы больше
 не должны обращаться к config.style.* / config.make-span / config.run-command.
 Значения захардкожены как локальные let-биндинги в каждом файле.
-Pipeline (pipeline/nix.nix) теперь пробрасывает в import только {lib, pkgs, file-dir}
-(раньше был config).
+Pipeline (pipeline/nix.nix) теперь пробрасывает в import args с lib, pkgs,
+host, sundry, root-vfs и design-tokens (раньше был config).
 
 Когда вернёшь генерацию config/style обратно — замени эти let-блоки на config.*.
 
@@ -72,11 +77,10 @@ Pipeline (pipeline/nix.nix) теперь пробрасывает в import то
    - margin-top/left/right = config.style.constants.offset -> 6
    - [РЕШЕНО] config.run-command "nproc" (число ядер CPU): раньше был IFD
      (readFile (runCommand ...)), который вдобавок считал ядра МАШИНЫ СБОРКИ,
-     а не целевого хоста. Заменён на host.cores — статичный факт про хост,
-     объявленный в hosts[] во flake.nix и прокинутый в дотфайл через nix.nix
-     (в args импорта добавлен host). Ни IFD, ни машинно-зависимости.
-     См. theme-source.md (тот же канал host/theme -> дотфайлы).
-     TODO: desktop.cores = 0 (плейсхолдер) — проставить реальный nproc на desktop.
+      а не целевого хоста. Заменён на host.cores — статичный факт про хост,
+      объявленный в meta/system-assembly/hosts.nix и прокинутый в дотфайл
+      через nix.nix (в args импорта добавлен host). Ни IFD, ни машинно-зависимости.
+      См. theme-source.md (тот же канал host/theme -> дотфайлы).
 
 9) src/applications/user{modules:user}/alacritty.nix
    config.style.palette.X -> settings.palette.X.

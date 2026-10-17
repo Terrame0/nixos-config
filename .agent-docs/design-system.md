@@ -12,7 +12,7 @@ The active design system lives in [`meta/design-system/`](../meta/design-system/
 | `tokens/` | Define named colors, dimensions, fonts, and other design values. |
 | `partials/` | Flatten the token tree and generate consumer-native files. |
 
-[`default.nix`](../meta/design-system/default.nix) receives its own subtree as the `vfs` argument and reads each part through the lazy `.expr` the global `load-nix` attached — e.g. `vfs."mk-type.nix".expr args`. `load-parts` collapses a `vfs.<sub>` subtree and evaluates each leaf as `file.expr args`; it no longer builds the tree with `from-src`.
+[`default.nix`](../meta/design-system/default.nix) reads its own subtree from the already-loaded `repo-vfs` (`repo-vfs.meta.design-system`) and forces each part's lazy `.expr` — e.g. `ds-subtree."mk-type.nix".expr args`. `load-parts` collapses a subtree and evaluates each leaf as `file.expr args`; it does not build a tree with `from-src`.
 
 A token has a type name and two representations produced from one source value by [`mk-type.nix`](../meta/design-system/mk-type.nix):
 
@@ -21,21 +21,15 @@ A token has a type name and two representations produced from one source value b
 | `native` | `native-repr` | Nix code, via `native-tokens` |
 | `to` | `consumer-repr` | partial generators |
 
-The source value is validated by `value-check` and is **not** stored on the token — a type that never renders a consumer does not exist. For a non-composite type `native-repr` defaults to `lib.id`; a composite overrides it to project its parts. `consumer-repr` must return a value for every registered consumer, or `mk-type` throws.
+The source value is validated by `value-check` and is **not** stored on the token — a type that never renders a consumer does not exist. For a non-composite type `native-repr` defaults to `lib.id`; a composite overrides it to project its parts. `consumer-repr` must return an attrset of strings covering every registered consumer; a missing key, an unexpected key, or a non-string value throws.
 
-Supported consumers are `css`, `scss`, `lua`, `qml`, and `rasi`. Lua and QML renderings are available on tokens, but their partial generators have not been added yet.
+The registered consumers are `css`, `lua`, `qml`, `rasi`, and `scss`, declared once as `consumers` in [`default.nix`](../meta/design-system/default.nix) and passed to both `mk-type` and `mk-partial`. A partial whose `consumer` is not in that list throws before it can look up a nonexistent rendering.
 
 ## Export: `partials-vfs` and `native-tokens`
 
 [`default.nix`](../meta/design-system/default.nix) exports `partials-vfs` and `native-tokens`.
 
-`partials-vfs` is the resolved VFS subtree of the generated partials, tagged `{dotfiles:.design-system}` by its own `resolve-tags`:
-
-```nix
-partials-vfs = sundry.vfs.dir.resolve-tags {
-  "partials{dotfiles:.design-system}" = partials;
-};
-```
+`partials-vfs` is the generated VFS subtree produced by `load-parts "partials"`. It is **not** tagged inside `default.nix`: assembly wraps it as `{"partials{dotfiles:.design-system}" = design-system.partials-vfs;}` in [`meta/system-assembly/each-host.nix`](../meta/system-assembly/each-host.nix), resolves tags there, and merges the result into `root-vfs`.
 
 `native-tokens` is the token tree flattened to native values. The flattener reads each token's `native`; nothing recurses into a `value` because the token no longer carries one:
 
@@ -57,17 +51,19 @@ native-repr = value: {
 
 A color's native value is the full 8-digit `#rrggbbaa`; a consumer that wants an opaque 6-digit hex — or must append its own alpha, as VS Code does — slices the base with `sundry.str.slice color [7]`. The assembly does not pre-slice, so `native-tokens.palette.blue` stays `#7aa6daff` and each consumer decides.
 
-The tag makes the partials indistinguishable from any other `{dotfiles}` subtree downstream. [`meta/system-assembly/each-host.nix`](../meta/system-assembly/each-host.nix) merges `partials-vfs` into `root-vfs`, so the dotfile pipeline picks them up without special-casing them. Previously `default.nix` exported the raw `partials` attrset and the dotfile pipeline injected it itself; that responsibility now belongs to the assembly, and `resolve-tags` runs on the partials tree exactly once — see [gotchas.md](gotchas.md).
+The tag makes the partials indistinguishable from any other `{dotfiles}` subtree downstream. [`meta/system-assembly/each-host.nix`](../meta/system-assembly/each-host.nix) merges `partials-vfs` into `root-vfs`, so the dotfile pipeline picks them up without special-casing them. `resolve-tags` runs on the partials tree exactly once, in the assembly — see [gotchas.md](gotchas.md).
 
 ## Generated partials
 
 | Consumer | Generated file | Use |
 | --- | --- | --- |
 | CSS | `~/.design-system/partial.css` | Load the stylesheet, then reference a token as `var(--palette-blue)`. |
+| Lua | `~/.design-system/partial.lua` | `dofile(os.getenv("HOME") .. "/.design-system/partial.lua")` returns a table; reference a token as `ds["palette-blue"]`. |
+| QML | `~/.design-system/DesignTokens/DesignTokens.qml` + `qmldir` | `import DesignTokens`, then reference a token as `DesignTokens.ds_palette_blue`. The `DesignTokens` directory must be on the QML import path. |
 | SCSS | `partial{include:sass}.scss` | `@use "partial" as *;` in a `{build:sass}` entry point. |
 | Rasi | `~/.design-system/partial.rasi` | `@import "~/.design-system/partial"`, then reference a token as `@ds-palette-blue`. |
 
-All generators flatten nested token paths with hyphens. For example, `tokens.palette.blue` becomes `--palette-blue` in the CSS `:root` block, `$palette-blue` in SCSS, and `ds-palette-blue` in the Rasi global `* { ... }` section.
+All generators flatten nested token paths with hyphens. For example, `tokens.palette.blue` becomes `--palette-blue` in CSS, `$palette-blue` in SCSS, `ds-palette-blue` in Rasi, `["palette-blue"]` in Lua, and `ds_palette_blue` in QML (hyphens are not valid in QML property names, so they become underscores).
 
 ## Rasi rendering
 
@@ -98,6 +94,6 @@ Its Rasi representation is `"JetBrainsMono NFP 16"`, while its SCSS representati
 ## Extending the system
 
 - Add a token in `tokens/` by constructing it through an existing type.
-- Add a type in `types/` with a `value-check` and a `consumer-repr` covering every consumer registered in `mk-type.nix`. `native-repr` defaults to `lib.id`; override it only for a composite.
+- Add a type in `types/` with a `value-check` and a `consumer-repr` covering every consumer registered in `consumers` in [`default.nix`](../meta/design-system/default.nix). `native-repr` defaults to `lib.id`; override it only for a composite.
 - Add a composite type when one logical consumer value is assembled from multiple tokens; its `native-repr` projects the parts' `native`.
-- Add a consumer by registering its name in `mk-type.nix`, extending every type's `consumer-repr`, and adding a partial generator when the consumer needs an emitted file.
+- Add a consumer by adding its name to `consumers` in [`default.nix`](../meta/design-system/default.nix), extending every type's `consumer-repr`, and adding a partial generator when the consumer needs an emitted file. The partial's `consumer` must match the registered name.

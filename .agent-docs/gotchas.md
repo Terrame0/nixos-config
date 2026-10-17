@@ -14,7 +14,7 @@ Counter-intuitive traps that already bit someone and would bite again. Each entr
 DRV=$(nix eval --raw --impure --expr '
   let f = builtins.getFlake (toString ./.);
   in builtins.head (builtins.attrNames (builtins.getContext
-       (toString f.nixosConfigurations.laptop.config.systemd.services.sing-box.serviceConfig.ExecStartPre)))')
+       (toString f.nixosConfigurations.desktop.config.systemd.services.sing-box.serviceConfig.ExecStartPre)))')
 nix-store -r "$DRV"   # now the out path exists
 ```
 
@@ -42,7 +42,7 @@ Do not chain `nix build --no-link` then read the path — with `--no-link` the G
 
 **Why:** Nix prefers a directory's `default.nix` over a sibling file of the same stem.
 
-**Avoid:** after splitting a monolithic `.nix` into a directory, delete the old file in the same change. Leaving it misleads readers (and the IDE opens the stale file), and the two copies silently drift.
+**Avoid:** after splitting a monolithic `.nix` into a directory, delete the old file in the same change. Module discovery now fails loud on this pair (`assert-unique-stems` in [`meta/system-assembly/glob-modules.nix`](../meta/system-assembly/glob-modules.nix)) because both paths would otherwise be imported as separate modules and drift.
 
 ## `sing-box check` rejects a `urltest`/`selector` with an empty `outbounds`
 
@@ -66,9 +66,9 @@ Splitting an empty string yields a one-element list holding the empty string, no
 
 **Why:** `take tag-pos path` silently assumes `tag-pos` indexes the *current* `path`. The old positional model kept them equal-length; home-relative rebasing drops the left prefix from `path` only.
 
-**Avoid:** keep the node's `path` in source-tree coordinates through every stage that reads `tag-pos`/`tag-list`. The home-relative rewrite happens **last**, in `home-files`'s `to-home-path`, applied only to the emitted `home.file` key — never to the node in the tree. See [dotfile-symlinking.md](dotfile-symlinking.md).
+**Avoid:** keep the node's `path` in source-tree coordinates through every stage that reads `tag-pos`/`tag-list`. The home-relative rewrite happens **last**, inline in `home-files` (`target-path` in `result.nix`), applied only to the emitted `home.file` key — never to the node in the tree. See [dotfile-symlinking.md](dotfile-symlinking.md).
 
-The deeper lesson: **rewriting a directory node's `path` mid-pipeline is suspect on principle** — any later stage that correlates `path` with `tag-list` (via `tag-pos`) will misread it, because the rewrite moves one and not the other. The safe pattern is to derive the final path from `path` + `tag-list` **at the point of use** (as `to-home-path` does), leaving the tree in one coordinate system end to end. Treat "reform a directory's path early" as a smell, not a tool.
+The deeper lesson: **rewriting a directory node's `path` mid-pipeline is suspect on principle** — any later stage that correlates `path` with `tag-list` (via `tag-pos`) will misread it, because the rewrite moves one and not the other. The safe pattern is to derive the final path from `path` + `tag-list` **at the point of use** (as `target-path` does), leaving the tree in one coordinate system end to end. Treat "reform a directory's path early" as a smell, not a tool.
 
 ## `select-by-tag` drops non-matches; `reform-within-tag` keeps them
 
@@ -84,7 +84,7 @@ Swapping one for the other is not refactor-neutral. `reform-within-tag pred f` t
 
 **Why:** the deepest `{modules}` in the path is the real level; shallower ones are overridden, not additive.
 
-**Avoid:** query the *value* with `deepest-tag {modules = …}` (nearest-in-chain wins), which [flake.nix](../flake.nix)'s `filter-modules` does. Keep the plain `tag {modules = [];}` only for the **presence** check ("is this a module at all") — presence is the same under both operands; only value discrimination differs. See [structure.md](structure.md).
+**Avoid:** query the *value* with `deepest-tag {modules = …}` (nearest-in-chain wins), which [`glob-modules.nix`](../meta/system-assembly/glob-modules.nix)'s `filter-modules` does. Keep the plain `tag {modules = [];}` only for the **presence** check ("is this a module at all") — presence is the same under both operands; only value discrimination differs. `{hosts}` is queried the same way: its host gate uses `deepest-tag` too, so an inner host tag overrides an outer one. See [structure.md](structure.md).
 
 ## sing-box 1.13.x has no `cache_file.store_selected`
 
@@ -122,11 +122,11 @@ A `{` written directly in a path literal is a separate grammar error: write `./$
 
 ## `resolve-tags` is not idempotent — run it exactly once per subtree
 
-`sundry.vfs.dir.resolve-tags` derives each node's `tag-list` from the `{…}` syntax in its `path`, then strips the braces from `path`. Run it a second time over an already-resolved tree and there are no tags left to read, so it overwrites every `tag-list` with empty tag sets (an untagged segment resolves to `[{}]`).
+`sundry.vfs.dir.resolve-tags` derives each node's `tag-list` from the `{…}` syntax in its `path`, then strips the braces from `path`. Running it a second time over an already-resolved tree throws: every node already carries a `tag-list`, and `resolve-tags` refuses to overwrite it.
 
-**Why:** it is a one-way resolution pass, not a normalisation pass — the tags live in the very path syntax that resolution deletes.
+**Why:** it is a one-way resolution pass, not a normalisation pass — the tags live in the very path syntax that resolution deletes, so a second run has nothing meaningful to read.
 
-**Avoid:** resolve each raw tree exactly once, then merge the resolved trees with `sundry.vfs.dir.merge`. Assembly does two independent passes — `repo-vfs` in [`meta/system-assembly/each-host.nix`](../meta/system-assembly/each-host.nix) and `partials-vfs` in [`meta/design-system/default.nix`](../meta/design-system/default.nix) — and merges the results into `root-vfs`. Never call `resolve-tags` on `root-vfs` or on any other merged/already-resolved tree. See [design-system.md](design-system.md).
+**Avoid:** resolve each raw tree exactly once, then merge the resolved trees with `sundry.vfs.dir.merge`. Assembly does two independent passes — `repo-vfs` in [`meta/system-assembly/each-host.nix`](../meta/system-assembly/each-host.nix) and the partials wrapper in that same file — and merges the results into `root-vfs`. Never call `resolve-tags` on `root-vfs` or on any other merged/already-resolved tree. See [design-system.md](design-system.md).
 
 ## Global `load-nix` attaches a lazy `expr` to every `.nix` leaf
 

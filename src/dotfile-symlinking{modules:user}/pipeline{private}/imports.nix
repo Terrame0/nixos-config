@@ -6,7 +6,10 @@
 }: {
   dotfile-sources = {
     transform = _:
-      sundry.vfs.dir.select-by-tag (_: with _; tag {dotfiles = [];}) root-vfs;
+      lib.pipe root-vfs [
+        (sundry.vfs.dir.select-by-tag (_: with _; tag {dotfiles = [];}))
+        (sundry.vfs.dir.select-by-tag (e: !(e.tag {private = [];})))
+      ];
   };
 
   raw-dotfiles = {
@@ -19,7 +22,6 @@
               e.tag {include = [];}
               || e.tag {build = [];}
               || e.tag {convert = [];}
-              || e.tag {private = [];}
             )))
       ];
   };

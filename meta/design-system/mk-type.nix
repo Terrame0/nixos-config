@@ -1,6 +1,7 @@
 {
   sundry,
   lib,
+  consumers,
   ...
 }: defs': value: let
   defs =
@@ -31,18 +32,31 @@ in
     type = defs.name;
     native = defs.native-repr value;
     to = let
-      consumers = ["css" "scss" "lua" "qml" "rasi"];
       result = defs.consumer-repr value;
-      comparison =
-        sundry.attrs.compare
-        result (lib.genAttrs consumers (_: "..."));
     in
-      if comparison.missing == {}
-      then result
-      else
-        throw ''
-          a type definition is missing rendered values for the following consumers:
-          ${sundry.str.pretty comparison.missing}
-        '';
+      if !(lib.isAttrs result)
+      then throw "a type definition must render its consumers to an attrset of strings"
+      else let
+        comparison =
+          sundry.attrs.compare
+          result (lib.genAttrs consumers (_: "..."));
+      in
+        if comparison.missing != {}
+        then
+          throw ''
+            a type definition is missing rendered values for the following consumers:
+            ${sundry.str.pretty comparison.missing}
+          ''
+        else if comparison.extra != {}
+        then
+          throw ''
+            a type definition rendered values for consumers that are not registered:
+            ${sundry.str.pretty comparison.extra}
+
+            registered consumers: ${lib.concatStringsSep ", " consumers}
+          ''
+        else if !(lib.all lib.isString (lib.attrValues result))
+        then throw "a type definition must render every consumer to a string"
+        else result;
   }
   else throw "value '${lib.typeOf value}' did not pass type value validation"

@@ -5,6 +5,7 @@
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
     hyprland = {
       url = "github:hyprwm/Hyprland";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
     home-manager = {
       url = "github:nix-community/home-manager/release-26.05";
@@ -37,7 +38,10 @@
       url = "github:philocalyst/nuenv";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    microsoft-fonts.url = "github:kugland/nix-ttf-ms-win11-auto";
+    microsoft-fonts = {
+      url = "github:kugland/nix-ttf-ms-win11-auto";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
+    };
     # -- do not override nixpkgs input (per their README.md)
     nix-cachyos-kernel.url = "github:xddxdd/nix-cachyos-kernel/release";
     # -- does not have a nixpkgs input

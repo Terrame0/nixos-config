@@ -24,35 +24,35 @@ The pipeline no longer touches the `root` path — it starts from its own subtre
 
 The tree also holds real modules, so a dotfile there **must** carry `{dotfiles:PATH}` both to opt in and to state where it lands. This lets a feature keep its module and its dotfiles side by side (e.g. `waybar/package.nix` next to `waybar/config{dotfiles:.config|waybar}/`).
 
-The `{dotfiles}` selection is the mirror of module discovery in [flake.nix](../flake.nix): discovery *excludes* `{dotfiles}` subtrees, dotfile discovery *includes* only them — the two never claim the same file.
+The `{dotfiles}` selection is the mirror of module discovery in [glob-modules.nix](../meta/system-assembly/glob-modules.nix): discovery *excludes* `{dotfiles}` subtrees, dotfile discovery *includes* only them — the two never claim the same file.
 
 ## Tag model: nouns classify, verbs process
 
 The tag vocabulary splits along one axis:
 
 - **Nouns — ingest class** (mutually exclusive): `{modules:system}` / `{modules:user}` for a module and its level, `{dotfiles:PATH}` for a dotfile. A file belongs to exactly one class — a module or a dotfile, never both.
-- **Verbs — processing within a class**: `{convert:json}`, `{build:sass}`. Only meaningful inside `{dotfiles}` — a `.nix` module ingests as-is, so it carries no verbs.
+- **Verbs — processing within a class**: `{convert:json}`, `{build:sass}`, `{exec}`. Only meaningful inside `{dotfiles}` — a `.nix` module ingests as-is, so it carries no verbs.
 
-`{build:sass}` and `{convert:json}` stay distinct even though both target dotfiles: `convert` is a pure per-file serialisation (attrset → text), `build` is a compile that pulls `{include:sass}` load-paths and can fail — different operations, not two spellings of one.
+`{build:sass}` and `{convert:json}` stay distinct even though both target dotfiles: `convert` is a pure per-file serialisation (attrset → text), `build` is a compile that pulls `{include:sass}` load-paths and can fail — different operations, not two spellings of one. `{exec}` is orthogonal to both: it only sets the executable bit on the emitted `home.file` entry.
 
 ## Pipeline stages
 
 | Stage | File | What it does |
 |---|---|---|
-| `dotfile-sources` | [imports.nix](../src/dotfile-symlinking%7Bmodules:user%7D/pipeline%7Bprivate%7D/imports.nix) | Selects `{dotfiles}` subtrees from `root-vfs` (already resolved; design-system partials included). **Paths stay as-is** — no home-relative rewrite here. |
-| `raw-dotfiles` | same file | Drops `{include}`, `{build}`, `{convert}`, `{private}` files — the raw-copy set. |
+| `dotfile-sources` | [imports.nix](../src/dotfile-symlinking%7Bmodules:user%7D/pipeline%7Bprivate%7D/imports.nix) | Selects `{dotfiles}` subtrees from `root-vfs` (already resolved; design-system partials included) and drops `{private}` files and dirs. **Paths stay as-is** — no home-relative rewrite here. |
+| `raw-dotfiles` | same file | Drops `{include}`, `{build}`, `{convert}` leaves — the raw-copy set. |
 | `evaluated-nix-dotfiles` | [nix.nix](../src/dotfile-symlinking%7Bmodules:user%7D/pipeline%7Bprivate%7D/nix.nix) | Walks the `.nix` leaves of the `{dotfiles}` set and re-binds each already-attached `expr` with the pipeline's module args (`file.expr args`); no `file-dir` is threaded. |
 | `converted-nix-dotfiles` | same file | Serialises `{convert:json}` / `{convert:ini}` files' `.expr` to text via `lib.generators`. |
 | `sass-build-tree` | [sass.nix](../src/dotfile-symlinking%7Bmodules:user%7D/pipeline%7Bprivate%7D/sass.nix) | Materialises all `.scss` into one clean source tree in a derivation and keeps both `{ drv, dir }`. |
 | `sass-load-flags` | same file | Collects `{include:sass}` dirs as ready-to-use `--load-path` flags. |
 | `built-sass-dotfiles` | same file | Compiles `{build:sass}` entry points to `.css` via `dart-sass`. |
-| `home-files` | [result.nix](../src/dotfile-symlinking%7Bmodules:user%7D/pipeline%7Bprivate%7D/result.nix) | Merges all stages; applies `{ext:…}` renames; **rewrites each path to its `~`-relative home path** (`to-home-path`); collapses to `home.file`. |
+| `home-files` | [result.nix](../src/dotfile-symlinking%7Bmodules:user%7D/pipeline%7Bprivate%7D/result.nix) | Merges all stages; applies `{ext:…}` renames and `{exec}`; **rewrites each path to its `~`-relative home path**; collapses to `home.file`. |
 
 ### Where the home-relative rewrite happens — and why it's last
 
 `{dotfiles:PATH}` gives a path **relative to `~`**, replacing everything to its left. `PATH` uses `|` to separate segments (local convention, not sundry tag syntax): `{dotfiles:.config|waybar}` → `~/.config/waybar/`.
 
-This rewrite lives in `home-files`'s `to-home-path`, applied only when building the `home.file` key — **not** in `dotfile-sources`. The VFS node's `path` stays in its original (source-tree) coordinates through every stage. This is deliberate: `sass-load-flags` computes `lib.take tag-pos path`, which relies on `tag-pos` (an index into the node's `tag-list`) still indexing `path`. Rewriting `path` early — but not `tag-list` — desynchronises the two, and `take` overshoots into file paths instead of include dirs. See [gotchas.md](gotchas.md).
+This rewrite lives inline in `home-files` (`target-path` in `result.nix`), applied only when building the `home.file` key — **not** in `dotfile-sources`. The VFS node's `path` stays in its original (source-tree) coordinates through every stage. This is deliberate: `sass-load-flags` computes `lib.take tag-pos path`, which relies on `tag-pos` (an index into the node's `tag-list`) still indexing `path`. Rewriting `path` early — but not `tag-list` — desynchronises the two, and `take` overshoots into file paths instead of include dirs. See [gotchas.md](gotchas.md).
 
 ## Tag syntax in file/directory names
 
@@ -63,6 +63,7 @@ Tags are embedded in path segments as `{key}` or `{key:value}`; multiple values 
 | `{dotfiles:seg\|nested}` | directory | Marks the subtree as a dotfile source and sets its `~`-relative destination. `\|` splits sub-segments. |
 | `{convert:json}` / `{convert:ini}` | file | `.nix` evaluates to an attrset; pipeline serialises it to JSON / INI text. |
 | `{ext:ext}` | file | Overrides the output extension. Bare `{ext}` strips the extension entirely. |
+| `{exec}` | file | Marks the emitted `home.file` entry as executable. The executable bit is **never** inferred from the extension. |
 | `{build:sass}` | file | This `.scss` is a Sass entry point — compile to `.css`. |
 | `{include:sass}` | directory | Sass include path. The `--load-path` is the dir **above** the tagged segment (`lib.take tag-pos path` in the Sass build tree derivation). |
 | `{private}` | file or dir | Source-only helper, excluded from all discovery (module *and* dotfile). E.g. `settings{private}/`, the `pipeline{private}/` dir, sing-box's `config{private}/`. |
@@ -100,5 +101,6 @@ The module and its dotfiles live together. `{dotfiles:.config|waybar}` opts the 
 1. Put it under `src/…/`, next to the module it belongs to, and tag the containing directory `{dotfiles:PATH}` with the `|`-separated home path.
 2. If it's a Nix expression to serialise, add `{convert:json}` or `{convert:ini}` to the filename.
 3. If it's a `.scss` entry point, tag it `{build:sass}`; tag include-only dirs `{include:sass}`.
-4. `git add` the new file (a flake only sees git-tracked files) and `nixos-rebuild switch`.
+4. If it must be executable, tag it `{exec}` — e.g. `screenshot{exec}.sh`.
+5. `git add` the new file (a flake only sees git-tracked files) and `nixos-rebuild switch`.
 </content>

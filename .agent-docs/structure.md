@@ -8,13 +8,13 @@ Modules live in one tree, grouped by **domain** (what a feature *is*), not by pr
 nixos-config/
 ├── flake.nix          — entry point; wires inputs, delegates host/module assembly to meta/system-assembly/
 ├── src/               — feature modules, grouped by domain
-│   ├── nixos/         — OS foundation: nix, nixpkgs, locale, state-version, update-script
-│   ├── hardware/      — boot, graphics, sound, bluetooth, networking, swap, per-host, asusd, keyd
+│   ├── nixos/         — OS foundation: nix, nixpkgs, locale, state-version, update-script, users
+│   ├── hardware/      — boot, graphics, sound, bluetooth, swap, zram, kernel, sysctl, per-host, keyd
 │   ├── security/      — sops, keyring, sudo
-│   ├── network/       — sing-box (VPN, see sing-box.md), throne, ssh-daemon
-│   ├── applications/  — steam, nix-ld, dbus, thunar (sys); alacritty, firefox, mpv, vscode, yt-dlp (user)
-│   ├── desktop-environment/ — hyprland, uwsm, fonts (sys); waybar, wofi, gtk-theme, cliphist, autostart, xdg (user)
-│   ├── shell/         — zsh, starship, git, ssh, direnv (user)
+│   ├── network/       — sing-box (VPN, see sing-box.md), throne, ssh-daemon, searx, networking
+│   ├── applications/  — libvirt, nix-ld, piper, steam, thunar (sys); alacritty, lutris, mpv, zen-browser, vscode, yt-dlp, opencode (user)
+│   ├── desktop-environment/ — hyprland, uwsm, dbus, fonts (sys); waybar, wofi, rofi, gtk-theme, cliphist, autostart, xdg-dirs, mime-apps (user)
+│   ├── shell/         — zsh, starship, git, ssh, direnv, nushell, nix-your-shell (user)
 │   └── dotfile-symlinking/ — the dotfile pipeline, as a user module (see dotfile-symlinking.md)
 └── meta/    — foundation for modules, but not itself a module
     ├── system-assembly/ — host table and tag-based module discovery, wired by flake.nix
@@ -45,7 +45,7 @@ This asymmetry (tag-on-domain vs tag-on-subfolder) is deliberate: mono-domains n
 
 ### Deepest tag wins
 
-`{modules:…}` is a mutually-exclusive noun tag — a file is exactly one level. When tags nest (a `{modules:system}` file inside a `{modules:user}` domain, e.g. co-locating a compositor-enable module with its user dotfiles), the **deepest** tag in the path wins, not the union. `filter-modules` in [flake.nix](../flake.nix) queries this with the `deepest-tag` operand; the outer presence-check (`tag {modules = [];}` — "is this a module at all") stays plain `tag`. See [gotchas.md](gotchas.md).
+`{modules:…}` is a mutually-exclusive noun tag — a file is exactly one level. When tags nest (a `{modules:system}` file inside a `{modules:user}` domain, e.g. co-locating a compositor-enable module with its user dotfiles), the **deepest** tag in the path wins, not the union. `filter-modules` in [glob-modules.nix](../meta/system-assembly/glob-modules.nix) queries this with the `deepest-tag` operand; the outer presence-check (`tag {modules = [];}` — "is this a module at all") stays plain `tag`. See [gotchas.md](gotchas.md).
 
 ## Module discovery
 
@@ -53,9 +53,9 @@ This asymmetry (tag-on-domain vs tag-on-subfolder) is deliberate: mono-domains n
 
 1. carries a `{modules:…}` tag somewhere in its path (presence check), **and**
 2. is not `{private}` (source-only helper) or `{dotfiles}` (a dotfile, not a module), **and**
-3. passes the host gate: `{hosts:name}` matching the current host, or no `{hosts}` tag at all.
+3. passes the host gate: the **deepest** `{hosts:name}` tag matches the current host, or there is no `{hosts}` tag at all.
 
-`filter-modules "system"` / `filter-modules "user"` then split the survivors by their deepest `{modules}` value into the NixOS module list and the Home Manager `imports`. Home Manager runs as a NixOS module, not standalone — apply all changes with `nixos-rebuild switch`.
+`filter-modules "system"` / `filter-modules "user"` then split the survivors by their deepest `{modules}` value into the NixOS module list and the Home Manager `imports`. Discovery throws if both `X.nix` and `X/default.nix` survive — the two would be imported as separate modules and drift. Home Manager runs as a NixOS module, not standalone — apply all changes with `nixos-rebuild switch`.
 
 ## Multi-host setup
 
@@ -71,7 +71,7 @@ Three hosts are declared in [`meta/system-assembly/hosts.nix`](../meta/system-as
 | `sundry` | library functions from the `sundry` flake input |
 | `inputs` | the flake's inputs |
 
-`root` (the Nix path `./.`) is not a special arg: it is an internal parameter of [`meta/system-assembly/each-host.nix`](../meta/system-assembly/each-host.nix), used only as the input to the repo's single `sundry.vfs.dir.from-src`. `each-host.nix` builds the tree once — `from-src`, `resolve-tags`, then `load-nix` produce `repo-vfs`; the design system is evaluated from its own subtree; and `design-system.partials-vfs` is merged in to form `root-vfs`.
+`root` (the Nix path `./.`) is not a special arg: it is an internal parameter of [`meta/system-assembly/each-host.nix`](../meta/system-assembly/each-host.nix), used only as the input to the repo's single `sundry.vfs.dir.from-src`. `each-host.nix` builds the tree once — `from-src`, then `load-nix`, then `resolve-tags` produce `repo-vfs`; the design system is evaluated from its own subtree; and `design-system.partials-vfs` is merged in to form `root-vfs`.
 
 `load-nix` attaches a lazy `expr = import <origin>` to every `.nix` leaf, so a module reads a Nix expression by forcing `.expr` with its args. A module reaches its own subtree with `sundry.vfs.dir.get <path> root-vfs`, passing a **path literal relative to the module file** (e.g. `sundry.vfs.dir.get ./config root-vfs` from `src/shell{modules:user}/nushell/program.nix`), then `file.expr args` per leaf. `vfs.dir.get` strips `{…}` tags from both a path literal and a string, so `./config` also matches `config{private}`. Modules never build their own trees or paths; they navigate the shared `root-vfs`. Assembly code does the same (e.g. `sundry.vfs.dir.get ../../src root-vfs` in [glob-modules.nix](../meta/system-assembly/glob-modules.nix)), never through `root + "/…"`.
 
@@ -83,11 +83,17 @@ The username is no longer a top-level arg; modules read it as `host.username`.
 |---|---|
 | `nixpkgs` | `nixos-26.05` |
 | `nixpkgs-unstable` | `nixos-unstable` |
-| `home-manager` | `release-26.05` |
-| `hyprland` | latest (nixpkgs follows nixpkgs) |
+| `home-manager` | `release-26.05` (nixpkgs follows `nixpkgs`) |
+| `hyprland` | latest (nixpkgs follows `nixpkgs-unstable`) |
 | `sundry-input` | private repo `Terrame0/sundry` |
-| `sops-nix` | latest |
-| `nix4vscode` | latest |
-| `nixos-update-script` | private repo `Terrame0/nixos-update-script` |
+| `sops-nix` | latest (nixpkgs follows `nixpkgs`) |
+| `nix4vscode` | latest (nixpkgs follows `nixpkgs`) |
+| `nixos-cli` | latest (nixpkgs follows `nixpkgs`) |
+| `nixos-update-script` | private repo `Terrame0/nixos-update-script` (nixpkgs follows `nixpkgs`) |
+| `zen-browser` | latest (nixpkgs follows `nixpkgs-unstable`, home-manager follows `home-manager`) |
+| `nuenv` | latest (nixpkgs follows `nixpkgs`) |
+| `microsoft-fonts` | latest (nixpkgs follows `nixpkgs-unstable`) |
+| `nix-cachyos-kernel` | `release` branch (no nixpkgs override) |
+| `idef0-svg-gost` | private repo `Terrame0/IDEF0-SVG-GOST-wrapped` (nixpkgs follows `nixpkgs`, sundry follows `sundry-input`) |
 </content>
 </invoke>

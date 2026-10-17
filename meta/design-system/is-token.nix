@@ -4,7 +4,8 @@
   ...
 }: path: attrs:
 attrs ? to
+&& lib.isAttrs attrs.to
+&& lib.all lib.isString (lib.attrValues attrs.to)
 && attrs ? native
 && attrs ? type
 && lib.isString attrs.type
-&& lib.all (sundry.not lib.isAttrs) (lib.attrValues attrs.to)

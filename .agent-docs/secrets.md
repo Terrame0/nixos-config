@@ -12,7 +12,10 @@ The generated secret name is `<file-stem>/<yaml-key>`:
 |---|---|---|
 | `vpn.yaml` | `sub-url` | `vpn/sub-url` |
 | `vpn.yaml` | `hwid` | `vpn/hwid` |
-| `ssh-keys.yaml` | `<key>` | `ssh-keys/<key>` |
+| `ssh.yaml` | `<key>` | `ssh/<key>` |
+| `git.yaml` | `<key>` | `git/<key>` |
+| `deepseek-api.yaml` | `<key>` | `deepseek-api/<key>` |
+| `searx.yaml` | `<key>` | `searx/<key>` |
 
 The file *stem* is the tag-stripped name — `password-hashes{for-users}.yaml` becomes stem `password-hashes`, so its keys are `password-hashes/<key>`.
 
@@ -37,7 +40,7 @@ sops "src/security{modules:system}/secrets/vpn.yaml"    # edit — decrypts, ope
 
 ## Consuming a secret in a service
 
-sops decrypts each secret to a path under `/run/secrets/…` owned by `username`, mode `0400`. A systemd service reads it via `LoadCredential`, which copies it into the unit's private `$CREDENTIALS_DIRECTORY` — see [sing-box's systemd-service.nix](../src/network%7Bmodules:system%7D/sing-box%7Bmodules:system%7D/systemd-service.nix):
+sops decrypts each secret to a path under `/run/secrets/…` owned by `username`, mode `0400`. A systemd service reads it via `LoadCredential`, which copies it into the unit's private `$CREDENTIALS_DIRECTORY` — see [sing-box's service.nix](../src/network%7Bmodules:system%7D/sing-box/service.nix):
 
 ```nix
 LoadCredential = [
