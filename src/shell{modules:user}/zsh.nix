@@ -31,7 +31,7 @@
 
         # -- signal rebinding
         stty intr '^X'
-        stty susp '^P'
+        stty susp '^Z'
 
         # -- history search with arrows
         autoload -Uz history-substring-search-up

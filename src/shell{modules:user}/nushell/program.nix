@@ -19,6 +19,12 @@ args @ {
       (sundry.vfs.dir.collapse (path: file: file.expr args))
       sundry.attrs.merge.recursive.no-collision
     ];
+    extraConfig = ''
+      if (is-terminal --stdin) {
+        ^stty intr '^X'
+        ^stty susp '^Z'
+      }
+    '';
     plugins = with pkgs.nushellPlugins; [
       formats
       gstat

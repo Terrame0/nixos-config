@@ -106,6 +106,16 @@ in {
           mods = "Control";
           action = "Paste";
         }
+        {
+          key = "C";
+          mods = "Control|Shift";
+          action = "ReceiveChar";
+        }
+        {
+          key = "С";
+          mods = "Control|Shift";
+          action = "ReceiveChar";
+        }
       ];
 
       font = {

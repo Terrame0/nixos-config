@@ -3,6 +3,7 @@
   sing-box.proxied-domains = [
     "cache.nixos.org"
     "attic.xuyh0120.win"
+    "cache.xinux.uz"
     "hyprland.cachix.org"
     "watersucks.cachix.org"
     "extranix.com"
@@ -12,6 +13,7 @@
   nix = {
     registry = {
       default.flake = inputs.nixpkgs;
+      sundry.flake = inputs.sundry-input;
     };
     gc = {
       automatic = true;
@@ -34,12 +36,14 @@
       extra-substituters = [
         "https://watersucks.cachix.org" # -- nixos cli
         # "https://attic.xuyh0120.win/lantian" # -- cachyos kernels
+        # "https://cache.xinux.uz"
         "https://hyprland.cachix.org" # -- hyprland
         "https://numtide.cachix.org" # -- numtide stuff
       ];
       extra-trusted-public-keys = [
         "watersucks.cachix.org-1:6gadPC5R8iLWQ3EUtfu3GFrVY7X6I4Fwz/ihW25Jbv8="
         # "lantian:EeAUQ+W+6r7EtwnmYjeVwx5kOGEBpjlBfPlzGlTNvHc="
+        # "cache.xinux.uz:BXCrtqejFjWzWEB9YuGB7X2MV4ttBur1N8BkwQRdH+0="
         "hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc="
         "numtide.cachix.org-1:2ps1kLBUWjxIneOy1Ik6cQjb41X0iXVXeHigGmycPPE="
       ];
