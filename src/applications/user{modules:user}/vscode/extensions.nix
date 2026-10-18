@@ -2,10 +2,10 @@ args @ {
   pkgs,
   sundry,
   lib,
-  root-vfs,
+  flake-file-tree,
   ...
 }: let
-  decorators = lib.pipe (sundry.vfs.dir.get ./decorators root-vfs) [
+  decorators = lib.pipe (sundry.vfs.dir.get ./decorators flake-file-tree) [
     (sundry.vfs.dir.collapse (path: file: file.expr args))
     sundry.attrs.merge.recursive.no-collision
   ];
@@ -46,9 +46,6 @@ in {
 
     # -- plantuml
     "jebbs.plantuml"
-
-    # -- opencode integration (requires system opencode)
-    "sst-dev.opencode"
   ];
 
   # -- needed for plantuml rendering to work

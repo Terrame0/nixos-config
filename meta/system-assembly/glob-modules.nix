@@ -3,7 +3,7 @@ args @ {
   sundry,
   lib,
   inputs,
-  root-vfs,
+  flake-file-tree,
   ...
 }: let
   assert-unique-stems = files: let
@@ -31,7 +31,7 @@ args @ {
       '';
 
   filter-modules = tag-value:
-    lib.pipe (sundry.vfs.dir.get ../../src root-vfs) [
+    lib.pipe (sundry.vfs.dir.get ../../src flake-file-tree) [
       (sundry.vfs.dir.filter
         (path: file: sundry.vfs.path.get.ext path == "nix"))
       (sundry.vfs.dir.select-by-tag
@@ -43,7 +43,7 @@ args @ {
       (sundry.vfs.dir.collapse (path: file: file.origin))
     ];
   module-args = {
-    inherit (args) inputs host sundry root-vfs design-tokens;
+    inherit (args) inputs host sundry flake-file-tree design-tokens;
   };
   system-modules = filter-modules "system";
   user-modules = filter-modules "user";

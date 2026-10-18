@@ -2,10 +2,10 @@
   pkgs,
   osConfig,
   sundry,
-  root-vfs,
+  flake-file-tree,
   ...
 }: let
-  config-subtree = sundry.vfs.dir.get ./config root-vfs;
+  config-file-tree = sundry.vfs.dir.get ./config flake-file-tree;
   opencode = pkgs.symlinkJoin {
     name = "opencode-with-experimental";
     paths = [pkgs.opencode];
@@ -17,13 +17,13 @@
 in {
   sing-box.proxied-domains = ["deepseek.com"];
   imports = [
-    config-subtree.skills.gost-report."module.nix".origin
+    config-file-tree.skills.gost-report."module.nix".origin
   ];
 
   programs.opencode = {
     enable = true;
     package = opencode;
-    context = config-subtree."AGENTS.md".origin;
+    context = config-file-tree."AGENTS.md".origin;
     settings = {
       autoupdate = false;
       provider = {

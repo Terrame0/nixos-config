@@ -6,21 +6,21 @@ Dotfiles are produced by a custom pipeline under [src/dotfile-symlinking{modules
 
 [default.nix](../src/dotfile-symlinking%7Bmodules:user%7D/default.nix) drives it:
 
-1. It collapses `sundry.vfs.dir.get ./pipeline root-vfs` and evaluates each stage file as `file.expr args`, using the `expr` the global `load-nix` already attached.
+1. It collapses `sundry.vfs.dir.get ./pipeline flake-file-tree` and evaluates each stage file as `file.expr args`, using the `expr` the global `load-nix` already attached.
 2. The stages are merged and run through `sundry.attrs.resolve-deps` — a dependency-aware evaluator that orders stages by their declared `deps`.
 3. The final `home-files` key is assigned to `home.file`.
 
-The pipeline no longer touches the `root` path — it starts from its own subtree, obtained with `sundry.vfs.dir.get ./pipeline root-vfs`, where `.expr` is already present. The `./pipeline` path literal resolves tag-insensitively, matching `pipeline{private}`. The pipeline directory is tagged `{private}` so its own files are never mistaken for dotfile sources or modules.
+The pipeline no longer touches the `root` path — it starts from its own subtree, obtained with `sundry.vfs.dir.get ./pipeline flake-file-tree`, where `.expr` is already present. The `./pipeline` path literal resolves tag-insensitively, matching `pipeline{private}`. The pipeline directory is tagged `{private}` so its own files are never mistaken for dotfile sources or modules.
 
 ## Source: the module tree
 
-`dotfile-sources` selects only the `{dotfiles:…}` subtrees from `root-vfs`, the repo's already-resolved VFS tree ([imports.nix](../src/dotfile-symlinking%7Bmodules:user%7D/pipeline%7Bprivate%7D/imports.nix)):
+`dotfile-sources` selects only the `{dotfiles:…}` subtrees from `flake-file-tree`, the repo's already-resolved VFS tree ([imports.nix](../src/dotfile-symlinking%7Bmodules:user%7D/pipeline%7Bprivate%7D/imports.nix)):
 
 | Root | Selection | Destination path comes from |
 |---|---|---|
-| `root-vfs` (whole repo) | only subtrees tagged `{dotfiles:…}` | the `{dotfiles:PATH}` tag value |
+| `flake-file-tree` (whole repo) | only subtrees tagged `{dotfiles:…}` | the `{dotfiles:PATH}` tag value |
 
-`root-vfs` already contains the design-system partials: [`meta/system-assembly/each-host.nix`](../meta/system-assembly/each-host.nix) merges `design-system.partials-vfs` (tagged `{dotfiles:.design-system}`) into the tree before any pipeline stage runs, so `dotfile-sources` sees them as ordinary `{dotfiles}` subtrees. Tag resolution happens when `root-vfs` is built, not in the pipeline.
+`flake-file-tree` already contains the design-system partials: [`meta/system-assembly/each-host.nix`](../meta/system-assembly/each-host.nix) merges `design-system.partials-file-tree` (tagged `{dotfiles:.design-system}`) into the tree before any pipeline stage runs, so `dotfile-sources` sees them as ordinary `{dotfiles}` subtrees. Tag resolution happens when `flake-file-tree` is built, not in the pipeline.
 
 The tree also holds real modules, so a dotfile there **must** carry `{dotfiles:PATH}` both to opt in and to state where it lands. This lets a feature keep its module and its dotfiles side by side (e.g. `waybar/package.nix` next to `waybar/config{dotfiles:.config|waybar}/`).
 
@@ -39,7 +39,7 @@ The tag vocabulary splits along one axis:
 
 | Stage | File | What it does |
 |---|---|---|
-| `dotfile-sources` | [imports.nix](../src/dotfile-symlinking%7Bmodules:user%7D/pipeline%7Bprivate%7D/imports.nix) | Selects `{dotfiles}` subtrees from `root-vfs` (already resolved; design-system partials included) and drops `{private}` files and dirs. **Paths stay as-is** — no home-relative rewrite here. |
+| `dotfile-sources` | [imports.nix](../src/dotfile-symlinking%7Bmodules:user%7D/pipeline%7Bprivate%7D/imports.nix) | Selects `{dotfiles}` subtrees from `flake-file-tree` (already resolved; design-system partials included) and drops `{private}` files and dirs. **Paths stay as-is** — no home-relative rewrite here. |
 | `raw-dotfiles` | same file | Drops `{include}`, `{build}`, `{convert}` leaves — the raw-copy set. |
 | `evaluated-nix-dotfiles` | [nix.nix](../src/dotfile-symlinking%7Bmodules:user%7D/pipeline%7Bprivate%7D/nix.nix) | Walks the `.nix` leaves of the `{dotfiles}` set and re-binds each already-attached `expr` with the pipeline's module args (`file.expr args`); no `file-dir` is threaded. |
 | `converted-nix-dotfiles` | same file | Serialises `{convert:json}` / `{convert:ini}` files' `.expr` to text via `lib.generators`. |
@@ -52,7 +52,7 @@ The tag vocabulary splits along one axis:
 
 `{dotfiles:PATH}` gives a path **relative to `~`**, replacing everything to its left. `PATH` uses `|` to separate segments (local convention, not sundry tag syntax): `{dotfiles:.config|waybar}` → `~/.config/waybar/`.
 
-This rewrite lives inline in `home-files` (`target-path` in `result.nix`), applied only when building the `home.file` key — **not** in `dotfile-sources`. The VFS node's `path` stays in its original (source-tree) coordinates through every stage. This is deliberate: `sass-load-flags` computes `lib.take tag-pos path`, which relies on `tag-pos` (an index into the node's `tag-list`) still indexing `path`. Rewriting `path` early — but not `tag-list` — desynchronises the two, and `take` overshoots into file paths instead of include dirs. See [gotchas.md](gotchas.md).
+This rewrite lives inline in `home-files` (`target-path` in `result.nix`), applied only when building the `home.file` key — **not** in `dotfile-sources`. The VFS node's `path` stays in its original (source-file-tree) coordinates through every stage. This is deliberate: `sass-load-flags` computes `lib.take tag-pos path`, which relies on `tag-pos` (an index into the node's `tag-list`) still indexing `path`. Rewriting `path` early — but not `tag-list` — desynchronises the two, and `take` overshoots into file paths instead of include dirs. See [gotchas.md](gotchas.md).
 
 ## Tag syntax in file/directory names
 
@@ -78,10 +78,10 @@ applications/user{modules:user}/vscode/
   config{dotfiles:.config|Code|User}/
     settings{convert:json}.nix                      → ~/.config/Code/User/settings.json
     keybindings{convert:json}.nix                   → ~/.config/Code/User/keybindings.json
-    settings{private}/                                → excluded; read by settings.nix through root-vfs
+    settings{private}/                                → excluded; read by settings.nix through flake-file-tree
 ```
 
-`{dotfiles:.config|Code|User}` pins the destination. `settings.nix` reads the `{private}`-tagged helpers itself with `sundry.vfs.dir.get ./settings root-vfs` (the `./settings` literal matches `settings{private}`); `{private}` keeps them out of the output.
+`{dotfiles:.config|Code|User}` pins the destination. `settings.nix` reads the `{private}`-tagged helpers itself with `sundry.vfs.dir.get ./settings flake-file-tree` (the `./settings` literal matches `settings{private}`); `{private}` keeps them out of the output.
 
 ## Example: waybar
 

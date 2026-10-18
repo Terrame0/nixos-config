@@ -7,27 +7,27 @@ builtins.foldl' (
     pkgs = import inputs.nixpkgs {inherit (host) system;};
     sundry = inputs.sundry-input.mk-lib {inherit pkgs;};
     inherit (pkgs) lib;
-    repo-vfs = lib.pipe root [
+    source-file-tree = lib.pipe root [
       sundry.vfs.dir.from-src
       sundry.vfs.dir.load-nix
       sundry.vfs.dir.resolve-tags
     ];
     design-system =
-      repo-vfs.meta.design-system."default.nix".expr
-      {inherit sundry lib repo-vfs;};
+      source-file-tree.meta.design-system."default.nix".expr
+      {inherit sundry lib source-file-tree;};
     design-tokens = design-system.native-tokens;
-    root-vfs =
+    flake-file-tree =
       lib.pipe [
-        {"partials{dotfiles:.design-system}" = design-system.partials-vfs;}
+        {"partials{dotfiles:.design-system}" = design-system.partials-file-tree;}
       ] [
         (map sundry.vfs.dir.resolve-tags)
-        (lib.foldl sundry.vfs.dir.merge repo-vfs)
+        (lib.foldl sundry.vfs.dir.merge source-file-tree)
       ];
     meta-args = {
       inherit host inputs;
       inherit pkgs sundry lib;
       inherit design-tokens;
-      inherit root-vfs;
+      inherit flake-file-tree;
     };
   in
     sundry.attrs.merge.recursive.no-collision [attrs-acc (f meta-args)]

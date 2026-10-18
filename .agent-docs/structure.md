@@ -49,7 +49,7 @@ This asymmetry (tag-on-domain vs tag-on-subfolder) is deliberate: mono-domains n
 
 ## Module discovery
 
-`flake.nix` delegates to [`meta/system-assembly/glob-modules.nix`](../meta/system-assembly/glob-modules.nix), which scans the resolved VFS tree `root-vfs.src` and keeps a `.nix` file as a module when it:
+`flake.nix` delegates to [`meta/system-assembly/glob-modules.nix`](../meta/system-assembly/glob-modules.nix), which scans the resolved VFS tree `flake-file-tree.src` and keeps a `.nix` file as a module when it:
 
 1. carries a `{modules:…}` tag somewhere in its path (presence check), **and**
 2. is not `{private}` (source-only helper) or `{dotfiles}` (a dotfile, not a module), **and**
@@ -66,14 +66,14 @@ Three hosts are declared in [`meta/system-assembly/hosts.nix`](../meta/system-as
 | Arg | Value |
 |---|---|
 | `host` | host record from `meta/system-assembly/hosts.nix`: `{ name, username, system, system-state-version, cores }` |
-| `root-vfs` | the repo's one resolved and loaded VFS tree: `{src, meta.design-system, partials, …}` |
+| `flake-file-tree` | the repo's one resolved and loaded VFS tree: `{src, meta.design-system, partials, …}` |
 | `design-tokens` | the design system's native token values, e.g. `palette.blue`, `font.family.mono` |
 | `sundry` | library functions from the `sundry` flake input |
 | `inputs` | the flake's inputs |
 
-`root` (the Nix path `./.`) is not a special arg: it is an internal parameter of [`meta/system-assembly/each-host.nix`](../meta/system-assembly/each-host.nix), used only as the input to the repo's single `sundry.vfs.dir.from-src`. `each-host.nix` builds the tree once — `from-src`, then `load-nix`, then `resolve-tags` produce `repo-vfs`; the design system is evaluated from its own subtree; and `design-system.partials-vfs` is merged in to form `root-vfs`.
+`root` (the Nix path `./.`) is not a special arg: it is an internal parameter of [`meta/system-assembly/each-host.nix`](../meta/system-assembly/each-host.nix), used only as the input to the repo's single `sundry.vfs.dir.from-src`. `each-host.nix` builds the tree once — `from-src`, then `load-nix`, then `resolve-tags` produce `source-file-tree`; the design system is evaluated from its own subtree; and `design-system.partials-file-tree` is merged in to form `flake-file-tree`.
 
-`load-nix` attaches a lazy `expr = import <origin>` to every `.nix` leaf, so a module reads a Nix expression by forcing `.expr` with its args. A module reaches its own subtree with `sundry.vfs.dir.get <path> root-vfs`, passing a **path literal relative to the module file** (e.g. `sundry.vfs.dir.get ./config root-vfs` from `src/shell{modules:user}/nushell/program.nix`), then `file.expr args` per leaf. `vfs.dir.get` strips `{…}` tags from both a path literal and a string, so `./config` also matches `config{private}`. Modules never build their own trees or paths; they navigate the shared `root-vfs`. Assembly code does the same (e.g. `sundry.vfs.dir.get ../../src root-vfs` in [glob-modules.nix](../meta/system-assembly/glob-modules.nix)), never through `root + "/…"`.
+`load-nix` attaches a lazy `expr = import <origin>` to every `.nix` leaf, so a module reads a Nix expression by forcing `.expr` with its args. A module reaches its own subtree with `sundry.vfs.dir.get <path> flake-file-tree`, passing a **path literal relative to the module file** (e.g. `sundry.vfs.dir.get ./config flake-file-tree` from `src/shell{modules:user}/nushell/program.nix`), then `file.expr args` per leaf. `vfs.dir.get` strips `{…}` tags from both a path literal and a string, so `./config` also matches `config{private}`. Modules never build their own trees or paths; they navigate the shared `flake-file-tree`. Assembly code does the same (e.g. `sundry.vfs.dir.get ../../src flake-file-tree` in [glob-modules.nix](../meta/system-assembly/glob-modules.nix)), never through `root + "/…"`.
 
 The username is no longer a top-level arg; modules read it as `host.username`.
 

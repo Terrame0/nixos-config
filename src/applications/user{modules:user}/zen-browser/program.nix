@@ -2,10 +2,10 @@ args @ {
   inputs,
   pkgs,
   sundry,
-  root-vfs,
+  flake-file-tree,
   ...
 }: let
-  config-subtree = sundry.vfs.dir.get ./config root-vfs;
+  config-file-tree = sundry.vfs.dir.get ./config flake-file-tree;
 in {
   imports = [inputs.zen-browser.homeModules.beta];
   programs.zen-browser = {
@@ -16,9 +16,9 @@ in {
       default = {
         name = "default";
         isDefault = true;
-        search = config-subtree."search.nix".expr args;
+        search = config-file-tree."search.nix".expr args;
       };
     };
-    policies = config-subtree."policies.nix".expr args;
+    policies = config-file-tree."policies.nix".expr args;
   };
 }

@@ -14,7 +14,7 @@
         reexec_as_root = true;
         use_nom = true;
       };
-      differ.query_derivations = true;	
+      differ.query_derivations = true;
     };
   };
 }

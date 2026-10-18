@@ -1,12 +1,12 @@
 {
   sundry,
-  root-vfs,
+  flake-file-tree,
   lib,
   ...
 }: {
   dotfile-sources = {
     transform = _:
-      lib.pipe root-vfs [
+      lib.pipe flake-file-tree [
         (sundry.vfs.dir.select-by-tag (_: with _; tag {dotfiles = [];}))
         (sundry.vfs.dir.select-by-tag (e: !(e.tag {private = [];})))
       ];

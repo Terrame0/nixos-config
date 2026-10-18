@@ -2,7 +2,7 @@ args @ {
   config,
   sundry,
   lib,
-  root-vfs,
+  flake-file-tree,
   ...
 }: {
   sing-box.proxied-domains = ["searx.space"];
@@ -11,7 +11,7 @@ args @ {
     environmentFile = config.sops.secrets."searx/secret".path;
     redisCreateLocally = true;
     configureUwsgi = false;
-    settings = lib.pipe (sundry.vfs.dir.get ./config root-vfs) [
+    settings = lib.pipe (sundry.vfs.dir.get ./config flake-file-tree) [
       (sundry.vfs.dir.filter (path: file: sundry.vfs.path.get.ext path == "nix"))
       (sundry.vfs.dir.collapse (path: file: file.expr args))
       sundry.attrs.merge.recursive.no-collision

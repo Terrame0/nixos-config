@@ -51,7 +51,7 @@
 не должны обращаться к config.style.* / config.make-span / config.run-command.
 Значения захардкожены как локальные let-биндинги в каждом файле.
 Pipeline (pipeline/nix.nix) теперь пробрасывает в import args с lib, pkgs,
-host, sundry, root-vfs и design-tokens (раньше был config).
+host, sundry, flake-file-tree и design-tokens (раньше был config).
 
 Когда вернёшь генерацию config/style обратно — замени эти let-блоки на config.*.
 

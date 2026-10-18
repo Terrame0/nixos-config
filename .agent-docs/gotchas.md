@@ -66,7 +66,7 @@ Splitting an empty string yields a one-element list holding the empty string, no
 
 **Why:** `take tag-pos path` silently assumes `tag-pos` indexes the *current* `path`. The old positional model kept them equal-length; home-relative rebasing drops the left prefix from `path` only.
 
-**Avoid:** keep the node's `path` in source-tree coordinates through every stage that reads `tag-pos`/`tag-list`. The home-relative rewrite happens **last**, inline in `home-files` (`target-path` in `result.nix`), applied only to the emitted `home.file` key — never to the node in the tree. See [dotfile-symlinking.md](dotfile-symlinking.md).
+**Avoid:** keep the node's `path` in source-file-tree coordinates through every stage that reads `tag-pos`/`tag-list`. The home-relative rewrite happens **last**, inline in `home-files` (`target-path` in `result.nix`), applied only to the emitted `home.file` key — never to the node in the tree. See [dotfile-symlinking.md](dotfile-symlinking.md).
 
 The deeper lesson: **rewriting a directory node's `path` mid-pipeline is suspect on principle** — any later stage that correlates `path` with `tag-list` (via `tag-pos`) will misread it, because the rewrite moves one and not the other. The safe pattern is to derive the final path from `path` + `tag-list` **at the point of use** (as `target-path` does), leaving the tree in one coordinate system end to end. Treat "reform a directory's path early" as a smell, not a tool.
 
@@ -138,7 +138,7 @@ A `{` written directly in a path literal is a separate grammar error: write `./$
 
 **Why:** it is a one-way resolution pass, not a normalisation pass — the tags live in the very path syntax that resolution deletes, so a second run has nothing meaningful to read.
 
-**Avoid:** resolve each raw tree exactly once, then merge the resolved trees with `sundry.vfs.dir.merge`. Assembly does two independent passes — `repo-vfs` in [`meta/system-assembly/each-host.nix`](../meta/system-assembly/each-host.nix) and the partials wrapper in that same file — and merges the results into `root-vfs`. Never call `resolve-tags` on `root-vfs` or on any other merged/already-resolved tree. See [design-system.md](design-system.md).
+**Avoid:** resolve each raw tree exactly once, then merge the resolved trees with `sundry.vfs.dir.merge`. Assembly does two independent passes — `source-file-tree` in [`meta/system-assembly/each-host.nix`](../meta/system-assembly/each-host.nix) and the partials wrapper in that same file — and merges the results into `flake-file-tree`. Never call `resolve-tags` on `flake-file-tree` or on any other merged/already-resolved tree. See [design-system.md](design-system.md).
 
 ## Global `load-nix` attaches a lazy `expr` to every `.nix` leaf
 
@@ -150,8 +150,8 @@ A `{` written directly in a path literal is a separate grammar error: write `./$
 
 ## `vfs.dir.get` matches a tag-free path against a `{…}`-tagged directory
 
-`vfs.dir.get ./config root-vfs` finds the subtree whose path segment is written `config{private}` — the `.nix` file only ever needs to name `config`. A path literal is resolved relative to the **importing file**, so `./config` means "the `config*` node beside this module", not "`config` at the repo root".
+`vfs.dir.get ./config flake-file-tree` finds the subtree whose path segment is written `config{private}` — the `.nix` file only ever needs to name `config`. A path literal is resolved relative to the **importing file**, so `./config` means "the `config*` node beside this module", not "`config` at the repo root".
 
 **Why:** `vfs.dir.get` resolves the path to segments, strips `{…}` blocks from each segment (`strip-between`), and looks up the cleaned path first, falling back to the literal path. So `./config` from `src/shell{modules:user}/nushell/program.nix` lands on `.../nushell/config{private}`.
 
-**Avoid:** when a module owns a tagged subtree, reach it with `sundry.vfs.dir.get ./<untagged-name> root-vfs` rather than spelling the full `root-vfs.src...` chain — the chain must encode tags (`root-vfs.src.shell.nushell."config{private}"`) and breaks when the tag changes, while the literal only names the directory. The lookup needs `sundry` in scope, so add it to the module's arguments when it is not already there.
+**Avoid:** when a module owns a tagged subtree, reach it with `sundry.vfs.dir.get ./<untagged-name> flake-file-tree` rather than spelling the full `flake-file-tree.src...` chain — the chain must encode tags (`flake-file-tree.src.shell.nushell."config{private}"`) and breaks when the tag changes, while the literal only names the directory. The lookup needs `sundry` in scope, so add it to the module's arguments when it is not already there.
