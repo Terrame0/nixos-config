@@ -2,10 +2,11 @@
   pkgs,
   osConfig,
   sundry,
+  root,
   flake-file-tree,
   ...
 }: let
-  config-file-tree = sundry.vfs.dir.get ./config flake-file-tree;
+  config-file-tree = sundry.vfs.dir.get-relative-to root ./config flake-file-tree;
   opencode = pkgs.symlinkJoin {
     name = "opencode-with-experimental";
     paths = [pkgs.opencode];

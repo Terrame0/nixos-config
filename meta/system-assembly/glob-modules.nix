@@ -3,6 +3,7 @@ args @ {
   sundry,
   lib,
   inputs,
+  root,
   flake-file-tree,
   ...
 }: let
@@ -31,7 +32,7 @@ args @ {
       '';
 
   filter-modules = tag-value:
-    lib.pipe (sundry.vfs.dir.get ../../src flake-file-tree) [
+    lib.pipe flake-file-tree.src [
       (sundry.vfs.dir.filter
         (path: file: sundry.vfs.path.get.ext path == "nix"))
       (sundry.vfs.dir.select-by-tag
@@ -43,7 +44,7 @@ args @ {
       (sundry.vfs.dir.collapse (path: file: file.origin))
     ];
   module-args = {
-    inherit (args) inputs host sundry flake-file-tree design-tokens;
+    inherit (args) inputs host root sundry flake-file-tree design-tokens;
   };
   system-modules = filter-modules "system";
   user-modules = filter-modules "user";

@@ -5,7 +5,7 @@
 builtins.foldl' (
   attrs-acc: host: let
     pkgs = import inputs.nixpkgs {inherit (host) system;};
-    sundry = inputs.sundry-input.mk-lib {inherit pkgs;};
+    sundry = import inputs.sundry-input {inherit pkgs;};
     inherit (pkgs) lib;
     source-file-tree = lib.pipe root [
       sundry.vfs.dir.from-src
@@ -24,7 +24,7 @@ builtins.foldl' (
         (lib.foldl sundry.vfs.dir.merge source-file-tree)
       ];
     meta-args = {
-      inherit host inputs;
+      inherit host inputs root;
       inherit pkgs sundry lib;
       inherit design-tokens;
       inherit flake-file-tree;

@@ -3,10 +3,11 @@ args' @ {
   config,
   pkgs,
   lib,
+  root,
   flake-file-tree,
   ...
 }: let
-  config-file-tree = sundry.vfs.dir.get ./config flake-file-tree;
+  config-file-tree = sundry.vfs.dir.get-relative-to root ./config flake-file-tree;
   args = args' // {inherit config-file-tree paths skeleton;};
   paths = rec {
     base-dir = "sing-box";

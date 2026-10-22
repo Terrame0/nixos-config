@@ -2,10 +2,11 @@ args @ {
   pkgs,
   sundry,
   lib,
+  root,
   flake-file-tree,
   ...
 }: let
-  decorators = lib.pipe (sundry.vfs.dir.get ./decorators flake-file-tree) [
+  decorators = lib.pipe (sundry.vfs.dir.get-relative-to root ./decorators flake-file-tree) [
     (sundry.vfs.dir.collapse (path: file: file.expr args))
     sundry.attrs.merge.recursive.no-collision
   ];

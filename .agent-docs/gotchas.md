@@ -148,10 +148,11 @@ A `{` written directly in a path literal is a separate grammar error: write `./$
 
 **Avoid:** force `.expr` only on `.nix` leaves; read `.md`, `.yaml`, and tag-only leaves through `origin` or `text`, not `.expr`. The laziness is also the benefit — attaching `expr` to every module is free, and only forcing a leaf pays for its `import`.
 
-## `vfs.dir.get` matches a tag-free path against a `{…}`-tagged directory
+## `vfs.dir.get-relative-to` matches a tag-free path against a `{…}`-tagged directory
 
-`vfs.dir.get ./config flake-file-tree` finds the subtree whose path segment is written `config{private}` — the `.nix` file only ever needs to name `config`. A path literal is resolved relative to the **importing file**, so `./config` means "the `config*` node beside this module", not "`config` at the repo root".
+`sundry.vfs.dir.get-relative-to root ./config flake-file-tree` finds the subtree whose path segment is written `config{private}` — the `.nix` file only ever needs to name `config`. A path literal is resolved relative to the **importing file**, so `./config` means "the `config*` node beside this module", not "`config` at the repo root".
 
-**Why:** `vfs.dir.get` resolves the path to segments, strips `{…}` blocks from each segment (`strip-between`), and looks up the cleaned path first, falling back to the literal path. So `./config` from `src/shell{modules:user}/nushell/program.nix` lands on `.../nushell/config{private}`.
+**Why:** the first argument is the root the tree was built from (`root = ./.` from [flake.nix](../flake.nix), threaded through `meta-args`). The function strips that root from the path, splits the remainder into segments, strips `{…}` blocks from each segment (`strip-between`), and looks up the cleaned path first, falling back to the literal path. So `./config` from `src/shell{modules:user}/nushell/program.nix` lands on `.../nushell/config{private}`.
 
-**Avoid:** when a module owns a tagged subtree, reach it with `sundry.vfs.dir.get ./<untagged-name> flake-file-tree` rather than spelling the full `flake-file-tree.src...` chain — the chain must encode tags (`flake-file-tree.src.shell.nushell."config{private}"`) and breaks when the tag changes, while the literal only names the directory. The lookup needs `sundry` in scope, so add it to the module's arguments when it is not already there.
+**Avoid:** when a module owns a tagged subtree, reach it with `sundry.vfs.dir.get-relative-to root ./<untagged-name> flake-file-tree` rather than spelling the full `flake-file-tree.src...` chain — the chain must encode tags (`flake-file-tree.src.shell.nushell."config{private}"`) and breaks when the tag changes, while the literal only names the directory. The lookup needs `sundry` and `root` in scope, so add them to the module's arguments when they are not already there.
+

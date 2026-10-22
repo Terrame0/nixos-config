@@ -4,6 +4,7 @@
   host,
   pkgs,
   inputs,
+  root,
   flake-file-tree,
   ...
 }: let
@@ -21,7 +22,7 @@ in {
   imports = [inputs.sops-nix.nixosModules.sops];
   sops = {
     age.keyFile = age-key-src;
-    secrets = lib.pipe (sundry.vfs.dir.get ./secrets flake-file-tree) [
+    secrets = lib.pipe (sundry.vfs.dir.get-relative-to root ./secrets flake-file-tree) [
       (sundry.vfs.dir.filter (path: file: sundry.vfs.path.get.ext path == "yaml"))
       (sundry.vfs.dir.collapse (
         path: file:

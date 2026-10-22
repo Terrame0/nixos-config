@@ -551,11 +551,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1792062699,
-        "narHash": "sha256-smPaBpEavuhb3DxYu3sXLODPZlf8ot5kCuBCRKUhvPg=",
+        "lastModified": 1792640023,
+        "narHash": "sha256-4WKTykZbgQkZb8/VF0V+Nh5WPyP/G7oqKqvCytQg4vA=",
         "owner": "Terrame0",
         "repo": "IDEF0-SVG-GOST-wrapped",
-        "rev": "3cbef9dcbfba5fcdfe8f576c0728a86db1fff93e",
+        "rev": "269c7b3ad70588cdd1dce94fa35551a93fd65462",
         "type": "github"
       },
       "original": {
@@ -927,11 +927,11 @@
     },
     "sundry-input": {
       "locked": {
-        "lastModified": 1791207660,
-        "narHash": "sha256-A6TVS4TsSyhtiCu8p6udY8tNqPCI9JXehaubKL7qIO4=",
+        "lastModified": 1792635748,
+        "narHash": "sha256-7vS+6WwjzRu9oCADOUAQJyQWVEknV/BzcNl4Rs7mz8E=",
         "owner": "Terrame0",
         "repo": "sundry",
-        "rev": "d0e04de2a2f7278856a4aacdac07d3982b45049e",
+        "rev": "4fec1885694e0d372c4d58de07a4ebb6120646b8",
         "type": "github"
       },
       "original": {
