@@ -5,7 +5,7 @@
 builtins.foldl' (
   attrs-acc: host: let
     pkgs = import inputs.nixpkgs {inherit (host) system;};
-    sundry = import inputs.sundry-input {inherit pkgs;};
+    sundry = import inputs.sundry-flake {inherit pkgs;};
     inherit (pkgs) lib;
     source-file-tree = lib.pipe root [
       sundry.vfs.dir.from-src

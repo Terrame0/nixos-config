@@ -1,12 +1,13 @@
 {
   pkgs,
   inputs,
+  host,
   ...
 }: {
   fonts = {
     fontconfig.enable = true;
     packages = with pkgs;
-    with inputs.microsoft-fonts.packages.${pkgs.stdenv.hostPlatform.system}; [
+    with inputs.microsoft-fonts.packages.${host.system}; [
       monocraft
       nerd-fonts.jetbrains-mono
       noto-fonts

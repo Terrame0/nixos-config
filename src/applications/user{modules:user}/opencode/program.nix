@@ -1,13 +1,14 @@
-{
+args @ {
   pkgs,
-  osConfig,
   sundry,
   root,
   flake-file-tree,
+  inputs,
+  host,
   ...
 }: let
   config-file-tree = sundry.vfs.dir.get-relative-to root ./config flake-file-tree;
-  opencode = pkgs.symlinkJoin {
+  opencode-wrapped = pkgs.symlinkJoin {
     name = "opencode-with-experimental";
     paths = [pkgs.opencode];
     nativeBuildInputs = [pkgs.makeWrapper];
@@ -17,46 +18,14 @@
   };
 in {
   sing-box.proxied-domains = ["deepseek.com"];
-  imports = [
-    config-file-tree.skills.gost-report."module.nix".origin
-  ];
-
   programs.opencode = {
     enable = true;
-    package = opencode;
+    package = opencode-wrapped;
+    skills = inputs.clanker-skill-index.skills.${host.system};
     context = config-file-tree."AGENTS.md".origin;
-    settings = {
-      autoupdate = false;
-      provider = {
-        deepseek = {
-          npm = "@ai-sdk/anthropic";
-          name = "DeepSeek";
-          options = {
-            baseURL = "https://api.deepseek.com/anthropic";
-            apiKey = "{file:${osConfig.sops.secrets."deepseek-api/key".path}}";
-          };
-          models = {
-            "deepseek-flash" = {
-              name = "DeepSeek V4.1 Flash";
-              limit = {
-                context = 1000000;
-                output = 384000;
-              };
-              options = {
-                thinking = {
-                  type = "enabled";
-                  budgetTokens = 8192;
-                };
-              };
-            };
-          };
-        };
-      };
-      model = "deepseek/deepseek-flash";
-    };
-    extraPackages = with pkgs; [
-      statix
-      fd
-    ];
+    settings = config-file-tree."settings.nix".expr args;
+    extraPackages =
+      inputs.clanker-skill-index.requirements.${host.system}
+      ++ (with pkgs; [statix fd]);
   };
 }

@@ -1,4 +1,5 @@
 {
+  host,
   inputs,
   pkgs,
   ...
@@ -8,7 +9,7 @@
     withUWSM = true;
     enable = true;
     xwayland.enable = true;
-    portalPackage = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.xdg-desktop-portal-hyprland;
+    portalPackage = inputs.hyprland.packages.${host.system}.xdg-desktop-portal-hyprland;
   };
 
   environment.variables = {

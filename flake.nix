@@ -12,10 +12,6 @@
       url = "github:nix-community/home-manager/release-26.05";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    nixos-update-script = {
-      url = "github:Terrame0/nixos-update-script";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
     sops-nix = {
       url = "github:Mic92/sops-nix";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -35,6 +31,10 @@
         home-manager.follows = "home-manager";
       };
     };
+    clanker-skill-index = {
+      url = "github:Terrame0/clanker-skill-index";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     nuenv = {
       url = "github:philocalyst/nuenv";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -46,12 +46,7 @@
     # -- do not override nixpkgs input (per their README.md)
     nix-cachyos-kernel.url = "github:xddxdd/nix-cachyos-kernel/release";
     # -- does not have a nixpkgs input
-    sundry-input.url = "github:Terrame0/sundry";
-    idef0-svg-gost = {
-      url = "github:Terrame0/IDEF0-SVG-GOST-wrapped";
-      inputs.nixpkgs.follows = "nixpkgs";
-      inputs.sundry-input.follows = "sundry-input";
-    };
+    sundry-flake.url = "github:Terrame0/sundry";
   };
   outputs = inputs: let
     glob-modules = import ./meta/system-assembly/glob-modules.nix;

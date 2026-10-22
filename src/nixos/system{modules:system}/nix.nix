@@ -13,7 +13,7 @@
   nix = {
     registry = {
       default.flake = inputs.nixpkgs;
-      sundry.flake = inputs.sundry-input;
+      sundry.flake = inputs.sundry-flake;
     };
     gc = {
       automatic = true;
