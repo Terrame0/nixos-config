@@ -1,5 +1,6 @@
 {osConfig, ...}: {
   autoupdate = false;
+  model = "deepseek/deepseek-flash";
   provider = {
     deepseek = {
       npm = "@ai-sdk/anthropic";
@@ -25,5 +26,4 @@
       };
     };
   };
-  model = "deepseek/deepseek-flash";
 }

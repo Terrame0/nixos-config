@@ -6,6 +6,7 @@
     "cache.xinux.uz"
     "hyprland.cachix.org"
     "watersucks.cachix.org"
+    "numtide.cachix.org"
     "extranix.com"
     "nixos.org"
     "nix.dev"

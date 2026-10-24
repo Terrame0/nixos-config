@@ -17,7 +17,6 @@ args @ {
     '';
   };
 in {
-  sing-box.proxied-domains = ["deepseek.com"];
   programs.opencode = {
     enable = true;
     package = opencode-wrapped;

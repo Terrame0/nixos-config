@@ -37,7 +37,7 @@ in {
         "sub-url:${config.sops.secrets."vpn/sub-url".path}"
         "hwid:${config.sops.secrets."vpn/hwid".path}"
       ];
-      Restart = "on-failure";
+      Restart = "always";
       RestartSec = "10s";
       LimitNOFILE = "infinity";
       RuntimeDirectory = paths.base-dir;

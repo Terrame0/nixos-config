@@ -1,4 +1,4 @@
-def is_node: .type == "vless" and .tls.reality.enabled? == true and .flow? == "xtls-rprx-vision";
+def is_node: .type == "vless" or .type == "trojan"; #.type == "vless" and .tls.reality.enabled? == true and .flow? == "xtls-rprx-vision";
 ($response[0].outbounds | map(select(is_node))) as $nodes
 | if ($nodes | length) < 1
   then error("0 nodes matched filter")
