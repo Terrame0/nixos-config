@@ -12,7 +12,7 @@ args @ {
     ds-file-tree."mk-partial.nix".expr (args // {inherit tokens is-token consumers;});
   load-parts = sub:
     lib.pipe ds-file-tree.${sub} [
-      (sundry.vfs.dir.collapse
+      (sundry.vfs.tree.collapse
         (path: file:
           file.expr (args
             // {

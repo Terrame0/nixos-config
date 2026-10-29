@@ -7,8 +7,8 @@
   dotfile-sources = {
     transform = _:
       lib.pipe flake-file-tree [
-        (sundry.vfs.dir.select-by-tag (_: with _; tag {dotfiles = [];}))
-        (sundry.vfs.dir.select-by-tag (e: !(e.tag {private = [];})))
+        (sundry.vfs.tree.select-by-tag (_: with _; tag {dotfiles = [];}))
+        (sundry.vfs.tree.select-by-tag (e: !(e.tag {private = [];})))
       ];
   };
 
@@ -16,7 +16,7 @@
     deps = ["dotfile-sources"];
     transform = prev:
       lib.pipe prev.dotfile-sources [
-        (sundry.vfs.dir.select-by-tag
+        (sundry.vfs.tree.select-by-tag
           (e:
             !(
               e.tag {include = [];}

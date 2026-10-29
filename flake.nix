@@ -3,25 +3,38 @@
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-26.05";
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
-    hyprland = {
-      # -- do not override nixpkgs input
-      # - this breaks version compatibility between hyprland components
-      url = "github:hyprwm/Hyprland";
+    sundry-flake.url = "github:Terrame0/sundry";
+    nuenv = {
+      url = "github:philocalyst/nuenv";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
-    home-manager = {
-      url = "github:nix-community/home-manager/release-26.05";
+    nixos-cli = {
+      url = "github:nix-community/nixos-cli";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     sops-nix = {
       url = "github:Mic92/sops-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    nix4vscode = {
-      url = "github:nix-community/nix4vscode";
+    home-manager = {
+      url = "github:nix-community/home-manager/release-26.05";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    nixos-cli = {
-      url = "github:nix-community/nixos-cli";
+    clanker-skill-index = {
+      url = "github:Terrame0/clanker-skill-index";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    nix-cachyos-kernel = {
+      # -- do not override nixpkgs input (per their README.md)
+      url = "github:xddxdd/nix-cachyos-kernel/release";
+    };
+    hyprland = {
+      # -- do not override nixpkgs input
+      # - this breaks version compatibility between hyprland components
+      url = "github:hyprwm/Hyprland";
+    };
+    nix4vscode = {
+      url = "github:nix-community/nix4vscode";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     zen-browser = {
@@ -31,22 +44,10 @@
         home-manager.follows = "home-manager";
       };
     };
-    clanker-skill-index = {
-      url = "github:Terrame0/clanker-skill-index";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-    nuenv = {
-      url = "github:philocalyst/nuenv";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
     microsoft-fonts = {
       url = "github:kugland/nix-ttf-ms-win11-auto";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
-    # -- do not override nixpkgs input (per their README.md)
-    nix-cachyos-kernel.url = "github:xddxdd/nix-cachyos-kernel/release";
-    # -- does not have a nixpkgs input
-    sundry-flake.url = "github:Terrame0/sundry";
   };
   outputs = inputs: let
     glob-modules = import ./meta/system-assembly/glob-modules.nix;

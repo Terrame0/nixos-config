@@ -7,7 +7,7 @@ args' @ {
   flake-file-tree,
   ...
 }: let
-  config-file-tree = sundry.vfs.dir.get-relative-to root ./config flake-file-tree;
+  config-file-tree = sundry.vfs.tree.get-relative-to root ./config flake-file-tree;
   args = args' // {inherit config-file-tree paths skeleton;};
   paths = rec {
     base-dir = "sing-box";
@@ -18,7 +18,7 @@ args' @ {
     runtime-config = "${runtime-dir}/config.json";
   };
   skeleton = lib.pipe config-file-tree.sing-box-config [
-    (sundry.vfs.dir.collapse (path: file: file.expr args))
+    (sundry.vfs.tree.collapse (path: file: file.expr args))
     sundry.attrs.merge.recursive.no-collision
     ((pkgs.formats.json {}).generate "sing-box-config.json")
   ];

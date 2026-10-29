@@ -7,7 +7,7 @@ args @ {
   host,
   ...
 }: let
-  config-file-tree = sundry.vfs.dir.get-relative-to root ./config flake-file-tree;
+  config-file-tree = sundry.vfs.tree.get-relative-to root ./config flake-file-tree;
   opencode-wrapped = pkgs.symlinkJoin {
     name = "opencode-with-experimental";
     paths = [pkgs.opencode];

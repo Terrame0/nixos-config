@@ -9,7 +9,7 @@
       lib.pipe prev [
         lib.attrValues
         sundry.attrs.merge.recursive.no-collision
-        (sundry.vfs.dir.collapse (path: file: let
+        (sundry.vfs.tree.collapse (path: file: let
           target-path =
             sundry.vfs.tag.foldl (path-acc: tags: pos: let
               target-path-fragment = sundry.str.to-segments "|" (tags.dotfiles or "");

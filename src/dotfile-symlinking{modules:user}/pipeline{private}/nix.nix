@@ -9,8 +9,8 @@ args @ {
     deps = ["dotfile-sources"];
     transform = prev:
       lib.pipe prev.dotfile-sources [
-        (sundry.vfs.dir.filter (path: file: sundry.vfs.path.get.ext path == "nix"))
-        (sundry.vfs.dir.walk (path: file: file // {expr = file.expr args;}))
+        (sundry.vfs.tree.filter (path: file: sundry.vfs.path.get.ext path == "nix"))
+        (sundry.vfs.tree.walk (path: file: file // {expr = file.expr args;}))
       ];
   };
 
@@ -18,9 +18,9 @@ args @ {
     deps = ["evaluated-nix-dotfiles"];
     transform = prev:
       lib.pipe prev.evaluated-nix-dotfiles [
-        (sundry.vfs.dir.filter (path: file: sundry.vfs.path.get.ext path == "nix"))
-        (sundry.vfs.dir.select-by-tag (_: with _; tag {convert = ["json" "ini"];}))
-        (sundry.vfs.dir.reform (
+        (sundry.vfs.tree.filter (path: file: sundry.vfs.path.get.ext path == "nix"))
+        (sundry.vfs.tree.select-by-tag (_: with _; tag {convert = ["json" "ini"];}))
+        (sundry.vfs.tree.reform (
           path: file: let
             tag-value = (sundry.attrs.merge.concat file.tag-list).convert;
             generator-function = lib.generators.${"to" + (lib.toUpper tag-value)} {};

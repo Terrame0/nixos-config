@@ -8,9 +8,9 @@ builtins.foldl' (
     sundry = import inputs.sundry-flake {inherit pkgs;};
     inherit (pkgs) lib;
     source-file-tree = lib.pipe root [
-      sundry.vfs.dir.from-src
-      sundry.vfs.dir.load-nix
-      sundry.vfs.dir.resolve-tags
+      sundry.vfs.tree.from-src
+      sundry.vfs.tree.load-nix
+      sundry.vfs.tree.resolve-tags
     ];
     design-system =
       source-file-tree.meta.design-system."default.nix".expr
@@ -20,8 +20,8 @@ builtins.foldl' (
       lib.pipe [
         {"partials{dotfiles:.design-system}" = design-system.partials-file-tree;}
       ] [
-        (map sundry.vfs.dir.resolve-tags)
-        (lib.foldl sundry.vfs.dir.merge source-file-tree)
+        (map sundry.vfs.tree.resolve-tags)
+        (lib.foldl sundry.vfs.tree.merge source-file-tree)
       ];
     meta-args = {
       inherit host inputs root;
