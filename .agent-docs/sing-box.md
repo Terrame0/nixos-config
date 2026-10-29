@@ -61,7 +61,6 @@ A feature module declares the suffixes it needs, rather than the sing-box skelet
 
 | Owner module | Suffixes |
 |---|---|
-| [nixos/system/nix.nix](../src/nixos/system%7Bmodules:system%7D/nix.nix) | nix binary caches and `nixos.org`/`nix.dev` |
 | [applications/system/steam.nix](../src/applications/system%7Bmodules:system%7D/steam.nix) | Steam Cloud backends |
 | [network/networking.nix](../src/network%7Bmodules:system%7D/networking.nix) | `cloudflare.com` |
 | [network/searx/service.nix](../src/network%7Bmodules:system%7D/searx/service.nix) | `searx.space` |
@@ -70,8 +69,9 @@ A feature module declares the suffixes it needs, rather than the sing-box skelet
 | [applications/user/lutris.nix](../src/applications/user%7Bmodules:user%7D/lutris.nix) | `lutris.net`, its CDN |
 | [applications/user/mpv/program.nix](../src/applications/user%7Bmodules:user%7D/mpv/program.nix) | `mpv.io` |
 | [shell/starship.nix](../src/shell%7Bmodules:user%7D/starship.nix) | `starship.rs` |
-| [shell/git.nix](../src/shell%7Bmodules:user%7D/git.nix) | GitHub (`github.com`, `githubusercontent.com`, …) |
 | [applications/user/opencode/program.nix](../src/applications/user%7Bmodules:user%7D/opencode/program.nix) | `deepseek.com` |
+
+Binary caches and GitHub are deliberately **not** proxied: they resolve and transfer directly, and routing a rebuild through a dead tunnel turns it into a 25-minute stall per narinfo.
 
 The remainder in [domains.nix](../src/network%7Bmodules:system%7D/sing-box/domains.nix) is grouped by comment: trove, frontier, epic, misc — none of which has a dedicated module.
 

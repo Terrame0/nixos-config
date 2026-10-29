@@ -130,7 +130,7 @@ lib.pipe "${dirOf file.origin}/settings{private}" [ … ]     # copies, aborts
 
 A `{` written directly in a path literal is a separate grammar error: write `./${"config{private}"}`, never `./config{private}`.
 
-**sundry note.** A leaf `origin` may be a path, a string, or a derivation; `is-leaf` accepts all three, and `file.from-src` keeps the raw `fs-path` you pass. `sundry.path.to-store` leaves a store-resident path in place — returning a context-carrying string that points at the top-level store object, without copying — and copies only paths outside the store. The flake source is copied to the store as one hash-named object, so a `{…}` segment inside it is never itself a store-object name; only a path *outside* the store whose basename carries `{` triggers the abort above.
+**sundry note.** A leaf `origin` may be a path, a string, or a derivation; `is-leaf` accepts all three, and `file.from-src` keeps the raw `fs-path` you pass. `sundry.path.to-store-str` leaves a store-resident path in place — returning a context-carrying string that points at the top-level store object, without copying — and copies only paths outside the store. A store-prefixed string is returned unchanged; if it carries no context it gains one on its store root, and if it already carries context it is not touched (so an unbuilt derivation output is not forced — `appendContext` checks that the path exists or is substitutable). A derivation is coerced to its output path with `toString`, which does not force the build either. The flake source is copied to the store as one hash-named object, so a `{…}` segment inside it is never itself a store-object name; only a path *outside* the store whose basename carries `{` triggers the abort above.
 
 ## `resolve-tags` is not idempotent — run it exactly once per subtree
 
@@ -148,6 +148,14 @@ A `{` written directly in a path literal is a separate grammar error: write `./$
 
 **Avoid:** force `.expr` only on `.nix` leaves; read `.md`, `.yaml`, and tag-only leaves through `origin` or `text`, not `.expr`. The laziness is also the benefit — attaching `expr` to every module is free, and only forcing a leaf pays for its `import`.
 
+## An MTU of 1500 on a 1492-byte path is a silent black hole
+
+An interface announces 1500, but a PPPoE WAN carries only 1492. Full-size packets vanish, and the ICMP "fragmentation needed" that would repair it never comes back, so PMTUD never kicks in.
+
+**Why:** TCP completes the handshake on small packets, then stalls on the first full-size segment — typically the certificate in a TLS handshake or the first data burst. From the outside it looks exactly like a dead server, while the connect itself succeeds.
+
+**Avoid:** measure before trusting an MTU. `ping -M do -s 1472 <host>` fails and `-s 1464` passes when the path is really 1492. Then set the default in [networking.nix](../src/network%7Bmodules:system%7D/networking.nix) through the `[connection-ethernet]` section (`"ethernet.mtu" = 1492`, quoted — an unquoted `ethernet.mtu` becomes a nested attrset that the INI generator rejects), matched by `type:ethernet` rather than an interface name that changes per machine. Keep the sing-box TUN lower (1400) for encapsulation headroom; see [sing-box.md](sing-box.md).
+
 ## `vfs.dir.get-relative-to` matches a tag-free path against a `{…}`-tagged directory
 
 `sundry.vfs.dir.get-relative-to root ./config flake-file-tree` finds the subtree whose path segment is written `config{private}` — the `.nix` file only ever needs to name `config`. A path literal is resolved relative to the **importing file**, so `./config` means "the `config*` node beside this module", not "`config` at the repo root".
@@ -156,3 +164,21 @@ A `{` written directly in a path literal is a separate grammar error: write `./$
 
 **Avoid:** when a module owns a tagged subtree, reach it with `sundry.vfs.dir.get-relative-to root ./<untagged-name> flake-file-tree` rather than spelling the full `flake-file-tree.src...` chain — the chain must encode tags (`flake-file-tree.src.shell.nushell."config{private}"`) and breaks when the tag changes, while the literal only names the directory. The lookup needs `sundry` and `root` in scope, so add them to the module's arguments when they are not already there.
 
+
+## Cloudflare hands out a throttled edge for this subnet, stalling `*.cachix.org`
+
+`*.cachix.org` lives behind Cloudflare, and Cloudflare answers with different anycast addresses depending on EDNS Client Subnet. For the Rostelecom subnet here (`77.82.103.0/24`) it returns `8.6.112.5` and `8.47.69.5`; for European subnets it returns `104.26.12.82` / `172.67.74.194`. All of them are genuinely Cloudflare — `8.x` is Cloudflare's leased Level 3 space, so it is absent from the 14 ranges at <https://www.cloudflare.com/ips-v4>.
+
+One of those edges, `8.6.112.5`, is throttled on this line: the TCP and TLS handshakes succeed and about 1380 bytes arrive, then transfer stops at roughly 90 B/s. It is deterministic (same byte count every attempt) and independent of SNI, so it is path-level shaping of that IP, not a server fault — `8.47.69.5` from the same range moves 300 KB/s.
+
+**Why it stalls rebuilds:** nix opens a HTTP/2 connection, gets the first headers, then waits. With `download-attempts = 5` and `stalled-download-timeout = 300` that is 25 minutes per narinfo, which reads as "the update hangs forever". `curl` shows the same thing as `Less than 1 bytes/sec transferred the last 300 seconds`.
+
+**Avoid:** do not treat it as DNS poisoning — every answer is a real Cloudflare address, and hardcoding one is fragile. Point the resolver at one that does not forward the local subnet, so Cloudflare returns a different (unthrottled) edge. Quad9 answers `104.26.12.82` here, which is why [networking.nix](../src/network%7Bmodules:system%7D/networking.nix) lists `9.9.9.9` first. To diagnose, compare `dig +short @9.9.9.9 host A` with `@1.1.1.1`, then measure throughput against each returned IP with `curl --resolve host:443:<ip>`. Do not "fix" it by dropping the cachix substituters: that turns ~700 cached derivations into source builds.
+
+## A dead substituter is only a warning, and its response body is never shown
+
+When a binary cache is gone, nix logs `warning: unable to download …` and silently falls back to building from source. The HTTP response body — which is where caches usually announce a migration — never reaches the log. A rotated cache therefore looks like a normal, slow build.
+
+**Why:** substituters are advisory. Losing one is a valid state, so it cannot be fatal, and nix discards the body once the status is not 200.
+
+**Avoid:** probe a cache by hand before believing it is merely slow — `curl -sS <cache>/nix-cache-info`. The `cachyos` cache answered `400` with `Binary cache migrated: <issue link>` while every build quietly compiled the kernel. Migration usually rotates the public key too, so re-enabling the old URL is not enough: take the new key from the notice and verify it against a real narinfo instead of trusting the text. The nix fingerprint is `1;<store-path>;<narHash as sha256:<base32>>;<narSize>;<refs,>` and the signature is Ed25519 over it, so any narinfo's `Sig` can be checked with the published key. Currently `cache.lantian.pub/lantian` is the live one.

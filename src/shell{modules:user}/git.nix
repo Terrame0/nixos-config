@@ -1,12 +1,4 @@
 {osConfig, ...}: {
-  sing-box.proxied-domains = [
-    "github.com"
-    "api.github.com"
-    "githubassets.com"
-    "githubusercontent.com"
-    "objects.githubusercontent.com"
-    "release-assets.githubusercontent.com"
-  ];
   programs.git = let
     signing-key = osConfig.sops.secrets."git/signing-key".path;
     name = "Terrame0";
@@ -32,7 +24,8 @@
         signingKey = signing-key;
       };
       core = {
-        editor = "code";
+        # -- without '--wait' git gets an empty message
+        editor = "code --wait";
         autocrlf = "input";
         pager = "delta";
       };

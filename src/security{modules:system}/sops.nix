@@ -26,6 +26,7 @@ in {
       (sundry.vfs.dir.filter (path: file: sundry.vfs.path.get.ext path == "yaml"))
       (sundry.vfs.dir.collapse (
         path: file:
+        # -- preferrably replace this with a yaml parser
           lib.pipe file.text [
             (lib.splitString "\n")
             (map (sundry.str.before ":"))
@@ -38,6 +39,8 @@ in {
               path-str = sundry.vfs.path.get.str sanitized-path;
             in {
               "${path-str}/${key}" = {
+                # -- store coercion breaks further down the line 
+                # - on a tagged path so we force the coercion here
                 sopsFile = sundry.path.to-store file.origin;
                 neededForUsers = (sundry.attrs.merge.no-collision file.tag-list) ? "for-users";
                 inherit key;
