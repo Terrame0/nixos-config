@@ -12,3 +12,5 @@ zfs, disk layout and key handling (see zfs-plan.txt)
 remove the hardcoded username from mpv script-opts
 replace nuenv with a custom nushell script builder from sundry
 separate sops-nix and sing-box into their own flakes
+add a keybind to vscode that runs the formatter from flake outputs
+make carapace work with nixos-cli

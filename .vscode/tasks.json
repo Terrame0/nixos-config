@@ -3,16 +3,40 @@
   "tasks": 
   [
     {
-      "label": "run",
+      "label": "format",
       "type": "shell",
-      "command": "alejandra . && nixos-update --test", //"git add . && alejandra . && nixos-rebuild dry-run --flake .#"
-      "group": "none",
+      "command": "alejandra",
+      "args": ["${workspaceFolder}", ">/dev/null", "2>&1"],
+      "presentation": { "reveal": "never", "showReuseMessage": false }
+    },
+    {
+      "label": "stage",
+      "type": "process",
+      "command": "git",
+      "args": ["add", "${workspaceFolder}"],
+      "presentation": { "reveal": "never", "showReuseMessage": false }
     },
     {
       "label": "build",
-      "type": "shell",
-      "command": "alejandra . && nixos-update --branch master",
-      "group": "none",
+      "type": "process",
+      "command": "nixos",
+      "args": [
+        "build", 
+        "-o", "${workspaceFolder}/.build"
+      ],
+      "dependsOn":["format", "stage"],
+      "dependsOrder": "sequence"
+    },
+    {
+      "label": "run",
+      "type": "process",
+      "command": "nixos",
+      "args": [
+        "apply",
+        "--store-path" ,
+        "${workspaceFolder}/.build"
+      ],
+      "dependsOn":["build"],
     },
   ]
 }

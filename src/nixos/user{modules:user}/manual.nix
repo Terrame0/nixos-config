@@ -1,1 +1,1 @@
-{...}:{ manual.manpages.enable = false; }
+{...}: {manual.manpages.enable = false;}
