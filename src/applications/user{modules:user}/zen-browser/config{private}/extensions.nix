@@ -9,6 +9,7 @@ in {
   "ff2mpv@yossarian.net" = mk-extension "ff2mpv";
   "sponsorBlocker@ajay.app" = mk-extension "sponsorblock";
   "deArrow@ajay.app" = mk-extension "dearrow";
+  "adguardadblocker@adguard.com" = mk-extension "adguard-adblocker";
   "{b9db16a4-6edc-47ec-a1f4-b86292ed211d}" = mk-extension "video-downloadhelper";
   "*" = {
     installation_mode = "blocked";

@@ -1,2 +1,4 @@
-there is no vscode project registry
-there is no touchpad switch
+missing vscode project registry
+missing touchpad switch
+missing clipboard history
+can't open the terminal from thunar context menu

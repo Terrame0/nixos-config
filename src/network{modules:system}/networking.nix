@@ -1,6 +1,6 @@
 {host, ...}: {
   # -- cloudflare does not resolve sometimes
-  sing-box.proxied-domains = ["cloudflare.com"];
+  vpn.domain-list = ["cloudflare.com"];
   networking = {
     hostName = host.name;
     # -- 1.1.1.1 and 8.8.8.8 forward this subnet via EDNS Client Subnet, so Cloudflare

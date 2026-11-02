@@ -8,6 +8,9 @@
       url = "github:philocalyst/nuenv";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    determinate-nix = {
+      url = "https://flakehub.com/f/DeterminateSystems/determinate/*";
+    };
     nixos-cli = {
       url = "github:nix-community/nixos-cli";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -40,6 +43,8 @@
     zen-browser = {
       url = "github:0xc000022070/zen-browser-flake";
       inputs = {
+        # -- uses nixpkgs-unstable to ensure
+        # - compatibility with the latest firefox version
         nixpkgs.follows = "nixpkgs-unstable";
         home-manager.follows = "home-manager";
       };

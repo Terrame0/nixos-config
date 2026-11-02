@@ -1,5 +1,5 @@
 {pkgs, ...}: {
-  sing-box.proxied-domains = [
+  vpn.domain-list = [
     "lutris.net"
     "lutris.nyc3.cdn.digitaloceanspaces.com"
   ];

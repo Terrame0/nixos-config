@@ -1,5 +1,5 @@
 {pkgs, ...}: {
-  sing-box.proxied-domains = [
+  vpn.domain-list = [
     "downloadtorrentfile.com"
     "rutracker.org"
     "rutracker.net"

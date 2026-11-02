@@ -39,9 +39,9 @@ in {
               path-str = sundry.vfs.path.get.str sanitized-path;
             in {
               "${path-str}/${key}" = {
-                # -- store coercion breaks further down the line 
-                # - on a tagged path so we force the coercion here
-                sopsFile = sundry.path.to-store-str file.origin;
+                # -- store coercion breaks further down the line
+                # - on a tagged path so we force sanitized coercion here
+                sopsFile = sundry.path.to-store-sanitize file.origin;
                 neededForUsers = (sundry.attrs.merge.no-collision file.tag-list) ? "for-users";
                 inherit key;
                 owner = host.username;

@@ -52,10 +52,10 @@ This asymmetry (tag-on-domain vs tag-on-subfolder) is deliberate: mono-domains n
 `flake.nix` delegates to [`meta/system-assembly/glob-modules.nix`](../meta/system-assembly/glob-modules.nix), which scans the resolved VFS tree `flake-file-tree.src` and keeps a `.nix` file as a module when it:
 
 1. carries a `{modules:…}` tag somewhere in its path (presence check), **and**
-2. is not `{private}` (source-only helper) or `{dotfiles}` (a dotfile, not a module), **and**
+2. is not `{private}` (source-only helper), `{disabled}` (a module kept in the tree but switched off — an alias for `{private}` here), or `{dotfiles}` (a dotfile, not a module), **and**
 3. passes the host gate: the **deepest** `{hosts:name}` tag matches the current host, or there is no `{hosts}` tag at all.
 
-`filter-modules "system"` / `filter-modules "user"` then split the survivors by their deepest `{modules}` value into the NixOS module list and the Home Manager `imports`. Discovery throws if both `X.nix` and `X/default.nix` survive — the two would be imported as separate modules and drift. Home Manager runs as a NixOS module, not standalone — apply all changes with `nixos-rebuild switch`.
+`filter-modules "system"` / `filter-modules "user"` then split the survivors by their deepest `{modules}` value into the NixOS module list and the Home Manager `imports`. Home Manager runs as a NixOS module, not standalone — apply all changes with `nixos-rebuild switch`.
 
 ## Multi-host setup
 

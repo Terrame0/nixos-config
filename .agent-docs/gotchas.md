@@ -42,7 +42,7 @@ Do not chain `nix build --no-link` then read the path — with `--no-link` the G
 
 **Why:** Nix prefers a directory's `default.nix` over a sibling file of the same stem.
 
-**Avoid:** after splitting a monolithic `.nix` into a directory, delete the old file in the same change. Module discovery now fails loud on this pair (`assert-unique-stems` in [`meta/system-assembly/glob-modules.nix`](../meta/system-assembly/glob-modules.nix)) because both paths would otherwise be imported as separate modules and drift.
+**Avoid:** after splitting a monolithic `.nix` into a directory, delete the old file in the same change.
 
 ## `sing-box check` rejects a `urltest`/`selector` with an empty `outbounds`
 
@@ -130,7 +130,36 @@ lib.pipe "${dirOf file.origin}/settings{private}" [ … ]     # copies, aborts
 
 A `{` written directly in a path literal is a separate grammar error: write `./${"config{private}"}`, never `./config{private}`.
 
-**sundry note.** A leaf `origin` may be a path, a string, or a derivation; `is-leaf` accepts all three, and `file.from-src` keeps the raw `fs-path` you pass. `sundry.path.to-store-str` leaves a store-resident path in place — returning a context-carrying string that points at the top-level store object, without copying — and copies only paths outside the store. A store-prefixed string is returned unchanged; if it carries no context it gains one on its store root, and if it already carries context it is not touched (so an unbuilt derivation output is not forced — `appendContext` checks that the path exists or is substitutable). A derivation is coerced to its output path with `toString`, which does not force the build either. The flake source is copied to the store as one hash-named object, so a `{…}` segment inside it is never itself a store-object name; only a path *outside* the store whose basename carries `{` triggers the abort above.
+**sundry note.** A leaf `origin` may be a path, a string, or a derivation; `is-leaf` accepts all three, and `file.from-src` keeps the raw `fs-path` you pass. `sundry.path.to-store-sanitize` copies a path through `builtins.path` under a sanitized name and returns a context-carrying store-path string; a derivation becomes its output path via `toString`, which does not force the build; any other value — including a store-path string — throws. The flake source is copied to the store as one hash-named object, so a `{…}` segment inside it is never itself a store-object name; only a path whose basename carries `{` triggers the abort above, which is why the name is sanitized here.
+
+## A fabricated store context fails under lazy trees: `isValidPath` asks the database
+
+`builtins.appendContext` on a store-path string is unsafe whenever the path may be lazily mounted. Only a real copy (`builtins.path`) can be trusted, so `sundry.path.to-store-sanitize` rejects store-path strings instead of claiming a context for them.
+
+**Why** — the failure, step by step:
+
+1. `mountInput` mounts a flake input under `StorePath::random(name)`, a path that exists in neither the database nor `/nix/store`, and registers it only in the evaluator's `storeFS` ([paths.cc:84](https://github.com/NixOS/nix/blob/master/src/libexpr/paths.cc)).
+2. Reading through that path works — `readFile`, `import`, `pathExists` all go through `storeFS`.
+3. `toString origin` yields a store-path string **without** context, so a derivation would not reference it.
+4. `appendContext` calls `ensurePath` on the key ([context.cc:295](https://github.com/NixOS/nix/blob/master/src/libexpr/primops/context.cc)), `ensurePath` calls `isValidPath` — a SQL query against the store database ([local-store.cc:900](https://github.com/NixOS/nix/blob/master/src/libstore/local-store.cc)) — and the mount was never registered there.
+5. The path is therefore substituted, there is no substituter for it, and eval dies inside `derivationStrict`:
+
+```
+error: path '/nix/store/<random>-source' is required, but there is no substituter that can build it
+```
+
+The path never becomes valid: `realiseContext` → `devirtualize` copies the tree with `fetchToStore(Copy, path.name())` to a **different** content-addressed path and rewrites the hash part in the string. `appendContext` is the only one of the three places that skips this and inspects the database directly; `realiseContext` and `builtins.storePath` both test `storeFS->getMount(...)` first and treat a mount as valid. That asymmetry looks like an upstream bug.
+
+Two calibration points. Not every flake input is virtual — only one mounted through the lazy branch in *that* eval gets a random path, so `(builtins.getFlake …).outPath` can be a real store path while paths captured *inside* the eval are random. And upstream master has switched to always mounting at a real content-addressed path (computed with `FetchMode::DryRun`), so there `devirtualize` copies to the same path; this repo runs Determinate 3.24.1, where `lazy-trees = true` and the path is random.
+
+**Avoid:** never fabricate context for a store-path string — copy instead, which is what `sundry.path.to-store-sanitize` does. To diagnose, compare the two views:
+
+```bash
+nix eval --raw --expr '(builtins.getFlake "git+file://…").outPath'   # path under evaluation
+nix path-info /nix/store/<that>-source    # VALID, or "is not valid" when lazily mounted
+```
+
+A path that `pathExists` accepts but `nix path-info` calls invalid is a lazy mount. Note also that `nix build` evaluates through the daemon while `nixos-update` (nixos-cli) ships upstream `nix` without lazy trees — the same expression can fail in one and pass in the other.
 
 ## `resolve-tags` is not idempotent — run it exactly once per subtree
 
@@ -163,7 +192,6 @@ An interface announces 1500, but a PPPoE WAN carries only 1492. Full-size packet
 **Why:** the first argument is the root the tree was built from (`root = ./.` from [flake.nix](../flake.nix), threaded through `meta-args`). The function strips that root from the path, splits the remainder into segments, strips `{…}` blocks from each segment (`strip-between`), and looks up the cleaned path first, falling back to the literal path. So `./config` from `src/shell{modules:user}/nushell/program.nix` lands on `.../nushell/config{private}`.
 
 **Avoid:** when a module owns a tagged subtree, reach it with `sundry.vfs.dir.get-relative-to root ./<untagged-name> flake-file-tree` rather than spelling the full `flake-file-tree.src...` chain — the chain must encode tags (`flake-file-tree.src.shell.nushell."config{private}"`) and breaks when the tag changes, while the literal only names the directory. The lookup needs `sundry` and `root` in scope, so add them to the module's arguments when they are not already there.
-
 
 ## Cloudflare hands out a throttled edge for this subnet, stalling `*.cachix.org`
 

@@ -1,0 +1,38 @@
+ZFS, disk layout and key handling
+
+Not started. The main system is still on its current filesystem; everything
+below has to be proven on a VM or a spare disk before migration.
+
+Pools and layout
+
+- Split HDD and SSD: decide which datasets live on which device.
+- Design the disko layout.
+- Define datasets with mountpoints, quotas, snapshots and transparent LZ4
+  compression.
+- Decide the snapshot policy: what is snapshotted, how often, how it is
+  pruned.
+
+Validation before migration
+
+- Test installation on a VM or a spare disk.
+- Test restoring the system from a snapshot.
+- Measure whether L2ARC helps at all; do not enable it without a confirmed
+  win.
+
+Keys
+
+- Design a LUKS USB stick holding the age master key and the ZFS dataset
+  decryption keys.
+- Unlock LUKS in initrd.
+- Unlock the root ZFS early, via boot.zfs.requestEncryptedCredentials and
+  keylocation/keyfile.
+- Mount the unlocked stick in stage 2.
+- Hand the age key to sops-install-secrets without the key ever landing in
+  the Nix store, in git, or in initrd.
+- Test booting without the stick, with a wrong passphrase, and with the ZFS
+  key unavailable.
+
+Recovery
+
+- Describe key backup, rotation and emergency recovery.
+- Run the whole scenario end to end before touching the main system.

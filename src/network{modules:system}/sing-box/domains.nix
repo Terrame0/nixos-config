@@ -1,5 +1,5 @@
 {...}: {
-  sing-box.proxied-domains = [
+  vpn.domain-list = [
     # -- trove
     "trionworlds.com"
     "triongames.com"

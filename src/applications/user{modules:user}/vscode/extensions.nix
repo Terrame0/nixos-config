@@ -1,8 +1,10 @@
 args @ {
+  inputs,
   pkgs,
   sundry,
   lib,
   root,
+  host,
   flake-file-tree,
   ...
 }: let
@@ -11,43 +13,45 @@ args @ {
     sundry.attrs.merge.recursive.no-collision
   ];
 in {
-  programs.vscode.profiles.default.extensions = pkgs.nix4vscode.forVscodeExt decorators [
-    # -- cpp
-    "twxs.cmake"
-    "llvm-vs-code-extensions.vscode-clangd"
-    "mesonbuild.mesonbuild"
+  programs.vscode.profiles.default.extensions =
+    inputs.nix4vscode.lib.${host.system}.forVscodeExt
+    decorators [
+      # -- cpp
+      "twxs.cmake"
+      "llvm-vs-code-extensions.vscode-clangd"
+      "mesonbuild.mesonbuild"
 
-    # -- direnv
-    "mkhl.direnv"
+      # -- direnv
+      "mkhl.direnv"
 
-    # -- python
-    "ms-python.python"
-    "charliermarsh.ruff"
+      # -- python
+      "ms-python.python"
+      "charliermarsh.ruff"
 
-    # -- syntax highlighters
-    "alefragnani.pascal"
-    "alefragnani.pascal-formatter"
-    "jq-syntax-highlighting.jq-syntax-highlighting"
-    "mads-hartmann.bash-ide-vscode"
-    "tamasfe.even-better-toml"
-    "a5huynh.vscode-ron"
-    "jnoortheen.nix-ide"
-    "dlasagno.rasi"
-    "thenuprojectcontributors.vscode-nushell-lang"
-    "barsikus007.nix-injection"
-    "bbenoist.qml"
-    "13xforever.language-x86-64-assembly"
+      # -- syntax highlighters
+      "alefragnani.pascal"
+      "alefragnani.pascal-formatter"
+      "jq-syntax-highlighting.jq-syntax-highlighting"
+      "mads-hartmann.bash-ide-vscode"
+      "tamasfe.even-better-toml"
+      "a5huynh.vscode-ron"
+      "jnoortheen.nix-ide"
+      "dlasagno.rasi"
+      "thenuprojectcontributors.vscode-nushell-lang"
+      "barsikus007.nix-injection"
+      "bbenoist.qml"
+      "13xforever.language-x86-64-assembly"
 
-    # -- html live preview
-    "ms-vscode.live-server"
+      # -- html live preview
+      "ms-vscode.live-server"
 
-    # -- icons
-    "miguelsolorio.fluent-icons" # -- product icons
-    "jtlowe.vscode-icon-theme" # -- visual studio file icons
+      # -- icons
+      "miguelsolorio.fluent-icons" # -- product icons
+      "jtlowe.vscode-icon-theme" # -- visual studio file icons
 
-    # -- plantuml
-    "jebbs.plantuml"
-  ];
+      # -- plantuml
+      "jebbs.plantuml"
+    ];
 
   # -- needed for plantuml rendering to work
   home.packages = with pkgs; [jdk graphviz];

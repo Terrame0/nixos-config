@@ -1,41 +1,14 @@
-Дизайн-система
-
-- Реализовать в meta единый типизированный источник цветов, радиусов, шрифтов и остальных токенов темы вместе с генераторами форматов потребителей.
-- Подключить потребителей и убрать значения из .agent-docs/HARDCODED-VALUES.txt.
-
-Интерфейс
-
-- Реализовать центр уведомлений на Quickshell и заменить им mako.
-- Заменить wofi на стилизованный rofi.
-- Исследовать расширения rofi для управления VPN; не использовать rofi-vpn без поддержки Clash API.
-- Добавить экран блокировки и idle-сценарий с затуханием экрана.
-- Добавить power-меню.
-- Добавить индикатор раскладки клавиатуры.
-- Добавить OSD изменения громкости и яркости.
-- Добавить меню настройки сети, Bluetooth и звука; учесть интеграцию NetworkManager с keyring.
-- Оценить rohrkabel как C++-обёртку над PipeWire для звуковых компонентов Quickshell.
-
-Ноутбук
-
-- Настроить power-profiles-daemon для ноутбука Asus и проверить переключение профилей питания.
-
-ZFS, диски и установка
-
-- Спроектировать ZFS-пулы и disko-разметку: разнести HDD и SSD, определить датасеты, mountpoint, квоты, снапшоты и прозрачное сжатие LZ4.
-- Проверить установку и восстановление из снапшотов на виртуальной машине или тестовом носителе до миграции основной системы.
-- Измерить пользу L2ARC и не включать его без подтверждённого выигрыша.
-
-Шифрование и загрузка
-
-- Спроектировать LUKS-флешку для master key age и ключей расшифровки ZFS-датасетов.
-- Настроить парольную разблокировку LUKS в initrd и раннюю разблокировку корневого ZFS через boot.zfs.requestEncryptedCredentials и keylocation/keyfile.
-- Настроить монтирование разблокированной флешки в stage 2 и передачу ключа age в sops-install-secrets без попадания ключей в Nix store, git или initrd.
-- Проверить загрузку без флешки, с неверным паролем и недоступным ключом ZFS.
-- Описать резервное копирование, ротацию и аварийное восстановление ключей и проверить весь сценарий до миграции.
-
-Игры
-
-- Сравнить Proton GE и CachyOS Proton по совместимости, производительности и воспроизводимости установки.
-
-
-- убрать хардкод username из script-opts для mpv
+drop values listed in .agent-docs/HARDCODED-VALUES.txt
+quickshell notification center instead of mako
+styled rofi instead of wofi
+lock screen and idle scenario with screen dimming
+power menu
+keyboard layout indicator
+volume and brightness osd
+network, bluetooth and sound menus, networkmanager with keyring
+evaluate rohrkabel for quickshell audio
+power-profiles-daemon for asus
+zfs, disk layout and key handling (see zfs-plan.txt)
+remove the hardcoded username from mpv script-opts
+replace nuenv with a custom nushell script builder from sundry
+separate sops-nix and sing-box into their own flakes

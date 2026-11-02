@@ -6,9 +6,15 @@
     when = "editorTextFocus";
   }
   {
-    key = "f7";
+    key = "f6";
     command = "workbench.action.tasks.runTask";
     args = "build";
+    when = "editorTextFocus";
+  }
+  {
+    key = "f7";
+    command = "workbench.action.tasks.runTask";
+    args = "format";
     when = "editorTextFocus";
   }
   {

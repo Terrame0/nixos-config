@@ -47,7 +47,7 @@ The skeleton is assembled from parts in [config{private}/sing-box-config/](../sr
 
 ## Proxied domains
 
-`route.nix` proxies every suffix collected under the `sing-box.proxied-domains` option. The option is declared twice, once per module system:
+`route.nix` proxies every suffix collected under the `vpn.domain-list` option. The option is declared twice, once per module system:
 
 | File | System | Role |
 |---|---|---|
@@ -55,7 +55,7 @@ The skeleton is assembled from parts in [config{private}/sing-box-config/](../sr
 | `home-options{modules:user}.nix` | Home Manager | declares the user-side option |
 | `domains.nix` | NixOS | the unowned remainder |
 
-Because NixOS and Home Manager are separate module systems, the two lists do not merge automatically. `route.nix` unions them explicitly: `config.sing-box.proxied-domains` (system) plus `config.home-manager.users.${host.username}.sing-box.proxied-domains` (user).
+Because NixOS and Home Manager are separate module systems, the two lists do not merge automatically. `route.nix` unions them explicitly: `config.vpn.domain-list` (system) plus `config.home-manager.users.${host.username}.vpn.domain-list` (user).
 
 A feature module declares the suffixes it needs, rather than the sing-box skeleton learning which app a domain belongs to. Domains with a clear owning module live there; `domains.nix` keeps only the orphans.
 
@@ -71,7 +71,7 @@ A feature module declares the suffixes it needs, rather than the sing-box skelet
 | [shell/starship.nix](../src/shell%7Bmodules:user%7D/starship.nix) | `starship.rs` |
 | [applications/user/opencode/program.nix](../src/applications/user%7Bmodules:user%7D/opencode/program.nix) | `deepseek.com` |
 
-Binary caches and GitHub are deliberately **not** proxied: they resolve and transfer directly, and routing a rebuild through a dead tunnel turns it into a 25-minute stall per narinfo.
+Binary caches are deliberately **not** proxied: they resolve and transfer directly, and routing a rebuild through a dead tunnel turns it into a 25-minute stall per narinfo. GitHub is proxied (see [git.nix](../src/shell%7Bmodules:user%7D/git.nix)) because `githubusercontent.com` is unreachable otherwise. The cache exception is `watersucks.cachix.org` in [nix.nix](../src/nixos/system%7Bmodules:system%7D/nix.nix) — Cloudflare's IPv4 edges for that name flap on this line and sing-box picks whichever address comes back first, so it is routed through the proxy instead.
 
 The remainder in [domains.nix](../src/network%7Bmodules:system%7D/sing-box/domains.nix) is grouped by comment: trove, frontier, epic, misc — none of which has a dedicated module.
 

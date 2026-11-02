@@ -1,6 +1,6 @@
 {pkgs, ...}: {
   # -- cloud sync backends
-  sing-box.proxied-domains = [
+  vpn.domain-list = [
     "steamcloud-tyo.s3.dualstack.ap-northeast-1.amazonaws.com"
     "steamcloud-us-east.s3.dualstack.us-east-1.amazonaws.com"
     "steamcloudsweden.blob.core.windows.net"

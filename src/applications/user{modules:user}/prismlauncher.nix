@@ -1,5 +1,5 @@
 {pkgs, ...}: {
-  sing-box.proxied-domains = [
+  vpn.domain-list = [
     "modrinth.com"
     "curseforge.com"
     "minecraft.net"

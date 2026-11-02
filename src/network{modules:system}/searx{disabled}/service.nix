@@ -6,7 +6,7 @@ args @ {
   flake-file-tree,
   ...
 }: {
-  sing-box.proxied-domains = ["searx.space"];
+  vpn.domain-list = ["searx.space"];
   services.searx = {
     enable = true;
     environmentFile = config.sops.secrets."searx/secret".path;

@@ -5,6 +5,7 @@
 builtins.foldl' (
   attrs-acc: host: let
     pkgs = import inputs.nixpkgs {inherit (host) system;};
+    pkgs-unstable = import inputs.nixpkgs-unstable {inherit (host) system;};
     sundry = import inputs.sundry-flake {inherit pkgs;};
     inherit (pkgs) lib;
     source-file-tree = lib.pipe root [
@@ -25,7 +26,8 @@ builtins.foldl' (
       ];
     meta-args = {
       inherit host inputs root;
-      inherit pkgs sundry lib;
+      inherit pkgs pkgs-unstable;
+      inherit sundry lib;
       inherit design-tokens;
       inherit flake-file-tree;
     };

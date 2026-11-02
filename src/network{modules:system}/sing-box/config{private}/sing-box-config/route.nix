@@ -22,8 +22,8 @@
       }
       {
         domain_suffix =
-          config.sing-box.proxied-domains
-          ++ config.home-manager.users.${host.username}.sing-box.proxied-domains;
+          config.vpn.domain-list
+          ++ config.home-manager.users.${host.username}.vpn.domain-list;
         outbound = "proxy";
       }
       {
