@@ -17,6 +17,8 @@
       "__pycache__/"
       "*.py[cod]"
       "build/"
+      ".build/"
+      ".deprecated/"
       ".direnv/"
       ".clangd"
       ".cache/"

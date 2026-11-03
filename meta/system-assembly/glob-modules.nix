@@ -1,9 +1,8 @@
-args @ {
+meta-args @ {
   host,
   sundry,
   lib,
   inputs,
-  root,
   flake-file-tree,
   ...
 }: let
@@ -21,7 +20,7 @@ args @ {
       (sundry.vfs.tree.select-by-tag (e: e.deepest-tag {modules = tag-value;}))
       (sundry.vfs.tree.collapse (path: file: file.origin))
     ];
-  module-args = removeAttrs args ["pkgs" "lib"];
+  module-args = removeAttrs meta-args ["pkgs" "lib"];
 in {
   specialArgs = module-args;
   modules =

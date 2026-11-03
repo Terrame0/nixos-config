@@ -1,20 +1,20 @@
-args @ {
+meta-args @ {
   sundry,
   lib,
-  source-file-tree,
+  flake-file-tree,
   ...
 }: let
-  ds-file-tree = source-file-tree.meta.design-system;
+  ds-file-tree = flake-file-tree.meta.design-system;
   consumers = ["css" "lua" "qml" "rasi" "scss"];
-  mk-type = ds-file-tree."mk-type.nix".expr (args // {inherit consumers;});
-  is-token = ds-file-tree."is-token.nix".expr args;
+  mk-type = ds-file-tree."mk-type.nix".expr (meta-args // {inherit consumers;});
+  is-token = ds-file-tree."is-token.nix".expr meta-args;
   mk-partial =
-    ds-file-tree."mk-partial.nix".expr (args // {inherit tokens is-token consumers;});
+    ds-file-tree."mk-partial.nix".expr (meta-args // {inherit tokens is-token consumers;});
   load-parts = sub:
     lib.pipe ds-file-tree.${sub} [
       (sundry.vfs.tree.collapse
         (path: file:
-          file.expr (args
+          file.expr (meta-args
             // {
               inherit types tokens mk-type is-token mk-partial consumers;
             })))

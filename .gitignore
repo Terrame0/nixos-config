@@ -1,5 +1,1 @@
-__pycache__
-result
-.result
-build
-.build
+.build/

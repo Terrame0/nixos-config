@@ -8,28 +8,27 @@ builtins.foldl' (
     pkgs-unstable = import inputs.nixpkgs-unstable {inherit (host) system;};
     sundry = import inputs.sundry-flake {inherit pkgs;};
     inherit (pkgs) lib;
-    source-file-tree = lib.pipe root [
+    flake-file-tree = lib.pipe root [
       sundry.vfs.tree.from-src
       sundry.vfs.tree.load-nix
       sundry.vfs.tree.resolve-tags
     ];
     design-system =
-      source-file-tree.meta.design-system."default.nix".expr
-      {inherit sundry lib source-file-tree;};
+      flake-file-tree.meta.design-system."default.nix".expr
+      {inherit sundry lib flake-file-tree;};
     design-tokens = design-system.native-tokens;
-    flake-file-tree =
-      lib.pipe [
-        {"partials{dotfiles:.design-system}" = design-system.partials-file-tree;}
-      ] [
-        (map sundry.vfs.tree.resolve-tags)
-        (lib.foldl sundry.vfs.tree.merge source-file-tree)
-      ];
     meta-args = {
       inherit host inputs root;
       inherit pkgs pkgs-unstable;
       inherit sundry lib;
       inherit design-tokens;
-      inherit flake-file-tree;
+      flake-file-tree =
+        lib.pipe [
+          {"partials{dotfiles:.design-system}" = design-system.partials-file-tree;}
+        ] [
+          (map sundry.vfs.tree.resolve-tags)
+          (lib.foldl sundry.vfs.tree.merge flake-file-tree)
+        ];
     };
   in
     sundry.attrs.merge.recursive.no-collision [attrs-acc (f meta-args)]

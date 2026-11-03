@@ -39,7 +39,8 @@ in {
       "dlasagno.rasi"
       "thenuprojectcontributors.vscode-nushell-lang"
       "barsikus007.nix-injection"
-      "bbenoist.qml"
+      "theqtcompany.qt-qml"
+      "theqtcompany.qt-core"
       "13xforever.language-x86-64-assembly"
 
       # -- html live preview
@@ -53,6 +54,9 @@ in {
       "jebbs.plantuml"
     ];
 
-  # -- needed for plantuml rendering to work
-  home.packages = with pkgs; [jdk graphviz];
+  home.packages = with pkgs; [
+    # -- needed for plantuml rendering to work
+    jdk
+    graphviz
+  ];
 }
