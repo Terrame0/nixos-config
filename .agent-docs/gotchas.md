@@ -185,13 +185,13 @@ An interface announces 1500, but a PPPoE WAN carries only 1492. Full-size packet
 
 **Avoid:** measure before trusting an MTU. `ping -M do -s 1472 <host>` fails and `-s 1464` passes when the path is really 1492. Then set the default in [networking.nix](../src/network%5Bm:sys%5D/networking.nix) through the `[connection-ethernet]` section (`"ethernet.mtu" = 1492`, quoted — an unquoted `ethernet.mtu` becomes a nested attrset that the INI generator rejects), matched by `type:ethernet` rather than an interface name that changes per machine. Keep the sing-box TUN lower (1400) for encapsulation headroom; see [sing-box.md](sing-box.md).
 
-## `vfs.tree.get-relative-to` needs the literal's `[…]` ancestors normalised
+## `vfs.tree.get-relative-to` takes the untagged segment name
 
 `sundry.vfs.tree.get-relative-to root ./config flake-file-tree` resolves a path literal to the node whose **cleaned** path matches. The literal is resolved relative to the importing file, so its ancestors carry the on-disk tags — from `src/shell[m:usr]/nushell/program.nix`, `./config` names `.../src/shell[m:usr]/nushell/config`.
 
-**Why:** sundry strips only its default `{}` delimiters from the literal's segments, and this repo tags with `[]`. Left alone, the lookup asks for a segment literally named `shell[m:usr]` while the resolved tree is keyed `shell`, so it throws `vfs.tree.get-relative-to: no vfs node at …`. The target directory is no better: it lives on disk as `config[m:-]` but is filed under `config`.
+**Why:** the tree has already been through `resolve-tags`, so its keys are the tag-stripped segments. `get-relative-to` strips the configured delimiters (`config.vfs.tags.lsep`/`rsep`, `[`/`]` here) from each of the literal's segments before the lookup — that is why `./config` finds the node filed as `config`, whose on-disk name is `config[m:-]`.
 
-**Avoid:** the `sundry` built in [`meta/system-assembly/each-host.nix`](../meta/system-assembly/each-host.nix) wraps `get-relative-to` to strip `[…]` from every segment of the literal before delegating to sundry, so `./config`, `./pipeline`, `./secrets`, and `./decorators` all resolve. Keep calling it on the **untagged** name — `./config`, not `./config[m:-]`, which is not even a legal Nix path literal — and use this helper rather than spelling the full `flake-file-tree.src...` chain, which would have to encode the on-disk tag (`flake-file-tree.src.shell.nushell."config[m:-]"`) and breaks when the tag changes. The lookup needs `sundry` and `root` in scope, so add them to the module's arguments when they are not already there.
+**Avoid:** keep calling it on the **untagged** name — `./config`, not `./config[m:-]`, which is not even a legal Nix path literal — and use it rather than spelling the full `flake-file-tree.src...` chain, which would have to encode the on-disk tag (`flake-file-tree.src.shell.nushell."config[m:-]"`) and breaks when the tag changes. The lookup needs `sundry` and `root` in scope, so add them to the module's arguments when they are not already there.
 
 ## Cloudflare hands out a throttled edge for this subnet, stalling `*.cachix.org`
 

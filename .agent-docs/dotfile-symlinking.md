@@ -10,7 +10,7 @@ Dotfiles are produced by a custom pipeline under [src/dotfile-symlinking[m:usr]/
 2. The stages are merged and run through `sundry.attrs.resolve-deps` — a dependency-aware evaluator that orders stages by their declared `deps`.
 3. The final `home-files` key is assigned to `home.file`.
 
-The pipeline takes the shared `root` only as the lookup anchor — it starts from its own subtree, obtained with `sundry.vfs.tree.get-relative-to root ./pipeline flake-file-tree`, where `.expr` is already present. The `./pipeline` literal resolves to `pipeline[m:-]` on disk; the assembly's `get-relative-to` strips the `[…]` tags on the literal's segments while looking it up. The pipeline directory is tagged `[m:-]` so its own files are never mistaken for dotfile sources or modules.
+The pipeline takes the shared `root` only as the lookup anchor — it starts from its own subtree, obtained with `sundry.vfs.tree.get-relative-to root ./pipeline flake-file-tree`, where `.expr` is already present. The `./pipeline` literal resolves to the cleaned node whose on-disk name is `pipeline[m:-]`. The pipeline directory is tagged `[m:-]` so its own files are never mistaken for dotfile sources or modules.
 
 ## Tag syntax
 

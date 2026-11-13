@@ -13,7 +13,7 @@
   ];
   nix = {
     registry = {
-      default.flake = inputs.nixpkgs;
+      nixpkgs.flake = inputs.nixpkgs;
       sundry.flake = inputs.sundry-flake;
     };
     gc = {
@@ -36,6 +36,7 @@
       ];
       connect-timeout = 20;
       stalled-download-timeout = 300;
+      tarball-ttl = 136 * 365 * 24 * 60 * 60;
       # -- HTTP/2 framing errors on the caches here are retried from offset
       # - HTTP/1.1 has no framing layer, so it avoids them
       http2 = false;
