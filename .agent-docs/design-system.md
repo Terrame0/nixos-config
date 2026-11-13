@@ -1,6 +1,6 @@
 # Design system
 
-The active design system lives in [`meta/design-system/`](../meta/design-system/). It provides typed design tokens and renders every token for each supported consumer. It exports the generated partials as a resolved VFS subtree tagged `{dotfiles:.design-system}`, which the assembly merges into the repo's shared `flake-file-tree`.
+The active design system lives in [`meta/design-system/`](../meta/design-system/). It provides typed design tokens and renders every token for each supported consumer. It exports the generated partials as a resolved VFS subtree tagged `[dot:.design-system]`, which the assembly merges into the repo's shared `flake-file-tree`.
 
 ## Data flow
 
@@ -12,7 +12,7 @@ The active design system lives in [`meta/design-system/`](../meta/design-system/
 | `tokens/` | Define named colors, dimensions, fonts, and other design values. |
 | `partials/` | Flatten the token tree and generate consumer-native files. |
 
-[`default.nix`](../meta/design-system/default.nix) reads its own subtree from the already-loaded `source-file-tree` (`source-file-tree.meta.design-system`) and forces each part's lazy `.expr` — e.g. `ds-file-tree."mk-type.nix".expr args`. `load-parts` collapses a subtree and evaluates each leaf as `file.expr args`; it does not build a tree with `from-src`.
+[`default.nix`](../meta/design-system/default.nix) reads its own subtree from the already-loaded `flake-file-tree` (`flake-file-tree.meta.design-system`) and forces each part's lazy `.expr` — e.g. `ds-file-tree."mk-type.nix".expr args`. `load-parts` collapses a subtree and evaluates each leaf as `file.expr args`; it does not build a tree with `from-src`.
 
 A token has a type name and two representations produced from one source value by [`mk-type.nix`](../meta/design-system/mk-type.nix):
 
@@ -29,7 +29,7 @@ The registered consumers are `css`, `lua`, `qml`, `rasi`, and `scss`, declared o
 
 [`default.nix`](../meta/design-system/default.nix) exports `partials-file-tree` and `native-tokens`.
 
-`partials-file-tree` is the generated VFS subtree produced by `load-parts "partials"`. It is **not** tagged inside `default.nix`: assembly wraps it as `{"partials{dotfiles:.design-system}" = design-system.partials-file-tree;}` in [`meta/system-assembly/each-host.nix`](../meta/system-assembly/each-host.nix), resolves tags there, and merges the result into `flake-file-tree`.
+`partials-file-tree` is the generated VFS subtree produced by `load-parts "partials"`. It is **not** tagged inside `default.nix`: assembly wraps it as `{"partials[dot:.design-system]" = design-system.partials-file-tree;}` in [`meta/system-assembly/each-host.nix`](../meta/system-assembly/each-host.nix), resolves tags there, and merges the result into `flake-file-tree`.
 
 `native-tokens` is the token tree flattened to native values. The flattener reads each token's `native`; nothing recurses into a `value` because the token no longer carries one:
 
@@ -51,7 +51,7 @@ native-repr = value: {
 
 A color's native value is the full 8-digit `#rrggbbaa`; a consumer that wants an opaque 6-digit hex — or must append its own alpha, as VS Code does — slices the base with `sundry.str.slice color [7]`. The assembly does not pre-slice, so `native-tokens.palette.blue` stays `#7aa6daff` and each consumer decides.
 
-The tag makes the partials indistinguishable from any other `{dotfiles}` subtree downstream. [`meta/system-assembly/each-host.nix`](../meta/system-assembly/each-host.nix) merges `partials-file-tree` into `flake-file-tree`, so the dotfile pipeline picks them up without special-casing them. `resolve-tags` runs on the partials tree exactly once, in the assembly — see [gotchas.md](gotchas.md).
+The tag makes the partials indistinguishable from any other `[dot]` subtree downstream. [`meta/system-assembly/each-host.nix`](../meta/system-assembly/each-host.nix) merges `partials-file-tree` into `flake-file-tree`, so the dotfile pipeline picks them up without special-casing them. `resolve-tags` runs on the partials tree exactly once, in the assembly — see [gotchas.md](gotchas.md).
 
 ## Generated partials
 
@@ -60,7 +60,7 @@ The tag makes the partials indistinguishable from any other `{dotfiles}` subtree
 | CSS | `~/.design-system/partial.css` | Load the stylesheet, then reference a token as `var(--palette-blue)`. |
 | Lua | `~/.design-system/partial.lua` | `dofile(os.getenv("HOME") .. "/.design-system/partial.lua")` returns a table; reference a token as `ds["palette-blue"]`. |
 | QML | `~/.design-system/DesignTokens/DesignTokens.qml` + `qmldir` | `import DesignTokens`, then reference a token as `DesignTokens.ds_palette_blue`. The `DesignTokens` directory must be on the QML import path. |
-| SCSS | `partial{include:sass}.scss` | `@use "partial" as *;` in a `{build:sass}` entry point. |
+| SCSS | `partial[i:sass].scss` | `@use "partial" as *;` in a `[mk:css]` entry point. |
 | Rasi | `~/.design-system/partial.rasi` | `@import "~/.design-system/partial"`, then reference a token as `@ds-palette-blue`. |
 
 All generators flatten nested token paths with hyphens. For example, `tokens.palette.blue` becomes `--palette-blue` in CSS, `$palette-blue` in SCSS, `ds-palette-blue` in Rasi, `["palette-blue"]` in Lua, and `ds_palette_blue` in QML (hyphens are not valid in QML property names, so they become underscores).

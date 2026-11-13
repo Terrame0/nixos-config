@@ -1,0 +1,34 @@
+args @ {
+  sundry,
+  lib,
+  pkgs,
+  host,
+  ...
+}: {
+  evaluated-nix-dotfiles = {
+    deps = ["dotfile-sources"];
+    transform = prev:
+      lib.pipe prev.dotfile-sources [
+        (sundry.vfs.tree.filter (path: file: sundry.vfs.path.get.ext path == "nix"))
+        (sundry.vfs.tree.walk (path: file: file // {expr = file.expr args;}))
+      ];
+  };
+
+  converted-nix-dotfiles = {
+    deps = ["evaluated-nix-dotfiles"];
+    transform = prev:
+      lib.pipe prev.evaluated-nix-dotfiles [
+        (sundry.vfs.tree.filter (path: file: sundry.vfs.path.get.ext path == "nix"))
+        (sundry.vfs.tree.select-by-tag (_: with _; tag {"mk" = ["json" "ini"];}))
+        (sundry.vfs.tree.reform (
+          path: file: let
+            tag-value = (sundry.attrs.merge.concat file.tag-list)."mk";
+            generator-function = lib.generators.${"to" + (lib.toUpper tag-value)} {};
+          in {
+            path = sundry.vfs.path.set.ext tag-value path;
+            value = file // {text = generator-function file.expr;};
+          }
+        ))
+      ];
+  };
+}

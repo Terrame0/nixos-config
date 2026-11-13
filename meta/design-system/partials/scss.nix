@@ -1,5 +1,5 @@
 {mk-partial, ...}:
 mk-partial {
-  file-path = ["partial{include:sass}.scss"];
+  file-path = ["partial[i:sass].scss"];
   line-fn = name: value: "\$${name}: ${value};";
 }

@@ -1,6 +1,6 @@
 # sing-box VPN proxy
 
-sing-box runs as a systemd service defined in [service.nix](../src/network%7Bmodules:system%7D/sing-box/service.nix). It uses a subscription-based config that is fetched and validated at service start.
+sing-box runs as a systemd service defined in [service.nix](../src/network%5Bm:sys%5D/sing-box/service.nix). It uses a subscription-based config that is fetched and validated at service start.
 
 ## Service lifecycle
 
@@ -21,11 +21,11 @@ Paths:
 
 ## Subscription updater
 
-[config{private}/updater/](../src/network%7Bmodules:system%7D/sing-box/config%7Bprivate%7D/updater/) builds the updater. Its `default.nix` wraps [update.sh](../src/network%7Bmodules:system%7D/sing-box/config%7Bprivate%7D/updater/update.sh) in a `writeShellApplication`, passing the config paths in as environment variables (`SKELETON`, `NODE_FILTER`, `RESPONSE_FILE`, `STORED_CONFIG`, `RUNTIME_CONFIG`). The script:
+[config[x]/updater/](../src/network%5Bm:sys%5D/sing-box/config%5Bx%5D/updater/) builds the updater. Its `default.nix` wraps [update.sh](../src/network%5Bm:sys%5D/sing-box/config%5Bx%5D/updater/update.sh) in a `writeShellApplication`, passing the config paths in as environment variables (`SKELETON`, `NODE_FILTER`, `RESPONSE_FILE`, `STORED_CONFIG`, `RUNTIME_CONFIG`). The script:
 
 1. **Validates the bare skeleton with `sing-box check` first.** If the skeleton itself is invalid (a config bug — e.g. an unknown field like `store_selected`), the script exits 1 immediately **without falling back**, printing the check output. This class of failure is the author's bug, not a runtime condition, so it fails loud instead of being masked by a stale stored config. The skeleton passes `check` on its own because it ships a placeholder `dummy` outbound (see [Config skeleton](#config-skeleton)) — no real nodes are needed to validate the schema.
 2. Fetches the subscription URL (from sops secret `vpn/sub-url`) with custom headers including `x-hwid` (from sops secret `vpn/hwid`).
-3. Filters outbounds with `jq` (filter in [updater/node-filter.jq](../src/network%7Bmodules:system%7D/sing-box/config%7Bprivate%7D/updater/node-filter.jq)): keeps only VLESS + XTLS-Vision nodes; swaps the skeleton's `dummy` placeholder for the real node tags in both the `auto-selector` (urltest) and `proxy` (manual selector) outbounds, drops the `dummy` node, and appends the node definitions themselves.
+3. Filters outbounds with `jq` (filter in [updater/node-filter.jq](../src/network%5Bm:sys%5D/sing-box/config%5Bx%5D/updater/node-filter.jq)): keeps only VLESS + XTLS-Vision nodes; swaps the skeleton's `dummy` placeholder for the real node tags in both the `auto-selector` (urltest) and `proxy` (manual selector) outbounds, drops the `dummy` node, and appends the node definitions themselves.
 4. Validates the *merged* config with `sing-box check`. On failure, the tool's output is logged to the journal alongside the fallback warning, so the reason is visible under `journalctl -u sing-box`.
 5. On success: saves to `/var/lib/sing-box/config.json`, copies to runtime path.
 6. On a **network/data** failure (subscription unreachable, no matching nodes, merged config rejected): falls back to the last valid stored config. If no stored config exists, exits 1 (service fails).
@@ -34,7 +34,7 @@ The two `sing-box check` calls split failures deliberately: a broken **skeleton*
 
 ## Config skeleton
 
-The skeleton is assembled from parts in [config{private}/sing-box-config/](../src/network%7Bmodules:system%7D/sing-box/config%7Bprivate%7D/sing-box-config/):
+The skeleton is assembled from parts in [config[x]/sing-box-config/](../src/network%5Bm:sys%5D/sing-box/config%5Bx%5D/sing-box-config/):
 
 | File | Content |
 |---|---|
@@ -52,7 +52,7 @@ The skeleton is assembled from parts in [config{private}/sing-box-config/](../sr
 | File | System | Role |
 |---|---|---|
 | `options.nix` | NixOS | declares the system-side option |
-| `home-options{modules:user}.nix` | Home Manager | declares the user-side option |
+| `home-options[m:usr].nix` | Home Manager | declares the user-side option |
 | `domains.nix` | NixOS | the unowned remainder |
 
 Because NixOS and Home Manager are separate module systems, the two lists do not merge automatically. `route.nix` unions them explicitly: `config.vpn.domain-list` (system) plus `config.home-manager.users.${host.username}.vpn.domain-list` (user).
@@ -61,19 +61,19 @@ A feature module declares the suffixes it needs, rather than the sing-box skelet
 
 | Owner module | Suffixes |
 |---|---|
-| [applications/system/steam.nix](../src/applications/system%7Bmodules:system%7D/steam.nix) | Steam Cloud backends |
-| [network/networking.nix](../src/network%7Bmodules:system%7D/networking.nix) | `cloudflare.com` |
-| [network/searx/service.nix](../src/network%7Bmodules:system%7D/searx/service.nix) | `searx.space` |
-| [applications/user/prismlauncher.nix](../src/applications/user%7Bmodules:user%7D/prismlauncher.nix) | Minecraft (`minecraft.net`, `modrinth.com`, `curseforge.com`) |
-| [applications/user/qbittorrent.nix](../src/applications/user%7Bmodules:user%7D/qbittorrent.nix) | torrent trackers |
-| [applications/user/lutris.nix](../src/applications/user%7Bmodules:user%7D/lutris.nix) | `lutris.net`, its CDN |
-| [applications/user/mpv/program.nix](../src/applications/user%7Bmodules:user%7D/mpv/program.nix) | `mpv.io` |
-| [shell/starship.nix](../src/shell%7Bmodules:user%7D/starship.nix) | `starship.rs` |
-| [applications/user/opencode/program.nix](../src/applications/user%7Bmodules:user%7D/opencode/program.nix) | `deepseek.com` |
+| [applications/system/steam.nix](../src/applications/system%5Bm:sys%5D/steam.nix) | Steam Cloud backends |
+| [network/networking.nix](../src/network%5Bm:sys%5D/networking.nix) | `cloudflare.com` |
+| [network/searx/service.nix](../src/network%5Bm:sys%5D/searx%5Bx%5D/service.nix) | `searx.space` |
+| [applications/user/prismlauncher.nix](../src/applications/user%5Bm:usr%5D/prismlauncher.nix) | Minecraft (`minecraft.net`, `modrinth.com`, `curseforge.com`) |
+| [applications/user/qbittorrent.nix](../src/applications/user%5Bm:usr%5D/qbittorrent.nix) | torrent trackers |
+| [applications/user/lutris.nix](../src/applications/user%5Bm:usr%5D/lutris.nix) | `lutris.net`, its CDN |
+| [applications/user/mpv/program.nix](../src/applications/user%5Bm:usr%5D/mpv/program.nix) | `mpv.io` |
+| [shell/starship.nix](../src/shell%5Bm:usr%5D/starship.nix) | `starship.rs` |
+| [applications/user/opencode/program.nix](../src/applications/user%5Bm:usr%5D/opencode/program.nix) | `deepseek.com` |
 
-Binary caches are deliberately **not** proxied: they resolve and transfer directly, and routing a rebuild through a dead tunnel turns it into a 25-minute stall per narinfo. GitHub is proxied (see [git.nix](../src/shell%7Bmodules:user%7D/git.nix)) because `githubusercontent.com` is unreachable otherwise. The cache exception is `watersucks.cachix.org` in [nix.nix](../src/nixos/system%7Bmodules:system%7D/nix.nix) — Cloudflare's IPv4 edges for that name flap on this line and sing-box picks whichever address comes back first, so it is routed through the proxy instead.
+Binary caches are deliberately **not** proxied: they resolve and transfer directly, and routing a rebuild through a dead tunnel turns it into a 25-minute stall per narinfo. GitHub is proxied (see [git.nix](../src/shell%5Bm:usr%5D/git.nix)) because `githubusercontent.com` is unreachable otherwise. The cache exception is `watersucks.cachix.org` in [nix.nix](../src/nixos/system%5Bm:sys%5D/nix.nix) — Cloudflare's IPv4 edges for that name flap on this line and sing-box picks whichever address comes back first, so it is routed through the proxy instead.
 
-The remainder in [domains.nix](../src/network%7Bmodules:system%7D/sing-box/domains.nix) is grouped by comment: trove, frontier, epic, misc — none of which has a dedicated module.
+The remainder in [domains.nix](../src/network%5Bm:sys%5D/sing-box/domains.nix) is grouped by comment: trove, frontier, epic, misc — none of which has a dedicated module.
 
 ## Outbound selection
 
@@ -86,7 +86,7 @@ Two outbounds sit in front of the nodes, both filled with the node tags at runti
 
 `proxy` also lists every node tag directly, so it can be **pinned to a specific node**, bypassing the urltest — useful when a node's metadata lies (e.g. a "Netherlands" node whose exit is actually in RU domain space, which the latency heuristic can't detect).
 
-Pinning is done over the Clash control API, configured in [config{private}/sing-box-config/misc.nix](../src/network%7Bmodules:system%7D/sing-box/config%7Bprivate%7D/sing-box-config/misc.nix):
+Pinning is done over the Clash control API, configured in [config[x]/sing-box-config/misc.nix](../src/network%5Bm:sys%5D/sing-box/config%5Bx%5D/sing-box-config/misc.nix):
 
 - `external_controller = "127.0.0.1:9090"` — localhost-only, no secret.
 - `access_control_allow_origin` allows MetaCubeXD and Yacd dashboards.
@@ -104,7 +104,7 @@ A manual pin does **not** persist across restarts: sing-box 1.13.x has no `cache
 
 ## Secrets
 
-Managed by sops-nix (see [secrets.md](secrets.md) for the general mechanism). Both live in [vpn.yaml](../src/security%7Bmodules:system%7D/secrets/vpn.yaml) and reach the service via `LoadCredential` → `$CREDENTIALS_DIRECTORY`:
+Managed by sops-nix (see [secrets.md](secrets.md) for the general mechanism). Both live in [vpn.yaml](../src/security%5Bm:sys%5D/secrets/vpn.yaml) and reach the service via `LoadCredential` → `$CREDENTIALS_DIRECTORY`:
 
 | Secret | Used for |
 |---|---|

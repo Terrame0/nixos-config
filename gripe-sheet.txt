@@ -4,3 +4,5 @@ some context windows in zen are transparent (set theme export colors)
 desktop portal file picker theme is broken
 there are no modal windows for sound, brightness, kb layout switches, mic muting etc.
 missing menus for network, bluetooth, sound management
+missing touchpad switch
+can't open the terminal from thunar context menu

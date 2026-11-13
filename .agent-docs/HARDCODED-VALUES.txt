@@ -20,7 +20,7 @@
   - username = "terrame" (meta/system-assembly/hosts.nix)
 
 ----------------------------------------------------------------
-1) includes{include:sass}/common/colors/palette.scss
+1) includes[i:sass]/common/colors/palette.scss
    Было:  $black: "#[config.style.palette.black]";  (и т.д. для всех цветов)
    Стало: $black: #1d1f21;
    Все цвета из palette.nix:
@@ -55,22 +55,22 @@ host, sundry, flake-file-tree и design-tokens (раньше был config).
 
 Когда вернёшь генерацию config/style обратно — замени эти let-блоки на config.*.
 
-5) vscode.../settings{convert:json}.nix
+5) vscode.../settings[mk:json].nix
    config (аргумент) убран. Добавлен let palette = {13 цветов из palette.nix};
    все config.style.palette.X -> palette.X.
    appearance.nix теперь импортируется без inherit config.
 
-6) vscode.../settings-parts{x}/theme/textmate.nix
+6) vscode.../settings[x]/theme/textmate.nix
    config (аргумент) убран. Добавлен let palette = {7 использованных цветов};
    все config.style.palette.X -> palette.X.
 
-7) vscode.../settings-parts{x}/theme/appearance.nix
+7) vscode.../settings[x]/theme/appearance.nix
    config (аргумент) убран.
    "editor.fontFamily" = config.style.font.propo -> settings.font.propo
    "terminal.integrated.fontFamily" = settings.font.mono
    textmate.nix импортируется как {} (раньше {inherit config;}).
 
-8) .config/waybar/config{convert:json}{ext:jsonc}.nix
+8) .config/waybar/config[mk:json][ext:jsonc].nix
    config (аргумент) убран.
    - palette = config.style.palette -> let palette = {13 цветов}
    - config.make-span -> локальная функция make-span (из make-span.nix)
@@ -82,9 +82,10 @@ host, sundry, flake-file-tree и design-tokens (раньше был config).
       через nix.nix (в args импорта добавлен host). Ни IFD, ни машинно-зависимости.
       См. theme-source.md (тот же канал host/theme -> дотфайлы).
 
-9) src/applications/user{modules:user}/alacritty.nix
-   config.style.palette.X -> settings.palette.X.
-   config.style.font.mono -> settings.font.mono.
+9) src/applications/user[m:usr]/{alacritty,kitty}.nix
+   config.style.palette.X -> design-tokens.palette.X.
+   config.style.font.mono -> design-tokens.font.family.mono.
+   Захардкожен только размер шрифта (14).
 
 
 ================================================================

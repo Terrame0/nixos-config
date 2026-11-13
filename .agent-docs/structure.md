@@ -2,7 +2,7 @@
 
 ## Layout
 
-Modules live in one tree, grouped by **domain** (what a feature *is*), not by privilege level. Whether a module is system- or user-level is a **tag** (`{modules:system}` / `{modules:user}`), not which root it sits in.
+Modules live in one tree, grouped by **domain** (what a feature *is*), not by privilege level. Whether a module is system- or user-level is a **tag** (`[m:sys]` / `[m:usr]`), not which root it sits in.
 
 ```
 nixos-config/
@@ -12,7 +12,7 @@ nixos-config/
 │   ├── hardware/      — boot, graphics, sound, bluetooth, swap, zram, kernel, sysctl, per-host, keyd
 │   ├── security/      — sops, keyring, sudo
 │   ├── network/       — sing-box (VPN, see sing-box.md), throne, ssh-daemon, searx, networking
-│   ├── applications/  — libvirt, nix-ld, piper, steam, thunar (sys); alacritty, lutris, mpv, zen-browser, vscode, yt-dlp, opencode (user)
+│   ├── applications/  — libvirt, nix-ld, piper, steam, thunar (sys); alacritty, kitty, lutris, mpv, zen-browser, vscode, yt-dlp, opencode (user)
 │   ├── desktop-environment/ — hyprland, uwsm, dbus, fonts (sys); waybar, wofi, rofi, gtk-theme, cliphist, autostart, xdg-dirs, mime-apps (user)
 │   ├── shell/         — zsh, starship, git, ssh, direnv, nushell, nix-your-shell (user)
 │   └── dotfile-symlinking/ — the dotfile pipeline, as a user module (see dotfile-symlinking.md)
@@ -32,34 +32,34 @@ nixos-config/
 
 The design system is **cross-domain** — `applications/` and `desktop-environment/` ingest the same tokens — so it belongs to no single `src/` domain; it sits above them in `meta/`. See [design-system.md](design-system.md).
 
-Dotfiles live inline next to the module they belong to, tagged `{dotfiles:PATH}` — a feature's module and its dotfiles share one folder. The pipeline that emits them is itself a user module at `src/dotfile-symlinking{modules:user}/`. See [dotfile-symlinking.md](dotfile-symlinking.md).
+Dotfiles live inline next to the module they belong to, tagged `[dot:PATH]` — a feature's module and its dotfiles share one folder. The pipeline that emits them is itself a user module at `src/dotfile-symlinking[m:usr]/`. See [dotfile-symlinking.md](dotfile-symlinking.md).
 
-## The `{modules:…}` level tag
+## The `[m:…]` level tag
 
-A module's level is declared by a `{modules:system}` or `{modules:user}` tag in its path. The tag is placed at the **coarsest** point that is unambiguous, and inherited by everything below it:
+A module's level is declared by an `[m:sys]` or `[m:usr]` tag in its path. The tag is placed at the **coarsest** point that is unambiguous, and inherited by everything below it:
 
-- **Mono-level domain** — the whole domain is one level, so the tag sits on the domain directory itself: `hardware{modules:system}/`, `shell{modules:user}/`, `security{modules:system}/`, `network{modules:system}/`.
-- **Mixed-level domain** — the domain has both system and user sides, so its directory is left **untagged** and the level is set on two sub-folders: `desktop-environment/system{modules:system}/` + `desktop-environment/user{modules:user}/`. Same for `applications/` and `nixos/`.
+- **Mono-level domain** — the whole domain is one level, so the tag sits on the domain directory itself: `hardware[m:sys]/`, `shell[m:usr]/`, `security[m:sys]/`, `network[m:sys]/`.
+- **Mixed-level domain** — the domain has both system and user sides, so its directory is left **untagged** and the level is set on two sub-folders: `desktop-environment/system[m:sys]/` + `desktop-environment/user[m:usr]/`. Same for `applications/` and `nixos/`.
 
-This asymmetry (tag-on-domain vs tag-on-subfolder) is deliberate: mono-domains never need subfolders, mixed ones do. Both patterns resolve to the same thing — every `.nix` inherits exactly one `{modules:…}` value from its nearest such tag.
+This asymmetry (tag-on-domain vs tag-on-subfolder) is deliberate: mono-domains never need subfolders, mixed ones do. Both patterns resolve to the same thing — every `.nix` inherits exactly one `[m:…]` value from its nearest such tag.
 
 ### Deepest tag wins
 
-`{modules:…}` is a mutually-exclusive noun tag — a file is exactly one level. When tags nest (a `{modules:system}` file inside a `{modules:user}` domain, e.g. co-locating a compositor-enable module with its user dotfiles), the **deepest** tag in the path wins, not the union. `filter-modules` in [glob-modules.nix](../meta/system-assembly/glob-modules.nix) queries this with the `deepest-tag` operand; the outer presence-check (`tag {modules = [];}` — "is this a module at all") stays plain `tag`. See [gotchas.md](gotchas.md).
+`[m:…]` is a mutually-exclusive noun tag — a file is exactly one level. When tags nest (an `[m:sys]` file inside an `[m:usr]` domain, e.g. co-locating a compositor-enable module with its user dotfiles), the **deepest** tag in the path wins, not the union. `filter-modules` in [glob-modules.nix](../meta/system-assembly/glob-modules.nix) queries this with the `deepest-tag` operand; the outer presence-check (`tag {m = [];}` — "is this a module at all") stays plain `tag`. See [gotchas.md](gotchas.md).
 
 ## Module discovery
 
 `flake.nix` delegates to [`meta/system-assembly/glob-modules.nix`](../meta/system-assembly/glob-modules.nix), which scans the resolved VFS tree `flake-file-tree.src` and keeps a `.nix` file as a module when it:
 
-1. carries a `{modules:…}` tag somewhere in its path (presence check), **and**
-2. is not `{private}` (source-only helper), `{disabled}` (a module kept in the tree but switched off — an alias for `{private}` here), or `{dotfiles}` (a dotfile, not a module), **and**
-3. passes the host gate: the **deepest** `{hosts:name}` tag matches the current host, or there is no `{hosts}` tag at all.
+1. carries an `[m:…]` tag somewhere in its path (presence check), **and**
+2. is not `[x]` (source-only helper, or a module kept in the tree but switched off), or `[dot]` (a dotfile, not a module), **and**
+3. passes the host gate: the **deepest** `[h:name]` tag matches the current host, or there is no `[h]` tag at all.
 
-`filter-modules "system"` / `filter-modules "user"` then split the survivors by their deepest `{modules}` value into the NixOS module list and the Home Manager `imports`. Home Manager runs as a NixOS module, not standalone — apply all changes with `nixos-rebuild switch`.
+`filter-modules "sys"` / `filter-modules "usr"` then split the survivors by their deepest `[m]` value into the NixOS module list and the Home Manager `imports`. Home Manager runs as a NixOS module, not standalone — apply all changes with `nixos-rebuild switch`.
 
 ## Multi-host setup
 
-Three hosts are declared in [`meta/system-assembly/hosts.nix`](../meta/system-assembly/hosts.nix): `legion-y520`, `desktop`, and `tuf-f17`. They build from the same tree; host-specific files are gated with `{hosts:name}` in their path, and discovery selects only the matching host's files.
+Three hosts are declared in [`meta/system-assembly/hosts.nix`](../meta/system-assembly/hosts.nix): `legion-y520`, `desktop`, and `tuf-f17`. They build from the same tree; host-specific files are gated with `[h:name]` in their path, and discovery selects only the matching host's files.
 
 ## Special args available in every module
 
@@ -71,9 +71,9 @@ Three hosts are declared in [`meta/system-assembly/hosts.nix`](../meta/system-as
 | `sundry` | library functions from the `sundry` flake input |
 | `inputs` | the flake's inputs |
 
-`root` (the Nix path `./.`) is threaded into every module through `meta-args`, because [`sundry.vfs.dir.get-relative-to`](https://github.com/Terrame0/sundry) needs the root the tree was built from to turn a module-relative path literal into VFS segments. It also feeds the repo's single `sundry.vfs.dir.from-src`. `each-host.nix` builds the tree once — `from-src`, then `load-nix`, then `resolve-tags` produce `source-file-tree`; the design system is evaluated from its own subtree; and `design-system.partials-file-tree` is merged in to form `flake-file-tree`.
+`root` (the Nix path `./.`) is threaded into every module through `meta-args`, because [`sundry.vfs.tree.get-relative-to`](https://github.com/Terrame0/sundry) needs the root the tree was built from to turn a module-relative path literal into VFS segments. It also feeds the repo's single `sundry.vfs.tree.from-src`. `each-host.nix` builds the tree once — `from-src`, then `load-nix`, then `resolve-tags` produce a local `flake-file-tree`; the design system is evaluated from `flake-file-tree.meta.design-system`; and `design-system.partials-file-tree` is merged in to form the `flake-file-tree` that modules receive.
 
-`load-nix` attaches a lazy `expr = import <origin>` to every `.nix` leaf, so a module reads a Nix expression by forcing `.expr` with its args. A module reaches its own subtree with `sundry.vfs.dir.get-relative-to root <path> flake-file-tree`, passing the shared `root` and a **path literal relative to the module file** (e.g. `sundry.vfs.dir.get-relative-to root ./config flake-file-tree` from `src/shell{modules:user}/nushell/program.nix`), then `file.expr args` per leaf. The lookup strips `{…}` tags from each segment, so `./config` also matches `config{private}`. Modules never build their own trees or paths; they navigate the shared `flake-file-tree`. Assembly code does the same (e.g. `sundry.vfs.dir.get-relative-to root ../../src flake-file-tree` in [glob-modules.nix](../meta/system-assembly/glob-modules.nix)).
+`load-nix` attaches a lazy `expr = import <origin>` to every `.nix` leaf, so a module reads a Nix expression by forcing `.expr` with its args. A module reaches its own subtree with `sundry.vfs.tree.get-relative-to root <path> flake-file-tree`, passing the shared `root` and a **path literal relative to the module file** (e.g. `sundry.vfs.tree.get-relative-to root ./config flake-file-tree` from `src/shell[m:usr]/nushell/program.nix`), then `file.expr args` per leaf. The tree is already tag-resolved, so `./config` matches the cleaned node whose on-disk name is `config[x]`; the `sundry` built in `each-host.nix` strips `[…]` from the literal's segments before the lookup, since sundry itself only strips `{}`. Modules never build their own trees or paths; they navigate the shared `flake-file-tree`. Assembly code does the same (e.g. `sundry.vfs.tree.get-relative-to root ../../src flake-file-tree` in [glob-modules.nix](../meta/system-assembly/glob-modules.nix)).
 
 The username is no longer a top-level arg; modules read it as `host.username`.
 

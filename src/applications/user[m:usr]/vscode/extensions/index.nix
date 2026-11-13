@@ -1,0 +1,66 @@
+args @ {
+  inputs,
+  pkgs,
+  sundry,
+  lib,
+  root,
+  host,
+  flake-file-tree,
+  ...
+}: let
+  decorators = lib.pipe flake-file-tree [
+    (sundry.vfs.tree.get-relative-to root ./decorators)
+    (sundry.vfs.tree.collapse (path: file: file.expr args))
+    sundry.attrs.merge.recursive.no-collision
+  ];
+in {
+  programs.vscode.profiles.default.extensions =
+    inputs.nix4vscode.lib.${host.system}.forVscodeExt
+    decorators [
+      # -- cpp
+      "twxs.cmake"
+      "llvm-vs-code-extensions.vscode-clangd"
+      "mesonbuild.mesonbuild"
+
+      # -- direnv
+      "mkhl.direnv"
+
+      # -- python
+      "ms-python.python"
+      "charliermarsh.ruff"
+
+      # -- syntax highlighters
+      "alefragnani.pascal"
+      "alefragnani.pascal-formatter"
+      "jq-syntax-highlighting.jq-syntax-highlighting"
+      "mads-hartmann.bash-ide-vscode"
+      "tamasfe.even-better-toml"
+      "a5huynh.vscode-ron"
+      "jnoortheen.nix-ide"
+      "dlasagno.rasi"
+      "thenuprojectcontributors.vscode-nushell-lang"
+      "barsikus007.nix-injection"
+      "theqtcompany.qt-qml"
+      "theqtcompany.qt-core"
+      "13xforever.language-x86-64-assembly"
+
+      # -- html live preview
+      "ms-vscode.live-server"
+
+      # -- icons
+      "miguelsolorio.fluent-icons" # -- product icons
+      "jtlowe.vscode-icon-theme" # -- visual studio file icons
+
+      # -- plantuml
+      "jebbs.plantuml"
+
+      # -- todo management
+      "tootone.org-mode"
+    ];
+
+  home.packages = with pkgs; [
+    # -- needed for plantuml rendering to work
+    jdk
+    graphviz
+  ];
+}

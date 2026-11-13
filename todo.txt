@@ -1,3 +1,7 @@
+replace current implementation of manual yaml key acquisition in sops.nix with a proper yaml parser
+separate the system assembly pipeline into an imported flake
+use flake = false inputs to lock files that use manual hashes
+split hyprland.lua into modules
 drop values listed in .agent-docs/HARDCODED-VALUES.txt
 quickshell notification center instead of mako
 styled rofi instead of wofi

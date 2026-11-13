@@ -1,4 +1,0 @@
-missing vscode project registry (partially resolved by finding out that ctrl+r opens the list...)
-missing touchpad switch
-missing clipboard history
-can't open the terminal from thunar context menu

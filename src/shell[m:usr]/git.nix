@@ -1,0 +1,50 @@
+{osConfig, ...}: {
+  vpn.domain-list = [
+    "github.com"
+    "api.github.com"
+    "githubassets.com"
+    "githubusercontent.com"
+    "objects.githubusercontent.com"
+    "release-assets.githubusercontent.com"
+  ];
+  programs.git = let
+    signing-key = osConfig.sops.secrets."git/signing-key".path;
+    name = "Terrame0";
+    email = "terrame_0@proton.me";
+  in {
+    enable = true;
+    ignores = [
+      "__pycache__"
+      "*.py[cod]"
+      "build"
+      ".build"
+      ".deprecated"
+      ".direnv"
+      ".clangd"
+      ".cache"
+    ];
+    signing = {
+      format = "ssh";
+      signByDefault = true;
+      key = signing-key;
+    };
+    settings = {
+      user = {
+        inherit name email;
+        signingKey = signing-key;
+      };
+      core = {
+        # -- without '--wait' git gets an empty message
+        editor = "code --wait";
+        autocrlf = "input";
+        pager = "delta";
+      };
+      gpg = {
+        format = "ssh";
+        ssh.allowedSignersFile = osConfig.sops.secrets."git/allowed-signers".path;
+      };
+      init.defaultBranch = "main";
+      color.ui = true;
+    };
+  };
+}

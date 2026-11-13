@@ -58,11 +58,11 @@ Splitting an empty string yields a one-element list holding the empty string, no
 
 **Why:** `splitString` is "delimiter count + 1 elements"; zero delimiters → one element, which for `""` is `""` itself.
 
-**Avoid:** in the dotfile pipeline, segment splits go through [`sundry.str.to-segments`](../../sundry/src/str/to-segments.nix) (`"" → []`), not raw `lib.splitString`. `vfs.path.from-str` uses it too. Reach for `to-segments` whenever a string becomes path segments; keep `lib.splitString` only for genuine string ops (`str.after`/`before`) where an empty element is meaningful.
+**Avoid:** in the dotfile pipeline, segment splits go through [`sundry.str.to-segments`](https://github.com/Terrame0/sundry/blob/main/src/str/to-segments.nix) (`"" → []`), not raw `lib.splitString`. `vfs.path.from-str` uses it too. Reach for `to-segments` whenever a string becomes path segments; keep `lib.splitString` only for genuine string ops (`str.after`/`before`) where an empty element is meaningful.
 
 ## A VFS node's `path` and `tag-list` desync if you rewrite `path` mid-pipeline
 
-`sass-load-flags` computes `lib.take tag-pos path`, where `tag-pos = get-tag-pos …` is an index into the node's **`tag-list`**. This only lands on the right prefix while `tag-list` and `path` share coordinates. Rewriting `path` (e.g. the `{dotfiles}` home-relative rebase) **without** rewriting `tag-list` breaks that: `tag-pos` stays large, the rebased `path` is short, and `take` overshoots — putting **file** paths into `--load-path` instead of include **dirs**, so Sass can't resolve `@use`.
+`sass-load-flags` computes `lib.take tag-pos path`, where `tag-pos = get-tag-pos …` is an index into the node's **`tag-list`**. This only lands on the right prefix while `tag-list` and `path` share coordinates. Rewriting `path` (e.g. the `[dot]` home-relative rebase) **without** rewriting `tag-list` breaks that: `tag-pos` stays large, the rebased `path` is short, and `take` overshoots — putting **file** paths into `--load-path` instead of include **dirs**, so Sass can't resolve `@use`.
 
 **Why:** `take tag-pos path` silently assumes `tag-pos` indexes the *current* `path`. The old positional model kept them equal-length; home-relative rebasing drops the left prefix from `path` only.
 
@@ -76,15 +76,15 @@ Swapping one for the other is not refactor-neutral. `reform-within-tag pred f` t
 
 **Why:** they answer different questions — "transform these, keep the rest" vs "keep only these".
 
-**Avoid:** `imports` filters the module tree by `{dotfiles}` so dotfiles are told apart from real modules — but the filter matches at the **subtree root** (`{dotfiles:…}` dir) and keeps that whole subtree, including untagged children. That's what lets `{include:sass}` dirs survive: they carry no `{dotfiles}`/home tag of their own but sit *inside* a `{dotfiles}` subtree, so they're kept and Sass `@use "includes/…"` still resolves. Reaching for a per-node `{dotfiles}` filter (instead of subtree selection) would drop those include dirs and break the Sass `--load-path`.
+**Avoid:** `imports` filters the module tree by `[dot]` so dotfiles are told apart from real modules — but the filter matches at the **subtree root** (`[dot:…]` dir) and keeps that whole subtree, including untagged children. That's what lets `[i:sass]` dirs survive: they carry no `[dot]`/home tag of their own but sit *inside* a `[dot]` subtree, so they're kept and Sass `@use "includes/…"` still resolves. Reaching for a per-node `[dot]` filter (instead of subtree selection) would drop those include dirs and break the Sass `--load-path`.
 
-## `{modules}` value queries need `deepest-tag`, not `tag`
+## `[m]` value queries need `deepest-tag`, not `tag`
 
-`tag {modules = "system"}` matches if `system` appears **anywhere** in the path's tag chain (union). But `{modules}` is mutually exclusive — a co-located file like `desktop-environment/system{modules:system}/…` sitting under an (untagged) domain, or a lone `{modules:system}` file nested inside a `{modules:user}` domain, has **one** true level. Union would match *both* `filter-modules "system"` and `filter-modules "user"`, importing the same file into the NixOS list **and** the HM `imports` — a double-import that throws (e.g. `programs.hyprland` has no HM option).
+`tag {m = "sys"}` matches if `sys` appears **anywhere** in the path's tag chain (union). But `[m]` is mutually exclusive — a co-located file like `desktop-environment/system[m:sys]/…` sitting under an (untagged) domain, or a lone `[m:sys]` file nested inside an `[m:usr]` domain, has **one** true level. Union would match *both* `filter-modules "sys"` and `filter-modules "usr"`, importing the same file into the NixOS list **and** the HM `imports` — a double-import that throws (e.g. `programs.hyprland` has no HM option).
 
-**Why:** the deepest `{modules}` in the path is the real level; shallower ones are overridden, not additive.
+**Why:** the deepest `[m]` in the path is the real level; shallower ones are overridden, not additive.
 
-**Avoid:** query the *value* with `deepest-tag {modules = …}` (nearest-in-chain wins), which [`glob-modules.nix`](../meta/system-assembly/glob-modules.nix)'s `filter-modules` does. Keep the plain `tag {modules = [];}` only for the **presence** check ("is this a module at all") — presence is the same under both operands; only value discrimination differs. `{hosts}` is queried the same way: its host gate uses `deepest-tag` too, so an inner host tag overrides an outer one. See [structure.md](structure.md).
+**Avoid:** query the *value* with `deepest-tag {m = …}` (nearest-in-chain wins), which [`glob-modules.nix`](../meta/system-assembly/glob-modules.nix)'s `filter-modules` does. Keep the plain `tag {m = [];}` only for the **presence** check ("is this a module at all") — presence is the same under both operands; only value discrimination differs. `[h]` is queried the same way: its host gate uses `deepest-tag` too, so an inner host tag overrides an outer one. See [structure.md](structure.md).
 
 ## Hyprland must keep its own nixpkgs pin
 
@@ -106,15 +106,15 @@ Setting `experimental.cache_file.store_selected = true` makes `sing-box check` f
 
 **Avoid:** don't add it to persist the manual selector choice — it doesn't exist here. Worse, if the updater's fallback swallows the `check` output, this bug is invisible: the service silently runs the last stored config forever while the new one is rejected on every restart. The updater now prints the `check` output on failure and validates the skeleton up front precisely so this class of bug fails loud (see [sing-box.md](sing-box.md)).
 
-## Keep a `{…}`-tagged path a path — never hand it to a string builtin
+## Keep a tagged path a path — never hand it to a string builtin
 
-A path whose final segment carries a tag — for example `config{dotfiles:.config|Code|User}` — must stay a Nix path. Do not interpolate it, and do not pass it to `lib.hasSuffix` / `hasPrefix` / `hasInfix`, `lib.concatStrings*`, `builtins.toJSON`, `builtins.stringLength`, or `lib.substring`.
+A path whose final segment carries a tag — for example `config[dot:.config\Code\User]` — must stay a Nix path. Do not interpolate it, and do not pass it to `lib.hasSuffix` / `hasPrefix` / `hasInfix`, `lib.concatStrings*`, `builtins.toJSON`, `builtins.stringLength`, or `lib.substring`.
 
-**Why:** Nix coerces a path to a string by copying it into the store **under its basename**. When that basename contains `{`, the copy aborts:
+**Why:** Nix coerces a path to a string by copying it into the store **under its basename**. When that basename carries a tag — `config[dot:…]`, `settings[x]` — the copy aborts:
 
 ```
-error: path '…-config{dotfiles:.config|Code|User}' is not a valid store path:
-       name 'config{dotfiles:.config|Code|User}' contains illegal character '{'
+error: path '…-config[dot:.config\Code\User]' is not a valid store path:
+       name 'config[dot:.config\Code\User]' contains illegal character '['
 ```
 
 `builtins.toString path` is the one path→string conversion that does not copy; interpolation `"${path}"` does.
@@ -122,15 +122,15 @@ error: path '…-config{dotfiles:.config|Code|User}' is not a valid store path:
 **Avoid:** extend a path with `+`, which keeps it a path:
 
 ```nix
-lib.pipe (dirOf file.origin + "/settings{private}") [ … ]   # safe — still a path
-lib.pipe "${dirOf file.origin}/settings{private}" [ … ]     # copies, aborts
+lib.pipe (dirOf file.origin + "/settings[x]") [ … ]   # safe — still a path
+lib.pipe "${dirOf file.origin}/settings[x]" [ … ]     # copies, aborts
 ```
 
-`sundry.vfs.file.from-src` stores each file's raw `fs-path` as `origin`, so `dirOf file.origin` is a **path** whose basename can be a `{…}` tag. Extending it with `+` keeps it a path; interpolating it copies and aborts.
+`sundry.vfs.file.from-src` stores each file's raw `fs-path` as `origin`, so `dirOf file.origin` is a **path** whose basename can carry a `[…]` tag. Extending it with `+` keeps it a path; interpolating it copies and aborts.
 
-A `{` written directly in a path literal is a separate grammar error: write `./${"config{private}"}`, never `./config{private}`.
+A `[` written directly in a path literal is a separate grammar error: write `./${"config[x]"}`, never `./config[x]`.
 
-**sundry note.** A leaf `origin` may be a path, a string, or a derivation; `is-leaf` accepts all three, and `file.from-src` keeps the raw `fs-path` you pass. `sundry.path.to-store-sanitize` copies a path through `builtins.path` under a sanitized name and returns a context-carrying store-path string; a derivation becomes its output path via `toString`, which does not force the build; any other value — including a store-path string — throws. The flake source is copied to the store as one hash-named object, so a `{…}` segment inside it is never itself a store-object name; only a path whose basename carries `{` triggers the abort above, which is why the name is sanitized here.
+**sundry note.** A leaf `origin` may be a path, a string, or a derivation; `is-leaf` accepts all three, and `file.from-src` keeps the raw `fs-path` you pass. `sundry.path.to-store-sanitize` copies a path through `builtins.path` under a sanitized name and returns a context-carrying store-path string; a derivation becomes its output path via `toString`, which does not force the build; any other value — including a store-path string — throws. The flake source is copied to the store as one hash-named object, so a tagged segment inside it is never itself a store-object name; only a path whose basename carries a tag triggers the abort above, which is why the name is sanitized here.
 
 ## A fabricated store context fails under lazy trees: `isValidPath` asks the database
 
@@ -163,15 +163,15 @@ A path that `pathExists` accepts but `nix path-info` calls invalid is a lazy mou
 
 ## `resolve-tags` is not idempotent — run it exactly once per subtree
 
-`sundry.vfs.dir.resolve-tags` derives each node's `tag-list` from the `{…}` syntax in its `path`, then strips the braces from `path`. Running it a second time over an already-resolved tree throws: every node already carries a `tag-list`, and `resolve-tags` refuses to overwrite it.
+`sundry.vfs.tree.resolve-tags` derives each node's `tag-list` from the `[…]` syntax in its `path`, then strips the brackets from `path` (the separators come from sundry's `config.vfs.tags.lsep`/`rsep`, set to `[`/`]` in [`meta/system-assembly/each-host.nix`](../meta/system-assembly/each-host.nix)). Running it a second time over an already-resolved tree throws: every node already carries a `tag-list`, and `resolve-tags` refuses to overwrite it.
 
 **Why:** it is a one-way resolution pass, not a normalisation pass — the tags live in the very path syntax that resolution deletes, so a second run has nothing meaningful to read.
 
-**Avoid:** resolve each raw tree exactly once, then merge the resolved trees with `sundry.vfs.dir.merge`. Assembly does two independent passes — `source-file-tree` in [`meta/system-assembly/each-host.nix`](../meta/system-assembly/each-host.nix) and the partials wrapper in that same file — and merges the results into `flake-file-tree`. Never call `resolve-tags` on `flake-file-tree` or on any other merged/already-resolved tree. See [design-system.md](design-system.md).
+**Avoid:** resolve each raw tree exactly once, then merge the resolved trees with `sundry.vfs.tree.merge`. Assembly does two independent passes in [`meta/system-assembly/each-host.nix`](../meta/system-assembly/each-host.nix) — the repo tree (`from-src` → `load-nix` → `resolve-tags`) and the partials wrapper — then merges the results into the `flake-file-tree` passed to modules. Never call `resolve-tags` on `flake-file-tree` or on any other merged/already-resolved tree. See [design-system.md](design-system.md).
 
 ## Global `load-nix` attaches a lazy `expr` to every `.nix` leaf
 
-`each-host.nix` pipes the whole repo tree through `sundry.vfs.dir.load-nix`, which sets `expr = import <origin>` on every `.nix` leaf. That `import` is a thunk — it does not run until `expr` is forced. Forcing `expr` on a **non-`.nix`** leaf fails: it has no valid import (the attribute is absent, or points at `import <non-nix>`).
+`each-host.nix` pipes the whole repo tree through `sundry.vfs.tree.load-nix`, which sets `expr = import <origin>` on every `.nix` leaf. That `import` is a thunk — it does not run until `expr` is forced. Forcing `expr` on a **non-`.nix`** leaf fails: it has no valid import (the attribute is absent, or points at `import <non-nix>`).
 
 **Why:** `load-nix` is applied uniformly to the resolved tree, so the attribute lands on `.nix` leaves whether or not anyone reads them; only Nix's laziness keeps hundreds of unattached module imports unevaluated.
 
@@ -183,15 +183,15 @@ An interface announces 1500, but a PPPoE WAN carries only 1492. Full-size packet
 
 **Why:** TCP completes the handshake on small packets, then stalls on the first full-size segment — typically the certificate in a TLS handshake or the first data burst. From the outside it looks exactly like a dead server, while the connect itself succeeds.
 
-**Avoid:** measure before trusting an MTU. `ping -M do -s 1472 <host>` fails and `-s 1464` passes when the path is really 1492. Then set the default in [networking.nix](../src/network%7Bmodules:system%7D/networking.nix) through the `[connection-ethernet]` section (`"ethernet.mtu" = 1492`, quoted — an unquoted `ethernet.mtu` becomes a nested attrset that the INI generator rejects), matched by `type:ethernet` rather than an interface name that changes per machine. Keep the sing-box TUN lower (1400) for encapsulation headroom; see [sing-box.md](sing-box.md).
+**Avoid:** measure before trusting an MTU. `ping -M do -s 1472 <host>` fails and `-s 1464` passes when the path is really 1492. Then set the default in [networking.nix](../src/network%5Bm:sys%5D/networking.nix) through the `[connection-ethernet]` section (`"ethernet.mtu" = 1492`, quoted — an unquoted `ethernet.mtu` becomes a nested attrset that the INI generator rejects), matched by `type:ethernet` rather than an interface name that changes per machine. Keep the sing-box TUN lower (1400) for encapsulation headroom; see [sing-box.md](sing-box.md).
 
-## `vfs.dir.get-relative-to` matches a tag-free path against a `{…}`-tagged directory
+## `vfs.tree.get-relative-to` needs the literal's `[…]` ancestors normalised
 
-`sundry.vfs.dir.get-relative-to root ./config flake-file-tree` finds the subtree whose path segment is written `config{private}` — the `.nix` file only ever needs to name `config`. A path literal is resolved relative to the **importing file**, so `./config` means "the `config*` node beside this module", not "`config` at the repo root".
+`sundry.vfs.tree.get-relative-to root ./config flake-file-tree` resolves a path literal to the node whose **cleaned** path matches. The literal is resolved relative to the importing file, so its ancestors carry the on-disk tags — from `src/shell[m:usr]/nushell/program.nix`, `./config` names `.../src/shell[m:usr]/nushell/config`.
 
-**Why:** the first argument is the root the tree was built from (`root = ./.` from [flake.nix](../flake.nix), threaded through `meta-args`). The function strips that root from the path, splits the remainder into segments, strips `{…}` blocks from each segment (`strip-between`), and looks up the cleaned path first, falling back to the literal path. So `./config` from `src/shell{modules:user}/nushell/program.nix` lands on `.../nushell/config{private}`.
+**Why:** sundry strips only its default `{}` delimiters from the literal's segments, and this repo tags with `[]`. Left alone, the lookup asks for a segment literally named `shell[m:usr]` while the resolved tree is keyed `shell`, so it throws `vfs.tree.get-relative-to: no vfs node at …`. The target directory is no better: it lives on disk as `config[x]` but is filed under `config`.
 
-**Avoid:** when a module owns a tagged subtree, reach it with `sundry.vfs.dir.get-relative-to root ./<untagged-name> flake-file-tree` rather than spelling the full `flake-file-tree.src...` chain — the chain must encode tags (`flake-file-tree.src.shell.nushell."config{private}"`) and breaks when the tag changes, while the literal only names the directory. The lookup needs `sundry` and `root` in scope, so add them to the module's arguments when they are not already there.
+**Avoid:** the `sundry` built in [`meta/system-assembly/each-host.nix`](../meta/system-assembly/each-host.nix) wraps `get-relative-to` to strip `[…]` from every segment of the literal before delegating to sundry, so `./config`, `./pipeline`, `./secrets`, and `./decorators` all resolve. Keep calling it on the **untagged** name — `./config`, not `./config[x]`, which is not even a legal Nix path literal — and use this helper rather than spelling the full `flake-file-tree.src...` chain, which would have to encode the on-disk tag (`flake-file-tree.src.shell.nushell."config[x]"`) and breaks when the tag changes. The lookup needs `sundry` and `root` in scope, so add them to the module's arguments when they are not already there.
 
 ## Cloudflare hands out a throttled edge for this subnet, stalling `*.cachix.org`
 
@@ -201,7 +201,7 @@ One of those edges, `8.6.112.5`, is throttled on this line: the TCP and TLS hand
 
 **Why it stalls rebuilds:** nix opens a HTTP/2 connection, gets the first headers, then waits. With `download-attempts = 5` and `stalled-download-timeout = 300` that is 25 minutes per narinfo, which reads as "the update hangs forever". `curl` shows the same thing as `Less than 1 bytes/sec transferred the last 300 seconds`.
 
-**Avoid:** do not treat it as DNS poisoning — every answer is a real Cloudflare address, and hardcoding one is fragile. Point the resolver at one that does not forward the local subnet, so Cloudflare returns a different (unthrottled) edge. Quad9 answers `104.26.12.82` here, which is why [networking.nix](../src/network%7Bmodules:system%7D/networking.nix) lists `9.9.9.9` first. To diagnose, compare `dig +short @9.9.9.9 host A` with `@1.1.1.1`, then measure throughput against each returned IP with `curl --resolve host:443:<ip>`. Do not "fix" it by dropping the cachix substituters: that turns ~700 cached derivations into source builds.
+**Avoid:** do not treat it as DNS poisoning — every answer is a real Cloudflare address, and hardcoding one is fragile. Point the resolver at one that does not forward the local subnet, so Cloudflare returns a different (unthrottled) edge. Quad9 answers `104.26.12.82` here, which is why [networking.nix](../src/network%5Bm:sys%5D/networking.nix) lists `9.9.9.9` first. To diagnose, compare `dig +short @9.9.9.9 host A` with `@1.1.1.1`, then measure throughput against each returned IP with `curl --resolve host:443:<ip>`. Do not "fix" it by dropping the cachix substituters: that turns ~700 cached derivations into source builds.
 
 ## A dead substituter is only a warning, and its response body is never shown
 

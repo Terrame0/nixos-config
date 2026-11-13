@@ -1,6 +1,6 @@
 # Secrets (sops-nix)
 
-Secrets are managed by [sops-nix](https://github.com/Mic92/sops-nix), wired up in [sops.nix](../src/security%7Bmodules:system%7D/sops.nix). Encrypted YAML files live in [src/security…/secrets/](../src/security%7Bmodules:system%7D/secrets/) and are decrypted at activation with an age key.
+Secrets are managed by [sops-nix](https://github.com/Mic92/sops-nix), wired up in [sops.nix](../src/security%5Bm:sys%5D/sops.nix). Encrypted YAML files live in [src/security…/secrets/](../src/security%5Bm:sys%5D/secrets/) and are decrypted at activation with an age key.
 
 ## Secrets are auto-derived from the YAML files, not declared by hand
 
@@ -17,13 +17,13 @@ The generated secret name is `<file-stem>/<yaml-key>`:
 | `deepseek-api.yaml` | `<key>` | `deepseek-api/<key>` |
 | `searx.yaml` | `<key>` | `searx/<key>` |
 
-The file *stem* is the tag-stripped name — `password-hashes{for-users}.yaml` becomes stem `password-hashes`, so its keys are `password-hashes/<key>`.
+The file *stem* is the tag-stripped name — `password-hashes[for-users].yaml` becomes stem `password-hashes`, so its keys are `password-hashes/<key>`.
 
 Every generated secret gets `owner = username`, `mode = "0400"`, and `sopsFile` pointing back at its origin file.
 
-## The `{for-users}` tag
+## The `[for-users]` tag
 
-A secret needed **before** users exist (e.g. login password hashes) must be decrypted early. Tag the file `{for-users}` in its name — `password-hashes{for-users}.yaml` — and `sops.nix` sets `neededForUsers = true` on every key it contains. Without the tag the secret is decrypted normally (after users are created).
+A secret needed **before** users exist (e.g. login password hashes) must be decrypted early. Tag the file `[for-users]` in its name — `password-hashes[for-users].yaml` — and `sops.nix` sets `neededForUsers = true` on every key it contains. Without the tag the secret is decrypted normally (after users are created).
 
 ## Age key
 
@@ -35,12 +35,12 @@ A secret needed **before** users exist (e.g. login password hashes) must be decr
 `SOPS_AGE_KEY_FILE` and `SOPS_AGE_RECIPIENTS` are exported as environment variables so the `sops` CLI works without passing the key path or fingerprint manually:
 
 ```bash
-sops "src/security{modules:system}/secrets/vpn.yaml"    # edit — decrypts, opens $EDITOR, re-encrypts on save
+sops "src/security[m:sys]/secrets/vpn.yaml"    # edit — decrypts, opens $EDITOR, re-encrypts on save
 ```
 
 ## Consuming a secret in a service
 
-sops decrypts each secret to a path under `/run/secrets/…` owned by `username`, mode `0400`. A systemd service reads it via `LoadCredential`, which copies it into the unit's private `$CREDENTIALS_DIRECTORY` — see [sing-box's service.nix](../src/network%7Bmodules:system%7D/sing-box/service.nix):
+sops decrypts each secret to a path under `/run/secrets/…` owned by `username`, mode `0400`. A systemd service reads it via `LoadCredential`, which copies it into the unit's private `$CREDENTIALS_DIRECTORY` — see [sing-box's service.nix](../src/network%5Bm:sys%5D/sing-box/service.nix):
 
 ```nix
 LoadCredential = [
@@ -53,7 +53,7 @@ The script then reads `$CREDENTIALS_DIRECTORY/sub-url` and `$CREDENTIALS_DIRECTO
 
 ## Adding a secret
 
-1. `sops "src/security{modules:system}/secrets/<file>.yaml"` — add the key under an existing or new YAML file.
+1. `sops "src/security[m:sys]/secrets/<file>.yaml"` — add the key under an existing or new YAML file.
 2. Reference it as `config.sops.secrets."<file-stem>/<key>".path` — no declaration needed; `sops.nix` picks it up from the file.
 3. For a service, wire that path through `LoadCredential` and read `$CREDENTIALS_DIRECTORY/<name>`.
 4. `git add` the YAML file (a flake only sees git-tracked files) and `nixos-rebuild switch`.

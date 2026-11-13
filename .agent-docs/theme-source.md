@@ -22,16 +22,16 @@
 
 IFD — это только когда результат сборки *деривации* читается обратно в Nix-оценку
 (как `builtins.readFile (pkgs.runCommand …)` в
-[waybar config.nix](../src/desktop-environment/user%7Bmodules:user%7D/applications/waybar/config%7Bdotfiles:.config%7Cwaybar%7D/config%7Bconvert:json%7D%7Bext:jsonc%7D.nix)
+[waybar config.nix](../src/desktop-environment/user%5Bm:usr%5D/applications/waybar/config%5Bdot:.config%5Cwaybar%5D/config%5Bmk:json%5D%5Bext:jsonc%5D.nix)
 для `nproc`). Обычная интерполяция `"radius: ${theme.radius}"` — **не IFD**: ноль
 деривации. Поэтому единый источник темы не обязан быть IFD и не должен им быть.
 
-Компиляция sass в [sass.nix](../src/dotfile-symlinking%7Bmodules:user%7D/pipeline%7Bprivate%7D/sass.nix)
+Компиляция sass в [sass.nix](../src/dotfile-symlinking%5Bm:usr%5D/pipeline%5Bx%5D/sass.nix)
 — тоже не IFD: результат идёт прямо в `home.file`, обратно в оценку не читается.
 
 ## Где живёт: `meta/`, не домен
 
-Тему инжестят **несколько доменов** — `applications/` (vscode, alacritty) и
+Тему инжестят **несколько доменов** — `applications/` (vscode, alacritty, kitty) и
 `desktop-environment/` (waybar, wofi, hyprland). Значит она не принадлежит ни одному
 `src/`-домену: назначить один домен-потребитель владельцем общего ресурса неверно.
 Она наддоменная и сидит **над** доменами — в `meta/`.
@@ -40,18 +40,18 @@ IFD — это только когда результат сборки *дери
 machinery»): туда входит и пайплайн (механизм, что *бежит*), и тема (данные, что
 *читаются*). Разные роды, одна ось. См. [structure.md](structure.md).
 
-Файл: `meta/theme{private}.nix` (или каталог `theme{private}/`, если тема
+Файл: `meta/theme[x].nix` (или каталог `theme[x]/`, если тема
 разрастётся на palette/constants/font, как было в снесённом `lib/style/`). Тег
-`{private}` — чтобы module-discovery её не подхватил: это **данные, читаемые через
+`[x]` — чтобы module-discovery её не подхватил: это **данные, читаемые через
 special arg**, а не модуль.
 
 **Ссылаться на файл из [flake.nix](../flake.nix) строкой под `config-root`**
-(`"${config-root}/meta/theme{private}.nix"`), не path-литералом — `{` в имени
-сломал бы имя нового store-объекта (см. [gotchas.md](gotchas.md)).
+(`"${config-root}/meta/theme[x].nix"`), не path-литералом — `[` не входит в грамматику
+path-литералов, такую строку пришлось бы собирать интерполяцией (см. [gotchas.md](gotchas.md)).
 
 ## Источник правды: один Nix-атрибутсет
 
-`meta/theme{private}.nix` — плоский attrset:
+`meta/theme[x].nix` — плоский attrset:
 
 ```nix
 {
@@ -65,12 +65,12 @@ special arg**, а не модуль.
 Прокидывается в `module-args` в [flake.nix](../flake.nix) (рядом с `username`/`host`,
 строка ~65). Тогда он разом попадает и в `specialArgs` (NixOS-модули), и в
 `extraSpecialArgs` (Home Manager). Отдельно — прокинуть в args пайплайна в
-[pipeline{private}/nix.nix](../src/dotfile-symlinking%7Bmodules:user%7D/pipeline%7Bprivate%7D/nix.nix),
+[pipeline[x]/nix.nix](../src/dotfile-symlinking%5Bm:usr%5D/pipeline%5Bx%5D/nix.nix),
 где `.nix`-дотфайлы импортируются в `expr`.
 
 **Канал `host`→дотфайлы уже открыт.** При выносе `nproc` из IFD в
-[waybar config.nix](../src/desktop-environment/user%7Bmodules:user%7D/applications/waybar/config%7Bdotfiles:.config%7Cwaybar%7D/config%7Bconvert:json%7D%7Bext:jsonc%7D.nix)
-в [nix.nix](../src/dotfile-symlinking%7Bmodules:user%7D/pipeline%7Bprivate%7D/nix.nix)
+[waybar config.nix](../src/desktop-environment/user%5Bm:usr%5D/applications/waybar/config%5Bdot:.config%5Cwaybar%5D/config%5Bmk:json%5D%5Bext:jsonc%5D.nix)
+в [nix.nix](../src/dotfile-symlinking%5Bm:usr%5D/pipeline%5Bx%5D/nix.nix)
 уже добавлен `host` в args импорта дотфайла (был только `{lib, pkgs, file-dir}`).
 `theme` добавляется туда же **одной строкой** — `inherit lib pkgs host theme;` — и
 прокидывается из entrypoint так же, как `host` (entrypoint — HM-модуль, все
@@ -85,7 +85,7 @@ special arg**, а не модуль.
 | Формат | Механизм | IFD? |
 |---|---|---|
 | `.nix`-модули (hyprland-опции, gtk) | special arg `theme` напрямую | нет |
-| `{convert:json}` / `{convert:ini}` (waybar, vscode) | это уже Nix-выражения — просто ссылайся на `theme` | нет |
+| `[mk:json]` / `[mk:ini]` (waybar, vscode) | это уже Nix-выражения — просто ссылайся на `theme` | нет |
 | bash/conf с простыми значениями | env-переменные из `theme` | нет |
 | **scss** | Nix генерит партиал `_theme` с `$radius: 12px;`, рукописный scss делает `@use "theme"` | нет |
 | **lua** (будущий hyprland) | Nix генерит `theme.lua` (возвращает таблицу), рукописный код `require` его | нет |
@@ -96,21 +96,21 @@ special arg**, а не модуль.
 **маленький сгенерированный файл-партиал** из Nix, а рукописный код импортирует его
 штатным механизмом языка (`@use`, `require`):
 
-- scss: `theme.nix` → партиал в `{include:sass}`-директории (`$radius: 12px;` …),
+- scss: `theme.nix` → партиал в `[i:sass]`-директории (`$radius: 12px;` …),
   рукописные `.scss` делают `@use "theme";`. Sass-часть пайплайна уже есть.
 - lua: `theme.lua` возвращает таблицу, hyprland-lua её `require`.
 
 Плюсы: ни своего шаблонизатора, ни IFD, рукописный код остаётся валидным для IDE/линтера,
-пайплайн это почти умеет (`{convert}` = «Nix-выражение → текстовый файл»).
+пайплайн это почти умеет (`[mk]` = «Nix-выражение → текстовый файл в названном формате»).
 
 ## TODO при реализации
 
-1. Создать `meta/theme{private}.nix` (значения — из [HARDCODED-VALUES.txt](HARDCODED-VALUES.txt),
+1. Создать `meta/theme[x].nix` (значения — из [HARDCODED-VALUES.txt](HARDCODED-VALUES.txt),
    бывшие `lib/style/palette.nix`, `constants.nix`, `font.nix`).
 2. Добавить `theme` в `module-args` в [flake.nix](../flake.nix) — читая файл строкой под
-   `config-root` (`"${config-root}/meta/theme{private}.nix"`), не path-литералом
+   `config-root` (`"${config-root}/meta/theme[x].nix"`), не path-литералом
    (см. [gotchas.md](gotchas.md)) — и добавить `theme` в args импорта дотфайла в
-   [pipeline{private}/nix.nix](../src/dotfile-symlinking%7Bmodules:user%7D/pipeline%7Bprivate%7D/nix.nix)
+   [pipeline[x]/nix.nix](../src/dotfile-symlinking%5Bm:usr%5D/pipeline%5Bx%5D/nix.nix)
    (`host` там уже проброшен).
 3. Отменить хардкод по местам из [HARDCODED-VALUES.txt](HARDCODED-VALUES.txt) (пункты 1–9),
    заменив локальные `let`-блоки на `theme.*`. Пункт 8 (nproc) уже решён отдельно через
