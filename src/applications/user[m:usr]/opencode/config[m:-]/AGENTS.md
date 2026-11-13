@@ -34,14 +34,14 @@ All projects live under the home directory (`~/`). `~/nixos-config` is the NixOS
 This file (`~/.config/opencode/AGENTS.md`) is managed in `~/nixos-config`. Edit the source at:
 
 ```text
-~/nixos-config/src/applications/user[m:usr]/opencode/config[x]/AGENTS.md
+~/nixos-config/src/applications/user[m:usr]/opencode/config[m:-]/AGENTS.md
 ```
 
 It is linked into place by `programs.opencode.context` in `program.nix`, not by the dotfile pipeline. After editing, run the usual system rebuild flow to symlink the updated file into `~/.config/opencode/`.
 
 ### Skills
 
-Each skill is a self-contained directory under `config[x]/skills/<name>/`, holding `SKILL.md`, its scripts, and a `module.nix`. The module declares everything the skill needs — its tooling in `programs.opencode.extraPackages` and its registration in `programs.opencode.skills` — so the whole folder can be lifted into a separate skills repo later. `opencode/program.nix` imports each skill module; it keeps only general opencode extras itself. Files under `config[x]` are not picked up by the dotfile/module globbing, so importing a skill module is explicit.
+Each skill is a self-contained directory under `config[m:-]/skills/<name>/`, holding `SKILL.md`, its scripts, and a `module.nix`. The module declares everything the skill needs — its tooling in `programs.opencode.extraPackages` and its registration in `programs.opencode.skills` — so the whole folder can be lifted into a separate skills repo later. `opencode/program.nix` imports each skill module; it keeps only general opencode extras itself. Files under `config[m:-]` are not picked up by the dotfile/module globbing, so importing a skill module is explicit.
 
 ### Shell and tools
 

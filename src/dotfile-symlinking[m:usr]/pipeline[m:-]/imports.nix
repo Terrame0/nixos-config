@@ -8,7 +8,7 @@
     transform = _:
       lib.pipe flake-file-tree [
         (sundry.vfs.tree.select-by-tag (_: with _; tag {"dot" = [];}))
-        (sundry.vfs.tree.select-by-tag (e: !(e.tag {"x" = [];})))
+        (sundry.vfs.tree.select-by-tag (e: !(e.tag {"m" = "-";} || e.tag {"x" = [];})))
       ];
   };
 

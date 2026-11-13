@@ -10,7 +10,7 @@ Dotfiles are produced by a custom pipeline under [src/dotfile-symlinking[m:usr]/
 2. The stages are merged and run through `sundry.attrs.resolve-deps` — a dependency-aware evaluator that orders stages by their declared `deps`.
 3. The final `home-files` key is assigned to `home.file`.
 
-The pipeline takes the shared `root` only as the lookup anchor — it starts from its own subtree, obtained with `sundry.vfs.tree.get-relative-to root ./pipeline flake-file-tree`, where `.expr` is already present. The `./pipeline` literal resolves to `pipeline[x]` on disk; the assembly's `get-relative-to` strips the `[…]` tags on the literal's segments while looking it up. The pipeline directory is tagged `[x]` so its own files are never mistaken for dotfile sources or modules.
+The pipeline takes the shared `root` only as the lookup anchor — it starts from its own subtree, obtained with `sundry.vfs.tree.get-relative-to root ./pipeline flake-file-tree`, where `.expr` is already present. The `./pipeline` literal resolves to `pipeline[m:-]` on disk; the assembly's `get-relative-to` strips the `[…]` tags on the literal's segments while looking it up. The pipeline directory is tagged `[m:-]` so its own files are never mistaken for dotfile sources or modules.
 
 ## Tag syntax
 
@@ -26,14 +26,14 @@ Keys are deliberately terse because they appear in every directory name:
 | `[i:sass]` | directory | Sass include path. The `--load-path` is the dir **above** the tagged segment (`lib.take tag-pos path` in the Sass build-tree derivation). |
 | `[ext:ext]` | file | Overrides the output extension. Bare `[ext]` strips the extension entirely. |
 | `[exec]` | file | Marks the emitted `home.file` entry as executable. The executable bit is **never** inferred from the extension. |
-| `[x]` | file or dir | Excluded from all discovery (module *and* dotfile). Covers source-only helpers (`settings[x]/`, `pipeline[x]/`, sing-box's `config[x]/`) and modules kept in the tree but switched off (`searx[x]/`). |
+| `[m:-]` | file or dir | Private: source-only helper, neither a module nor a dotfile — excluded from **both** discoveries. E.g. `settings[m:-]/`, `pipeline[m:-]/`, sing-box's `config[m:-]/`. |
+| `[x]` | file or dir | Disabled: a module (or dotfile subtree) kept in the tree but switched off. Excluded the same way, but the intent is "off", not "not a source". E.g. `searx[x]/`. |
 | `[h:name]` | file or dir | Only built for the named host. |
 | `[m:sys]` / `[m:usr]` | file or dir | Module and its level — see [structure.md](structure.md). |
-| `[m:-]` | file or dir | Explicit opt-out from module discovery, for a co-located file that must not be imported. |
 
 ## Source: the module tree
 
-`dotfile-sources` selects only the `[dot:…]` subtrees from `flake-file-tree`, the repo's already-resolved VFS tree ([imports.nix](../src/dotfile-symlinking%5Bm:usr%5D/pipeline%5Bx%5D/imports.nix)):
+`dotfile-sources` selects only the `[dot:…]` subtrees from `flake-file-tree`, the repo's already-resolved VFS tree ([imports.nix](../src/dotfile-symlinking%5Bm:usr%5D/pipeline%5Bm:-%5D/imports.nix)):
 
 | Root | Selection | Destination path comes from |
 |---|---|---|
@@ -49,7 +49,7 @@ The `[dot]` selection is the mirror of module discovery in [glob-modules.nix](..
 
 The tag vocabulary splits along one axis:
 
-- **Nouns — ingest class** (mutually exclusive): `[m:sys]` / `[m:usr]` for a module and its level, `[dot:PATH]` for a dotfile. A file belongs to exactly one class — a module or a dotfile, never both.
+- **Nouns — ingest class** (mutually exclusive): `[m:sys]` / `[m:usr]` for a module and its level, `[m:-]` for a private helper that is neither, `[dot:PATH]` for a dotfile. A file belongs to exactly one class — a module, a dotfile, or neither. `[x]` is orthogonal: it marks a subtree as present but off.
 - **Verbs — processing within a class**: `[mk:…]` (produce an emitted file in the named format), `[i:sass]` (make this dir an include path), `[ext:…]`, `[exec]`. Only meaningful inside `[dot]` — a `.nix` module ingests as-is, so it carries no verbs.
 
 `[mk:json]` and `[mk:css]` share one key but are different operations: `json`/`ini` are pure per-file serialisations (attrset → text via `lib.generators`), `css` is a compile that pulls `[i:sass]` load-paths and can fail. The key answers "what does this file become", not "which tool runs". `[exec]` is orthogonal to both: it only sets the executable bit on the emitted `home.file` entry.
@@ -58,14 +58,14 @@ The tag vocabulary splits along one axis:
 
 | Stage | File | What it does |
 |---|---|---|
-| `dotfile-sources` | [imports.nix](../src/dotfile-symlinking%5Bm:usr%5D/pipeline%5Bx%5D/imports.nix) | Selects `[dot]` subtrees from `flake-file-tree` (already resolved; design-system partials included) and drops `[x]` files and dirs. **Paths stay as-is** — no home-relative rewrite here. |
+| `dotfile-sources` | [imports.nix](../src/dotfile-symlinking%5Bm:usr%5D/pipeline%5Bm:-%5D/imports.nix) | Selects `[dot]` subtrees from `flake-file-tree` (already resolved; design-system partials included) and drops `[m:-]` (private) and `[x]` (disabled) files and dirs. **Paths stay as-is** — no home-relative rewrite here. |
 | `raw-dotfiles` | same file | Drops `[i]` and `[mk]` leaves — the raw-copy set. |
-| `evaluated-nix-dotfiles` | [nix.nix](../src/dotfile-symlinking%5Bm:usr%5D/pipeline%5Bx%5D/nix.nix) | Walks the `.nix` leaves of the `[dot]` set and re-binds each already-attached `expr` with the pipeline's module args (`file.expr args`); no `file-dir` is threaded. |
+| `evaluated-nix-dotfiles` | [nix.nix](../src/dotfile-symlinking%5Bm:usr%5D/pipeline%5Bm:-%5D/nix.nix) | Walks the `.nix` leaves of the `[dot]` set and re-binds each already-attached `expr` with the pipeline's module args (`file.expr args`); no `file-dir` is threaded. |
 | `converted-nix-dotfiles` | same file | Serialises `[mk:json]` / `[mk:ini]` files' `.expr` to text via `lib.generators`. |
-| `sass-build-tree` | [sass.nix](../src/dotfile-symlinking%5Bm:usr%5D/pipeline%5Bx%5D/sass.nix) | Materialises all `.scss` into one clean source tree in a derivation and keeps both `{ drv, dir }`. |
+| `sass-build-tree` | [sass.nix](../src/dotfile-symlinking%5Bm:usr%5D/pipeline%5Bm:-%5D/sass.nix) | Materialises all `.scss` into one clean source tree in a derivation and keeps both `{ drv, dir }`. |
 | `sass-load-flags` | same file | Collects `[i:sass]` dirs as ready-to-use `--load-path` flags. |
 | `built-sass-dotfiles` | same file | Compiles `[mk:css]` entry points to `.css` via `dart-sass`. |
-| `home-files` | [result.nix](../src/dotfile-symlinking%5Bm:usr%5D/pipeline%5Bx%5D/result.nix) | Merges all stages; applies `[ext:…]` renames and `[exec]`; **rewrites each path to its `~`-relative home path**; collapses to `home.file`. |
+| `home-files` | [result.nix](../src/dotfile-symlinking%5Bm:usr%5D/pipeline%5Bm:-%5D/result.nix) | Merges all stages; applies `[ext:…]` renames and `[exec]`; **rewrites each path to its `~`-relative home path**; collapses to `home.file`. |
 
 ### Where the home-relative rewrite happens — and why it's last
 
@@ -82,10 +82,10 @@ applications/user[m:usr]/vscode/
   config[dot:.config\Code\User]/
     settings[mk:json].nix                           → ~/.config/Code/User/settings.json
     keybindings[mk:json].nix                        → ~/.config/Code/User/keybindings.json
-    settings[x]/                                    → excluded; read by settings[mk:json].nix through flake-file-tree
+    settings[m:-]/                                  → excluded; read by settings[mk:json].nix through flake-file-tree
 ```
 
-`[dot:.config\Code\User]` pins the destination. `settings[mk:json].nix` reads the `[x]`-tagged helpers itself with `sundry.vfs.tree.get-relative-to root ./settings flake-file-tree` (the `./settings` literal matches `settings[x]`); `[x]` keeps them out of the output.
+`[dot:.config\Code\User]` pins the destination. `settings[mk:json].nix` reads the `[m:-]`-tagged helpers itself with `sundry.vfs.tree.get-relative-to root ./settings flake-file-tree` (the `./settings` literal matches `settings[m:-]`); `[m:-]` keeps them out of the output.
 
 ## Example: waybar
 

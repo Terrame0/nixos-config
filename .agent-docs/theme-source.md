@@ -26,7 +26,7 @@ IFD — это только когда результат сборки *дери
 для `nproc`). Обычная интерполяция `"radius: ${theme.radius}"` — **не IFD**: ноль
 деривации. Поэтому единый источник темы не обязан быть IFD и не должен им быть.
 
-Компиляция sass в [sass.nix](../src/dotfile-symlinking%5Bm:usr%5D/pipeline%5Bx%5D/sass.nix)
+Компиляция sass в [sass.nix](../src/dotfile-symlinking%5Bm:usr%5D/pipeline%5Bm:-%5D/sass.nix)
 — тоже не IFD: результат идёт прямо в `home.file`, обратно в оценку не читается.
 
 ## Где живёт: `meta/`, не домен
@@ -40,18 +40,18 @@ IFD — это только когда результат сборки *дери
 machinery»): туда входит и пайплайн (механизм, что *бежит*), и тема (данные, что
 *читаются*). Разные роды, одна ось. См. [structure.md](structure.md).
 
-Файл: `meta/theme[x].nix` (или каталог `theme[x]/`, если тема
+Файл: `meta/theme[m:-].nix` (или каталог `theme[m:-]/`, если тема
 разрастётся на palette/constants/font, как было в снесённом `lib/style/`). Тег
-`[x]` — чтобы module-discovery её не подхватил: это **данные, читаемые через
+`[m:-]` — чтобы module-discovery её не подхватил: это **данные, читаемые через
 special arg**, а не модуль.
 
 **Ссылаться на файл из [flake.nix](../flake.nix) строкой под `config-root`**
-(`"${config-root}/meta/theme[x].nix"`), не path-литералом — `[` не входит в грамматику
+(`"${config-root}/meta/theme[m:-].nix"`), не path-литералом — `[` не входит в грамматику
 path-литералов, такую строку пришлось бы собирать интерполяцией (см. [gotchas.md](gotchas.md)).
 
 ## Источник правды: один Nix-атрибутсет
 
-`meta/theme[x].nix` — плоский attrset:
+`meta/theme[m:-].nix` — плоский attrset:
 
 ```nix
 {
@@ -65,12 +65,12 @@ path-литералов, такую строку пришлось бы соби�
 Прокидывается в `module-args` в [flake.nix](../flake.nix) (рядом с `username`/`host`,
 строка ~65). Тогда он разом попадает и в `specialArgs` (NixOS-модули), и в
 `extraSpecialArgs` (Home Manager). Отдельно — прокинуть в args пайплайна в
-[pipeline[x]/nix.nix](../src/dotfile-symlinking%5Bm:usr%5D/pipeline%5Bx%5D/nix.nix),
+[pipeline[m:-]/nix.nix](../src/dotfile-symlinking%5Bm:usr%5D/pipeline%5Bm:-%5D/nix.nix),
 где `.nix`-дотфайлы импортируются в `expr`.
 
 **Канал `host`→дотфайлы уже открыт.** При выносе `nproc` из IFD в
 [waybar config.nix](../src/desktop-environment/user%5Bm:usr%5D/applications/waybar/config%5Bdot:.config%5Cwaybar%5D/config%5Bmk:json%5D%5Bext:jsonc%5D.nix)
-в [nix.nix](../src/dotfile-symlinking%5Bm:usr%5D/pipeline%5Bx%5D/nix.nix)
+в [nix.nix](../src/dotfile-symlinking%5Bm:usr%5D/pipeline%5Bm:-%5D/nix.nix)
 уже добавлен `host` в args импорта дотфайла (был только `{lib, pkgs, file-dir}`).
 `theme` добавляется туда же **одной строкой** — `inherit lib pkgs host theme;` — и
 прокидывается из entrypoint так же, как `host` (entrypoint — HM-модуль, все
@@ -105,12 +105,12 @@ path-литералов, такую строку пришлось бы соби�
 
 ## TODO при реализации
 
-1. Создать `meta/theme[x].nix` (значения — из [HARDCODED-VALUES.txt](HARDCODED-VALUES.txt),
+1. Создать `meta/theme[m:-].nix` (значения — из [HARDCODED-VALUES.txt](HARDCODED-VALUES.txt),
    бывшие `lib/style/palette.nix`, `constants.nix`, `font.nix`).
 2. Добавить `theme` в `module-args` в [flake.nix](../flake.nix) — читая файл строкой под
-   `config-root` (`"${config-root}/meta/theme[x].nix"`), не path-литералом
+   `config-root` (`"${config-root}/meta/theme[m:-].nix"`), не path-литералом
    (см. [gotchas.md](gotchas.md)) — и добавить `theme` в args импорта дотфайла в
-   [pipeline[x]/nix.nix](../src/dotfile-symlinking%5Bm:usr%5D/pipeline%5Bx%5D/nix.nix)
+   [pipeline[m:-]/nix.nix](../src/dotfile-symlinking%5Bm:usr%5D/pipeline%5Bm:-%5D/nix.nix)
    (`host` там уже проброшен).
 3. Отменить хардкод по местам из [HARDCODED-VALUES.txt](HARDCODED-VALUES.txt) (пункты 1–9),
    заменив локальные `let`-блоки на `theme.*`. Пункт 8 (nproc) уже решён отдельно через

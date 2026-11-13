@@ -110,7 +110,7 @@ Setting `experimental.cache_file.store_selected = true` makes `sing-box check` f
 
 A path whose final segment carries a tag — for example `config[dot:.config\Code\User]` — must stay a Nix path. Do not interpolate it, and do not pass it to `lib.hasSuffix` / `hasPrefix` / `hasInfix`, `lib.concatStrings*`, `builtins.toJSON`, `builtins.stringLength`, or `lib.substring`.
 
-**Why:** Nix coerces a path to a string by copying it into the store **under its basename**. When that basename carries a tag — `config[dot:…]`, `settings[x]` — the copy aborts:
+**Why:** Nix coerces a path to a string by copying it into the store **under its basename**. When that basename carries a tag — `config[dot:…]`, `settings[m:-]` — the copy aborts:
 
 ```
 error: path '…-config[dot:.config\Code\User]' is not a valid store path:
@@ -122,13 +122,13 @@ error: path '…-config[dot:.config\Code\User]' is not a valid store path:
 **Avoid:** extend a path with `+`, which keeps it a path:
 
 ```nix
-lib.pipe (dirOf file.origin + "/settings[x]") [ … ]   # safe — still a path
-lib.pipe "${dirOf file.origin}/settings[x]" [ … ]     # copies, aborts
+lib.pipe (dirOf file.origin + "/settings[m:-]") [ … ]   # safe — still a path
+lib.pipe "${dirOf file.origin}/settings[m:-]" [ … ]     # copies, aborts
 ```
 
 `sundry.vfs.file.from-src` stores each file's raw `fs-path` as `origin`, so `dirOf file.origin` is a **path** whose basename can carry a `[…]` tag. Extending it with `+` keeps it a path; interpolating it copies and aborts.
 
-A `[` written directly in a path literal is a separate grammar error: write `./${"config[x]"}`, never `./config[x]`.
+A `[` written directly in a path literal is a separate grammar error: write `./${"config[m:-]"}`, never `./config[m:-]`.
 
 **sundry note.** A leaf `origin` may be a path, a string, or a derivation; `is-leaf` accepts all three, and `file.from-src` keeps the raw `fs-path` you pass. `sundry.path.to-store-sanitize` copies a path through `builtins.path` under a sanitized name and returns a context-carrying store-path string; a derivation becomes its output path via `toString`, which does not force the build; any other value — including a store-path string — throws. The flake source is copied to the store as one hash-named object, so a tagged segment inside it is never itself a store-object name; only a path whose basename carries a tag triggers the abort above, which is why the name is sanitized here.
 
@@ -189,9 +189,9 @@ An interface announces 1500, but a PPPoE WAN carries only 1492. Full-size packet
 
 `sundry.vfs.tree.get-relative-to root ./config flake-file-tree` resolves a path literal to the node whose **cleaned** path matches. The literal is resolved relative to the importing file, so its ancestors carry the on-disk tags — from `src/shell[m:usr]/nushell/program.nix`, `./config` names `.../src/shell[m:usr]/nushell/config`.
 
-**Why:** sundry strips only its default `{}` delimiters from the literal's segments, and this repo tags with `[]`. Left alone, the lookup asks for a segment literally named `shell[m:usr]` while the resolved tree is keyed `shell`, so it throws `vfs.tree.get-relative-to: no vfs node at …`. The target directory is no better: it lives on disk as `config[x]` but is filed under `config`.
+**Why:** sundry strips only its default `{}` delimiters from the literal's segments, and this repo tags with `[]`. Left alone, the lookup asks for a segment literally named `shell[m:usr]` while the resolved tree is keyed `shell`, so it throws `vfs.tree.get-relative-to: no vfs node at …`. The target directory is no better: it lives on disk as `config[m:-]` but is filed under `config`.
 
-**Avoid:** the `sundry` built in [`meta/system-assembly/each-host.nix`](../meta/system-assembly/each-host.nix) wraps `get-relative-to` to strip `[…]` from every segment of the literal before delegating to sundry, so `./config`, `./pipeline`, `./secrets`, and `./decorators` all resolve. Keep calling it on the **untagged** name — `./config`, not `./config[x]`, which is not even a legal Nix path literal — and use this helper rather than spelling the full `flake-file-tree.src...` chain, which would have to encode the on-disk tag (`flake-file-tree.src.shell.nushell."config[x]"`) and breaks when the tag changes. The lookup needs `sundry` and `root` in scope, so add them to the module's arguments when they are not already there.
+**Avoid:** the `sundry` built in [`meta/system-assembly/each-host.nix`](../meta/system-assembly/each-host.nix) wraps `get-relative-to` to strip `[…]` from every segment of the literal before delegating to sundry, so `./config`, `./pipeline`, `./secrets`, and `./decorators` all resolve. Keep calling it on the **untagged** name — `./config`, not `./config[m:-]`, which is not even a legal Nix path literal — and use this helper rather than spelling the full `flake-file-tree.src...` chain, which would have to encode the on-disk tag (`flake-file-tree.src.shell.nushell."config[m:-]"`) and breaks when the tag changes. The lookup needs `sundry` and `root` in scope, so add them to the module's arguments when they are not already there.
 
 ## Cloudflare hands out a throttled edge for this subnet, stalling `*.cachix.org`
 

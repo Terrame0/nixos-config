@@ -60,11 +60,11 @@ host, sundry, flake-file-tree и design-tokens (раньше был config).
    все config.style.palette.X -> palette.X.
    appearance.nix теперь импортируется без inherit config.
 
-6) vscode.../settings[x]/theme/textmate.nix
+6) vscode.../settings[m:-]/theme/textmate.nix
    config (аргумент) убран. Добавлен let palette = {7 использованных цветов};
    все config.style.palette.X -> palette.X.
 
-7) vscode.../settings[x]/theme/appearance.nix
+7) vscode.../settings[m:-]/theme/appearance.nix
    config (аргумент) убран.
    "editor.fontFamily" = config.style.font.propo -> settings.font.propo
    "terminal.integrated.fontFamily" = settings.font.mono
